@@ -16,10 +16,10 @@ public class MainView extends HorizontalLayout {
     private Button sayHello;
 
     public MainView() {
-        name = new TextField("Your name");
-        sayHello = new Button("Say hello");
+        name = new TextField("Tu nombre");
+        sayHello = new Button("Di hola");
         sayHello.addClickListener(e -> {
-            Notification.show("Hello " + name.getValue());
+            Notification.show("Hola " + name.getValue());
         });
         sayHello.addClickShortcut(Key.ENTER);
 
