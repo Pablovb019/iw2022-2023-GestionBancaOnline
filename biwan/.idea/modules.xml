@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/mytodo.iml" filepath="$PROJECT_DIR$/mytodo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/biwan.iml" filepath="$PROJECT_DIR$/biwan.iml" />
     </modules>
   </component>
 </project>
