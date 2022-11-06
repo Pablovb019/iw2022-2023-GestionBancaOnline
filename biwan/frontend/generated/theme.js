@@ -1,2 +1,2 @@
-import {applyTheme as _applyTheme} from './theme-mytodo.generated.js';
+import {applyTheme as _applyTheme} from './theme-biwan.generated.js';
 export const applyTheme = _applyTheme;

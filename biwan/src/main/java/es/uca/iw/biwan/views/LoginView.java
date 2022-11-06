@@ -1,4 +1,4 @@
-package com.example.application.views;
+package es.uca.iw.biwan.views;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
@@ -23,7 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-@CssImport("/themes/mytodo/login.css")
+@CssImport("/themes/biwan/login.css")
 @Route("login")
 @PageTitle("Login")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
