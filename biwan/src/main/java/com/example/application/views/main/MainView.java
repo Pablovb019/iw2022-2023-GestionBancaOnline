@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.views.main;
+package com.example.application.views.main;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
