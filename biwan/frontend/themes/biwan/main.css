@@ -1,0 +1,65 @@
+.BotonHazteCliente1{
+    background: #27AE60;
+    border: 2px solid black;
+    color: black;
+    font-size: large;
+    height: 50px;
+    width: 110px;
+    display: flex;
+    text-decoration: none !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.BotonHazteCliente2{
+    background: #27AE60;
+    border: 2px solid black;
+    color: black;
+    font-size: large;
+    height: 50px;
+    width: 110px;
+    display: flex;
+    text-decoration: none !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.BotonHazteCliente3{
+    background: #27AE60;
+    border: 2px solid black;
+    color: black;
+    font-size: large;
+    height: 50px;
+    width: 110px;
+    display: flex;
+    text-decoration: none !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.BotonInfo1{
+    color: #27AE60;
+    line-height: 3.3;
+}
+
+.BotonInfo2{
+    color: #27AE60;
+    line-height: 3.3;
+}
+
+.BotonInfo3{
+    color: #27AE60;
+    line-height: 3.3;
+}
+
+.TextoPrincipal{
+    color: black;
+    pointer-events: none;
+    background-color: transparent;
+    font-size: 2em;
+    font-weight: 600;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
