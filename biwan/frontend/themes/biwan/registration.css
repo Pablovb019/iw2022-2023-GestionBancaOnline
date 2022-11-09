@@ -1,0 +1,22 @@
+.ButtonSubmitRegistration {
+    background-color: #27AE60;
+    color: white;
+    margin-top: 20px;
+}
+
+.CrearCuenta {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+vaadin-form-layout {
+    height: 500px;
+    display: flex;
+}
+
+#label-vaadin-text-field-3 {
+}
+
+::part(reveal-button) {
+    color: #27AE60;
+}

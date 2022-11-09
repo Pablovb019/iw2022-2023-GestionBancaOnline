@@ -22,7 +22,7 @@ public class HeaderView {
         Anchor Titulo = new Anchor("", "BIWAN");
         Anchor CuentasTarjetasAnchor = new Anchor("", "Cuentas y tarjetas");
         Anchor MasInfo = new Anchor("", "Más información");
-        Anchor HazteCliente = new Anchor("", "+ Hazte cliente");
+        Anchor HazteCliente = new Anchor("registration", "+ Hazte cliente");
         Anchor Acceso = new Anchor("login", "Acceso");
         MenuBar MenuPrincipal = new MenuBar();
         Icon iconMenu = new Icon(VaadinIcon.MENU);

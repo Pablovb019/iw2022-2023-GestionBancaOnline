@@ -27,6 +27,10 @@ vaadin-text-field[aria-label='searchField']{
     color: firebrick;
 }*/
 
+::part(reveal-button) {
+    color: #27AE60;
+}
+
 vaadin-button#text {
     all: unset;
     color: black;
@@ -160,10 +164,10 @@ vaadin-button.CuentasTarjetasButton::after {
     transition: none;
 }*/
 
- /*Color de "¿Has olvidado tu contraseña?"
+/*Color de "¿Has olvidado tu contraseña?"
 [part='vaadin-login-native-form'] [id='label-vaadin-text-field-0']{
-    width: 100%;
-    color: #27AE60;
+   width: 100%;
+   color: #27AE60;
 }*/
 
 /*Color del botón "mostrar/ocultar contraseña"
