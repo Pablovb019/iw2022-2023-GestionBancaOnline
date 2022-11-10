@@ -55,7 +55,7 @@ public class MainView extends VerticalLayout {
                 "de objetos supone una explotación que, entre otros factores, dispara la deforestación y, con ella, " +
                 "la destrucción del hábitat. Cada vez que un cliente llega a BIWAN, nosotros plantamos un árbol. " +
                 "Estamos comprometidos contigo pero también con el medio ambiente. Por eso, y muchas otras cosas, " +
-                "te invitamos a que te uns a nosotros.");
+                "te invitamos a que te unas a nosotros.");
         TextoAnuncio1.addClassName("TextoAnuncio1");
 
         var TituloTextoAnuncio2 = new H3 ("Gracias al servicio de nuestros Gestores haremos todo por ti");
@@ -72,9 +72,9 @@ public class MainView extends VerticalLayout {
         TituloTextoAnuncio3.addClassName("TituloTextoAnuncio3");
         var TextoAnuncio3 = new H5 ("¿Quieres llevarte 15 € por cada amigo que invites a BIWAN (máximo 10 amigos)" +
                 " y conseguir que ellos se lleven también 15 €?" +
-                " Solo tienes que seguir estos pasos: 1) Hazte cliente con la Cuenta Online Sin Comisiones." +
+                " Solo tienes que seguir estos pasos: Primero, hazte cliente con la Cuenta Online Sin Comisiones. " +
                 "Accede al área privada de cliente en \"Mis promociones\" y comparte tu código con amigos y familiares." +
-                "2) Para llevaros el premio, tus amigos tendrán que utilizar tu código al hacerse clientes y realizar una " +
+                " Segundo, para llevaros el premio, tus amigos tendrán que utilizar tu código al hacerse clientes y realizar una " +
                 "compra superior a 15 € con su nueva tarjeta BIWAN. Consulta las condiciones de la promoción en el apartado " +
                 "\"más información\".");
         TextoAnuncio3.addClassName("TextoAnuncio3");
