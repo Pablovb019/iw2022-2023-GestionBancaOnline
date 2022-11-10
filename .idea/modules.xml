@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/biwan/biwan.iml" filepath="$PROJECT_DIR$/biwan/biwan.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/iw2022-2023-GestionBancaOnline.iml" filepath="$PROJECT_DIR$/.idea/iw2022-2023-GestionBancaOnline.iml" />
+      <module fileurl="file://$PROJECT_DIR$/biwan.iml" filepath="$PROJECT_DIR$/biwan.iml" />
     </modules>
   </component>
 </project>
