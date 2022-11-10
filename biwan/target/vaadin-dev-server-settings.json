@@ -1,0 +1,14 @@
+{
+  "frontendFolder": "C:/Users/pablo/Documents/GitHub/proyectoIW/biwan/frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "C:/Users/pablo/Documents/GitHub/proyectoIW/biwan/target/flow-frontend",
+  "staticOutput": "C:/Users/pablo/Documents/GitHub/proyectoIW/biwan/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "frontendBundleOutput": "C:\\Users\\pablo\\Documents\\GitHub\\proyectoIW\\biwan\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "addonFrontendFolder": "target/flow-frontend/",
+  "themeName": "biwan",
+  "clientServiceWorkerSource": "C:\\Users\\pablo\\Documents\\GitHub\\proyectoIW\\biwan\\target\\sw.ts",
+  "pwaEnabled": true,
+  "offlineEnabled": true,
+  "offlinePath": "'.'"
+}
