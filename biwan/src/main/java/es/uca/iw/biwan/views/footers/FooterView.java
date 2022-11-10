@@ -33,7 +33,7 @@ public class FooterView {
         TablonAnuncios.addClassName("AnchorFooter3");
         NegocioResponsable.addClassName("AnchorFooter3");
 
-        //FOOTERS
+        //ADD FOOTERS
         footer.add(footerTitulo, footerEtc);
         footerEtc.add(footerEtc1, footerEtc2, footerEtc3);
         footerTitulo.add(Titulo);
@@ -41,10 +41,8 @@ public class FooterView {
         footerEtc2.add(Cookies, InformesLegales);
         footerEtc3.add(TablonAnuncios, NegocioResponsable);
 
-        //CSS
-        footer.setWidth("100%");
-
         //ALIGNMENT
+        footer.setWidth("100%");
         footer.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, footerTitulo, footerEtc);
         footerEtc1.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         footerEtc2.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);

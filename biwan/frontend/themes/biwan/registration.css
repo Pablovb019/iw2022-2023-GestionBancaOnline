@@ -14,9 +14,6 @@ vaadin-form-layout {
     display: flex;
 }
 
-#label-vaadin-text-field-3 {
-}
-
 ::part(reveal-button) {
     color: #27AE60;
 }
