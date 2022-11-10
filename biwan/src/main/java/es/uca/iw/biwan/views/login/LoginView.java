@@ -19,17 +19,20 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     public LoginView(){
 
         super.setClassName("main");
-
         login.setI18n(Login());
+
+        //NEW
         VerticalLayout layoutLogin = new VerticalLayout();
         HorizontalLayout layoutHorLogin = new HorizontalLayout();
 
+        //ADD
         layoutLogin.add(HeaderView.Header());
         layoutHorLogin.add(login);
         layoutLogin.add(layoutHorLogin);
         layoutLogin.add(FooterView.Footer());
-        layoutLogin.expand(layoutHorLogin);
 
+        //ALIGNMENT
+        layoutLogin.expand(layoutHorLogin);
         layoutLogin.setSizeFull();
         layoutHorLogin.setAlignItems(Alignment.CENTER);
         layoutLogin.setAlignItems(Alignment.CENTER);

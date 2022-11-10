@@ -24,15 +24,17 @@ public class RegistrationView extends VerticalLayout {
 
     public RegistrationView() {
 
+        //NEW
         VerticalLayout layoutRegistration = new VerticalLayout();
         HorizontalLayout layoutHorRegistration = new HorizontalLayout();
 
+        //ADD
         layoutHorRegistration.add(Registration());
-        layoutHorRegistration.setWidth("30%");
-
         layoutRegistration.add(HeaderView.Header(), layoutHorRegistration, FooterView.Footer());
-        layoutRegistration.expand(layoutHorRegistration);
 
+        //ALIGNMENT
+        layoutHorRegistration.setWidth("30%");
+        layoutRegistration.expand(layoutHorRegistration);
         layoutHorRegistration.setVerticalComponentAlignment(Alignment.CENTER, Registration());
         layoutHorRegistration.setAlignItems(Alignment.CENTER);
         layoutRegistration.setAlignItems(Alignment.CENTER);
@@ -43,6 +45,7 @@ public class RegistrationView extends VerticalLayout {
 
     private FormLayout Registration() {
 
+        //NEW
         TextField firstName = new TextField("Nombre");
         TextField lastName = new TextField("Apellidos");
         TextField phoneNumber = new TextField("Teléfono");
@@ -58,14 +61,18 @@ public class RegistrationView extends VerticalLayout {
         submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submit.setClassName("ButtonSubmitRegistration");
         H1 Titulo = new H1("Crear cuenta");
+        FormLayout formLayout = new FormLayout();
+
+        //ADD CLASS NAME
         Titulo.addClassName("CrearCuenta");
 
-        FormLayout formLayout = new FormLayout();
+        //ADD
         formLayout.add(Titulo, firstName, lastName, phoneNumber, dni, email, password, confirmPassword, submit);
+
+        //ALIGNMENT
         formLayout.setResponsiveSteps( new FormLayout.ResponsiveStep("", 2));
         formLayout.setColspan(Titulo, 2);
         formLayout.setColspan(email, 2); // Stretch the email field over 2 columns
-
         setSizeFull();
 
         return formLayout;

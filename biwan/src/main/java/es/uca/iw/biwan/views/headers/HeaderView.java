@@ -57,7 +57,7 @@ public class HeaderView {
         MenuSecundario.addItem("Consulta Online");
         MenuSecundario.addItem("Consulta Offline");
 
-        //HEADERS
+        //ADD HEADERS
         header.add(headerLeft, headerMiddle, headerRight);
         headerLeft.add(Titulo, CuentasTarjetasAnchor, MasInfo);
         headerMiddle.add(SearchField, SearchButton);
@@ -79,9 +79,9 @@ public class HeaderView {
         iconMenu.setSize("40px");
         itemPrincipal.getElement().getStyle().set("color", "black");
         itemPrincipal.getElement().getStyle().set("background-color", "#27AE60");
-        header.setWidth("100%");
 
         //ALIGNMENT
+        header.setWidth("100%");
         header.setVerticalComponentAlignment(FlexComponent.Alignment.END, CuentasTarjetasAnchor, MasInfo);
         header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Titulo, SearchField, SearchButton, HazteCliente, Acceso);
         headerLeft.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
