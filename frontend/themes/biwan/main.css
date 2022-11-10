@@ -9,6 +9,7 @@
     text-decoration: none !important;
     justify-content: center;
     align-items: center;
+    font-weight: 500;
 }
 
 .BotonHazteCliente2{
@@ -22,6 +23,7 @@
     text-decoration: none !important;
     justify-content: center;
     align-items: center;
+    font-weight: 500;
 }
 
 .BotonHazteCliente3{
@@ -35,6 +37,7 @@
     text-decoration: none !important;
     justify-content: center;
     align-items: center;
+    font-weight: 500;
 }
 
 .BotonInfo1{
@@ -52,14 +55,52 @@
     line-height: 3.3;
 }
 
-.TextoPrincipal{
+.TituloTextoAnuncio1{
     color: black;
-    pointer-events: none;
-    background-color: transparent;
-    font-size: 2em;
-    font-weight: 600;
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
-    text-align: left;
+}
+
+.TextoAnuncio1{
+    color: black;
+    margin-top: -15px;
+}
+
+.TituloTextoAnuncio2{
+    color: black;
+}
+
+.TextoAnuncio2{
+    color: black;
+    margin-top: -15px;
+}
+
+.TituloTextoAnuncio3{
+    color: black;
+}
+
+.TextoAnuncio3{
+    color: black;
+    margin-top: -15px;
+}
+
+.hlAnuncioPrincipal{
+    margin-top: 20px;
+}
+
+.hlAnuncio1{
+    margin-top: 30px;
+    max-width: 80%;
+    align-self: center;
+}
+
+.hlAnuncio2{
+    margin-top: 50px;
+    max-width: 80%;
+    align-self: center;
+}
+
+.hlAnuncio3{
+    margin-top: 80px;
+    margin-bottom: 80px;
+    max-width: 80%;
+    align-self: center;
 }
