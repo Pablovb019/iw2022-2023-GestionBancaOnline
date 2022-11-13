@@ -3,6 +3,7 @@ package es.uca.iw.biwan.views.headers;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -10,7 +11,7 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-
+@CssImport("/themes/biwan/header.css")
 public class HeaderView {
     public static HorizontalLayout Header() {
 
@@ -25,11 +26,11 @@ public class HeaderView {
         Anchor HazteCliente = new Anchor("registration", "+ Hazte cliente");
         Anchor Acceso = new Anchor("login", "Acceso");
         MenuBar MenuPrincipal = new MenuBar();
-        Icon iconMenu = new Icon(VaadinIcon.MENU);
         TextField SearchField = new TextField();
+        Button SearchButton = new Button();
+        Icon iconMenu = new Icon(VaadinIcon.MENU);
         Icon iconBusqueda = new Icon(VaadinIcon.SEARCH);
         Icon iconHazteCliente = new Icon(VaadinIcon.USER);
-        Button SearchButton = new Button();
         //CuentasTarjetasButton.addClickListener(e -> CuentasTarjetasButton.getUI().ifPresent(ui -> ui.navigate("")));
 
         //ADD CLASS NAME
@@ -42,6 +43,10 @@ public class HeaderView {
         Acceso.addClassName("AnchorAcceso");
         headerRight.addClassName("HeaderSpacing");
         headerLeft.addClassName("HeaderSpacing");
+        SearchField.addClassName("searchField");
+        SearchButton.addClassName("searchButton");
+        iconBusqueda.addClassName("iconBusqueda");
+        iconHazteCliente.addClassName("iconHazteCliente");
 
         //MENU
         MenuItem itemPrincipal = MenuPrincipal.addItem("Menú");
@@ -63,22 +68,13 @@ public class HeaderView {
         headerMiddle.add(SearchField, SearchButton);
         headerRight.add(HazteCliente, Acceso, MenuPrincipal);
 
-        //CSS
-        SearchField.getElement().setAttribute("aria-label", "searchField");
+        //ADJUSTMENTS
         SearchField.setPlaceholder("Search");
         SearchField.setClearButtonVisible(true);
-        SearchButton.getElement().setAttribute("aria-label", "searchButton");
         SearchButton.setIcon(iconBusqueda);
-        //SearchField.setPrefixComponent(iconBusqueda);  //Cambiar icono en un field
-        iconBusqueda.setColor("white");
-        iconHazteCliente.setColor("black");
-        iconHazteCliente.getElement().setAttribute("aria-label", "iconHazteCliente");
-        HazteCliente.getElement().setAttribute("aria-label", "HazteCliente");
         HazteCliente.addComponentAsFirst(iconHazteCliente);
-        iconMenu.setColor("black");
-        iconMenu.setSize("40px");
-        itemPrincipal.getElement().getStyle().set("color", "black");
-        itemPrincipal.getElement().getStyle().set("background-color", "#27AE60");
+        iconMenu.getElement().setAttribute("part", "iconMenu");
+        //SearchField.setPrefixComponent(iconBusqueda);  //Cambiar icono en un field
 
         //ALIGNMENT
         header.setWidth("100%");

@@ -1,0 +1,150 @@
+.header_footer {
+    background-color: #27AE60;
+    height: 90px;
+    padding: 20px;
+}
+.tittleBiwan {
+    font-size: 1.2cm;
+    text-align: center;
+    height: auto;
+    width: auto;
+    margin: 0;
+    color: black;
+    text-decoration: none !important;
+}
+
+.searchField{
+    padding: 0;
+    background: white;
+    border: 3px solid black !important;
+}
+
+/*vaadin-text-field.vaadin-icon {
+    color: firebrick;
+}*/
+
+::part(reveal-button) {
+    color: #27AE60;
+}
+
+vaadin-button#text {
+    all: unset;
+    color: black;
+}
+
+.searchButton {
+    background: #27AE60;
+    height: 42px;
+    width: 60px;
+    border: 3px solid black !important;
+    border-radius: 0;
+    position: relative;
+    right: 0.35cm;
+}
+
+.iconBusqueda {
+    color: white;
+}
+
+.iconHazteCliente {
+    color: black;
+}
+
+vaadin-button.tittleBiwan::after {
+    transition: none;
+}
+
+.Anchor {
+    color: black;
+    font-size: medium;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none !important;
+    align-items: end;
+}
+
+.AnchorHazteCliente {
+    color: black;
+    font-size: medium;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none !important;
+    align-items: end;
+    border-top: 10px;
+}
+
+.AnchorAcceso {
+    background: black;
+    color: #27AE60;
+    font-size: large;
+    height: 50px;
+    width: 110px;
+    display: flex;
+    text-decoration: none !important;
+    justify-content: center;
+    align-items: center;
+}
+
+vaadin-menu-bar-button{
+    all: unset !important;
+    padding: 0 !important;
+}
+
+vaadin-menu-bar::part(menu-bar-button){
+    color: black;
+    background-color: #27AE60;
+}
+
+::part(iconMenu) {
+    height: 40px;
+    width: 40px;
+}
+
+div::part(container) {
+    font-size: x-large;
+}
+
+::part(overlay) {
+    background: #D1FFD6;
+    margin-top: 22px;
+    border: 3px solid black;
+    position: relative;
+    left: 20px;
+}
+
+::part(items) {
+    width: 260px;
+}
+
+::part(menu-bar-button) {
+    padding: 0;
+    margin-top: 10px;
+}
+
+span::part(label) {
+    color: #27AE60;
+}
+
+/*.Anchor[label-aria='HazteCliente'] {
+    border: 1px solid black !important;
+}*/
+
+/*Quitar efecto de un botón
+vaadin-button.CuentasTarjetasButton::after {
+    transition: none;
+}*/
+
+/*::after {
+    transition: none;
+}*/
+
+/*Color de "¿Has olvidado tu contraseña?"
+[part='vaadin-login-native-form'] [id='label-vaadin-text-field-0']{
+   width: 100%;
+   color: #27AE60;
+}*/
+
+/*Color del botón "mostrar/ocultar contraseña"
+vaadin-password-field-button {
+    color: #27AE60 !important;
+}*/
