@@ -1,17 +1,30 @@
 package es.uca.iw.biwan.views.movimientos;
 
 import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.PageTitle;
@@ -29,16 +42,97 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 @Route(value = "movimientos")
 public class MovimientoView extends VerticalLayout {
 
+    public MovimientoView() {
+        setSizeFull();
+
+        add(HeaderView.Header());
+
+        H1 titleLayout = new H1("Movimientos");
+        titleLayout.getStyle().set("margin-top", "10px");
+        titleLayout.getStyle().set("margin-bottom", "10px");
+        titleLayout.getStyle().set("text-align", "center");
+        titleLayout.setWidth("100%");
+
+        add(titleLayout);
+
+        VerticalLayout tableLayout = new VerticalLayout();
+        tableLayout.setSizeFull();
+        tableLayout.setWidth("80%");
+        tableLayout.getStyle().set("align-self", "center");
+
+        HorizontalLayout filterTableLayout = new HorizontalLayout();
+        filterTableLayout.setWidth("100%");
+
+        VerticalLayout filterTypeTableLayout = new VerticalLayout();
+        filterTypeTableLayout.setWidth("100%");
+
+        DatePicker fechaInicioPicker = new DatePicker("Fecha inicio");
+        DatePicker fechaFinPicker = new DatePicker("Fecha fin");
+
+        singleFormatI18n.setDateFormat("dd/MM/yyyy");
+        fechaInicioPicker.setI18n(singleFormatI18n);
+        fechaFinPicker.setI18n(singleFormatI18n);
+
+        fechaInicioPicker.addValueChangeListener(e -> fechaFinPicker.setMin(e.getValue()));
+        fechaFinPicker.addValueChangeListener(e -> fechaInicioPicker.setMax(e.getValue()));
+
+        fechaInicioPicker.setValue(LocalDate.now().minusDays(30));
+        fechaFinPicker.setValue(LocalDate.now());
+
+        Grid<Movimiento> grid = new Grid<>(Movimiento.class, false);
+        grid.addColumn(dateRenderer()).setHeader("Fecha").setComparator(Movimiento::getFecha);
+        grid.addColumn(tipoMovimientoYConceptoRenderer()).setHeader("Movimiento");
+        grid.addColumn(importeYSaldoRenderer()).setHeader("Importe");
+        grid.setItemDetailsRenderer(createMovimientoDetailsRenderer());
+
+        GridListDataView<Movimiento> dataView = grid.setItems(generateDatosPrueba(getFechaPickerValue(fechaInicioPicker), getFechaPickerValue(fechaFinPicker)));
+        grid.setWidth("100%");
+        grid.getStyle().set("align-self", "center");
+        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+
+        Select<String> ingresosGastosFilter = new Select<>();
+        ingresosGastosFilter.setLabel("Filtrar por");
+        ingresosGastosFilter.setItems("Todos", "Ingresos", "Gastos");
+        ingresosGastosFilter.setValue("Todos");
+
+        ingresosGastosFilter.addValueChangeListener(e -> {
+            applyFilterIngresoGasto(dataView, ingresosGastosFilter);
+        });
+
+        Button buttonDateFilter = new Button("Filtrar");
+        buttonDateFilter.addClickListener(e -> {
+            grid.setItems(generateDatosPrueba(getFechaPickerValue(fechaInicioPicker), getFechaPickerValue(fechaFinPicker)));
+            applyFilterIngresoGasto(dataView, ingresosGastosFilter);
+        });
+
+        buttonDateFilter.getStyle().set("align-self", "end");
+        buttonDateFilter.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        ingresosGastosFilter.getStyle().set("align-self", "end");
+        ingresosGastosFilter.getStyle().set("margin-right", "35px");
+
+        filterTypeTableLayout.add(ingresosGastosFilter);
+        filterTableLayout.add(fechaInicioPicker, fechaFinPicker, buttonDateFilter, filterTypeTableLayout);
+
+        tableLayout.add(filterTableLayout, grid);
+        add(tableLayout);
+        add(FooterView.Footer());
+
+    }
+
     //@Autowired
     //private MovimientoService movimientoService;
 
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM");
-    private static DecimalFormat decimalformat = new DecimalFormat("#.00");
+    private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM");
+    private static DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("dd MMMM HH:mm");
+    private static DecimalFormat decimalformat = new DecimalFormat("0.00");
+    private static DatePicker.DatePickerI18n singleFormatI18n = new DatePicker.DatePickerI18n();
 
     private static String getFormattedMovimientoDate(Movimiento movimiento) {
         LocalDateTime fecha = movimiento.getFecha();
 
-        return fecha.format(formatter);
+        return fecha.format(dateFormatter);
     }
 
     private static String getFormattedMovimientoImporteColor(Movimiento movimiento) {
@@ -72,12 +166,37 @@ public class MovimientoView extends VerticalLayout {
         if(movimiento instanceof Transferencia) {
             Transferencia transferencia = (Transferencia) movimiento;
 
-            return transferencia.getBeneficiario();
+            return transferencia.getCuentaDestino();
         }
         if(movimiento instanceof Traspaso) {
             Traspaso traspaso = (Traspaso) movimiento;
 
             return traspaso.getCuentaDestino();
+        }
+        
+        return "Movimiento desconocido";
+    }
+
+    private static String getConceptoMovimiento(Movimiento movimiento) {
+        if(movimiento instanceof ReciboDomiciliado) {
+            ReciboDomiciliado recibo = (ReciboDomiciliado) movimiento;
+
+            return recibo.getConcepto();
+        }
+        if(movimiento instanceof PagoTarjeta) {
+            PagoTarjeta pago = (PagoTarjeta) movimiento;
+
+            return pago.getEstablecimiento();
+        }
+        if(movimiento instanceof Transferencia) {
+            Transferencia transferencia = (Transferencia) movimiento;
+
+            return transferencia.getConcepto();
+        }
+        if(movimiento instanceof Traspaso) {
+            Traspaso traspaso = (Traspaso) movimiento;
+
+            return traspaso.getConcepto();
         }
         
         return "Movimiento desconocido";
@@ -142,102 +261,78 @@ public class MovimientoView extends VerticalLayout {
             
     }
 
-    public MovimientoView() {
-        setSizeFull();
-
-        add(HeaderView.Header());
-
-        H1 titleLayout = new H1("Movimientos");
-        titleLayout.getStyle().set("margin-top", "10px");
-        titleLayout.getStyle().set("margin-bottom", "10px");
-        titleLayout.getStyle().set("text-align", "center");
-        titleLayout.setWidth("100%");
-
-        add(titleLayout);
-
-        VerticalLayout vLayout = new VerticalLayout();
-        vLayout.setSizeFull();
-        vLayout.setWidth("80%");
-        vLayout.getStyle().set("align-self", "center");
-
-        List<Movimiento> movimientos = generateDatosPrueba();
-
-        Grid<Movimiento> grid = new Grid<>(Movimiento.class, false);
-        grid.addColumn(dateRenderer()).setHeader("Fecha").setComparator(Movimiento::getFecha);
-        grid.addColumn(tipoMovimientoYConceptoRenderer()).setHeader("Movimiento");
-        grid.addColumn(importeYSaldoRenderer()).setHeader("Importe");
-
-        GridListDataView<Movimiento> dataView = grid.setItems(movimientos);
-        grid.setWidth("100%");
-        grid.getStyle().set("align-self", "center");
-        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
-
-
-        Select<String> ingresosGastosFilter = new Select<>();
-        ingresosGastosFilter.setLabel("Filtrar por");
-        ingresosGastosFilter.setItems("Todos", "Ingresos", "Gastos");
-        ingresosGastosFilter.setValue("Todos");
-
-        ingresosGastosFilter.addValueChangeListener(e -> {
-
-            dataView.removeFilters();
-            
-            if(e.getValue().equals("Ingresos")) {
-                dataView.addFilter(movimiento -> movimiento.getImporte() > 0);
-            }
-            if(e.getValue().equals("Gastos")) {
-                dataView.addFilter(movimiento -> movimiento.getImporte() < 0);
-            }
-        });
-
-        ingresosGastosFilter.getStyle().set("align-self", "end");
-        ingresosGastosFilter.getStyle().set("margin-right", "35px");
-
-        vLayout.add(ingresosGastosFilter, grid);
-        add(vLayout);
-        add(FooterView.Footer());
-
+    private static LocalDateTime getFechaPickerValue(DatePicker datePicker) {
+        return datePicker.getValue().atStartOfDay();
     }
 
-    private List<Movimiento> generateDatosPrueba() {
+    private static void applyFilterIngresoGasto(GridListDataView<Movimiento> dataView, Select<String> ingresoGastoFilter) {
+        String value = ingresoGastoFilter.getValue();
+        dataView.removeFilters();
+        if(value.equals("Ingresos")) {
+            dataView.addFilter(movimiento -> movimiento.getImporte() > 0);
+        }
+        else if(value.equals("Gastos")) {
+            dataView.addFilter(movimiento -> movimiento.getImporte() < 0);
+        }
+    }
+
+    private static ComponentRenderer<MovimientoDetailsFormLayout, Movimiento> createMovimientoDetailsRenderer() {
+        return new ComponentRenderer<>(MovimientoDetailsFormLayout::new, MovimientoDetailsFormLayout::setMovimiento);
+    }
+
+    private static class MovimientoDetailsFormLayout extends FormLayout {
+        private final TextField fechaTextField = new TextField("Fecha");
+        private final TextField importeTextField = new TextField("Importe");
+        private final TextField tipoTextField = new TextField("Movimiento");
+        private final TextField conceptoTextField = new TextField("Concepto");
+
+        public MovimientoDetailsFormLayout() {
+            Stream.of(fechaTextField, importeTextField, tipoTextField, conceptoTextField)
+                .forEach(textField -> {
+                    textField.setReadOnly(true);
+                    add(textField);
+                });
+            
+            setResponsiveSteps(new ResponsiveStep("0", 3));
+            setColspan(conceptoTextField, 3);
+        }
+
+        public void setMovimiento(Movimiento movimiento) {
+            fechaTextField.setValue(movimiento.getFecha().format(hourFormatter));
+            importeTextField.setValue(getFormattedMovimientoImporteDecimales(movimiento) + " €");
+            tipoTextField.setValue(getTipoMovimiento(movimiento));
+            conceptoTextField.setValue(getConceptoMovimiento(movimiento));
+
+            setHeight("auto");
+        }
+    }
+
+    private List<Movimiento> generateDatosPrueba(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         List<Movimiento> dataExample = new ArrayList<Movimiento>();
 
-        for (int i = 0; i < 30; i++) {
-            // generate random localdatetime between 2022-11-01 and 2022-11-30 from classes Pago, ReciboDomiciliado, Transferencia and Traspaso
-            LocalDateTime fecha = LocalDateTime.of(2022, 11, (int) (Math.random() * 30 + 1), (int) (Math.random() * 24), (int) (Math.random() * 60));
+        for (int i = 0; i < 50; i++) {
+            // generate random localdatetime between fechaInicio and fechaFin
+            LocalDateTime fecha = LocalDateTime.ofInstant(Instant.ofEpochMilli(ThreadLocalRandom.current().nextLong(fechaInicio.toInstant(ZoneOffset.UTC).toEpochMilli(), fechaFin.toInstant(ZoneOffset.UTC).toEpochMilli())), ZoneId.systemDefault());
             // generate random float between -100 and 100
             float importe = (float) (Math.random() * 200 - 100);
             
-            // select random name between Paypal, Discord, RiotGames, 
             String establecimiento = "Paypal, Discord, RiotGames, Amazon, Netflix, Spotify, Apple, Google, Microsoft, Ubisoft, EpicGames, EA, Steam, Origin, Blizzard, Nintendo, Sony, Playstation, Xbox, NintendoSwitch, UbisoftConnect, EpicGamesStore, SteamStore, OriginStore, BlizzardStore, NintendoStore, SonyStore, PlaystationStore, XboxStore, NintendoSwitchStore".split(", ")[(int) (Math.random() * 30)];
             String informacion = "Informacion " + i;
 
-            // Generate random bankacount iban with 20 digits
             String cuentaOrigen = "ES";
             for (int j = 0; j < 20; j++) {
                 cuentaOrigen += (int) (Math.random() * 10);
             }
 
-            // Generate random bankacount iban
             String cuentaDestino = "ES";
             for (int j = 0; j < 20; j++) {
                 cuentaDestino += (int) (Math.random() * 10);
             }
 
-            // Generate random concepto bewteen Universidad de Cadiz, Adeudo Vodafone, adeudo Movistar ...
             String conceptoRecibo = "Universidad de Cadiz, Adeudo Vodafone, Adeudo Movistar, Adeudo Orange, Adeudo Jazztel, Adeudo Iberdrola, Adeudo Endesa, Adeudo Gas Natural, Adeudo Telepizza, Adeudo Domino's Pizza, Adeudo Pizza Hut, Adeudo McDonald's, Adeudo Burger King, Adeudo KFC, Adeudo Subway, Adeudo Starbucks, Adeudo Dunkin' Donuts, Adeudo Costa Coffee, Adeudo Coca Cola, Adeudo Pepsi, Adeudo Heineken, Adeudo Carrefour, Adeudo Mercadona, Adeudo Lidl, Adeudo Alcampo, Adeudo Decathlon, Adeudo Zara, Adeudo H&M, Adeudo Primark, Adeudo Nike, Adeudo Adidas".split(", ")[(int) (Math.random() * 30)];
-            
-        
-            //Generate random concepto bewteen Ropa invierno, PC Gamer, Coche, Viaje, Comida, ...
             String conceptoTransferencia = "Ropa invierno, PC Gamer, Coche, Viaje, Comida, Bebida, Cine, Pelicula, Series, Musica, Libro, Videojuego, Ordenador, Movil, Cables, Pantalla, Teclado, Raton, Auriculares, Disco Duro, Memoria, Tarjeta Grafica, Tarjeta Sonido, Tarjeta Red, Tarjeta Wifi, Tarjeta Bluetooth, Tarjeta USB, Tarjeta SD, Tarjeta MicroSD, Tarjeta MicroSDHC, Tarjeta MicroSDXC, Tarjeta CompactFlash".split(", ")[(int) (Math.random() * 30)];
+            String beneficiario = "John, Maria, Peter, Susan, Michael, Sarah, David, Karen, Richard, Lisa, James, Emma, Robert, Helen, William, Jennifer, Thomas, Susan, Charles, Margaret, Christopher, Dorothy, Daniel, Linda, Matthew, Elizabeth, Anthony, Barbara".split(", ")[(int) (Math.random() * 28)];
 
-            String conceptoTraspaso = "Concepto traspaso " + i;
-
-            // Generate random beneficiario Person name bewteen John, Maria, ...
-            String beneficiario = "John, Maria, Peter, Susan, Michael, Sarah, David, Karen, Richard, Lisa, James, Emma, Robert, Helen, William, Jennifer, Thomas, Susan, Charles, Margaret, Christopher, Dorothy, Daniel, Linda, Matthew, Elizabeth, Anthony, Barbara, Donald, Jessica, Mark, Sarah, Paul, Nancy, Steven, Patricia, Andrew, Linda, Kenneth, Carol, George, Sandra, Joshua, Ashley, Kevin, Kimberly, Brian, Donna, Edward, Carol, Ronald, Ruth, Timothy, Sharon, Jason, Michelle, Jeffrey, Laura, Ryan, Sarah, Jacob, Kimberly, Gary, Deborah, Nicholas, Shirley, Eric, Cynthia, Stephen, Angela, Jonathan, Melissa, Larry, Brenda, Justin, Amy, Scott, Anna, Brandon, Virginia, Benjamin, Pamela, Sam, Katherine, Frank, Deborah, Gregory, Rachel, Raymond, Carolyn, Alexander, Christine, Patrick, Janet, Jack, Carol, Dennis, Maria, Jerry, Heather, Tyler, Dorothy, Aaron, Michelle, Henry, Lori, Douglas, Andrea, Adam, Theresa, Peter, Diane, Nathan, Marie, Zachary, Julie, Walter, Julia, Harold, Frances, Carl, Joyce, Eugene, Evelyn, Arthur, Joan, Keith, Christina, Gerald, Judith, Roger, Virginia, Jeremy, Cheryl, Terry, Katherine, Sean, Hannah, Ralph, Olivia, Lawrence, Ann, Nicholas, Alice, Roy, Andrea, Bobby, Judith, Howard, Diane, Vincent, Marie, Danny, Jacqueline, Bruce, Gloria, Albert, Tanya, Harry, Nancy, Wayne, Evelyn, Eugene, Judy, Carlos, Christina, Russell, Helen, Bryan, Dorothy, Juan, Julia, Harry, Frances, Carl, Joyce, Eugene, Evelyn, Arthur, Joan, Keith, Christina, Gerald, Judith, Roger, Virginia, Jeremy, Cheryl, Terry, Katherine, Sean, Hannah, Ralph, Olivia, Lawrence, Ann, Nicholas, Alice, Roy, Andrea, Bobby, Judith, Howard, Diane, Vincent, Marie, Danny, Jacqueline, Bruce, Gloria, Albert, Tanya, Harry, Nancy, Wayne, Evelyn, Eugene, Judy, Carlos, Christina, Russell, Helen, Bryan, Dorothy, Juan, Julia, Harry, Frances, Carl, Joyce, Eugene, Evelyn, Arthur, Joan, Keith, Christina, Gerald, Judith, Roger, Virginia, Jeremy, Cheryl, Terry, Katherine, Sean".split(", ")[(int) (Math.random() * 30)];
-
-            // Generate random balanceRestante bewteen -100 and 100
             float balanceRestante = (float) (Math.random() * 200 - 100);
 
             // Generate random data example
@@ -252,7 +347,7 @@ public class MovimientoView extends VerticalLayout {
                     dataExample.add(new Transferencia(importe, fecha, balanceRestante, cuentaOrigen, cuentaDestino, beneficiario, conceptoTransferencia));
                     break;
                 case 3:
-                    dataExample.add(new Traspaso(importe, fecha, balanceRestante, cuentaOrigen, cuentaDestino, conceptoTraspaso));
+                    dataExample.add(new Traspaso(importe, fecha, balanceRestante, cuentaOrigen, cuentaDestino, conceptoTransferencia));
                     break;
             }
             
