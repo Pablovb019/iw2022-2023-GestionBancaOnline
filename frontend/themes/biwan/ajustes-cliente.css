@@ -1,0 +1,17 @@
+.Formulario {
+    margin: auto;
+    max-height: 401px;
+    max-width: 640px;
+}
+
+.Botones {
+    max-width: 31%;
+}
+
+.BotonGuardar {
+    background-color: #27AE60;
+}
+
+.BotonCancelar {
+    color: #27AE60;
+}
