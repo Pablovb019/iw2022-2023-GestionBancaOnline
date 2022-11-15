@@ -104,3 +104,9 @@
     max-width: 80%;
     align-self: center;
 }
+
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}

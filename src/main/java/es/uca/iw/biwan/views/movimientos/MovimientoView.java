@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -40,6 +41,7 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 
 @PageTitle("Movimientos")
 @Route(value = "movimientos")
+@CssImport("/themes/biwan/movimientos.css")
 public class MovimientoView extends VerticalLayout {
 
     public MovimientoView() {

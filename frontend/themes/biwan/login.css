@@ -23,3 +23,9 @@ vaadin-button[part='vaadin-login-submit'] {
 .HeaderSpacing {
     gap: 30px;
 }
+
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}

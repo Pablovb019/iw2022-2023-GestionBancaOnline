@@ -15,3 +15,9 @@
 .BotonCancelar {
     color: #27AE60;
 }
+
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}

@@ -44,6 +44,7 @@ public class FooterView {
 
         //ALIGNMENT
         footer.setWidth("100%");
+        footer.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
         footer.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, footerTitulo, footerEtc);
         footerEtc1.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         footerEtc2.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
