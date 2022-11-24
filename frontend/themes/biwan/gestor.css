@@ -1,0 +1,82 @@
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}
+
+.layoutVerGestor {
+    padding-left: 130px;
+    padding-right: 130px;
+    width: 90%;
+}
+
+.layoutGestionCliente {
+    background: #D1FFD6;
+    border: 3px solid black !important;
+    padding: 15px;
+    width: 90%;
+    min-width: fit-content;
+}
+
+.Titulo {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.NombreClienteAnchor {
+    color: black;
+    font-size: large;
+    font-weight: bold;
+    text-decoration: none !important;
+    align-self: center;
+    flex-grow: unset !important;
+    padding: 0;
+    min-width: 300px;
+}
+
+.AnchorConsultaOnlineOffline {
+    border: 2px solid black !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+    background: #39751D;
+    text-decoration: none !important;
+    white-space  : nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    max-height: 30px;
+    max-width: 160px;
+}
+
+.AnchorButton {
+    border: 2px solid black !important;
+    padding-left: 50px;
+    padding-right: 50px;
+    color: white;
+    background: #27AE60;
+    text-decoration: none !important;
+    white-space  : nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    max-height: 30px;
+    max-width: 230px;
+    min-width: 120px;
+}
+
+.Separacion {
+    margin-right: 30px;
+}
+
+.counter {
+
+    height: 20px;
+    width: 20px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    font-size: small;
+    position: relative;
+    bottom: 13px;
+    left: 30px;
+}
