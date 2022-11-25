@@ -4,17 +4,13 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Usuario {
-
     private String nombre;
-
     private String apellidos;
     private Date fechaNacimiento;
-
     private int telefono;
     private String dni;
     private String email;
     private String password;
-
 
     public Usuario(String nombre, String apellidos, Date fechaNacimiento, int telefono, String dni, String email, String password) {
         this.nombre = nombre;

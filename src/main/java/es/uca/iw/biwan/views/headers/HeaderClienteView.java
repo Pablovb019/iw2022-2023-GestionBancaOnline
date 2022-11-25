@@ -26,7 +26,7 @@ public class HeaderClienteView {
         Anchor Titulo = new Anchor("", "BIWAN");
         Anchor CuentasTarjetasAnchor = new Anchor("", "Cuentas y tarjetas");
         Anchor MasInfo = new Anchor("", "Más información");
-        Anchor AjustesUsuario = new Anchor("", "Jose Antonio Alonso de la Huerta");
+        Anchor AjustesUsuario = new Anchor("ajustes-cliente", "Jose Antonio Alonso de la Huerta");
         MenuBar MenuPrincipal = new MenuBar();
         TextField SearchField = new TextField();
         Button SearchButton = new Button();
@@ -58,8 +58,6 @@ public class HeaderClienteView {
         MenuSecundario.addItem("Recibos domiciliados");
         MenuSecundario.addItem("Transferencias");
         MenuSecundario.addItem("Traspasos");
-        MenuSecundario.addItem("Gastos");
-        MenuSecundario.addItem("Ingresos");
         MenuSecundario.addItem("Consulta Online");
         MenuSecundario.addItem("Consulta Offline");
 

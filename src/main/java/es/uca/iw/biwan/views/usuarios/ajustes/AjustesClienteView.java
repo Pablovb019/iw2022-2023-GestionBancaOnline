@@ -1,31 +1,20 @@
 package es.uca.iw.biwan.views.usuarios.ajustes;
 
-import ch.qos.logback.core.Layout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import es.uca.iw.biwan.domain.usuario.Cliente;
-import es.uca.iw.biwan.domain.usuario.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderClienteView;
 
@@ -36,7 +25,6 @@ public class AjustesClienteView extends VerticalLayout {
     private TextField nombre = new TextField("Nombre");
     private TextField apellidos = new TextField("Apellidos");
     private DatePicker fechaNacimiento = new DatePicker("Fecha de Nacimiento");
-
     private NumberField telefono = new NumberField("Teléfono");
     private EmailField email = new EmailField("Correo Electrónico");
     private PasswordField password = new PasswordField("Contraseña");
@@ -55,6 +43,7 @@ public class AjustesClienteView extends VerticalLayout {
         var titulo = new H2("Información Personal");
         VerticalLayout vlTitulo = new VerticalLayout(titulo);
         vlTitulo.setAlignItems(Alignment.CENTER);
+        vlTitulo.addClassName("vlTitulo");
         return vlTitulo;
     }
 

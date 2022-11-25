@@ -1,0 +1,78 @@
+.vlTablonAnuncios {
+    background: #D1FFD6;
+    border: 3px solid black !important;
+    padding: 20px;
+    min-width: fit-content;
+    min-height: 500px;
+}
+
+.BotonesOperaciones {
+    background: #27AE60;
+    color: black;
+    font-size: large;
+    font-weight: 500;
+    border: 3px solid black !important;
+    padding: 10px;
+    min-width: 200px;
+    max-height: 30px;
+    text-align-all: center;
+    text-align: center;
+    text-decoration: none !important;
+}
+
+.BotonesBalance {
+    background: #27AE60;
+    color: black;
+    font-size: large;
+    font-weight: 500;
+    border: 3px solid black !important;
+    padding: 10px;
+    min-width: 128px;
+    max-height: 30px;
+    text-align-all: center;
+    text-align: center;
+    position: center;
+    text-decoration: none !important;
+}
+
+.hlPaginaPrincipal {
+    max-width: 97%;
+    margin-bottom: auto;
+    margin-top: auto;
+    align-self: center;
+}
+
+.hlBalanceOperaciones {
+    align-self: center;
+}
+
+.Balance {
+    background: #A1FC01;
+    color: black;
+    font-size: xxx-large;
+    border: 2px solid black !important;
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 10px;
+    min-width: 300px;
+    max-height: 300px;
+    text-align-all: center;
+    text-align: center;
+    text-decoration: none !important;
+    pointer-events: none;
+}
+
+.TablonAnuncios {
+    margin-top: 15px;
+}
+
+.Titulos {
+    color: black;
+    margin-top: 0px;
+}
+
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}

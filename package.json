@@ -254,8 +254,8 @@
     "lit": "$lit",
     "@polymer/polymer": "$@polymer/polymer",
     "proj4": "$proj4",
-    "line-awesome": "$line-awesome",
-    "date-fns": "$date-fns"
+    "date-fns": "$date-fns",
+    "line-awesome": "$line-awesome"
   },
   "vaadin": {
     "dependencies": {

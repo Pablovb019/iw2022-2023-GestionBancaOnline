@@ -10,8 +10,6 @@ import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
-import java.time.format.TextStyle;
-
 @PageTitle("Main")
 @Route(value = "")
 @CssImport("/themes/biwan/main.css")
@@ -46,10 +44,10 @@ public class MainView extends VerticalLayout {
         img1.setMaxWidth("500px");
 
         Anchor BotonHazteCliente1 = new Anchor("registration", "Hazte cliente");
-        BotonHazteCliente1.addClassName("BotonHazteCliente1");
+        BotonHazteCliente1.addClassName("BotonesHazteCliente");
 
         Anchor BotonInfo1 = new Anchor("", "Más información");
-        BotonInfo1.addClassName("BotonInfo1");
+        BotonInfo1.addClassName("BotonesInfo");
 
         var TituloTextoAnuncio1 = new H3 ("Hazte cliente de BIWAN ahora y ayuda al medio ambiente");
         TituloTextoAnuncio1.addClassName("TituloTextoAnuncio1");
@@ -79,10 +77,10 @@ public class MainView extends VerticalLayout {
         img2.setMaxWidth("500px");
 
         Anchor BotonHazteCliente2 = new Anchor("registration", "Hazte cliente");
-        BotonHazteCliente2.addClassName("BotonHazteCliente2");
+        BotonHazteCliente2.addClassName("BotonesHazteCliente");
 
         Anchor BotonInfo2 = new Anchor("", "Más información");
-        BotonInfo2.addClassName("BotonInfo2");
+        BotonInfo2.addClassName("BotonesInfo");
 
         var TituloTextoAnuncio2 = new H3 ("Gracias al servicio de nuestros Gestores haremos todo por ti");
         TituloTextoAnuncio2.addClassName("TituloTextoAnuncio2");
@@ -110,11 +108,11 @@ public class MainView extends VerticalLayout {
         img3.setMaxHeight("500px");
         img3.setMaxWidth("500px");
 
-        Anchor BotonHazteCliente3 = new Anchor("registration", " cliente");
-        BotonHazteCliente3.addClassName("BotonHazteCliente3");
+        Anchor BotonHazteCliente3 = new Anchor("registration", "Hazte cliente");
+        BotonHazteCliente3.addClassName("BotonesHazteCliente");
 
         Anchor BotonInfo3 = new Anchor("", "Más información");
-        BotonInfo3.addClassName("BotonInfo3");
+        BotonInfo3.addClassName("BotonesInfo");
 
         var TituloTextoAnuncio3 = new H3 ("Llévate hasta 150 € con el Plan Invita a un Amigo");
         TituloTextoAnuncio3.addClassName("TituloTextoAnuncio3");

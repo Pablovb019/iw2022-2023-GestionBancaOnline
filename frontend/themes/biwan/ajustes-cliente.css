@@ -1,7 +1,9 @@
 .Formulario {
-    margin: auto;
+    margin-top: auto;
+    margin-bottom: auto;
     max-height: 401px;
     max-width: 640px;
+    align-self: center;
 }
 
 .Botones {
@@ -14,6 +16,10 @@
 
 .BotonCancelar {
     color: #27AE60;
+}
+
+.vlTitulo {
+    max-height: 50px;
 }
 
 flow-container-root-2521314 {

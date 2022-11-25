@@ -57,8 +57,6 @@ public class HeaderView {
         MenuSecundario.addItem("Recibos domiciliados");
         MenuSecundario.addItem("Transferencias");
         MenuSecundario.addItem("Traspasos");
-        MenuSecundario.addItem("Gastos");
-        MenuSecundario.addItem("Ingresos");
         MenuSecundario.addItem("Consulta Online");
         MenuSecundario.addItem("Consulta Offline");
 

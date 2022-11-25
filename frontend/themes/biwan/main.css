@@ -1,10 +1,10 @@
-.BotonHazteCliente1{
+.BotonesHazteCliente{
     background: #27AE60;
     border: 2px solid black;
     color: black;
     font-size: large;
     height: 50px;
-    width: 110px;
+    width: 120px;
     display: flex;
     text-decoration: none !important;
     justify-content: center;
@@ -12,45 +12,7 @@
     font-weight: 500;
 }
 
-.BotonHazteCliente2{
-    background: #27AE60;
-    border: 2px solid black;
-    color: black;
-    font-size: large;
-    height: 50px;
-    width: 110px;
-    display: flex;
-    text-decoration: none !important;
-    justify-content: center;
-    align-items: center;
-    font-weight: 500;
-}
-
-.BotonHazteCliente3{
-    background: #27AE60;
-    border: 2px solid black;
-    color: black;
-    font-size: large;
-    height: 50px;
-    width: 110px;
-    display: flex;
-    text-decoration: none !important;
-    justify-content: center;
-    align-items: center;
-    font-weight: 500;
-}
-
-.BotonInfo1{
-    color: #27AE60;
-    line-height: 3.3;
-}
-
-.BotonInfo2{
-    color: #27AE60;
-    line-height: 3.3;
-}
-
-.BotonInfo3{
+.BotonesInfo {
     color: #27AE60;
     line-height: 3.3;
 }
