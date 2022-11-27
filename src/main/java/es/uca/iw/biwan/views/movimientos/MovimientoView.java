@@ -317,17 +317,20 @@ public class MovimientoView extends VerticalLayout {
             LocalDateTime fecha = LocalDateTime.ofInstant(Instant.ofEpochMilli(ThreadLocalRandom.current().nextLong(fechaInicio.toInstant(ZoneOffset.UTC).toEpochMilli(), fechaFin.toInstant(ZoneOffset.UTC).toEpochMilli())), ZoneId.systemDefault());
             // generate random float between -100 and 100
             float importe = (float) (Math.random() * 200 - 100);
+            if(importe == 0) {
+                importe = 1;
+            }
             
             String establecimiento = "Paypal, Discord, RiotGames, Amazon, Netflix, Spotify, Apple, Google, Microsoft, Ubisoft, EpicGames, EA, Steam, Origin, Blizzard, Nintendo, Sony, Playstation, Xbox, NintendoSwitch, UbisoftConnect, EpicGamesStore, SteamStore, OriginStore, BlizzardStore, NintendoStore, SonyStore, PlaystationStore, XboxStore, NintendoSwitchStore".split(", ")[(int) (Math.random() * 30)];
             String informacion = "Informacion " + i;
 
             String cuentaOrigen = "ES";
-            for (int j = 0; j < 20; j++) {
+            for (int j = 0; j < 22; j++) {
                 cuentaOrigen += (int) (Math.random() * 10);
             }
 
             String cuentaDestino = "ES";
-            for (int j = 0; j < 20; j++) {
+            for (int j = 0; j < 22; j++) {
                 cuentaDestino += (int) (Math.random() * 10);
             }
 
@@ -336,6 +339,9 @@ public class MovimientoView extends VerticalLayout {
             String beneficiario = "John, Maria, Peter, Susan, Michael, Sarah, David, Karen, Richard, Lisa, James, Emma, Robert, Helen, William, Jennifer, Thomas, Susan, Charles, Margaret, Christopher, Dorothy, Daniel, Linda, Matthew, Elizabeth, Anthony, Barbara".split(", ")[(int) (Math.random() * 28)];
 
             float balanceRestante = (float) (Math.random() * 200 - 100);
+            if(balanceRestante < 0) {
+                balanceRestante = balanceRestante * -1;
+            }
 
             // Generate random data example
             switch ((int) (Math.random() * 4)) {
