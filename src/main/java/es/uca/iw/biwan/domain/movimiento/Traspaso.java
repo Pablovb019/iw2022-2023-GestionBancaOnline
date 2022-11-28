@@ -2,7 +2,7 @@ package es.uca.iw.biwan.domain.movimiento;
 
 import java.time.LocalDateTime;
 
-import com.nimbusds.jose.shaded.json.JSONObject;
+import org.json.JSONObject;
 
 public class Traspaso extends Movimiento {
     
