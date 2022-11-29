@@ -50,6 +50,11 @@ vaadin-button#text {
     color: black;
 }
 
+.PaginaPrincipalIcon {
+    position: relative;
+    bottom: 5px;
+}
+
 vaadin-button.tittleBiwan::after {
     transition: none;
 }
@@ -113,7 +118,7 @@ div::part(container) {
 }
 
 ::part(items) {
-    width: 260px;
+    width: 270px;
 }
 
 ::part(menu-bar-button) {
@@ -123,6 +128,13 @@ div::part(container) {
 
 span::part(label) {
     color: #27AE60;
+}
+
+.AnchorMenuItem {
+    text-decoration: none !important;
+    background: transparent;
+    color: black;
+    font-size: large;
 }
 
 /*.Anchor[label-aria='HazteCliente'] {

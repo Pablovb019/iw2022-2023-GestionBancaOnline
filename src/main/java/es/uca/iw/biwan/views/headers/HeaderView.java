@@ -21,22 +21,29 @@ public class HeaderView {
         HorizontalLayout headerMiddle = new HorizontalLayout();
         HorizontalLayout headerRight = new HorizontalLayout();
         Anchor Titulo = new Anchor("", "BIWAN");
-        Anchor CuentasTarjetasAnchor = new Anchor("", "Cuentas y tarjetas");
+        Anchor PaginaPrincipalAnchor = new Anchor("pagina-principal-cliente", "Página principal");
         Anchor MasInfo = new Anchor("", "Más información");
         Anchor HazteCliente = new Anchor("registration", "+ Hazte cliente");
         Anchor Acceso = new Anchor("login", "Acceso");
+        Anchor CuentasTarjetasMenuItem = new Anchor("", "Cuentas y tarjetas");
+        Anchor MovimientosRealizadosMenuItem = new Anchor("movimientos", "Movimientos realizados");
+        Anchor RecibosDomiciliadosMenuItem = new Anchor("recibos-domiciliados", "Recibos domiciliados");
+        Anchor TransferenciasTraspasosMenuItem = new Anchor("transferencias-traspasos", "Transferencias y Traspasos");
+        Anchor ConsultasOnlineMenuItem = new Anchor("consultas-online-gestor", "Consultas Online");
+        Anchor ConsultasOfflineMenuItem = new Anchor("consultas-offline-gestor", "Consultas Offline");
         MenuBar MenuPrincipal = new MenuBar();
         TextField SearchField = new TextField();
         Button SearchButton = new Button();
         Icon iconMenu = new Icon(VaadinIcon.MENU);
         Icon iconBusqueda = new Icon(VaadinIcon.SEARCH);
         Icon iconHazteCliente = new Icon(VaadinIcon.USER);
+        Icon PaginaPrincipalIcon = new Icon(VaadinIcon.HOME);
         //CuentasTarjetasButton.addClickListener(e -> CuentasTarjetasButton.getUI().ifPresent(ui -> ui.navigate("")));
 
         //ADD CLASS NAME
         Titulo.addClassNames("tittleBiwan");
         header.addClassName("header_footer");
-        CuentasTarjetasAnchor.addClassName("Anchor");
+        PaginaPrincipalAnchor.addClassName("Anchor");
         MasInfo.addClassName("Anchor");
         SearchButton.addClassName("vaadin-button");
         HazteCliente.addClassName("AnchorHazteCliente");
@@ -47,21 +54,28 @@ public class HeaderView {
         SearchButton.addClassName("searchButton");
         iconBusqueda.addClassName("iconBusqueda");
         iconHazteCliente.addClassName("iconHazteCliente");
+        PaginaPrincipalIcon.addClassName("PaginaPrincipalIcon");
+        CuentasTarjetasMenuItem.addClassName("AnchorMenuItem");
+        MovimientosRealizadosMenuItem.addClassName("AnchorMenuItem");
+        RecibosDomiciliadosMenuItem.addClassName("AnchorMenuItem");
+        TransferenciasTraspasosMenuItem.addClassName("AnchorMenuItem");
+        ConsultasOnlineMenuItem.addClassName("AnchorMenuItem");
+        ConsultasOfflineMenuItem.addClassName("AnchorMenuItem");
 
         //MENU
         MenuItem itemPrincipal = MenuPrincipal.addItem("Menú");
         itemPrincipal.addComponentAtIndex(1, iconMenu);
         SubMenu MenuSecundario = itemPrincipal.getSubMenu();
-        MenuSecundario.addItem("Cuentas y Tarjetas");
-        MenuSecundario.addItem("Movimientos realizados");
-        MenuSecundario.addItem("Recibos domiciliados");
-        MenuSecundario.addItem("Transferencias y Traspasos");
-        MenuSecundario.addItem("Consultas Online");
-        MenuSecundario.addItem("Consultas Offline");
+        MenuSecundario.addItem(CuentasTarjetasMenuItem);
+        MenuSecundario.addItem(MovimientosRealizadosMenuItem);
+        MenuSecundario.addItem(RecibosDomiciliadosMenuItem);
+        MenuSecundario.addItem(TransferenciasTraspasosMenuItem);
+        MenuSecundario.addItem(ConsultasOnlineMenuItem);
+        MenuSecundario.addItem(ConsultasOfflineMenuItem);
 
         //ADD HEADERS
         header.add(headerLeft, headerMiddle, headerRight);
-        headerLeft.add(Titulo, CuentasTarjetasAnchor, MasInfo);
+        headerLeft.add(Titulo, PaginaPrincipalAnchor, MasInfo);
         headerMiddle.add(SearchField, SearchButton);
         headerRight.add(HazteCliente, Acceso, MenuPrincipal);
 
@@ -69,13 +83,14 @@ public class HeaderView {
         SearchField.setPlaceholder("Search");
         SearchField.setClearButtonVisible(true);
         SearchButton.setIcon(iconBusqueda);
+        PaginaPrincipalAnchor.addComponentAsFirst(PaginaPrincipalIcon);
         HazteCliente.addComponentAsFirst(iconHazteCliente);
         iconMenu.getElement().setAttribute("part", "iconMenu");
         //SearchField.setPrefixComponent(iconBusqueda);  //Cambiar icono en un field
 
         //ALIGNMENT
         header.setWidth("100%");
-        header.setVerticalComponentAlignment(FlexComponent.Alignment.END, CuentasTarjetasAnchor, MasInfo);
+        header.setVerticalComponentAlignment(FlexComponent.Alignment.END, PaginaPrincipalAnchor, MasInfo);
         header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Titulo, SearchField, SearchButton, HazteCliente, Acceso);
         headerLeft.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         headerMiddle.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);

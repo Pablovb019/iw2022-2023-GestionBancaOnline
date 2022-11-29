@@ -1,10 +1,8 @@
 package es.uca.iw.biwan.views.consultasOffline.gestor;
 
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -12,9 +10,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.consultasOnline.gestor.ConsultasOnlineGestorView;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderClienteView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @CssImport("/themes/biwan/consultasOfflineGestor.css")
 @PageTitle("Consultas Offline")
@@ -32,7 +29,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
 
         //ADD
         layoutConsultas.add(ConsultasOffline());
-        layoutConsultaOffline.add(HeaderClienteView.Header(), layoutConsultas, FooterView.Footer());
+        layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
 
         //ALIGNMENT
         layoutConsultaOffline.expand(layoutConsultas);
@@ -50,9 +47,6 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
         Icon VolverIcon = new Icon(VaadinIcon.ARROW_BACKWARD);
         H1 titulo = new H1("Consultas Offline");
         HorizontalLayout layoutHorConsultasOffline = new HorizontalLayout();
-        VerticalLayout layoutVerConsultasOfflineIzda = new VerticalLayout();
-        H4 NombreClienteConsultas = new H4("Nombre Cliente Seleccionado");
-        Grid<Cliente> Consultas = new Grid<>();
 
         //ADD CLASS NAME
         VolverAnchor.addClassName("VolverAnchor");
@@ -60,9 +54,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
         VolverIcon.addClassName("VolverIcon");
         titulo.addClassName("Titulo");
         layoutHorConsultasOffline.addClassName("layoutHorConsultasOffline");
-        layoutVerConsultasOfflineIzda.addClassName("layoutVerConsultasOfflineIzda");
-        NombreClienteConsultas.addClassName("NombreClienteConsultas");
-        Consultas.addClassName("Consultas");
+        layoutConsultasOfflinePrincipal.addClassName("layoutConsultasOfflinePrincipal");
 
         //ALIGNMENT
         TituloVolverLayout.setJustifyContentMode(JustifyContentMode.BETWEEN);
@@ -70,8 +62,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
         //ADD
         VolverAnchor.add(VolverIcon);
         TituloVolverLayout.add(titulo, VolverAnchor);
-        layoutVerConsultasOfflineIzda.add(NombreClienteConsultas, Consultas);
-        layoutHorConsultasOffline.add(layoutVerConsultasOfflineIzda, ConsultasOnlineGestorView.ListaMensajesConsulta());
+        layoutHorConsultasOffline.add(ConsultasOnlineGestorView.ListaMensajesConsulta());
         layoutConsultasOfflinePrincipal.add(TituloVolverLayout, layoutHorConsultasOffline);
 
         return layoutConsultasOfflinePrincipal;

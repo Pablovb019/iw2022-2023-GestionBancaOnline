@@ -16,7 +16,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderClienteView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("ajustes-cliente")
 @PageTitle("Ajustes Cliente")
@@ -33,7 +33,7 @@ public class AjustesClienteView extends VerticalLayout {
     private Button save = new Button("Guardar");
 
     public AjustesClienteView(){
-        add(HeaderClienteView.Header());
+        add(HeaderUsuarioLogueadoView.Header());
         add(crearTitulo());
         add(crearFormulario());
         add(FooterView.Footer());

@@ -22,7 +22,7 @@ import com.vaadin.flow.router.Route;
 
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
 import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @PageTitle("Recibos domiciliados")
 @Route("recibos-domiciliados")
@@ -31,7 +31,7 @@ public class RecibosDomiciliadosView extends VerticalLayout {
     public RecibosDomiciliadosView() {
 
         setSizeFull();
-        add(HeaderView.Header());
+        add(HeaderUsuarioLogueadoView.Header());
 
         H1 titleLayout = new H1("Recibos Domiciliados");
         titleLayout.getStyle().set("margin-top", "10px");

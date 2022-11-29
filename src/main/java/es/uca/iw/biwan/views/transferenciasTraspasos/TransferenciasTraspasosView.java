@@ -21,7 +21,7 @@ import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.operaciones.Transferencia;
 import es.uca.iw.biwan.domain.operaciones.Traspaso;
 import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @PageTitle("Transferencias y Traspasos")
 @Route("transferencias-traspasos")
@@ -31,7 +31,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
     public TransferenciasTraspasosView() {
         setHeight("100%");
 
-        add(HeaderView.Header());
+        add(HeaderUsuarioLogueadoView.Header());
 
         VerticalLayout layout = new VerticalLayout();
         layout.setWidth("80%");
@@ -156,7 +156,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                 }
                 
             });
-
+            realizarTransferencia.addClassName("EnviarButton");
             add(cuentaOrigen, cuentaDestino, beneficiario, concepto, importe, realizarTransferencia);
             setColspan(realizarTransferencia, 3);
         }
@@ -249,7 +249,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                     }
                 }
             });
-
+            realizarTraspaso.addClassName("EnviarButton");
             add(cuentaOrigen, cuentaDestino, concepto, importe, realizarTraspaso);
             setColspan(realizarTraspaso, 3);
         }

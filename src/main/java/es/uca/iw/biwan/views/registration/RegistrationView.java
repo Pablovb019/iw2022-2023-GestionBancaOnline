@@ -2,12 +2,14 @@ package es.uca.iw.biwan.views.registration;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -48,8 +50,9 @@ public class RegistrationView extends VerticalLayout {
         //NEW
         TextField firstName = new TextField("Nombre");
         TextField lastName = new TextField("Apellidos");
-        TextField phoneNumber = new TextField("Teléfono");
+        NumberField phoneNumber = new NumberField("Teléfono");
         TextField dni = new TextField("DNI");
+        DatePicker birthDate = new DatePicker("Fecha de Nacimiento");
         PasswordField password = new PasswordField("Contraseña");
         PasswordField confirmPassword = new PasswordField("Confirmar contraseña");
         EmailField email = new EmailField();
@@ -67,7 +70,7 @@ public class RegistrationView extends VerticalLayout {
         Titulo.addClassName("CrearCuenta");
 
         //ADD
-        formLayout.add(Titulo, firstName, lastName, phoneNumber, dni, email, password, confirmPassword, submit);
+        formLayout.add(Titulo, firstName, lastName, phoneNumber, dni, birthDate, email, password, confirmPassword, submit);
 
         //ALIGNMENT
         formLayout.setResponsiveSteps( new FormLayout.ResponsiveStep("", 2));

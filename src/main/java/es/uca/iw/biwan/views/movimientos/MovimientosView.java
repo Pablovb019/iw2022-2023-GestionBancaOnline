@@ -37,7 +37,7 @@ import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
 import es.uca.iw.biwan.domain.operaciones.Transferencia;
 import es.uca.iw.biwan.domain.operaciones.Traspaso;
 import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @PageTitle("Movimientos")
 @Route("movimientos")
@@ -47,7 +47,7 @@ public class MovimientosView extends VerticalLayout {
     public MovimientosView() {
         setSizeFull();
 
-        add(HeaderView.Header());
+        add(HeaderUsuarioLogueadoView.Header());
 
         H1 titleLayout = new H1("Movimientos");
         titleLayout.getStyle().set("margin-top", "10px");

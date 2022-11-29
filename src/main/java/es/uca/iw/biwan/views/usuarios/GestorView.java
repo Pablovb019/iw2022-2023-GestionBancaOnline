@@ -9,7 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderClienteView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @CssImport("/themes/biwan/paginaPrincipalGestor.css")
 @PageTitle("Página Principal Gestor")
@@ -31,7 +31,7 @@ public class GestorView extends VerticalLayout {
         add(grid);*/
 
         //ADD
-        layoutGestor.add(HeaderClienteView.Header(), layoutGestionConsultas, FooterView.Footer());
+        layoutGestor.add(HeaderUsuarioLogueadoView.Header(), layoutGestionConsultas, FooterView.Footer());
 
         //ALIGNMENT
         layoutGestor.expand(layoutGestionConsultas);
@@ -50,8 +50,8 @@ public class GestorView extends VerticalLayout {
         H1 Titulo = new H1("Bienvenido Gestor");
         Anchor NombreCliente = new Anchor("", "Jose Antonio Alonso de la Huerta");
         Anchor CuentasYTarjetasButton = new Anchor("", "Cuentas y tarjetas");
-        Anchor ConsultaOnlineButton = new Anchor("consultas-online", "Consulta Online");
-        Anchor ConsultaOfflineButton = new Anchor("consultas-offline", "Consulta Offline");
+        Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
+        Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
         Span counterOnline = new Span("1");
         Span counterOffline = new Span("3");
 
