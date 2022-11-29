@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.views.usuarios.ajustes;
+package es.uca.iw.biwan.views.usuarios.ajustesCliente;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -20,7 +20,7 @@ import es.uca.iw.biwan.views.headers.HeaderClienteView;
 
 @Route("ajustes-cliente")
 @PageTitle("Ajustes Cliente")
-@CssImport("/themes/biwan/ajustes-cliente.css")
+@CssImport("/themes/biwan/ajustesCliente.css")
 public class AjustesClienteView extends VerticalLayout {
     private TextField nombre = new TextField("Nombre");
     private TextField apellidos = new TextField("Apellidos");

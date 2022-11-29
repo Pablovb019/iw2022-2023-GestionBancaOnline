@@ -1,25 +1,24 @@
-package es.uca.iw.biwan.domain.movimiento;
+package es.uca.iw.biwan.domain.operaciones;
 
 import java.time.LocalDateTime;
 
 import org.json.JSONObject;
 
-public class Traspaso extends Movimiento {
-    
+public class Transferencia extends Movimiento {
+
     private String cuentaOrigen;
     private String cuentaDestino;
+    private String beneficiario;
     private String concepto;
 
-    public Traspaso(float importe, LocalDateTime fecha, float balanceRestante, String cuentaOrigen, String cuentaDestino, String concepto) throws IllegalArgumentException {
+    public Transferencia(float importe, LocalDateTime fecha, float balanceRestante, String cuentaOrigen, String cuentaDestino, String beneficiario, String concepto) throws IllegalArgumentException {
         super(importe, fecha, balanceRestante);
-
         if(cuentaOrigen.length() != 24) {
             JSONObject json = new JSONObject();
             json.put("message", "La cuenta origen debe ser un IBAN valido");
             json.put("field", "cuentaOrigen");
             throw new IllegalArgumentException(json.toString());
         }
-
         if(cuentaDestino.length() != 24) {
             JSONObject json = new JSONObject();
             json.put("message", "La cuenta destino debe ser un IBAN valido");
@@ -34,8 +33,16 @@ public class Traspaso extends Movimiento {
             throw new IllegalArgumentException(json.toString());
         }
 
+        if(beneficiario == null || beneficiario.length() == 0) {
+            JSONObject json = new JSONObject();
+            json.put("message", "El beneficiario no puede ser nulo");
+            json.put("field", "beneficiario");
+            throw new IllegalArgumentException(json.toString());
+        }
+
         this.cuentaOrigen = cuentaOrigen;
         this.cuentaDestino = cuentaDestino;
+        this.beneficiario = beneficiario;
         this.concepto = concepto;
     }
 
@@ -47,9 +54,12 @@ public class Traspaso extends Movimiento {
         return cuentaDestino;
     }
 
+    public String getBeneficiario() {
+        return beneficiario;
+    }
+
     public String getConcepto() {
         return concepto;
     }
     
-
 }

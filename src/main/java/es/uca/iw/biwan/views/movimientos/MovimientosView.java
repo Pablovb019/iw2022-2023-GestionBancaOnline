@@ -31,20 +31,20 @@ import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import es.uca.iw.biwan.domain.movimiento.Movimiento;
-import es.uca.iw.biwan.domain.movimiento.PagoTarjeta;
-import es.uca.iw.biwan.domain.movimiento.ReciboDomiciliado;
-import es.uca.iw.biwan.domain.movimiento.Transferencia;
-import es.uca.iw.biwan.domain.movimiento.Traspaso;
+import es.uca.iw.biwan.domain.operaciones.Movimiento;
+import es.uca.iw.biwan.domain.operaciones.PagoTarjeta;
+import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
+import es.uca.iw.biwan.domain.operaciones.Transferencia;
+import es.uca.iw.biwan.domain.operaciones.Traspaso;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @PageTitle("Movimientos")
-@Route(value = "movimientos")
+@Route("movimientos")
 @CssImport("/themes/biwan/movimientos.css")
-public class MovimientoView extends VerticalLayout {
+public class MovimientosView extends VerticalLayout {
 
-    public MovimientoView() {
+    public MovimientosView() {
         setSizeFull();
 
         add(HeaderView.Header());
@@ -238,7 +238,7 @@ public class MovimientoView extends VerticalLayout {
             "<vaadin-vertical-layout style=\"line-height: 60px;\">"
                 + "  <span>${item.fecha}</span>"
                 + "</vaadin-vertical-layout>")
-            .withProperty("fecha", MovimientoView::getFormattedMovimientoDate);
+            .withProperty("fecha", MovimientosView::getFormattedMovimientoDate);
     }
 
     private static Renderer<Movimiento> importeYSaldoRenderer() {
@@ -247,9 +247,9 @@ public class MovimientoView extends VerticalLayout {
                 + "  <span style=\"color:${item.color}\">${item.importe} €</span>"
                 + "  <span>Saldo: ${item.saldo} €</span>"
                 + "</vaadin-vertical-layout>")
-            .withProperty("importe", MovimientoView::getFormattedMovimientoImporteDecimales)
-            .withProperty("color", MovimientoView::getFormattedMovimientoImporteColor)
-            .withProperty("saldo", MovimientoView::getSaldoRestante);
+            .withProperty("importe", MovimientosView::getFormattedMovimientoImporteDecimales)
+            .withProperty("color", MovimientosView::getFormattedMovimientoImporteColor)
+            .withProperty("saldo", MovimientosView::getSaldoRestante);
     }
 
     private static Renderer<Movimiento> tipoMovimientoYConceptoRenderer() {
@@ -258,8 +258,8 @@ public class MovimientoView extends VerticalLayout {
                 + "  <span style=\"font-weight: bold;\">${item.titulo}</span>"
                 + "  <span>${item.tipo}</span>"
                 + "</vaadin-vertical-layout>")
-            .withProperty("titulo", MovimientoView::getTituloMovimiento)
-            .withProperty("tipo", MovimientoView::getTipoMovimiento);
+            .withProperty("titulo", MovimientosView::getTituloMovimiento)
+            .withProperty("tipo", MovimientosView::getTipoMovimiento);
             
     }
 

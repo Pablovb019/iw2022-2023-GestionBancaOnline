@@ -11,7 +11,7 @@ import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderClienteView;
 
 @Route("pagina-principal-cliente")
-@CssImport("/themes/biwan/pagina-principal-cliente.css")
+@CssImport("/themes/biwan/paginaPrincipalCliente.css")
 @PageTitle("Página Principal Cliente")
 public class ClienteView extends VerticalLayout {
     public ClienteView(){
@@ -27,11 +27,10 @@ public class ClienteView extends VerticalLayout {
         Anchor Balance = new Anchor("", "2500.55€");
         H2 Operacionnes = new H2("Operaciones");
         Anchor MovimientosButton = new Anchor("movimientos", "Movimientos");
-        Anchor RecibosButton = new Anchor("", "Recibos");
-        Anchor TransferenciasButton = new Anchor("", "Realizar Transferencia");
-        Anchor TraspasosButton = new Anchor("", "Realizar Traspaso");
-        Anchor ConsultaOnlineButton = new Anchor("consultas-online", "Realizar Consulta Online");
-        Anchor ConsultaOfflineButton = new Anchor("consultas-offline", "Realizar Consulta Offline");
+        Anchor RecibosButton = new Anchor("recibos-domiciliados", "Recibos");
+        Anchor TransferenciasButton = new Anchor("transferencias-traspasos", "Realizar Transferencia o Traspaso");
+        Anchor ConsultaOnlineButton = new Anchor("", "Realizar Consulta Online");
+        Anchor ConsultaOfflineButton = new Anchor("", "Realizar Consulta Offline");
         H2 TablonAnuncios = new H2("Tablón de anuncios");
 
         //CSS
@@ -44,7 +43,6 @@ public class ClienteView extends VerticalLayout {
         MovimientosButton.addClassName("BotonesBalance");
         RecibosButton.addClassName("BotonesBalance");
         TransferenciasButton.addClassName("BotonesOperaciones");
-        TraspasosButton.addClassName("BotonesOperaciones");
         ConsultaOnlineButton.addClassName("BotonesOperaciones");
         ConsultaOfflineButton.addClassName("BotonesOperaciones");
 
@@ -54,7 +52,7 @@ public class ClienteView extends VerticalLayout {
         hlBotonesBalance.setWidthFull();
         hlBotonesBalance.setAlignItems(Alignment.CENTER);
         var vlBalace = new VerticalLayout(TituloBalance, Balance, hlBotonesBalance);
-        var vlOperaciones = new VerticalLayout(Operacionnes, TransferenciasButton, TraspasosButton, ConsultaOnlineButton, ConsultaOfflineButton);
+        var vlOperaciones = new VerticalLayout(Operacionnes, TransferenciasButton, ConsultaOnlineButton, ConsultaOfflineButton);
         vlOperaciones.setAlignItems(Alignment.CENTER);
         var hlBalanceOperaciones = new HorizontalLayout(vlBalace, vlOperaciones);
         hlBalanceOperaciones.addClassName("hlBalanceOperaciones");

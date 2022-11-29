@@ -11,7 +11,7 @@ import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @PageTitle("Main")
-@Route(value = "")
+@Route("")
 @CssImport("/themes/biwan/main.css")
 public class MainView extends VerticalLayout {
     public MainView() {

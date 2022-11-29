@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.views.recibos;
+package es.uca.iw.biwan.views.recibosDomiciliados;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -20,12 +20,12 @@ import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import es.uca.iw.biwan.domain.movimiento.ReciboDomiciliado;
+import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @PageTitle("Recibos domiciliados")
-@Route(value = "recibos-domiciliados")
+@Route("recibos-domiciliados")
 public class RecibosDomiciliadosView extends VerticalLayout {
 
     public RecibosDomiciliadosView() {

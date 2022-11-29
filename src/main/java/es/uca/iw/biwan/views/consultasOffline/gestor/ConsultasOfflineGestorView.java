@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.views.consultaOffline;
+package es.uca.iw.biwan.views.consultasOffline.gestor;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -11,17 +11,17 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import es.uca.iw.biwan.views.consultaOnline.ConsultasOnlineView;
-import es.uca.iw.biwan.domain.usuario.Cliente;
+import es.uca.iw.biwan.views.consultasOnline.gestor.ConsultasOnlineGestorView;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderClienteView;
 
-@CssImport("/themes/biwan/consultasOffline.css")
+@CssImport("/themes/biwan/consultasOfflineGestor.css")
 @PageTitle("Consultas Offline")
-@Route("consultas-offline")
-public class ConsultasOfflineView extends VerticalLayout {
+@Route("consultas-offline-gestor")
+public class ConsultasOfflineGestorView extends VerticalLayout {
 
-    public ConsultasOfflineView() {
+    public ConsultasOfflineGestorView() {
 
         //NEW
         VerticalLayout layoutConsultaOffline = new VerticalLayout();
@@ -71,7 +71,7 @@ public class ConsultasOfflineView extends VerticalLayout {
         VolverAnchor.add(VolverIcon);
         TituloVolverLayout.add(titulo, VolverAnchor);
         layoutVerConsultasOfflineIzda.add(NombreClienteConsultas, Consultas);
-        layoutHorConsultasOffline.add(layoutVerConsultasOfflineIzda, ConsultasOnlineView.ListaMensajesConsulta());
+        layoutHorConsultasOffline.add(layoutVerConsultasOfflineIzda, ConsultasOnlineGestorView.ListaMensajesConsulta());
         layoutConsultasOfflinePrincipal.add(TituloVolverLayout, layoutHorConsultasOffline);
 
         return layoutConsultasOfflinePrincipal;

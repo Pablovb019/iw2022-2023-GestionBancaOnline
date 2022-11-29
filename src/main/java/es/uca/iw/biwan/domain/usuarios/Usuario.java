@@ -1,6 +1,5 @@
-package es.uca.iw.biwan.domain.usuario;
+package es.uca.iw.biwan.domain.usuarios;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Usuario {

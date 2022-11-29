@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.views.transferencia;
+package es.uca.iw.biwan.views.transferenciasTraspasos;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,16 +17,16 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
-import es.uca.iw.biwan.domain.movimiento.Transferencia;
-import es.uca.iw.biwan.domain.movimiento.Traspaso;
+import es.uca.iw.biwan.domain.operaciones.Transferencia;
+import es.uca.iw.biwan.domain.operaciones.Traspaso;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
-@PageTitle("Transferencia")
-@Route(value = "transferencia")
-public class TransferenciaView extends VerticalLayout {
+@PageTitle("Transferencias y traspasos")
+@Route("transferencias-traspasos")
+public class TransferenciasTraspasosView extends VerticalLayout {
 
-    public TransferenciaView() {
+    public TransferenciasTraspasosView() {
         setHeight("100%");
 
         add(HeaderView.Header());

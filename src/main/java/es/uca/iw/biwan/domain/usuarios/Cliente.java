@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.domain.usuario;
+package es.uca.iw.biwan.domain.usuarios;
 
 import java.util.Date;
 

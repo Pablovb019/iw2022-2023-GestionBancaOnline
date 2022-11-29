@@ -19,7 +19,7 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 
 @CssImport("/themes/biwan/resetPassword.css")
 @PageTitle("Restablecer contraseña")
-@Route("resetpassword")
+@Route("reset-password")
 public class ResetPasswordView extends VerticalLayout {
 
     private final FormLayout registration = new FormLayout();

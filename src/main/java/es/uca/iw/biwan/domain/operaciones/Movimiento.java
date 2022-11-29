@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.domain.movimiento;
+package es.uca.iw.biwan.domain.operaciones;
 
 import java.time.LocalDateTime;
 

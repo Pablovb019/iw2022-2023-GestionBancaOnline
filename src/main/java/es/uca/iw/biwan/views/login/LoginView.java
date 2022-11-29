@@ -11,7 +11,7 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 
 @CssImport("/themes/biwan/login.css")
 @Route("login")
-@PageTitle("Login")
+@PageTitle("Formulario de inicio de sesión")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm login = new LoginForm();

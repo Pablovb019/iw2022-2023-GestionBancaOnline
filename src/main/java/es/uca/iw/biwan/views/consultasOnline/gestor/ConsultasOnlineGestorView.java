@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.views.consultaOnline;
+package es.uca.iw.biwan.views.consultasOnline.gestor;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -14,23 +14,22 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import es.uca.iw.biwan.domain.usuario.Cliente;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderClienteView;
 
-import java.awt.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-@CssImport("/themes/biwan/consultasOnline.css")
+@CssImport("/themes/biwan/consultasOnlineGestor.css")
 @PageTitle("Consultas Online")
-@Route("consultas-online")
-public class ConsultasOnlineView extends VerticalLayout {
+@Route("consultas-online-gestor")
+public class ConsultasOnlineGestorView extends VerticalLayout {
 
-    public ConsultasOnlineView() {
+    public ConsultasOnlineGestorView() {
 
         //NEW
         VerticalLayout layoutConsultaOnline = new VerticalLayout();

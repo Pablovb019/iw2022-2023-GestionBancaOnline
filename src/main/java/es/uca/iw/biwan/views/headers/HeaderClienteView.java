@@ -11,9 +11,9 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import es.uca.iw.biwan.domain.usuario.Usuario;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 
-@CssImport("/themes/biwan/header-cliente.css")
+@CssImport("/themes/biwan/headerCliente.css")
 public class HeaderClienteView {
     public static HorizontalLayout Header() {
 
