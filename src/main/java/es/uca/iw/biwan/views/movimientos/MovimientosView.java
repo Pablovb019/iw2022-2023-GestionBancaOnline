@@ -107,6 +107,7 @@ public class MovimientosView extends VerticalLayout {
             grid.setItems(generateDatosPrueba(getFechaPickerValue(fechaInicioPicker), getFechaPickerValue(fechaFinPicker)));
             applyFilterIngresoGasto(dataView, ingresosGastosFilter);
         });
+        buttonDateFilter.addClassName("ButtonDateFilter");
 
         buttonDateFilter.getStyle().set("align-self", "end");
         buttonDateFilter.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

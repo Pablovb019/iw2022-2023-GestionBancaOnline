@@ -55,10 +55,9 @@ public class HeaderView {
         MenuSecundario.addItem("Cuentas y Tarjetas");
         MenuSecundario.addItem("Movimientos realizados");
         MenuSecundario.addItem("Recibos domiciliados");
-        MenuSecundario.addItem("Transferencias");
-        MenuSecundario.addItem("Traspasos");
-        MenuSecundario.addItem("Consulta Online");
-        MenuSecundario.addItem("Consulta Offline");
+        MenuSecundario.addItem("Transferencias y Traspasos");
+        MenuSecundario.addItem("Consultas Online");
+        MenuSecundario.addItem("Consultas Offline");
 
         //ADD HEADERS
         header.add(headerLeft, headerMiddle, headerRight);

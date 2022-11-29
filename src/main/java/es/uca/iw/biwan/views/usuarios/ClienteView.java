@@ -28,6 +28,7 @@ public class ClienteView extends VerticalLayout {
         H2 Operacionnes = new H2("Operaciones");
         Anchor MovimientosButton = new Anchor("movimientos", "Movimientos");
         Anchor RecibosButton = new Anchor("recibos-domiciliados", "Recibos");
+        Anchor CuentasTarjetasButton = new Anchor("", "Cuentas y Tarjetas");
         Anchor TransferenciasButton = new Anchor("transferencias-traspasos", "Realizar Transferencia o Traspaso");
         Anchor ConsultaOnlineButton = new Anchor("", "Realizar Consulta Online");
         Anchor ConsultaOfflineButton = new Anchor("", "Realizar Consulta Offline");
@@ -42,6 +43,7 @@ public class ClienteView extends VerticalLayout {
         Balance.addClassName("Balance");
         MovimientosButton.addClassName("BotonesBalance");
         RecibosButton.addClassName("BotonesBalance");
+        CuentasTarjetasButton.addClassName("BotonCuentasTarjetas");
         TransferenciasButton.addClassName("BotonesOperaciones");
         ConsultaOnlineButton.addClassName("BotonesOperaciones");
         ConsultaOfflineButton.addClassName("BotonesOperaciones");
@@ -51,7 +53,10 @@ public class ClienteView extends VerticalLayout {
         var hlBotonesBalance = new HorizontalLayout(MovimientosButton, RecibosButton);
         hlBotonesBalance.setWidthFull();
         hlBotonesBalance.setAlignItems(Alignment.CENTER);
-        var vlBalace = new VerticalLayout(TituloBalance, Balance, hlBotonesBalance);
+        var hlBotonCuentasTarjetas = new HorizontalLayout(CuentasTarjetasButton);
+        hlBotonCuentasTarjetas.setWidthFull();
+        hlBotonCuentasTarjetas.setAlignItems(Alignment.CENTER);
+        var vlBalace = new VerticalLayout(TituloBalance, Balance, hlBotonesBalance, hlBotonCuentasTarjetas);
         var vlOperaciones = new VerticalLayout(Operacionnes, TransferenciasButton, ConsultaOnlineButton, ConsultaOfflineButton);
         vlOperaciones.setAlignItems(Alignment.CENTER);
         var hlBalanceOperaciones = new HorizontalLayout(vlBalace, vlOperaciones);

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import org.json.JSONObject;
 
 import com.vaadin.flow.component.button.Button;
@@ -22,8 +23,9 @@ import es.uca.iw.biwan.domain.operaciones.Traspaso;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
-@PageTitle("Transferencias y traspasos")
+@PageTitle("Transferencias y Traspasos")
 @Route("transferencias-traspasos")
+@CssImport("/themes/biwan/transferenciasTraspasos.css")
 public class TransferenciasTraspasosView extends VerticalLayout {
 
     public TransferenciasTraspasosView() {
@@ -40,6 +42,8 @@ public class TransferenciasTraspasosView extends VerticalLayout {
 
         Button transferencia = new Button("A otra cuenta");
         Button traspaso = new Button("A una de mis cuentas");
+        transferencia.addClassName("BotonesTransferenciaTraspaso");
+        traspaso.addClassName("BotonesTransferenciaTraspaso");
 
         VerticalLayout formulario = new VerticalLayout();
         formulario.getStyle().set("align-self", "center");
