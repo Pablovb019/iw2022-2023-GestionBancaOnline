@@ -3,7 +3,16 @@
     color: white;
 }
 
-.EnviarButton {
+.EnviarButtonOtraCuenta {
     background: #27AE60;
     color: white;
+    position: relative;
+    left: 20px;
+    width: 150px !important;
+}
+
+.EnviarButtonMisCuentas {
+    background: #27AE60;
+    color: white;
+    width: 150px !important;
 }

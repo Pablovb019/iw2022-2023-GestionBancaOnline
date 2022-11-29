@@ -1,20 +1,25 @@
 package es.uca.iw.biwan.views.consultasOnline.gestor;
 
+import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.messages.MessageInput;
+import com.vaadin.flow.component.messages.MessageInputI18n;
 import com.vaadin.flow.component.messages.MessageList;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
+import java.awt.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -77,15 +82,20 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
     }
 
     public static VerticalLayout ListaMensajesConsulta() {
+        HorizontalLayout MensajeSubmit = new HorizontalLayout();
         MessageList list = new MessageList();
-        MessageInput input = new MessageInput();
-        input.addSubmitListener(submitEvent -> {
-            MessageListItem newMessage = new MessageListItem(
-                    submitEvent.getValue(), Instant.now(), "Gestor");
-            newMessage.setUserColorIndex(3);
-            List<MessageListItem> items = new ArrayList<>(list.getItems());
-            items.add(newMessage);
-            list.setItems(items);
+        TextField CajaMensaje = new TextField("", "Mensaje");
+        Button ButtonSubmit = new Button("Enviar");
+        ButtonSubmit.addClickShortcut(Key.ENTER);
+        ButtonSubmit.addClickListener(submitEvent -> {
+            if(CajaMensaje.getValue()!="") {
+                MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), "Gestor");
+                newMessage.setUserColorIndex(3);
+                List<MessageListItem> items = new ArrayList<>(list.getItems());
+                items.add(newMessage);
+                list.setItems(items);
+                CajaMensaje.setValue("");
+            }
         });
 
         //Cliente cliente = DataService.getPeople(1).get(0);
@@ -100,7 +110,11 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
         list.setItems(message1);
 
         list.addClassName("list");
-        VerticalLayout chatLayout = new VerticalLayout(list, input);
+        MensajeSubmit.expand(CajaMensaje);
+        MensajeSubmit.add(CajaMensaje, ButtonSubmit);
+        VerticalLayout chatLayout = new VerticalLayout(list, MensajeSubmit);
+        MensajeSubmit.addClassName("MensajeSubmit");
+        ButtonSubmit.addClassName("ButtonSubmit");
         chatLayout.addClassName("chatLayout");
         chatLayout.expand(list);
 

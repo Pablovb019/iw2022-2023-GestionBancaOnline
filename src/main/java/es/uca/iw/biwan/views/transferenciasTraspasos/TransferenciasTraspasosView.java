@@ -156,7 +156,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                 }
                 
             });
-            realizarTransferencia.addClassName("EnviarButton");
+            realizarTransferencia.addClassName("EnviarButtonOtraCuenta");
             add(cuentaOrigen, cuentaDestino, beneficiario, concepto, importe, realizarTransferencia);
             setColspan(realizarTransferencia, 3);
         }
@@ -249,7 +249,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                     }
                 }
             });
-            realizarTraspaso.addClassName("EnviarButton");
+            realizarTraspaso.addClassName("EnviarButtonMisCuentas");
             add(cuentaOrigen, cuentaDestino, concepto, importe, realizarTraspaso);
             setColspan(realizarTraspaso, 3);
         }
