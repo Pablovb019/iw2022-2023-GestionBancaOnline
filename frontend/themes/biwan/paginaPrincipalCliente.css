@@ -1,9 +1,10 @@
 .vlTablonAnuncios {
+    overflow-y: scroll;
     background: #D1FFD6;
     border: 3px solid black !important;
     padding: 20px;
-    min-width: fit-content;
     min-height: 500px;
+    max-height: 500px;
 }
 
 .BotonesOperaciones {
@@ -91,3 +92,23 @@ flow-container-root-2521314 {
     height: 100%;
     width: 100%;
 }
+
+.BotonesInfo {
+    color: #27AE60;
+    line-height: 3.3;
+}
+
+.hlAnuncio1Cliente, .hlAnuncio2Cliente{
+    align-items: center;
+}
+
+.TituloTextoAnuncio1, .TituloTextoAnuncio2 {
+    color: black;
+    font-size: 20px;
+}
+
+.TextoAnuncio1, .TextoAnuncio2 {
+    color: black;
+    font-size: 12px;
+}
+

@@ -35,15 +35,6 @@
     margin-top: -15px;
 }
 
-.TituloTextoAnuncio3{
-    color: black;
-}
-
-.TextoAnuncio3{
-    color: black;
-    margin-top: -15px;
-}
-
 .hlAnuncioPrincipal{
     margin-top: 20px;
 }
@@ -51,7 +42,6 @@
 .hlAnuncio1{
     margin-top: 30px;
     max-width: 80%;
-    align-self: center;
 }
 
 .hlAnuncio2{
