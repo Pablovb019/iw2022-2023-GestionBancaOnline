@@ -10,8 +10,6 @@ import com.vaadin.flow.router.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
-import java.awt.*;
-
 @Route("pagina-principal-cliente")
 @CssImport("/themes/biwan/paginaPrincipalCliente.css")
 @PageTitle("Página Principal Cliente")

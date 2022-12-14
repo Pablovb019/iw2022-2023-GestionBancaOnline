@@ -1,7 +1,7 @@
 .BotonesHazteCliente{
     background: #27AE60;
-    border: 2px solid black;
-    color: black;
+    border: 3px solid black;
+    color: white;
     font-size: large;
     height: 50px;
     width: 120px;
@@ -42,6 +42,7 @@
 .hlAnuncio1{
     margin-top: 30px;
     max-width: 80%;
+    align-self: center;
 }
 
 .hlAnuncio2{
