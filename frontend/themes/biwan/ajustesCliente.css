@@ -7,19 +7,23 @@
 }
 
 .Botones {
-    max-width: 31%;
+    max-width: 28%;
 }
 
 .BotonGuardar {
     background-color: #27AE60;
 }
 
-.BotonCancelar {
+.BotonAtras {
     color: #27AE60;
 }
 
 .vlTitulo {
     max-height: 50px;
+}
+
+.tituloColor {
+    color: black;
 }
 
 flow-container-root-2521314 {

@@ -1,0 +1,33 @@
+.Form {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    margin: 0 auto;
+    padding: 20px;
+    width: 800px;
+    align-self: center;
+    height: auto;
+}
+
+.guardar {
+    background-color: #27AE60;
+}
+
+.atras {
+    color: #27AE60;
+}
+
+.Buttons {
+    margin-top: 20px;
+}
+
+.colorTitulo {
+    color: black;
+}
+
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}

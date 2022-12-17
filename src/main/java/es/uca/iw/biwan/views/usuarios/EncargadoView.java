@@ -9,6 +9,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import es.uca.iw.biwan.views.noticiasOfertas.EditarNoticiaView;
+import es.uca.iw.biwan.views.noticiasOfertas.EditarOfertaView;
 
 @Route("pagina-principal-encargado")
 @CssImport("/themes/biwan/paginaPrincipalEncargado.css")
@@ -25,8 +27,8 @@ public class EncargadoView extends VerticalLayout {
         H1 Titulo = new H1("Bienvenido Encargado de Comunicaciones");
         H2 TituloTablonNoticias = new H2("Noticias");
         H2 TituloTablonOfertas = new H2("Ofertas");
-        Anchor AñadirNoticiaButton = new Anchor("", "Añadir Noticia");
-        Anchor AñadirOfertaButton = new Anchor("", "Añadir Oferta");
+        Anchor AñadirNoticiaButton = new Anchor("add-noticia-encargado", "Añadir Noticia");
+        Anchor AñadirOfertaButton = new Anchor("add-oferta-encargado", "Añadir Oferta");
 
         // CSS
         Titulo.addClassName("Titulo");
@@ -38,8 +40,8 @@ public class EncargadoView extends VerticalLayout {
         // Creacion de los tablones de noticias y ofertas
         // Noticias
         // Noticia 1
-        Anchor Noticia1EditarButton = new Anchor("", "Editar");
-        Anchor Noticia1EliminarButton = new Anchor("", "Eliminar");
+        Anchor Noticia1EditarButton = new Anchor("editar-noticia-encargado", "Editar");
+        Anchor Noticia1EliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
         Noticia1EditarButton.addClassName("EditarButtons");
         Noticia1EliminarButton.addClassName("EliminarButtons");
 
@@ -56,9 +58,19 @@ public class EncargadoView extends VerticalLayout {
         var vlNoticia1 = new VerticalLayout(TituloNoticia1, TextoNoticia1);
         var hlNoticia1 = new HorizontalLayout(vlNoticia1, Noticia1EditarButton, Noticia1EliminarButton);
 
+        // Listener para el boton de editar
+        Noticia1EditarButton.getElement().addEventListener("click", e -> {
+            EditarNoticiaView.setTituloDescripcion(TituloNoticia1.getText(), TextoNoticia1.getText());
+        });
+
+        // Listener para el boton de eliminar
+        Noticia1EliminarButton.getElement().addEventListener("click", e -> {
+            hlNoticia1.removeAll();
+        });
+
         // Noticia 2
-        Anchor Noticia2EditarButton = new Anchor("", "Editar");
-        Anchor Noticia2EliminarButton = new Anchor("", "Eliminar");
+        Anchor Noticia2EditarButton = new Anchor("editar-noticia-encargado", "Editar");
+        Anchor Noticia2EliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
         Noticia2EditarButton.addClassName("EditarButtons");
         Noticia2EliminarButton.addClassName("EliminarButtons");
 
@@ -75,6 +87,16 @@ public class EncargadoView extends VerticalLayout {
         var vlNoticia2 = new VerticalLayout(TituloNoticia2, TextoNoticia2);
         var hlNoticia2 = new HorizontalLayout(vlNoticia2, Noticia2EditarButton, Noticia2EliminarButton);
 
+        // Listener para el boton de editar
+        Noticia2EditarButton.getElement().addEventListener("click", e -> {
+            EditarNoticiaView.setTituloDescripcion(TituloNoticia2.getText(), TextoNoticia2.getText());
+        });
+
+        // Listener para el boton de eliminar
+        Noticia2EliminarButton.getElement().addEventListener("click", e -> {
+            hlNoticia2.removeAll();
+        });
+
         var vlTituloTablonNoticias = new VerticalLayout(TituloTablonNoticias);
         vlTituloTablonNoticias.setAlignItems(Alignment.CENTER);
         vlTituloTablonNoticias.getStyle().set("color", "black");
@@ -83,8 +105,8 @@ public class EncargadoView extends VerticalLayout {
 
         // Ofertas
         // Oferta 1
-        Anchor Oferta1EditarButton = new Anchor("", "Editar");
-        Anchor Oferta1EliminarButton = new Anchor("", "Eliminar");
+        Anchor Oferta1EditarButton = new Anchor("editar-oferta-encargado", "Editar");
+        Anchor Oferta1EliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
         Oferta1EditarButton.addClassName("EditarButtons");
         Oferta1EliminarButton.addClassName("EliminarButtons");
 
@@ -102,9 +124,19 @@ public class EncargadoView extends VerticalLayout {
         var vlOferta1 = new VerticalLayout(TituloOferta1, TextoOferta1);
         var hlOferta1 = new HorizontalLayout(vlOferta1, Oferta1EditarButton, Oferta1EliminarButton);
 
+        // Listener para el boton de editar
+        Oferta1EditarButton.getElement().addEventListener("click", e -> {
+            EditarOfertaView.setTituloDescripcion(TituloOferta1.getText(), TextoOferta1.getText());
+        });
+
+        // Listener para el boton de eliminar
+        Oferta1EliminarButton.getElement().addEventListener("click", e -> {
+            hlOferta1.removeAll();
+        });
+
         // Oferta 2
-        Anchor Oferta2EditarButton = new Anchor("", "Editar");
-        Anchor Oferta2EliminarButton = new Anchor("", "Eliminar");
+        Anchor Oferta2EditarButton = new Anchor("editar-oferta-encargado", "Editar");
+        Anchor Oferta2EliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
         Oferta2EditarButton.addClassName("EditarButtons");
         Oferta2EliminarButton.addClassName("EliminarButtons");
 
@@ -121,6 +153,16 @@ public class EncargadoView extends VerticalLayout {
 
         var vlOferta2 = new VerticalLayout(TituloOferta2, TextoOferta2);
         var hlOferta2 = new HorizontalLayout(vlOferta2, Oferta2EditarButton, Oferta2EliminarButton);
+
+        // Listener para el boton de editar
+        Oferta2EditarButton.getElement().addEventListener("click", e -> {
+            EditarOfertaView.setTituloDescripcion(TituloOferta2.getText(), TextoOferta2.getText());
+        });
+
+        // Listener para el boton de eliminar
+        Oferta2EliminarButton.getElement().addEventListener("click", e -> {
+            hlOferta2.removeAll();
+        });
 
         var vlTituloTablonOfertas = new VerticalLayout(TituloTablonOfertas);
         vlTituloTablonOfertas.setAlignItems(Alignment.CENTER);

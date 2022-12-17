@@ -1,0 +1,33 @@
+.title {
+    color: black;
+}
+
+.form {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    margin: 0 auto;
+    padding: 20px;
+    width: 800px;
+    align-self: center;
+    height: auto;
+}
+
+.save {
+    background-color: #27AE60;
+}
+
+.back {
+    color: #27AE60;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}

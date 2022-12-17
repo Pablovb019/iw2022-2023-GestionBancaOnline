@@ -1,6 +1,7 @@
 package es.uca.iw.biwan.views.usuarios.ajustesCliente;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -29,7 +30,7 @@ public class AjustesClienteView extends VerticalLayout {
     private EmailField email = new EmailField("Correo Electrónico");
     private PasswordField password = new PasswordField("Contraseña");
     private PasswordField confirmPassword = new PasswordField("Confirmar contraseña");
-    private Button cancel = new Button("Cancelar");
+    private Button atras = new Button("Atrás");
     private Button save = new Button("Guardar");
 
     public AjustesClienteView(){
@@ -44,6 +45,7 @@ public class AjustesClienteView extends VerticalLayout {
         VerticalLayout vlTitulo = new VerticalLayout(titulo);
         vlTitulo.setAlignItems(Alignment.CENTER);
         vlTitulo.addClassName("vlTitulo");
+        titulo.addClassName("tituloColor");
         return vlTitulo;
     }
 
@@ -58,14 +60,18 @@ public class AjustesClienteView extends VerticalLayout {
 
     private Component crearBotones() {
         save.addClassName("BotonGuardar");
-        cancel.addClassName("BotonCancelar");
+        atras.addClassName("BotonAtras");
         HorizontalLayout hlButtons = new HorizontalLayout();
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         hlButtons.add(save);
-        hlButtons.add(cancel);
+        hlButtons.add(atras);
         VerticalLayout vlButtons = new VerticalLayout(hlButtons);
         vlButtons.setAlignItems(Alignment.CENTER);
         vlButtons.addClassName("Botones");
+        // Evento para volver a la pagina principal
+        atras.getElement().addEventListener("click", e -> {
+            UI.getCurrent().navigate("pagina-principal-cliente");
+        });
         return vlButtons;
     }
 }
