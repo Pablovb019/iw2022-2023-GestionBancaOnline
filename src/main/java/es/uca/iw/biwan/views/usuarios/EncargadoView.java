@@ -65,7 +65,7 @@ public class EncargadoView extends VerticalLayout {
 
         // Listener para el boton de eliminar
         Noticia1EliminarButton.getElement().addEventListener("click", e -> {
-            hlNoticia1.removeAll();
+            hlNoticia1.setVisible(false);
         });
 
         // Noticia 2
@@ -94,7 +94,7 @@ public class EncargadoView extends VerticalLayout {
 
         // Listener para el boton de eliminar
         Noticia2EliminarButton.getElement().addEventListener("click", e -> {
-            hlNoticia2.removeAll();
+            hlNoticia2.setVisible(false);
         });
 
         var vlTituloTablonNoticias = new VerticalLayout(TituloTablonNoticias);
@@ -131,7 +131,7 @@ public class EncargadoView extends VerticalLayout {
 
         // Listener para el boton de eliminar
         Oferta1EliminarButton.getElement().addEventListener("click", e -> {
-            hlOferta1.removeAll();
+            hlOferta1.setVisible(false);
         });
 
         // Oferta 2
@@ -161,7 +161,7 @@ public class EncargadoView extends VerticalLayout {
 
         // Listener para el boton de eliminar
         Oferta2EliminarButton.getElement().addEventListener("click", e -> {
-            hlOferta2.removeAll();
+            hlOferta2.setVisible(false);
         });
 
         var vlTituloTablonOfertas = new VerticalLayout(TituloTablonOfertas);
