@@ -8,6 +8,7 @@
     "@polymer/iron-meta": "3.0.1",
     "@polymer/iron-resizable-behavior": "3.0.1",
     "@polymer/polymer": "3.5.1",
+    "@vaadin-component-factory/vcf-toggle-button": "1.0.3",
     "@vaadin/accordion": "23.2.6",
     "@vaadin/app-layout": "23.2.6",
     "@vaadin/avatar": "23.2.6",
@@ -255,6 +256,7 @@
     "@polymer/polymer": "$@polymer/polymer",
     "proj4": "$proj4",
     "date-fns": "$date-fns",
+    "@vaadin-component-factory/vcf-toggle-button": "$@vaadin-component-factory/vcf-toggle-button",
     "line-awesome": "$line-awesome"
   },
   "vaadin": {
@@ -265,6 +267,7 @@
       "@polymer/iron-meta": "3.0.1",
       "@polymer/iron-resizable-behavior": "3.0.1",
       "@polymer/polymer": "3.5.1",
+      "@vaadin-component-factory/vcf-toggle-button": "1.0.3",
       "@vaadin/accordion": "23.2.6",
       "@vaadin/app-layout": "23.2.6",
       "@vaadin/avatar": "23.2.6",
@@ -393,6 +396,6 @@
       "workbox-core": "6.5.0",
       "workbox-precaching": "6.5.0"
     },
-    "hash": "ac93c4ae0c58e8801b03c1370a1a15003b974e7c4f4f5d30c7e04b57b8940e8e"
+    "hash": "9d0895f20fc4bee641389f2161a7f3dc990fe7c62d5d3b2c134ea3174690d84d"
   }
 }

@@ -1,0 +1,21 @@
+.TituloPrincipalCuentaTarjeta {
+    font-weight: bold;
+    text-align: center;
+}
+
+.TituloSecundarioCuentaTarjeta{
+    text-align: center;
+}
+
+.TablaCuentaTarjeta  {
+    margin: 20px;
+    border-radius: 10px;
+    max-width: 95%;
+}
+
+
+.hlCuentasTarjetas {
+    margin-bottom: auto;
+    margin-top: auto;
+    align-self: center;
+}
