@@ -13,37 +13,12 @@
     text-decoration: none !important;
 }
 
-.searchField{
-    padding: 0;
-    background: white;
-    border: 3px solid black !important;
-}
-
 /*vaadin-text-field.vaadin-icon {
     color: firebrick;
 }*/
 
 ::part(reveal-button) {
     color: #27AE60;
-}
-
-vaadin-button#text {
-    all: unset;
-    color: black;
-}
-
-.searchButton {
-    background: #27AE60;
-    height: 42px;
-    width: 60px;
-    border: 3px solid black !important;
-    border-radius: 0;
-    position: relative;
-    right: 0.35cm;
-}
-
-.iconBusqueda {
-    color: white;
 }
 
 .iconAjustesUsuario {
@@ -53,10 +28,6 @@ vaadin-button#text {
 .PaginaPrincipalIcon {
     position: relative;
     bottom: 5px;
-}
-
-vaadin-button.tittleBiwan::after {
-    transition: none;
 }
 
 .Anchor {

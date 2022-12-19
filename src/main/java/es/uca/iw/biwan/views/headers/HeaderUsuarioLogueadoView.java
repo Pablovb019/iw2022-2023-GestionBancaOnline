@@ -34,10 +34,7 @@ public class HeaderUsuarioLogueadoView {
         Anchor ConsultasOnlineMenuItem = new Anchor("consultas-online-gestor", "Consultas Online");
         Anchor ConsultasOfflineMenuItem = new Anchor("consultas-offline-gestor", "Consultas Offline");
         MenuBar MenuPrincipal = new MenuBar();
-        TextField SearchField = new TextField();
-        Button SearchButton = new Button();
         Icon iconMenu = new Icon(VaadinIcon.MENU);
-        Icon iconBusqueda = new Icon(VaadinIcon.SEARCH);
         Icon iconAjustesUsuario = new Icon(VaadinIcon.USER_CHECK);
         Icon PaginaPrincipalIcon = new Icon(VaadinIcon.HOME);
         //CuentasTarjetasButton.addClickListener(e -> CuentasTarjetasButton.getUI().ifPresent(ui -> ui.navigate("")));
@@ -47,13 +44,9 @@ public class HeaderUsuarioLogueadoView {
         header.addClassName("header_footer");
         PaginaPrincipalAnchor.addClassName("Anchor");
         MasInfo.addClassName("Anchor");
-        SearchButton.addClassName("vaadin-button");
         AjustesUsuario.addClassName("AnchorAjustesUsuario");
         headerRight.addClassName("HeaderSpacing");
         headerLeft.addClassName("HeaderSpacing");
-        SearchField.addClassName("searchField");
-        SearchButton.addClassName("searchButton");
-        iconBusqueda.addClassName("iconBusqueda");
         iconAjustesUsuario.addClassName("iconAjustesUsuario");
         PaginaPrincipalIcon.addClassName("PaginaPrincipalIcon");
         CuentasTarjetasMenuItem.addClassName("AnchorMenuItem");
@@ -77,13 +70,9 @@ public class HeaderUsuarioLogueadoView {
         //ADD HEADERS
         header.add(headerLeft, headerMiddle, headerRight);
         headerLeft.add(Titulo, PaginaPrincipalAnchor, MasInfo);
-        headerMiddle.add(SearchField, SearchButton);
         headerRight.add(AjustesUsuario, iconAjustesUsuario, MenuPrincipal);
 
         //ADJUSTMENTS
-        SearchField.setPlaceholder("Search");
-        SearchField.setClearButtonVisible(true);
-        SearchButton.setIcon(iconBusqueda);
         AjustesUsuario.addComponentAtIndex(1, iconAjustesUsuario);
         PaginaPrincipalAnchor.addComponentAsFirst(PaginaPrincipalIcon);
         iconMenu.getElement().setAttribute("part", "iconMenu");
@@ -92,7 +81,7 @@ public class HeaderUsuarioLogueadoView {
         //ALIGNMENT
         header.setWidth("100%");
         header.setVerticalComponentAlignment(FlexComponent.Alignment.END, PaginaPrincipalAnchor, MasInfo);
-        header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Titulo, SearchField, SearchButton, AjustesUsuario);
+        header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Titulo, AjustesUsuario);
         headerLeft.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         headerMiddle.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         headerRight.setJustifyContentMode(FlexComponent.JustifyContentMode.END);

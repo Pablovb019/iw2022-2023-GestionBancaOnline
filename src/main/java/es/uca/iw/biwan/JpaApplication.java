@@ -6,6 +6,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * The entry point of the Spring Boot application.
@@ -15,12 +16,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
+@EnableJpaRepositories
 @Theme(value = "biwan")
 @PWA(name = "Biwan", shortName = "Biwan", offlineResources = {})
 @NpmPackage(value = "line-awesome", version = "1.3.0")
-public class Application implements AppShellConfigurator {
+public class JpaApplication implements AppShellConfigurator {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(JpaApplication.class, args);
     }
 }

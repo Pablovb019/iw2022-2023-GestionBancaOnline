@@ -40,7 +40,7 @@ public class EditarOfertaView extends VerticalLayout {
     }
 
     private Component crearTitulo() {
-        var titulo = new H2("Editar Noticia");
+        var titulo = new H2("Editar Oferta");
         VerticalLayout vlTitulo = new VerticalLayout(titulo);
         vlTitulo.setAlignItems(FlexComponent.Alignment.CENTER);
         titulo.addClassName("titleEditar");

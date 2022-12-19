@@ -32,10 +32,7 @@ public class HeaderView {
         Anchor ConsultasOnlineMenuItem = new Anchor("consultas-online-gestor", "Consultas Online");
         Anchor ConsultasOfflineMenuItem = new Anchor("consultas-offline-gestor", "Consultas Offline");
         MenuBar MenuPrincipal = new MenuBar();
-        TextField SearchField = new TextField();
-        Button SearchButton = new Button();
         Icon iconMenu = new Icon(VaadinIcon.MENU);
-        Icon iconBusqueda = new Icon(VaadinIcon.SEARCH);
         Icon iconHazteCliente = new Icon(VaadinIcon.USER);
         Icon PaginaPrincipalIcon = new Icon(VaadinIcon.HOME);
         //CuentasTarjetasButton.addClickListener(e -> CuentasTarjetasButton.getUI().ifPresent(ui -> ui.navigate("")));
@@ -45,14 +42,10 @@ public class HeaderView {
         header.addClassName("header_footer");
         PaginaPrincipalAnchor.addClassName("Anchor");
         MasInfo.addClassName("Anchor");
-        SearchButton.addClassName("vaadin-button");
         HazteCliente.addClassName("AnchorHazteCliente");
         Acceso.addClassName("AnchorAcceso");
         headerRight.addClassName("HeaderSpacing");
         headerLeft.addClassName("HeaderSpacing");
-        SearchField.addClassName("searchField");
-        SearchButton.addClassName("searchButton");
-        iconBusqueda.addClassName("iconBusqueda");
         iconHazteCliente.addClassName("iconHazteCliente");
         PaginaPrincipalIcon.addClassName("PaginaPrincipalIcon");
         CuentasTarjetasMenuItem.addClassName("AnchorMenuItem");
@@ -76,13 +69,9 @@ public class HeaderView {
         //ADD HEADERS
         header.add(headerLeft, headerMiddle, headerRight);
         headerLeft.add(Titulo, PaginaPrincipalAnchor, MasInfo);
-        headerMiddle.add(SearchField, SearchButton);
         headerRight.add(HazteCliente, Acceso, MenuPrincipal);
 
         //ADJUSTMENTS
-        SearchField.setPlaceholder("Search");
-        SearchField.setClearButtonVisible(true);
-        SearchButton.setIcon(iconBusqueda);
         PaginaPrincipalAnchor.addComponentAsFirst(PaginaPrincipalIcon);
         HazteCliente.addComponentAsFirst(iconHazteCliente);
         iconMenu.getElement().setAttribute("part", "iconMenu");
@@ -91,7 +80,7 @@ public class HeaderView {
         //ALIGNMENT
         header.setWidth("100%");
         header.setVerticalComponentAlignment(FlexComponent.Alignment.END, PaginaPrincipalAnchor, MasInfo);
-        header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Titulo, SearchField, SearchButton, HazteCliente, Acceso);
+        header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Titulo, HazteCliente, Acceso);
         headerLeft.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         headerMiddle.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         headerRight.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
