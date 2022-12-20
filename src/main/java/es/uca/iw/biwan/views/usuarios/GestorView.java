@@ -49,7 +49,7 @@ public class GestorView extends VerticalLayout {
         HorizontalLayout layoutComponenteTabla = new HorizontalLayout();
         H1 Titulo = new H1("Bienvenido Gestor");
         Anchor NombreCliente = new Anchor("", "Jose Antonio Alonso de la Huerta");
-        Anchor CuentasYTarjetasButton = new Anchor("", "Cuentas y tarjetas");
+        Anchor CuentasYTarjetasButton = new Anchor("cuentas-tarjetas-gestor", "Cuentas y tarjetas");
         Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
         Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
         Span counterOnline = new Span("1");

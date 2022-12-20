@@ -2,6 +2,7 @@ package es.uca.iw.biwan.views.cuentasTarjetasCliente;
 
 import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
@@ -14,13 +15,14 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 @Route("cuentas-tarjetas-cliente")
 @CssImport("/themes/biwan/cuentasTarjetasCliente.css")
