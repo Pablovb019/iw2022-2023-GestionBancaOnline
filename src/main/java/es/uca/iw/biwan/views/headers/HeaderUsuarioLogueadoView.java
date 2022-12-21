@@ -9,14 +9,14 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import es.uca.iw.biwan.domain.usuarios.Persona;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 
 @CssImport("./themes/biwan/headerUsuarioLogueado.css")
 public class HeaderUsuarioLogueadoView {
     public static HorizontalLayout Header() {
 
         //NEW
-        Persona persona;
+        Usuario user;
         HorizontalLayout header = new HorizontalLayout();
         HorizontalLayout headerLeft = new HorizontalLayout();
         HorizontalLayout headerMiddle = new HorizontalLayout();

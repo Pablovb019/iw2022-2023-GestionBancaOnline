@@ -15,6 +15,7 @@ import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -180,7 +181,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         ComboBox<Cliente> comboBoxCliente = new ComboBox<>();
         comboBoxCliente.setLabel("Cliente");
         comboBoxCliente.setItems(clientes);
-        comboBoxCliente.setItemLabelGenerator(Cliente::getNombre);
+        comboBoxCliente.setItemLabelGenerator(Usuario::getNombre);
         comboBoxCliente.setClearButtonVisible(true);
         comboBoxCliente.setRequired(true);
         comboBoxCliente.setRequiredIndicatorVisible(true);

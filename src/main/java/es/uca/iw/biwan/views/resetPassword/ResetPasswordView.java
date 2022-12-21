@@ -14,12 +14,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @CssImport("./themes/biwan/resetPassword.css")
 @PageTitle("Restablecer contraseña")
 @Route("reset-password")
+@AnonymousAllowed
 public class ResetPasswordView extends VerticalLayout {
 
     private final FormLayout registration = new FormLayout();

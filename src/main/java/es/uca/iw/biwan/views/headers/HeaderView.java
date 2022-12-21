@@ -11,7 +11,10 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
+
 @CssImport("./themes/biwan/header.css")
+@AnonymousAllowed
 public class HeaderView {
     public static HorizontalLayout Header() {
 

@@ -16,19 +16,26 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.usuarios.Persona;
+import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @CssImport("./themes/biwan/registration.css")
 @PageTitle("Formulario de registro")
 @Route("registration")
+@AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final FormLayout registration = new FormLayout();
 
@@ -92,10 +99,10 @@ public class RegistrationView extends VerticalLayout {
                 error.open();
             } else {
                 if (password.getValue().equals(confirmPassword.getValue())) {
-                    Persona persona = new Persona(firstName.getValue(), lastName.getValue(), birthDate.getValue(), phoneNumber.getValue(), dni.getValue(), email.getValue(), password.getValue());
+                    Usuario user = new Usuario(firstName.getValue(), lastName.getValue(), birthDate.getValue(), phoneNumber.getValue(), dni.getValue(), email.getValue(), Role.CLIENTE, passwordEncoder.encode(password.getValue()));
 
                     ConfirmDialog confirmRequest = new ConfirmDialog("Crear Solicitud", "¿Desea crear la solicitud? Los datos no podrán ser modificados", "Aceptar", event1 -> {
-                        CreateRequest(persona);
+                        CreateRequest(user);
                     });
                     confirmRequest.open();
                 } else {
@@ -108,9 +115,9 @@ public class RegistrationView extends VerticalLayout {
         return formLayout;
     }
 
-    private void CreateRequest(Persona persona) {
+    private void CreateRequest(Usuario user) {
         try {
-            usuarioService.save(persona);
+            usuarioService.save(user);
             ConfirmDialog confirmRequest = new ConfirmDialog("Solicitud creada", "La solicitud ha sido creada correctamente", "Aceptar", event1 -> {
                 UI.getCurrent().navigate("");
             });

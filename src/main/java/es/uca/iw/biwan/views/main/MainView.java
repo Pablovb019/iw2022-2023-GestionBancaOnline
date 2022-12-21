@@ -7,12 +7,14 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @PageTitle("Main")
 @Route("")
 @CssImport("./themes/biwan/main.css")
+@AnonymousAllowed
 public class MainView extends VerticalLayout {
     public MainView() {
         add(HeaderView.Header());

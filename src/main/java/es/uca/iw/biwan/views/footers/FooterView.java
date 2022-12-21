@@ -5,7 +5,10 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
+
 @CssImport("./themes/biwan/footer.css")
+@AnonymousAllowed
 public class FooterView {
     public static HorizontalLayout Footer() {
 
