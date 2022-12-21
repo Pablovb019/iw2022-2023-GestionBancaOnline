@@ -22,6 +22,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 @Route("cuentas-tarjetas-gestor")
@@ -171,7 +173,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         // Generate numClientes Clientes with random data
         List<Cliente> clientes = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            clientes.add(new Cliente(RandomStringUtils.randomAlphabetic(10), RandomStringUtils.randomAlphabetic(20) + " " + RandomStringUtils.randomAlphabetic(20), new Date(Math.abs(System.currentTimeMillis() - new Random().nextLong())), Integer.parseInt(RandomStringUtils.randomNumeric(9)), Integer.parseInt(RandomStringUtils.randomNumeric(8)) + RandomStringUtils.randomAlphabetic(1).toUpperCase(), RandomStringUtils.randomAlphanumeric(20) + "@gmail.com", new SecureRandom().ints(10, '!', '}').collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString()));
+            clientes.add(new Cliente(RandomStringUtils.randomAlphabetic(10), RandomStringUtils.randomAlphabetic(20) + " " + RandomStringUtils.randomAlphabetic(20), new Date(Math.abs(System.currentTimeMillis() - new Random().nextLong())).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), Integer.parseInt(RandomStringUtils.randomNumeric(9)), Integer.parseInt(RandomStringUtils.randomNumeric(8)) + RandomStringUtils.randomAlphabetic(1).toUpperCase(), RandomStringUtils.randomAlphanumeric(20) + "@gmail.com", new SecureRandom().ints(10, '!', '}').collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString()));
         }
 
         // Create a combo box with the clientes

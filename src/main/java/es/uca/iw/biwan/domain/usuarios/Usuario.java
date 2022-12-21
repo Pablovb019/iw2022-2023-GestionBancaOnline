@@ -1,7 +1,7 @@
 package es.uca.iw.biwan.domain.usuarios;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -12,13 +12,13 @@ public class Usuario {
     private UUID id;
     private String nombre;
     private String apellidos;
-    private Date fechaNacimiento;
-    private int telefono;
+    private LocalDate fechaNacimiento;
+    private Double telefono;
     private String dni;
     private String email;
     private String password;
 
-    public Usuario(String nombre, String apellidos, Date fechaNacimiento, int telefono, String dni, String email, String password) {
+    public Usuario(String nombre, String apellidos, LocalDate fechaNacimiento, double telefono, String dni, String email, String password) {
         this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -29,7 +29,8 @@ public class Usuario {
         this.password = password;
     }
 
-    public Usuario() {
+    public UUID getId() {
+        return id;
     }
 
     public String getNombre() { return nombre; }
@@ -38,11 +39,11 @@ public class Usuario {
     public String getApellidos() { return apellidos; }
     public void setApellidos(String apellidos) { this.apellidos = apellidos; }
 
-    public Date getFechaNacimiento() { return fechaNacimiento; }
-    public void setFechaNacimiento(Date fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
 
-    public int getTelefono() { return telefono; }
-    public void setTelefono(int telefono) { this.telefono = telefono; }
+    public Double getTelefono() { return telefono; }
+    public void setTelefono(Double telefono) { this.telefono = telefono; }
 
     public String getDni() { return dni;}
     public void setDni(String dni) { this.dni = dni; }

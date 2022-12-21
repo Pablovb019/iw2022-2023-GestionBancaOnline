@@ -1,7 +1,9 @@
 package es.uca.iw.biwan.views.registration;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -14,13 +16,19 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import es.uca.iw.biwan.aplication.service.UsuarioService;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @CssImport("/themes/biwan/registration.css")
 @PageTitle("Formulario de registro")
 @Route("registration")
 public class RegistrationView extends VerticalLayout {
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     private final FormLayout registration = new FormLayout();
 
@@ -78,7 +86,40 @@ public class RegistrationView extends VerticalLayout {
         formLayout.setColspan(email, 2); // Stretch the email field over 2 columns
         setSizeFull();
 
+        submit.addClickListener(event -> {
+            if (firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || dni.isEmpty() || birthDate.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                ConfirmDialog error = new ConfirmDialog("Error", "Rellena todos los campos", "Aceptar", null);
+                error.open();
+            } else {
+                if (password.getValue().equals(confirmPassword.getValue())) {
+                    Usuario usuario = new Usuario(firstName.getValue(), lastName.getValue(), birthDate.getValue(), phoneNumber.getValue(), dni.getValue(), email.getValue(), password.getValue());
+
+                    ConfirmDialog confirmRequest = new ConfirmDialog("Crear Solicitud", "¿Desea crear la solicitud? Los datos no podrán ser modificados", "Aceptar", event1 -> {
+                        CreateRequest(usuario);
+                    });
+                    confirmRequest.open();
+                } else {
+                    ConfirmDialog passwordError = new ConfirmDialog("Error", "Las contraseñas no coinciden", "Aceptar", event1 -> {
+                    });
+                    passwordError.open();
+                }
+            }
+        });
         return formLayout;
+    }
+
+    private void CreateRequest(Usuario usuario) {
+        try {
+            usuarioService.save(usuario);
+            ConfirmDialog confirmRequest = new ConfirmDialog("Solicitud creada", "La solicitud ha sido creada correctamente", "Aceptar", event1 -> {
+                UI.getCurrent().navigate("");
+            });
+            confirmRequest.open();
+        } catch (Exception e) {
+            ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud.\n" +
+                    "Error: " + e, "Aceptar", null);
+            error.open();
+        }
     }
 
 }
