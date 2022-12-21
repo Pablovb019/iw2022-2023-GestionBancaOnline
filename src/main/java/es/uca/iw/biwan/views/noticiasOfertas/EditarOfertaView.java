@@ -19,7 +19,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("editar-oferta-encargado")
 @PageTitle("Editar Oferta")
-@CssImport("/themes/biwan/editarOferta.css")
+@CssImport("./themes/biwan/editarOferta.css")
 public class EditarOfertaView extends VerticalLayout {
     private static TextField titulo = new TextField("Título");
     private static TextArea descripcion = new TextArea("Descripción");

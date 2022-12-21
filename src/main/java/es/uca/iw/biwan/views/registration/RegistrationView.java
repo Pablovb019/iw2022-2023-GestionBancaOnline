@@ -17,12 +17,12 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.Persona;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@CssImport("/themes/biwan/registration.css")
+@CssImport("./themes/biwan/registration.css")
 @PageTitle("Formulario de registro")
 @Route("registration")
 public class RegistrationView extends VerticalLayout {
@@ -92,10 +92,10 @@ public class RegistrationView extends VerticalLayout {
                 error.open();
             } else {
                 if (password.getValue().equals(confirmPassword.getValue())) {
-                    Usuario usuario = new Usuario(firstName.getValue(), lastName.getValue(), birthDate.getValue(), phoneNumber.getValue(), dni.getValue(), email.getValue(), password.getValue());
+                    Persona persona = new Persona(firstName.getValue(), lastName.getValue(), birthDate.getValue(), phoneNumber.getValue(), dni.getValue(), email.getValue(), password.getValue());
 
                     ConfirmDialog confirmRequest = new ConfirmDialog("Crear Solicitud", "¿Desea crear la solicitud? Los datos no podrán ser modificados", "Aceptar", event1 -> {
-                        CreateRequest(usuario);
+                        CreateRequest(persona);
                     });
                     confirmRequest.open();
                 } else {
@@ -108,9 +108,9 @@ public class RegistrationView extends VerticalLayout {
         return formLayout;
     }
 
-    private void CreateRequest(Usuario usuario) {
+    private void CreateRequest(Persona persona) {
         try {
-            usuarioService.save(usuario);
+            usuarioService.save(persona);
             ConfirmDialog confirmRequest = new ConfirmDialog("Solicitud creada", "La solicitud ha sido creada correctamente", "Aceptar", event1 -> {
                 UI.getCurrent().navigate("");
             });

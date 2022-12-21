@@ -11,7 +11,7 @@ import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
-@CssImport("/themes/biwan/paginaPrincipalGestor.css")
+@CssImport("./themes/biwan/paginaPrincipalGestor.css")
 @PageTitle("Página Principal Gestor")
 @Route("pagina-principal-gestor")
 public class GestorView extends VerticalLayout {

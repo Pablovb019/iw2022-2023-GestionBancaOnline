@@ -13,7 +13,7 @@ import es.uca.iw.biwan.views.consultasOnline.gestor.ConsultasOnlineGestorView;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
-@CssImport("/themes/biwan/consultasOfflineGestor.css")
+@CssImport("./themes/biwan/consultasOfflineGestor.css")
 @PageTitle("Consultas Offline")
 @Route("consultas-offline-gestor")
 public class ConsultasOfflineGestorView extends VerticalLayout {

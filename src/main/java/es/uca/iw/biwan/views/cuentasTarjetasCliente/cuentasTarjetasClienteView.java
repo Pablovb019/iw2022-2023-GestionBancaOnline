@@ -25,8 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Route("cuentas-tarjetas-cliente")
-@CssImport("/themes/biwan/cuentasTarjetasCliente.css")
-@CssImport(value = "styles/components/vaadin-checkbox.css", themeFor = "vaadin-checkbox")
+@CssImport("./themes/biwan/cuentasTarjetasCliente.css")
+@CssImport(value = "./styles/components/vaadin-checkbox.css", themeFor = "vaadin-checkbox")
 @PageTitle("Cuentas y Tarjetas")
 
 public class cuentasTarjetasClienteView extends VerticalLayout {

@@ -13,7 +13,7 @@ import es.uca.iw.biwan.views.noticiasOfertas.EditarNoticiaView;
 import es.uca.iw.biwan.views.noticiasOfertas.EditarOfertaView;
 
 @Route("pagina-principal-encargado")
-@CssImport("/themes/biwan/paginaPrincipalEncargado.css")
+@CssImport("./themes/biwan/paginaPrincipalEncargado.css")
 @PageTitle("Página Principal Encargado de Comunicaciones")
 public class EncargadoView extends VerticalLayout {
     public EncargadoView(){

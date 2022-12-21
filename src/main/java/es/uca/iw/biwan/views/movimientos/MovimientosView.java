@@ -41,7 +41,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @PageTitle("Movimientos")
 @Route("movimientos")
-@CssImport("/themes/biwan/movimientos.css")
+@CssImport("./themes/biwan/movimientos.css")
 public class MovimientosView extends VerticalLayout {
 
     public MovimientosView() {

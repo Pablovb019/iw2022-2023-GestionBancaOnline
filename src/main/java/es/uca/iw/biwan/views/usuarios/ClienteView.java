@@ -11,7 +11,7 @@ import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("pagina-principal-cliente")
-@CssImport("/themes/biwan/paginaPrincipalCliente.css")
+@CssImport("./themes/biwan/paginaPrincipalCliente.css")
 @PageTitle("Página Principal Cliente")
 public class ClienteView extends VerticalLayout {
     public ClienteView(){

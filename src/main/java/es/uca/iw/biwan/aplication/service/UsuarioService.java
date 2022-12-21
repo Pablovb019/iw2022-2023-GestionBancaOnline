@@ -1,7 +1,7 @@
 package es.uca.iw.biwan.aplication.service;
 
 import es.uca.iw.biwan.aplication.repository.UsuarioRepository;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.Persona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void save(Usuario usuario) {
-        usuarioRepository.insertarUsuario(usuario.getId(), usuario.getNombre(), usuario.getApellidos(), usuario.getFechaNacimiento(), usuario.getTelefono(), usuario.getDni(), usuario.getEmail(), usuario.getPassword());
+    public void save(Persona persona) {
+        usuarioRepository.insertarUsuario(persona.getId(), persona.getNombre(), persona.getApellidos(), persona.getFechaNacimiento(), persona.getTelefono(), persona.getDni(), persona.getEmail(), persona.getPassword());
     }
 }

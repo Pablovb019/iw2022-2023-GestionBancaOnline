@@ -25,7 +25,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @PageTitle("Transferencias y Traspasos")
 @Route("transferencias-traspasos")
-@CssImport("/themes/biwan/transferenciasTraspasos.css")
+@CssImport("./themes/biwan/transferenciasTraspasos.css")
 public class TransferenciasTraspasosView extends VerticalLayout {
 
     public TransferenciasTraspasosView() {

@@ -18,7 +18,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("add-oferta-encargado")
 @PageTitle("Añadir Noticia")
-@CssImport("/themes/biwan/addOferta.css")
+@CssImport("./themes/biwan/addOferta.css")
 public class AddOfertaView extends VerticalLayout {
     private TextField titulo = new TextField("Título");
     private TextArea descripcion = new TextArea("Descripción");

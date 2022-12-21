@@ -1,56 +1,82 @@
 package es.uca.iw.biwan.domain.usuarios;
 
-import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.UUID;
+import es.uca.iw.biwan.domain.AbstractEntity;
+import es.uca.iw.biwan.domain.rol.Role;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+
+import javax.persistence.Entity;
 
 @Entity
-public class Usuario {
-    @Id
-    @GeneratedValue
-    @Column(length = 16)
-    private UUID id;
-    private String nombre;
-    private String apellidos;
-    private LocalDate fechaNacimiento;
-    private Double telefono;
-    private String dni;
-    private String email;
-    private String password;
+public class Usuario extends AbstractEntity {
 
-    public Usuario(String nombre, String apellidos, LocalDate fechaNacimiento, double telefono, String dni, String email, String password) {
-        this.id = UUID.randomUUID();
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.fechaNacimiento = fechaNacimiento;
-        this.telefono = telefono;
-        this.dni = dni;
-        this.email = email;
-        this.password = password;
+    private String username;
+    private String passwordSalt;
+    private String passwordHash;
+    private Role role;
+    private String activationCode;
+    private boolean active;
+
+    public Usuario() {
     }
 
-    public UUID getId() {
-        return id;
+    public Usuario(String username, String password, Role role) {
+        this.username = username;
+        this.role = role;
+        this.passwordSalt = RandomStringUtils.random(32);
+        this.passwordHash = DigestUtils.sha1Hex(password + passwordSalt);
+        this.activationCode = RandomStringUtils.randomAlphanumeric(32);
     }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public boolean checkPassword(String password) {
+        return DigestUtils.sha1Hex(password + passwordSalt).equals(passwordHash);
+    }
 
-    public String getApellidos() { return apellidos; }
-    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+    public String getUsername() {
+        return username;
+    }
 
-    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
-    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public Double getTelefono() { return telefono; }
-    public void setTelefono(Double telefono) { this.telefono = telefono; }
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
 
-    public String getDni() { return dni;}
-    public void setDni(String dni) { this.dni = dni; }
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getPasswordHash() {
+        return passwordHash;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Role getRole() {
+        return role;
+    }
 }

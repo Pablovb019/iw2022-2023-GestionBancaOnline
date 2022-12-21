@@ -26,7 +26,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-@CssImport("/themes/biwan/consultasOnlineGestor.css")
+@CssImport("./themes/biwan/consultasOnlineGestor.css")
 @PageTitle("Consultas Online")
 @Route("consultas-online-gestor")
 public class ConsultasOnlineGestorView extends VerticalLayout {

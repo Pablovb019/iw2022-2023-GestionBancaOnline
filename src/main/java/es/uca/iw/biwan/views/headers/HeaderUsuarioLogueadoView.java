@@ -1,6 +1,5 @@
 package es.uca.iw.biwan.views.headers;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -10,15 +9,14 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.Persona;
 
-@CssImport("/themes/biwan/headerUsuarioLogueado.css")
+@CssImport("./themes/biwan/headerUsuarioLogueado.css")
 public class HeaderUsuarioLogueadoView {
     public static HorizontalLayout Header() {
 
         //NEW
-        Usuario usuario;
+        Persona persona;
         HorizontalLayout header = new HorizontalLayout();
         HorizontalLayout headerLeft = new HorizontalLayout();
         HorizontalLayout headerMiddle = new HorizontalLayout();

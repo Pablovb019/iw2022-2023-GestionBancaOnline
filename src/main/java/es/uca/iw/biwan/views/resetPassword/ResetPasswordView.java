@@ -17,7 +17,7 @@ import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
-@CssImport("/themes/biwan/resetPassword.css")
+@CssImport("./themes/biwan/resetPassword.css")
 @PageTitle("Restablecer contraseña")
 @Route("reset-password")
 public class ResetPasswordView extends VerticalLayout {

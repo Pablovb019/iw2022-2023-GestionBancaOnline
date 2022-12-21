@@ -20,7 +20,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("editar-noticia-encargado")
 @PageTitle("Editar Noticia")
-@CssImport("/themes/biwan/editarNoticia.css")
+@CssImport("./themes/biwan/editarNoticia.css")
 public class EditarNoticiaView extends VerticalLayout {
     private static TextField titulo = new TextField("Título");
     private static TextArea descripcion = new TextArea("Descripción");

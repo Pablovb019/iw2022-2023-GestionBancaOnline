@@ -12,7 +12,7 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 
 @PageTitle("Main")
 @Route("")
-@CssImport("/themes/biwan/main.css")
+@CssImport("./themes/biwan/main.css")
 public class MainView extends VerticalLayout {
     public MainView() {
         add(HeaderView.Header());

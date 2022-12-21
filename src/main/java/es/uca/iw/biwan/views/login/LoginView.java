@@ -9,7 +9,7 @@ import com.vaadin.flow.router.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
-@CssImport("/themes/biwan/login.css")
+@CssImport("./themes/biwan/login.css")
 @Route("login")
 @PageTitle("Formulario de inicio de sesión")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {

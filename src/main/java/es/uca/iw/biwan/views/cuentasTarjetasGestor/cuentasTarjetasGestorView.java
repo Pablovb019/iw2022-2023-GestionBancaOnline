@@ -27,7 +27,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 @Route("cuentas-tarjetas-gestor")
-@CssImport(value = "styles/components/vaadin-checkbox.css", themeFor = "vaadin-checkbox")
+@CssImport(value = "./styles/components/vaadin-checkbox.css", themeFor = "vaadin-checkbox")
 @PageTitle("Cuentas y Tarjetas")
 
 public class cuentasTarjetasGestorView extends VerticalLayout {

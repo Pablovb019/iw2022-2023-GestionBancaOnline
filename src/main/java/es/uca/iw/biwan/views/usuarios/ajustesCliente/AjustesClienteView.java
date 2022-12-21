@@ -21,7 +21,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("ajustes-cliente")
 @PageTitle("Ajustes Cliente")
-@CssImport("/themes/biwan/ajustesCliente.css")
+@CssImport("./themes/biwan/ajustesCliente.css")
 public class AjustesClienteView extends VerticalLayout {
     private TextField nombre = new TextField("Nombre");
     private TextField apellidos = new TextField("Apellidos");
