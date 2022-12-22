@@ -7,6 +7,7 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
+import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -22,7 +23,11 @@ public class ClienteView extends VerticalLayout {
 
     private Component crearPaginaPrincipal() {
         //Creacion de los apartados
-        H1 Titulo = new H1("Bienvenido Jose Antonio");
+        // Coger usuario logueado
+        VaadinSession session = VaadinSession.getCurrent();
+        String nombre = session.getAttribute("nombre").toString();
+        H1 Titulo = new H1("Bienvenido " + nombre);
+
         H2 TituloBalance = new H2("Balance BIWAN");
         Anchor Balance = new Anchor("", "2500.55€");
         H2 Operacionnes = new H2("Operaciones");

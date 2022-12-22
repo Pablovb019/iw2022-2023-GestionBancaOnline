@@ -9,12 +9,18 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.UUID;
 
 @CssImport("./themes/biwan/headerUsuarioLogueado.css")
 public class HeaderUsuarioLogueadoView {
-    public static HorizontalLayout Header() {
+    private static UsuarioService usuarioService;
 
+    public static HorizontalLayout Header() {
         //NEW
         Usuario user;
         HorizontalLayout header = new HorizontalLayout();
@@ -24,8 +30,13 @@ public class HeaderUsuarioLogueadoView {
         Anchor Titulo = new Anchor("", "BIWAN");
         Anchor PaginaPrincipalAnchor = new Anchor("pagina-principal-cliente", "Página principal");
         Anchor MasInfo = new Anchor("", "Más información");
-        Anchor AjustesUsuario = new Anchor("ajustes-cliente", "Jose Antonio Alonso de la Huerta");
-        Anchor CuentasTarjetasMenuItem = new Anchor("", "Cuentas y tarjetas");
+
+        // Coger usuario logueado
+        VaadinSession session = VaadinSession.getCurrent();
+        String nombre = session.getAttribute("nombre").toString();
+        Anchor AjustesUsuario = new Anchor("ajustes-cliente", nombre);
+
+        Anchor CuentasTarjetasMenuItem = new Anchor("cuentas-tarjetas-cliente", "Cuentas y tarjetas");
         Anchor MovimientosRealizadosMenuItem = new Anchor("movimientos", "Movimientos realizados");
         Anchor RecibosDomiciliadosMenuItem = new Anchor("recibos-domiciliados", "Recibos domiciliados");
         Anchor TransferenciasTraspasosMenuItem = new Anchor("transferencias-traspasos", "Transferencias y Traspasos");

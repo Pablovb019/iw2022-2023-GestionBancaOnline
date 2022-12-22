@@ -7,6 +7,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -75,6 +76,7 @@ public class RegistrationView extends VerticalLayout {
         email.getElement().setAttribute("name", "email");
         email.setErrorMessage("Introduce una dirección de correo electrónico válida");
         email.setClearButtonVisible(true);
+        Anchor login = new Anchor("login", "¿Ya registrado? Inicia sesión");
         Button submit = new Button("Crear cuenta");
         submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submit.setClassName("ButtonSubmitRegistration");
@@ -85,12 +87,12 @@ public class RegistrationView extends VerticalLayout {
         Titulo.addClassName("CrearCuenta");
 
         //ADD
-        formLayout.add(Titulo, firstName, lastName, phoneNumber, dni, birthDate, email, password, confirmPassword, submit);
+        formLayout.add(Titulo, firstName, lastName, phoneNumber, dni, birthDate, email, password, confirmPassword, submit, login);
 
         //ALIGNMENT
         formLayout.setResponsiveSteps( new FormLayout.ResponsiveStep("", 2));
         formLayout.setColspan(Titulo, 2);
-        formLayout.setColspan(email, 2); // Stretch the email field over 2 columns
+        formLayout.setColspan(email, 2);
         setSizeFull();
 
         submit.addClickListener(event -> {

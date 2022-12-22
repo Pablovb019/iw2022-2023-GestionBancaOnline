@@ -13,13 +13,21 @@ public class Usuario {
     @GeneratedValue
     @Column(length = 16)
     private UUID uuid;
+    @Column(nullable = false)
     private String nombre;
+    @Column(nullable = false)
     private String apellidos;
+    @Column(nullable = false)
     private LocalDate fechaNacimiento;
+    @Column(nullable = false)
     private Double telefono;
+    @Column(nullable = false)
     private String dni;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String role;
+    @Column(nullable = false)
     private String password;
 
 
@@ -106,5 +114,9 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
     }
 }
