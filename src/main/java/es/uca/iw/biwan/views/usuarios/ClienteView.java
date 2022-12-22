@@ -1,13 +1,17 @@
 package es.uca.iw.biwan.views.usuarios;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -16,16 +20,27 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 @PageTitle("Página Principal Cliente")
 public class ClienteView extends VerticalLayout {
     public ClienteView(){
-        add(HeaderUsuarioLogueadoView.Header());
-        add(crearPaginaPrincipal());
-        add(FooterView.Footer());
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            if (!session.getAttribute(Usuario.class).getRole().contentEquals("CLIENTE")) {
+                UI.getCurrent().navigate("");
+            } else {
+                add(HeaderUsuarioLogueadoView.Header());
+                add(crearPaginaPrincipal());
+                add(FooterView.Footer());
+            }
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
+            error.open();
+            UI.getCurrent().navigate("");
+        }
     }
 
     private Component crearPaginaPrincipal() {
         //Creacion de los apartados
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        String nombre = session.getAttribute("nombre").toString();
+        String nombre = session.getAttribute(Usuario.class).getNombre();
         H1 Titulo = new H1("Bienvenido " + nombre);
 
         H2 TituloBalance = new H2("Balance BIWAN");

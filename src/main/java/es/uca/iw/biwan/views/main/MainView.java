@@ -7,8 +7,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @PageTitle("Main")
@@ -17,7 +20,15 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 @AnonymousAllowed
 public class MainView extends VerticalLayout {
     public MainView() {
-        add(HeaderView.Header());
+        // Comprobar si hay un usuario logueado
+        VaadinSession session = VaadinSession.getCurrent();
+        if (session.getAttribute(Usuario.class) != null) {
+            // Si hay un usuario logueado, mostrar la vista de usuario logueado
+            add(HeaderUsuarioLogueadoView.Header());
+        } else {
+            // Si no hay un usuario logueado, mostrar la vista de usuario no logueado
+            add(HeaderView.Header());
+        }
         add(crearAnuncioPrincipal());
         add(crearAnuncio1());
         add(crearAnuncio2());
@@ -51,9 +62,9 @@ public class MainView extends VerticalLayout {
         Anchor BotonInfo1 = new Anchor("", "Más información");
         BotonInfo1.addClassName("BotonesInfo");
 
-        var TituloTextoAnuncio1 = new H3 ("Hazte cliente de BIWAN ahora y ayuda al medio ambiente");
+        var TituloTextoAnuncio1 = new H3("Hazte cliente de BIWAN ahora y ayuda al medio ambiente");
         TituloTextoAnuncio1.addClassName("TituloTextoAnuncio1");
-        var TextoAnuncio1 = new H5 ("Los árboles son fuente de vida. No solo en referencia a los ecosistemas naturales, " +
+        var TextoAnuncio1 = new H5("Los árboles son fuente de vida. No solo en referencia a los ecosistemas naturales, " +
                 "sino también para la supervivencia del ser humano. Su uso para alimentarse, calentarse y construir un sinfín " +
                 "de objetos supone una explotación que, entre otros factores, dispara la deforestación y, con ella, " +
                 "la destrucción del hábitat. Cada vez que un cliente llega a BIWAN, nosotros plantamos un árbol. " +
@@ -84,9 +95,9 @@ public class MainView extends VerticalLayout {
         Anchor BotonInfo2 = new Anchor("", "Más información");
         BotonInfo2.addClassName("BotonesInfo");
 
-        var TituloTextoAnuncio2 = new H3 ("Gracias al servicio de nuestros Gestores haremos todo por ti");
+        var TituloTextoAnuncio2 = new H3("Gracias al servicio de nuestros Gestores haremos todo por ti");
         TituloTextoAnuncio2.addClassName("TituloTextoAnuncio2");
-        var TextoAnuncio2 = new H5 ("¿No tienes tiempo para gestionar tus cuentas y tarjetas? ¿No sabes cómo hacerlo? " +
+        var TextoAnuncio2 = new H5("¿No tienes tiempo para gestionar tus cuentas y tarjetas? ¿No sabes cómo hacerlo? " +
                 "¿No sabes qué hacer si te llega una factura? BIWAN te ofrece un servicio de gestión de tus cuentas y tarjetas " +
                 "para que no tengas que preocuparte de nada. Nosotros nos encargamos de gestionarlo todo, " +
                 "y de hacer las gestiones necesarias para que tu no tengas que preocuparte de nada. " +
@@ -105,6 +116,7 @@ public class MainView extends VerticalLayout {
 
         return hlAnuncio2;
     }
+
     private Component crearAnuncio3() {
         Image img3 = new Image("images/3.jpg", "Imagen");
         img3.setMaxHeight("500px");
@@ -116,9 +128,9 @@ public class MainView extends VerticalLayout {
         Anchor BotonInfo3 = new Anchor("", "Más información");
         BotonInfo3.addClassName("BotonesInfo");
 
-        var TituloTextoAnuncio3 = new H3 ("Llévate hasta 150 € con el Plan Invita a un Amigo");
+        var TituloTextoAnuncio3 = new H3("Llévate hasta 150 € con el Plan Invita a un Amigo");
         TituloTextoAnuncio3.addClassName("TituloTextoAnuncio3");
-        var TextoAnuncio3 = new H5 ("¿Quieres llevarte 15 € por cada amigo que invites a BIWAN (máximo 10 amigos)" +
+        var TextoAnuncio3 = new H5("¿Quieres llevarte 15 € por cada amigo que invites a BIWAN (máximo 10 amigos)" +
                 " y conseguir que ellos se lleven también 15 €?" +
                 " Solo tienes que seguir estos pasos: Primero, hazte cliente con la Cuenta Online Sin Comisiones. " +
                 "Accede al área privada de cliente en \"Mis promociones\" y comparte tu código con amigos y familiares." +

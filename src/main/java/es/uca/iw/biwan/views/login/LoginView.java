@@ -105,8 +105,7 @@ public class LoginView extends VerticalLayout {
             if (user != null) {
                 // Coger el usuario logueado
                 VaadinSession session = VaadinSession.getCurrent();
-                session.setAttribute("nombre", user.getNombre());
-                session.setAttribute("rol", user.getRole().toString());
+                session.setAttribute(Usuario.class, user);
 
                 if (user.getRole().equals(Role.CLIENTE.toString())) {
                     UI.getCurrent().navigate("pagina-principal-cliente");

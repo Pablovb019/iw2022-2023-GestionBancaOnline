@@ -39,16 +39,6 @@
     align-items: end;
 }
 
-.AnchorAjustesUsuario {
-    color: black;
-    font-size: medium;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-decoration: none !important;
-    align-items: end;
-    border-top: 10px;
-}
-
 vaadin-menu-bar-button{
     all: unset !important;
     padding: 0 !important;
