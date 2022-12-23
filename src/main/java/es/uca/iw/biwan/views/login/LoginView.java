@@ -2,6 +2,7 @@ package es.uca.iw.biwan.views.login;
 
 import com.sun.jna.platform.win32.OaIdl;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -90,6 +91,7 @@ public class LoginView extends VerticalLayout {
         formLayout.setColspan(submit, 2); // Stretch the submit button over 2 columns
         setSizeFull();
 
+        submit.addClickShortcut(Key.ENTER);
         submit.addClickListener(event -> {
             if (email.isEmpty() || password.isEmpty()) {
                 ConfirmDialog error = new ConfirmDialog("Error", "Rellena todos los campos", "Aceptar", null);
