@@ -50,8 +50,8 @@ public class ClienteView extends VerticalLayout {
         Anchor RecibosButton = new Anchor("recibos-domiciliados", "Recibos");
         Anchor CuentasTarjetasButton = new Anchor("cuentas-tarjetas-cliente", "Cuentas y Tarjetas");
         Anchor TransferenciasButton = new Anchor("transferencias-traspasos", "Realizar Transferencia o Traspaso");
-        Anchor ConsultaOnlineButton = new Anchor("", "Realizar Consulta Online");
-        Anchor ConsultaOfflineButton = new Anchor("", "Realizar Consulta Offline");
+        Anchor ConsultaOnlineButton = new Anchor("consultas-online-cliente", "Realizar Consulta Online");
+        Anchor ConsultaOfflineButton = new Anchor("consultas-offline-cliente", "Realizar Consulta Offline");
         H2 TablonAnuncios = new H2("Tablón de anuncios");
 
         //CSS
