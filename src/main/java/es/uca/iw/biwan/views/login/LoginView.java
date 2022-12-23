@@ -8,12 +8,17 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
@@ -62,6 +67,8 @@ public class LoginView extends VerticalLayout {
 
     private FormLayout Login() {
 
+        Binder<Usuario> binderLogin = new Binder<>(Usuario.class);
+
         //NEW
         EmailField email = new EmailField("Correo electrónico");
         PasswordField password = new PasswordField("Contraseña");
@@ -73,6 +80,15 @@ public class LoginView extends VerticalLayout {
         submit.setClassName("ButtonSubmitRegistration");
         H1 Titulo = new H1("Iniciar sesión");
         Titulo.setClassName("TituloLogin");
+
+        binderLogin.forField(email)
+                .asRequired("El correo electrónico es obligatorio")
+                .bind(Usuario::getEmail, Usuario::setEmail);
+
+        binderLogin.forField(password)
+                .asRequired("La contraseña es obligatoria")
+                .bind(Usuario::getPassword, Usuario::setPassword);
+
         FormLayout formLayout = new FormLayout();
         //ADD
         formLayout.add(Titulo, email, password,registration,resetPassword, submit);
@@ -87,10 +103,7 @@ public class LoginView extends VerticalLayout {
 
         submit.addClickShortcut(Key.ENTER);
         submit.addClickListener(event -> {
-            if (email.isEmpty() || password.isEmpty()) {
-                ConfirmDialog error = new ConfirmDialog("Error", "Rellena todos los campos", "Aceptar", null);
-                error.open();
-            } else {
+            if (binderLogin.validate().isOk()) {
                 Usuario user = usuarioService.findUserByEmail(email.getValue());
                 CheckUser(user, password.getValue());
             }
@@ -106,12 +119,25 @@ public class LoginView extends VerticalLayout {
                 session.setAttribute(Usuario.class, user);
 
                 if (user.getRole().equals(Role.CLIENTE.toString())) {
+                    // Mostrar mensaje de bienvenida
+                    Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    notification.open();
                     UI.getCurrent().navigate("pagina-principal-cliente");
                 } else if (user.getRole().equals(Role.GESTOR.toString())) {
+                    Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    notification.open();
                     UI.getCurrent().navigate("pagina-principal-gestor");
                 } else if (user.getRole().equals(Role.ENCARGADO_COMUNICACIONES.toString())) {
+                    Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    notification.open();
                     UI.getCurrent().navigate("pagina-principal-encargado");
                 } else if (user.getRole().equals(Role.ADMINISTRADOR.toString())) {
+                    Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    notification.open();
                     UI.getCurrent().navigate("");
                 }
             } else {
@@ -119,7 +145,7 @@ public class LoginView extends VerticalLayout {
                 errorEmailPassword.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         } catch (Exception e) {
-            ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud.\n" +
+            ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud. Comunique al adminsitrador del sitio el error.\n" +
                     "Error: " + e, "Aceptar", null);
             error.open();
         }

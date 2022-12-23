@@ -52,6 +52,10 @@ public class Usuario {
         return uuid;
     }
 
+    public void GenerateUUID() {
+       this.uuid = UUID.randomUUID();
+    }
+
     public String getNombre() {
         return nombre;
     }
