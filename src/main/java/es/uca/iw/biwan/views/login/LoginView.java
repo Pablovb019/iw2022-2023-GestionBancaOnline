@@ -41,6 +41,9 @@ public class LoginView extends VerticalLayout {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public LoginView() {
 
         //NEW
@@ -76,7 +79,6 @@ public class LoginView extends VerticalLayout {
         H1 Titulo = new H1("Iniciar sesión");
         Titulo.setClassName("TituloLogin");
         FormLayout formLayout = new FormLayout();
-
         //ADD
         formLayout.add(Titulo, email, password,registration,resetPassword, submit);
 
@@ -94,15 +96,15 @@ public class LoginView extends VerticalLayout {
                 error.open();
             } else {
                 Usuario user = usuarioService.findUserByEmail(email.getValue());
-                CheckUser(user);
+                CheckUser(user, password.getValue());
             }
         });
         return formLayout;
     }
 
-    private void CheckUser(Usuario user) {
+    private void CheckUser(Usuario user, String passwordForm) {
         try {
-            if (user != null) {
+            if (user != null && passwordEncoder.matches(passwordForm, user.getPassword())) {
                 // Coger el usuario logueado
                 VaadinSession session = VaadinSession.getCurrent();
                 session.setAttribute(Usuario.class, user);
