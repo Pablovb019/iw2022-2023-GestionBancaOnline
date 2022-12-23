@@ -97,11 +97,6 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
             }
         });
 
-        MessageListItem Presentacion = new MessageListItem("Escriba su consulta, le atenderé lo antes posible.",
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).minus(1, ChronoUnit.HOURS), "Gestor");
-        Presentacion.setUserColorIndex(1);
-        list.setItems(Presentacion);
-
         list.addClassName("list");
         MensajeSubmit.expand(CajaMensaje);
         MensajeSubmit.add(CajaMensaje, ButtonSubmit);
