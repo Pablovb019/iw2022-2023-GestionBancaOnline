@@ -80,6 +80,19 @@ public class AvisoLegalView extends VerticalLayout{
         //ADD CLASS NAME
         Titulo.addClassName("Titulo");
         layoutTextoAvisoLegal.addClassName("layoutTextoAvisoLegal");
+        TextoCondGenUso.addClassName("texto");
+        ResponsabilidadGarantia.addClassName("texto");
+        TextoRespGar1.addClassName("texto");
+        TextoRespGar2.addClassName("texto");
+        TextoRespGar3.addClassName("texto");
+        TextoRespGar4.addClassName("texto");
+        TextoRespGar5.addClassName("texto");
+        TextoPropIndInt.addClassName("texto");
+        TextoLegApli.addClassName("texto");
+        TextoInfProtDat1.addClassName("texto");
+        TextoInfProtDat2.addClassName("texto");
+        TextoInfProtDat3.addClassName("texto");
+        TextoInfProtDat4.addClassName("texto");
 
         //ALIGNMENT
         layoutTextoAvisoLegal.setWidth("50%");
