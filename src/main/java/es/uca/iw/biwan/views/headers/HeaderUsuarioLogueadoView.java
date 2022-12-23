@@ -7,6 +7,7 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -17,6 +18,7 @@ import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.awt.*;
 import java.util.UUID;
 
 @CssImport("./themes/biwan/headerUsuarioLogueado.css")
@@ -29,7 +31,7 @@ public class HeaderUsuarioLogueadoView {
         HorizontalLayout headerLeft = new HorizontalLayout();
         HorizontalLayout headerMiddle = new HorizontalLayout();
         HorizontalLayout headerRight = new HorizontalLayout();
-        Anchor Titulo = new Anchor("", "BIWAN");
+        Anchor Biwan = new Anchor("", new Image("images/logo.png", "Biwan"));
         Anchor MasInfo = new Anchor("", "Más información");
 
         // Coger usuario logueado
@@ -44,18 +46,27 @@ public class HeaderUsuarioLogueadoView {
         CerrarSesion.addClassName("AnchorMenuItem");
 
         MenuBar MenuPrincipal = new MenuBar();
+        MenuPrincipal.getStyle().set("padding-top", "5px");
         Icon iconMenu = new Icon(VaadinIcon.MENU);
         Icon PaginaPrincipalIcon = new Icon(VaadinIcon.HOME);
 
         //MENU
         MenuItem itemPrincipal = MenuPrincipal.addItem("Menú");
+        itemPrincipal.getElement().appendChild(iconMenu.getElement());
+        itemPrincipal.getElement().getStyle().set("color", "black");
+        itemPrincipal.getElement().getStyle().set("cursor",  "pointer");
+
         itemPrincipal.addComponentAtIndex(1, iconMenu);
         SubMenu MenuSecundario = itemPrincipal.getSubMenu();
 
         //MENU AJUSTES
         MenuBar MenuAjustes = new MenuBar();
+        MenuAjustes.getStyle().set("padding-top", "5px");
         Icon iconAjustesUsuario = new Icon(VaadinIcon.USER_CHECK);
         MenuItem itemAjustes = MenuAjustes.addItem(nombre);
+        itemAjustes.getElement().getStyle().set("color", "black");
+        itemAjustes.getElement().getStyle().set("cursor",  "pointer");
+
         itemAjustes.addComponentAtIndex(1, iconAjustesUsuario);
         SubMenu SubMenuAjustes = itemAjustes.getSubMenu();
         SubMenuAjustes.addItem(AjustesUsuario);
@@ -110,19 +121,18 @@ public class HeaderUsuarioLogueadoView {
 
         Anchor PaginaPrincipalAnchor = new Anchor(pagRol, "Página principal");
 
-        //ADD CLASS NAME
-        Titulo.addClassNames("tittleBiwan");
         header.addClassName("header_footer");
-        PaginaPrincipalAnchor.addClassName("Anchor");
-        MasInfo.addClassName("Anchor");
+        PaginaPrincipalAnchor.addClassName("AnchorMainPageLogged");
+        MasInfo.addClassName("AnchorMoreInfoLogged");
         headerRight.addClassName("HeaderSpacing");
         headerLeft.addClassName("HeaderSpacing");
-        iconAjustesUsuario.addClassName("iconAjustesUsuario");
-        PaginaPrincipalIcon.addClassName("PaginaPrincipalIcon");
+        iconAjustesUsuario.addClassName("iconAjustesUsuarioLogged");
+        PaginaPrincipalIcon.addClassName("PaginaPrincipalIconLogged");
+        MenuPrincipal.addClassName("MenuPrincipalLogged");
 
         //ADD HEADERS
         header.add(headerLeft, headerMiddle, headerRight);
-        headerLeft.add(Titulo, PaginaPrincipalAnchor, MasInfo);
+        headerLeft.add(Biwan, PaginaPrincipalAnchor, MasInfo);
         headerRight.add(MenuAjustes, MenuPrincipal);
 
         //ADJUSTMENTS
@@ -133,7 +143,7 @@ public class HeaderUsuarioLogueadoView {
         //ALIGNMENT
         header.setWidth("100%");
         header.setVerticalComponentAlignment(FlexComponent.Alignment.END, PaginaPrincipalAnchor, MasInfo);
-        header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Titulo);
+        header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Biwan);
         headerLeft.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         headerMiddle.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         headerRight.setJustifyContentMode(FlexComponent.JustifyContentMode.END);

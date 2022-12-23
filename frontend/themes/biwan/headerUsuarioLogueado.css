@@ -3,85 +3,62 @@
     height: 90px;
     padding: 20px;
 }
-.tittleBiwan {
-    font-size: 1.2cm;
-    text-align: center;
-    height: auto;
-    width: auto;
-    margin: 0;
-    color: black;
-    text-decoration: none !important;
-}
 
-/*vaadin-text-field.vaadin-icon {
-    color: firebrick;
-}*/
-
-::part(reveal-button) {
-    color: #27AE60;
-}
-
-.iconAjustesUsuario {
-    color: black;
-}
-
-.PaginaPrincipalIcon {
+.PaginaPrincipalIconLogged {
     position: relative;
     bottom: 5px;
 }
 
-.Anchor {
+.AnchorMainPageLogged, .AnchorMoreInfoLogged, .AnchorMenuItem {
+    align-self: center !important;
     color: black;
+    text-decoration: none !important;
+    border: 3px solid  transparent;
+    border-radius: 50px;
+}
+
+.AnchorMainPageLogged:hover, .AnchorMoreInfoLogged:hover {
+    background: #1f8a4c 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.AnchorHazteCliente {
     font-size: medium;
     padding-left: 10px;
     padding-right: 10px;
-    text-decoration: none !important;
     align-items: end;
+    border-top: 10px;
 }
 
-vaadin-menu-bar-button{
-    all: unset !important;
-    padding: 0 !important;
-}
-
-vaadin-menu-bar::part(menu-bar-button){
-    color: black;
-    background-color: #27AE60;
-}
-
-::part(iconMenu) {
-    height: 40px;
-    width: 40px;
-}
-
-div::part(container) {
-    font-size: x-large;
-}
-
-::part(overlay) {
-    background: #D1FFD6;
-    margin-top: 22px;
-    border: 3px solid black;
-    position: relative;
-    left: 20px;
-}
-
-::part(items) {
-    width: 270px;
-}
-
-::part(menu-bar-button) {
-    padding: 0;
-    margin-top: 10px;
-}
-
-span::part(label) {
+.AnchorAcceso {
+    background: black;
     color: #27AE60;
+    font-size: large;
+    height: 50px;
+    width: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
 }
 
 .AnchorMenuItem {
-    text-decoration: none !important;
     background: transparent;
-    color: black;
     font-size: large;
+}
+
+.AnchorMainPage:hover, .AnchorMoreInfo:hover {
+    background: #1f8a4c 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
 }

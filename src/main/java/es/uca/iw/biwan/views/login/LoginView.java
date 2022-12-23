@@ -13,6 +13,8 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginOverlay;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -73,7 +75,7 @@ public class LoginView extends VerticalLayout {
         Anchor registration = new Anchor("registration", "¿No tienes cuenta? Regístrate");
         Anchor resetPassword = new Anchor("reset-password", "¿Has olvidado tu contraseña?");
         email.setErrorMessage("Introduce una dirección de correo electrónico válida");
-        Button submit = new Button("Iniciar de sesión");
+        Button submit = new Button("Iniciar sesión");
         submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submit.setClassName("ButtonSubmitRegistration");
         H1 Titulo = new H1("Iniciar sesión");
@@ -119,8 +121,8 @@ public class LoginView extends VerticalLayout {
                     UI.getCurrent().navigate("");
                 }
             } else {
-                ConfirmDialog error = new ConfirmDialog("Error", "El usuario no existe", "Aceptar", null);
-                error.open();
+                Notification errorEmailPassword = Notification.show("El correo electrónico o la contraseña son incorrectos");
+                errorEmailPassword.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         } catch (Exception e) {
             ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud.\n" +
