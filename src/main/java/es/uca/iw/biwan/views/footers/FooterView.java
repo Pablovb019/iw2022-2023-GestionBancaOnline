@@ -20,7 +20,7 @@ public class FooterView {
         VerticalLayout footerEtc2 = new VerticalLayout();
         VerticalLayout footerEtc3 = new VerticalLayout();
         Anchor Titulo = new Anchor("", "BIWAN");
-        Anchor AvisoLegal = new Anchor("", "Aviso legal");
+        Anchor AvisoLegal = new Anchor("aviso-legal", "Aviso legal");
         Anchor Tarifas = new Anchor("", "Tarifas");
         Anchor Cookies = new Anchor("", "Cookies");
         Anchor InformesLegales = new Anchor("", "Informes legales");
