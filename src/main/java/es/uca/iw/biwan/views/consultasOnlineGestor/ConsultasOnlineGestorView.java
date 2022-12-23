@@ -1,14 +1,12 @@
-package es.uca.iw.biwan.views.consultasOnline.gestor;
+package es.uca.iw.biwan.views.consultasOnlineGestor;
 
-import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.messages.MessageInput;
-import com.vaadin.flow.component.messages.MessageInputI18n;
 import com.vaadin.flow.component.messages.MessageList;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -19,10 +17,10 @@ import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
-import java.awt.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +30,6 @@ import java.util.List;
 public class ConsultasOnlineGestorView extends VerticalLayout {
 
     public ConsultasOnlineGestorView() {
-
         //NEW
         VerticalLayout layoutConsultaOnline = new VerticalLayout();
         VerticalLayout layoutConsultas = new VerticalLayout();
@@ -88,7 +85,7 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
         Button ButtonSubmit = new Button("Enviar");
         ButtonSubmit.addClickShortcut(Key.ENTER);
         ButtonSubmit.addClickListener(submitEvent -> {
-            if(CajaMensaje.getValue()!="") {
+            if(!CajaMensaje.getValue().equals("")) {
                 MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), "Gestor");
                 newMessage.setUserColorIndex(3);
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
@@ -98,16 +95,10 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
             }
         });
 
-        //Cliente cliente = DataService.getPeople(1).get(0);
-        MessageListItem message1 = new MessageListItem("Tengo una consulta.",
-                LocalDateTime.now().minusDays(1).toInstant(ZoneOffset.UTC), "Matt Mambo");
-        message1.setUserColorIndex(1);
-        /*MessageListItem message2 = new MessageListItem(
-                "Using your talent, hobby or profession in a way that makes you contribute with something good to this world is truly the way to go.",
-                LocalDateTime.now().minusMinutes(55).toInstant(ZoneOffset.UTC),
-                "Linsey Listy");
-        message2.setUserColorIndex(2);*/
-        list.setItems(message1);
+        MessageListItem Presentacion = new MessageListItem("Escriba su consulta, le atenderé lo antes posible.",
+                LocalDateTime.now().toInstant(ZoneOffset.UTC).minus(1, ChronoUnit.HOURS), "Gestor");
+        Presentacion.setUserColorIndex(1);
+        list.setItems(Presentacion);
 
         list.addClassName("list");
         MensajeSubmit.expand(CajaMensaje);
@@ -120,4 +111,5 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
 
         return chatLayout;
     }
+
 }
