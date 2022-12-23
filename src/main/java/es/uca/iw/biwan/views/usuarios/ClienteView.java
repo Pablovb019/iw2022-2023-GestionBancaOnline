@@ -30,7 +30,9 @@ public class ClienteView extends VerticalLayout {
                 add(FooterView.Footer());
             }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
+            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
+            });
             error.open();
             UI.getCurrent().navigate("");
         }
@@ -44,7 +46,9 @@ public class ClienteView extends VerticalLayout {
         H1 Titulo = new H1("Bienvenido " + nombre);
 
         H2 TituloBalance = new H2("Balance BIWAN");
-        Anchor Balance = new Anchor("", "2500.55€");
+        H1 Balance = new H1("2550.67 €");
+        Balance.getStyle().set("margin-top", "0px");
+        Balance.getStyle().set("margin-bottom", "5px");
         H2 Operacionnes = new H2("Operaciones");
         Anchor MovimientosButton = new Anchor("movimientos", "Movimientos");
         Anchor RecibosButton = new Anchor("recibos-domiciliados", "Recibos");
@@ -67,6 +71,9 @@ public class ClienteView extends VerticalLayout {
         TransferenciasButton.addClassName("BotonesOperaciones");
         ConsultaOnlineButton.addClassName("BotonesOperaciones");
         ConsultaOfflineButton.addClassName("BotonesOperaciones");
+
+        RecibosButton.setWidth("110px");
+        RecibosButton.getStyle().set("margin-left", "45px");
 
         //Creacion de la pagina
         //Layout de Titulo, Balance y Operaciones

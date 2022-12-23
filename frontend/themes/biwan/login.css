@@ -18,7 +18,6 @@ vaadin-login-form {
     alignment: center;
 }
 
-/*Botón de Iniciar Sesión*/
 vaadin-button[part='vaadin-login-submit'] {
     background-color: #27AE60;
     color: white;

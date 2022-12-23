@@ -2,6 +2,7 @@ package es.uca.iw.biwan.views.footers;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -19,8 +20,8 @@ public class FooterView {
         VerticalLayout footerEtc1 = new VerticalLayout();
         VerticalLayout footerEtc2 = new VerticalLayout();
         VerticalLayout footerEtc3 = new VerticalLayout();
-        Anchor Titulo = new Anchor("", "BIWAN");
-        Anchor AvisoLegal = new Anchor("aviso-legal", "Aviso legal");
+        Anchor Biwan = new Anchor("", new Image("images/logo.png", "Biwan"));
+        Anchor AvisoLegal = new Anchor("", "Aviso legal");
         Anchor Tarifas = new Anchor("", "Tarifas");
         Anchor Cookies = new Anchor("", "Cookies");
         Anchor InformesLegales = new Anchor("", "Informes legales");
@@ -29,18 +30,17 @@ public class FooterView {
 
         //ADD CLASS NAME
         footer.addClassName("header_footer");
-        Titulo.addClassName("tittleBiwan");
-        AvisoLegal.addClassName("AnchorFooter1");
-        Tarifas.addClassName("AnchorFooter1");
-        Cookies.addClassName("AnchorFooter2");
-        InformesLegales.addClassName("AnchorFooter2");
-        TablonAnuncios.addClassName("AnchorFooter3");
-        NegocioResponsable.addClassName("AnchorFooter3");
+        AvisoLegal.addClassName("AnchorAvisoLegal");
+        Tarifas.addClassName("AnchorTarifas");
+        Cookies.addClassName("AnchorCookies");
+        InformesLegales.addClassName("AnchorInformesLegales");
+        TablonAnuncios.addClassName("AnchorTablonAnuncios");
+        NegocioResponsable.addClassName("AnchorNegocioResponsable");
 
         //ADD FOOTERS
         footer.add(footerTitulo, footerEtc);
         footerEtc.add(footerEtc1, footerEtc2, footerEtc3);
-        footerTitulo.add(Titulo);
+        footerTitulo.add(Biwan);
         footerEtc1.add(AvisoLegal, Tarifas);
         footerEtc2.add(Cookies, InformesLegales);
         footerEtc3.add(TablonAnuncios, NegocioResponsable);

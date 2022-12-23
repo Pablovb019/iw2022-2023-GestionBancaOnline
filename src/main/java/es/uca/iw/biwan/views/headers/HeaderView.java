@@ -5,6 +5,8 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -23,7 +25,7 @@ public class HeaderView {
         HorizontalLayout headerLeft = new HorizontalLayout();
         HorizontalLayout headerMiddle = new HorizontalLayout();
         HorizontalLayout headerRight = new HorizontalLayout();
-        Anchor Titulo = new Anchor("", "BIWAN");
+        Anchor Biwan = new Anchor("", new Image("images/logo.png", "Biwan"));
         Anchor PaginaPrincipalAnchor = new Anchor("pagina-principal-cliente", "Página principal");
         Anchor MasInfo = new Anchor("", "Más información");
         Anchor HazteCliente = new Anchor("registration", "+ Hazte cliente");
@@ -38,13 +40,12 @@ public class HeaderView {
         Icon iconMenu = new Icon(VaadinIcon.MENU);
         Icon iconHazteCliente = new Icon(VaadinIcon.USER);
         Icon PaginaPrincipalIcon = new Icon(VaadinIcon.HOME);
-        //CuentasTarjetasButton.addClickListener(e -> CuentasTarjetasButton.getUI().ifPresent(ui -> ui.navigate("")));
 
         //ADD CLASS NAME
-        Titulo.addClassNames("tittleBiwan");
+        Biwan.addClassNames("banner");
         header.addClassName("header_footer");
-        PaginaPrincipalAnchor.addClassName("Anchor");
-        MasInfo.addClassName("Anchor");
+        PaginaPrincipalAnchor.addClassName("AnchorMainPage");
+        MasInfo.addClassName("AnchorMoreInfo");
         HazteCliente.addClassName("AnchorHazteCliente");
         Acceso.addClassName("AnchorAcceso");
         headerRight.addClassName("HeaderSpacing");
@@ -60,6 +61,9 @@ public class HeaderView {
 
         //MENU
         MenuItem itemPrincipal = MenuPrincipal.addItem("Menú");
+        itemPrincipal.getElement().getStyle().set("color", "black");
+        itemPrincipal.getElement().getStyle().set("cursor", "pointer");
+
         itemPrincipal.addComponentAtIndex(1, iconMenu);
         SubMenu MenuSecundario = itemPrincipal.getSubMenu();
         MenuSecundario.addItem(CuentasTarjetasMenuItem);
@@ -71,19 +75,20 @@ public class HeaderView {
 
         //ADD HEADERS
         header.add(headerLeft, headerMiddle, headerRight);
-        headerLeft.add(Titulo, PaginaPrincipalAnchor, MasInfo);
+        headerLeft.add(Biwan, PaginaPrincipalAnchor, MasInfo);
         headerRight.add(HazteCliente, Acceso, MenuPrincipal);
 
         //ADJUSTMENTS
         PaginaPrincipalAnchor.addComponentAsFirst(PaginaPrincipalIcon);
         HazteCliente.addComponentAsFirst(iconHazteCliente);
         iconMenu.getElement().setAttribute("part", "iconMenu");
+        MenuPrincipal.getStyle().set("padding-top", "5px");
         //SearchField.setPrefixComponent(iconBusqueda);  //Cambiar icono en un field
 
         //ALIGNMENT
         header.setWidth("100%");
         header.setVerticalComponentAlignment(FlexComponent.Alignment.END, PaginaPrincipalAnchor, MasInfo);
-        header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Titulo, HazteCliente, Acceso);
+        header.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Biwan, HazteCliente, Acceso);
         headerLeft.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         headerMiddle.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         headerRight.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
