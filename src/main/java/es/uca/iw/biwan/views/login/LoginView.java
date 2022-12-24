@@ -25,6 +25,7 @@ import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -122,6 +123,9 @@ public class LoginView extends VerticalLayout {
     private void CheckUser(Usuario user, String passwordForm) {
         try {
             if (user != null && passwordEncoder.matches(passwordForm, user.getPassword())) {
+                // Declaramos el rol del usuario
+                String role = usuarioService.getRole(user.getUUID());
+                user.setRol(Role.valueOf(role));
                 // Coger el usuario logueado
                 VaadinSession session = VaadinSession.getCurrent();
                 session.setAttribute(Usuario.class, user);

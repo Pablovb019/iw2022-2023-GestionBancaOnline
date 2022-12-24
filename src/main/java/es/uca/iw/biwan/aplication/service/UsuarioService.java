@@ -27,4 +27,8 @@ public class UsuarioService {
     public Usuario getUser(UUID uuid) {
         return usuarioRepository.findById(uuid).get();
     }
+
+    public String getRole(UUID uuid) {
+        return usuarioRepository.findRoleByUUID(uuid);
+    }
 }
