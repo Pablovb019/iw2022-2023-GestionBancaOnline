@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 @AnonymousAllowed
 public class InformesLegalesView  extends VerticalLayout {
 
-    public InformesLegalesView() throws FileNotFoundException {
+    public InformesLegalesView(){
 
         //NEW
         VerticalLayout layoutInformesLegales = new VerticalLayout();
