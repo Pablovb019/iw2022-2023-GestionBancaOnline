@@ -6,6 +6,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
@@ -38,6 +39,7 @@ public class AddOfertaView extends VerticalLayout {
     private AnuncioService anuncioService;
     private TextField titulo = new TextField("Título");
     private TextArea descripcion = new TextArea("Descripción");
+    private DatePicker fechaFin = new DatePicker("Fecha fin de la oferta");
     private Button guardar = new Button("Guardar");
     private Button atras = new Button("Atrás");
 
@@ -86,10 +88,16 @@ public class AddOfertaView extends VerticalLayout {
                 .asRequired("La descripción es obligatoria")
                 .bind(Anuncio::getCuerpo, Anuncio::setCuerpo);
 
+        binderOferta.forField(fechaFin)
+                .asRequired("La descripción es obligatoria")
+                .withValidator(fecha -> fecha.isAfter(LocalDate.now()), "La fecha debe ser posterior a la actual")
+                .bind(Anuncio::getFechaFin, Anuncio::setFechaFin);
+
         Component botones = crearBotones(binderOferta);
-        flForm.add(titulo, descripcion, botones);
+        flForm.add(titulo, descripcion, fechaFin, botones);
         flForm.setColspan(titulo, 2);
         flForm.setColspan(descripcion, 2);
+        flForm.setColspan(fechaFin, 2);
         flForm.setColspan(botones, 2);
         flForm.addClassName("Form");
         return flForm;
@@ -119,7 +127,7 @@ public class AddOfertaView extends VerticalLayout {
                 oferta.setTipo(TipoAnuncio.OFERTA);
                 oferta.setUUID(UUID.randomUUID());
                 oferta.setFechaInicio(LocalDate.now());
-                oferta.setFechaFin(LocalDate.now().plusDays(30));
+                oferta.setFechaFin(fechaFin.getValue());
                 oferta.setTitulo(titulo.getValue());
                 oferta.setCuerpo(descripcion.getValue());
                 CreateRequest(oferta);

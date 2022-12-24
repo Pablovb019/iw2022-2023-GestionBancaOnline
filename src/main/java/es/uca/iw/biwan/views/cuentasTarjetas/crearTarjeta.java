@@ -49,7 +49,7 @@ public class crearTarjeta extends VerticalLayout {
                 add(layoutCrearTarjeta);
             }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", null);
             error.open();
             UI.getCurrent().navigate("");
         }

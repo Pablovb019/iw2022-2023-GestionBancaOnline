@@ -43,7 +43,7 @@ public class crearCuenta extends VerticalLayout {
                 add(layoutCrearCuenta);
             }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", null);
             error.open();
             UI.getCurrent().navigate("");
         }
