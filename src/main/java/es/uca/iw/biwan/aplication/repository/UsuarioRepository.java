@@ -14,7 +14,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :role, :password)",
+            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password)",
             nativeQuery = true
     )
     void insertUser(@Param("uuid") UUID uuid,

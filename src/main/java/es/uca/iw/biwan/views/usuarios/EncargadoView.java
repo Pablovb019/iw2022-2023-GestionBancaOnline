@@ -23,7 +23,7 @@ public class EncargadoView extends VerticalLayout {
     public EncargadoView(){
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRole().contentEquals("ENCARGADO_COMUNICACIONES")) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
                 UI.getCurrent().navigate("");
             } else {
                 add(HeaderUsuarioLogueadoView.Header());
@@ -46,7 +46,7 @@ public class EncargadoView extends VerticalLayout {
 
         H2 TituloTablonNoticias = new H2("Noticias");
         H2 TituloTablonOfertas = new H2("Ofertas");
-        Anchor AñadirNoticiaButton = new Anchor("add-noticia-encargado", "Añadir Noticia");
+        Anchor AñadirNoticiaButton = new Anchor("add-noticia-encargado", "Añadir NoticiaService");
         Anchor AñadirOfertaButton = new Anchor("add-oferta-encargado", "Añadir Oferta");
 
         // CSS
@@ -58,7 +58,7 @@ public class EncargadoView extends VerticalLayout {
 
         // Creacion de los tablones de noticias y ofertas
         // Noticias
-        // Noticia 1
+        // NoticiaService 1
         Anchor Noticia1EditarButton = new Anchor("editar-noticia-encargado", "Editar");
         Anchor Noticia1EliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
         Noticia1EditarButton.addClassName("EditarButtons");
@@ -87,7 +87,7 @@ public class EncargadoView extends VerticalLayout {
             hlNoticia1.setVisible(false);
         });
 
-        // Noticia 2
+        // NoticiaService 2
         Anchor Noticia2EditarButton = new Anchor("editar-noticia-encargado", "Editar");
         Anchor Noticia2EliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
         Noticia2EditarButton.addClassName("EditarButtons");

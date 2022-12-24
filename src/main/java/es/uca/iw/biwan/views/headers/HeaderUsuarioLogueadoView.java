@@ -37,7 +37,7 @@ public class HeaderUsuarioLogueadoView {
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
         String nombre = session.getAttribute(Usuario.class).getNombre();
-        String rol = session.getAttribute(Usuario.class).getRole().toString();
+        String rol = session.getAttribute(Usuario.class).getRol().toString();
 
         // Crear menú de usuario
         Anchor AjustesUsuario = new Anchor("ajustes-cliente", "Ajustes");
@@ -110,7 +110,7 @@ public class HeaderUsuarioLogueadoView {
         } else if (rol.equals("ENCARGADO_COMUNICACIONES")) {
             pagRol = "pagina-principal-encargado";
 
-            Anchor AñadirNoticia = new Anchor("añadir-noticia", "Añadir Noticia");
+            Anchor AñadirNoticia = new Anchor("añadir-noticia", "Añadir NoticiaService");
             AñadirNoticia.addClassName("AnchorMenuItem");
             MenuSecundario.addItem(AñadirNoticia);
 

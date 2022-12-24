@@ -23,7 +23,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -100,10 +99,10 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         // Layout de Cuenta y Tarjetas
 
         // Inicializacion de la tabla de Cuentas
-        Cuenta cuenta1 = new Cuenta(1000, "ES1234567890123456789012");
-        Cuenta cuenta2 = new Cuenta(2000, "ES1234567890123456789013");
-        Cuenta cuenta3 = new Cuenta(3000, "ES1234567890123456789014");
-        Cuenta cuenta4 = new Cuenta(4000, "ES1234567890123456789015");
+        Cuenta cuenta1 = new Cuenta();
+        Cuenta cuenta2 = new Cuenta();
+        Cuenta cuenta3 = new Cuenta();
+        Cuenta cuenta4 = new Cuenta();
 
         Grid<Cuenta> gridCuentas = new Grid<>(Cuenta.class, false);
         gridCuentas.addClassName("TablaCuentaTarjeta");
@@ -136,16 +135,16 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         Date date4 = cal4.getTime();
 
         // Inicializacion de la tabla de Tarjetas
-        Tarjeta tarjeta1 = new Tarjeta("1234567890123456", date1, 512, 2000, true);
-        Tarjeta tarjeta2 = new Tarjeta("2345678901234567", date2, 278, 4000, true);
-        Tarjeta tarjeta3 = new Tarjeta("3456789012345678", date3, 49, 1250, false);
-        Tarjeta tarjeta4 = new Tarjeta("0123456789012345", date4, 623, 500, true);
+        Tarjeta tarjeta1 = new Tarjeta();
+        Tarjeta tarjeta2 = new Tarjeta();
+        Tarjeta tarjeta3 = new Tarjeta();
+        Tarjeta tarjeta4 = new Tarjeta();
 
         Grid<Tarjeta> gridTarjetas = new Grid<>(Tarjeta.class, false);
         gridTarjetas.addClassName("TablaCuentaTarjeta");
-        gridTarjetas.addColumn(Tarjeta::getNumero).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addColumn(tarjeta -> String.format("%03d", tarjeta.getCVV())).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetas.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
+        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getFechaCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetas.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
         gridTarjetas.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
         gridTarjetas.addComponentColumn(tarjeta -> {
             ToggleButton toggleButton = new ToggleButton();
@@ -174,7 +173,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         // Generate numClientes Clientes with random data
         List<Cliente> clientes = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            clientes.add(new Cliente(RandomStringUtils.randomAlphabetic(10), RandomStringUtils.randomAlphabetic(20) + " " + RandomStringUtils.randomAlphabetic(20), new Date(Math.abs(System.currentTimeMillis() - new Random().nextLong())).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), Integer.parseInt(RandomStringUtils.randomNumeric(9)), Integer.parseInt(RandomStringUtils.randomNumeric(8)) + RandomStringUtils.randomAlphabetic(1).toUpperCase(), RandomStringUtils.randomAlphanumeric(20) + "@gmail.com", new SecureRandom().ints(10, '!', '}').collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString()));
+            // clientes.add(new Cliente(RandomStringUtils.randomAlphabetic(10), RandomStringUtils.randomAlphabetic(20) + " " + RandomStringUtils.randomAlphabetic(20), new Date(Math.abs(System.currentTimeMillis() - new Random().nextLong())).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), Double.parseDouble(RandomStringUtils.randomNumeric(9)), RandomStringUtils.randomNumeric(8) + RandomStringUtils.randomAlphabetic(1).toUpperCase(), RandomStringUtils.randomAlphanumeric(20) + "@gmail.com", new SecureRandom().ints(10, '!', '}').collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString()));
         }
 
         // Create a combo box with the clientes
@@ -216,10 +215,10 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         // Layout de Cuenta y Tarjetas
 
         // Inicializacion de la tabla de Cuentas
-        Cuenta cuenta1 = new Cuenta(1000, "ES1234567890123456789012");
-        Cuenta cuenta2 = new Cuenta(2000, "ES1234567890123456789013");
-        Cuenta cuenta3 = new Cuenta(3000, "ES1234567890123456789014");
-        Cuenta cuenta4 = new Cuenta(4000, "ES1234567890123456789015");
+        Cuenta cuenta1 = new Cuenta();
+        Cuenta cuenta2 = new Cuenta();
+        Cuenta cuenta3 = new Cuenta();
+        Cuenta cuenta4 = new Cuenta();
 
         Grid<Cuenta> gridCuentas = new Grid<>(Cuenta.class, false);
         gridCuentas.addClassName("TablaCuentaTarjeta");
@@ -252,16 +251,16 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         Date date4 = cal4.getTime();
 
         // Inicializacion de la tabla de Tarjetas
-        Tarjeta tarjeta1 = new Tarjeta("1234567890123456", date1, 512, 2000, true);
-        Tarjeta tarjeta2 = new Tarjeta("2345678901234567", date2, 278, 4000, true);
-        Tarjeta tarjeta3 = new Tarjeta("3456789012345678", date3, 49, 1250, false);
-        Tarjeta tarjeta4 = new Tarjeta("0123456789012345", date4, 623, 500, true);
+        Tarjeta tarjeta1 = new Tarjeta();
+        Tarjeta tarjeta2 = new Tarjeta();
+        Tarjeta tarjeta3 = new Tarjeta();
+        Tarjeta tarjeta4 = new Tarjeta();
 
         Grid<Tarjeta> gridTarjetas = new Grid<>(Tarjeta.class, false);
         gridTarjetas.addClassName("TablaCuentaTarjeta");
-        gridTarjetas.addColumn(Tarjeta::getNumero).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addColumn(tarjeta -> String.format("%03d", tarjeta.getCVV())).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetas.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
+        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getFechaCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetas.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
         gridTarjetas.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
         gridTarjetas.addComponentColumn(tarjeta -> {
             ToggleButton toggleButton = new ToggleButton();

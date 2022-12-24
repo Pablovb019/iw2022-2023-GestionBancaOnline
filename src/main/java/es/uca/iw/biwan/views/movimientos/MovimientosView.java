@@ -1,15 +1,11 @@
 package es.uca.iw.biwan.views.movimientos;
 
 import java.text.DecimalFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 import com.vaadin.flow.component.button.Button;
@@ -133,9 +129,11 @@ public class MovimientosView extends VerticalLayout {
     private static DatePicker.DatePickerI18n singleFormatI18n = new DatePicker.DatePickerI18n();
 
     private static String getFormattedMovimientoDate(Movimiento movimiento) {
-        LocalDateTime fecha = movimiento.getFecha();
-
-        return fecha.format(dateFormatter);
+        if (movimiento.getFecha().isBefore(LocalDate.now().minusDays(1))) {
+            return dateFormatter.format(movimiento.getFecha());
+        } else {
+            return hourFormatter.format(movimiento.getFecha());
+        }
     }
 
     private static String getFormattedMovimientoImporteColor(Movimiento movimiento) {
@@ -174,7 +172,7 @@ public class MovimientosView extends VerticalLayout {
         if(movimiento instanceof Traspaso) {
             Traspaso traspaso = (Traspaso) movimiento;
 
-            return traspaso.getCuentaDestino();
+            return traspaso.getCuentaDestinatario();
         }
         
         return "Movimiento desconocido";
@@ -314,8 +312,8 @@ public class MovimientosView extends VerticalLayout {
         List<Movimiento> dataExample = new ArrayList<Movimiento>();
 
         for (int i = 0; i < 50; i++) {
-            // generate random localdatetime between fechaInicio and fechaFin
-            LocalDateTime fecha = LocalDateTime.ofInstant(Instant.ofEpochMilli(ThreadLocalRandom.current().nextLong(fechaInicio.toInstant(ZoneOffset.UTC).toEpochMilli(), fechaFin.toInstant(ZoneOffset.UTC).toEpochMilli())), ZoneId.systemDefault());
+            // generate random localdate between fechaInicio and fechaFin
+            LocalDate fecha = fechaInicio.toLocalDate().plusDays((long) (Math.random() * (fechaFin.toLocalDate().toEpochDay() - fechaInicio.toLocalDate().toEpochDay())));
             // generate random float between -100 and 100
             float importe = (float) (Math.random() * 200 - 100);
             if(importe == 0) {

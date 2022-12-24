@@ -22,7 +22,7 @@ public class ClienteView extends VerticalLayout {
     public ClienteView(){
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRole().contentEquals("CLIENTE")) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
                 UI.getCurrent().navigate("");
             } else {
                 add(HeaderUsuarioLogueadoView.Header());

@@ -1,6 +1,7 @@
 package es.uca.iw.biwan.views.recibosDomiciliados;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class RecibosDomiciliadosView extends VerticalLayout {
     }
 
     private static String getFormattedMovimientoDate(ReciboDomiciliado movimiento) {
-        LocalDateTime fecha = movimiento.getFecha();
+        LocalDate fecha = movimiento.getFecha();
 
         return fecha.format(dateFormatter);
     }
@@ -159,7 +160,7 @@ public class RecibosDomiciliadosView extends VerticalLayout {
             }
 
             // Generate random fecha between 1 month ago and now
-            LocalDateTime fecha = LocalDateTime.now().minusMonths((int) (Math.random() * 30));
+            LocalDate fecha = LocalDate.now().minusMonths((int) (Math.random() * 2)).minusDays((int) (Math.random() * 30));
 
             // Generate random emisor between Vodafone, Gas Natural, Iberdrola, Aguas de Alicante, Movistar
             String emisor = "";
@@ -189,7 +190,7 @@ public class RecibosDomiciliadosView extends VerticalLayout {
             }
 
             // Generate random fechaVencimiento between 1 month ago and now
-            LocalDateTime fechaVencimiento = LocalDateTime.now().minusMonths((int) (Math.random() * 30));
+            LocalDate fechaVencimiento = LocalDate.now().minusMonths((int) (Math.random() * 2)).minusDays((int) (Math.random() * 30));
 
             recibos.add(new ReciboDomiciliado(importe, fecha, balance, fechaVencimiento, emisor, concepto));
         }

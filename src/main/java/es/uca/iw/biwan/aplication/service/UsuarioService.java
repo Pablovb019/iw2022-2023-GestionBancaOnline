@@ -17,7 +17,7 @@ public class UsuarioService {
     }
 
     public void save(Usuario user) {
-        usuarioRepository.insertUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getRole(), user.getPassword());
+        usuarioRepository.insertUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getRol(), user.getPassword());
     }
 
     public Usuario findUserByEmail(String email) {

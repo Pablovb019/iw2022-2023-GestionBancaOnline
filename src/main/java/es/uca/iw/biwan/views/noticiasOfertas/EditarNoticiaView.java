@@ -19,7 +19,7 @@ import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("editar-noticia-encargado")
-@PageTitle("Editar Noticia")
+@PageTitle("Editar NoticiaService")
 @CssImport("./themes/biwan/editarNoticia.css")
 public class EditarNoticiaView extends VerticalLayout {
     private static TextField titulo = new TextField("Título");
@@ -41,7 +41,7 @@ public class EditarNoticiaView extends VerticalLayout {
     }
 
     private Component crearTitulo() {
-        var titulo = new H2("Editar Noticia");
+        var titulo = new H2("Editar NoticiaService");
         VerticalLayout vlTitulo = new VerticalLayout(titulo);
         vlTitulo.setAlignItems(Alignment.CENTER);
         titulo.addClassName("title");

@@ -75,13 +75,13 @@ public class AjustesClienteView extends VerticalLayout {
         atras.addClickListener(e -> {
             VaadinSession session = VaadinSession.getCurrent();
             if(session.getAttribute(Usuario.class) != null) {
-                if (session.getAttribute(Usuario.class).getRole().contentEquals("ADMINISTRADOR")) {
+                if (session.getAttribute(Usuario.class).getRol().contentEquals("ADMINISTRADOR")) {
                     UI.getCurrent().navigate("");
-                } else if (session.getAttribute(Usuario.class).getRole().contentEquals("CLIENTE")) {
+                } else if (session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
                     UI.getCurrent().navigate("pagina-principal-cliente");
-                } else if (session.getAttribute(Usuario.class).getRole().contentEquals("GESTOR")) {
+                } else if (session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
                     UI.getCurrent().navigate("pagina-principal-gestor");
-                } else if (session.getAttribute(Usuario.class).getRole().contentEquals("ENCARGADO_COMUNICACIONES")) {
+                } else if (session.getAttribute(Usuario.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
                     UI.getCurrent().navigate("pagina-principal-encargado");
                 } else {
                     ConfirmDialog error = new ConfirmDialog("Error", "El usuario no tiene rol", "Aceptar", null);

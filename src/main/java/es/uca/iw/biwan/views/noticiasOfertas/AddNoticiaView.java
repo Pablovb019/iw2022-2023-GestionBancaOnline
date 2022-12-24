@@ -17,7 +17,7 @@ import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("add-noticia-encargado")
-@PageTitle("Añadir Noticia")
+@PageTitle("Añadir NoticiaService")
 @CssImport("./themes/biwan/addNoticia.css")
 public class AddNoticiaView extends VerticalLayout {
     private TextField titulo = new TextField("Título");
@@ -33,7 +33,7 @@ public class AddNoticiaView extends VerticalLayout {
     }
 
     private Component crearTitulo() {
-        var titulo = new H2("Añadir Noticia");
+        var titulo = new H2("Añadir NoticiaService");
         VerticalLayout vlTitulo = new VerticalLayout(titulo);
         vlTitulo.setAlignItems(Alignment.CENTER);
         titulo.addClassName("tituloColor");

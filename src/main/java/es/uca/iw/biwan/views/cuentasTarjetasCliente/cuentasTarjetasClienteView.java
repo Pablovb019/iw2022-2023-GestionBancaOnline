@@ -2,23 +2,19 @@ package es.uca.iw.biwan.views.cuentasTarjetasCliente;
 
 import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -56,10 +52,10 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
         // Layout de Cuenta y Tarjetas
 
         // Inicializacion de la tabla de Cuentas
-        Cuenta cuenta1 = new Cuenta(1000, "ES1234567890123456789012");
-        Cuenta cuenta2 = new Cuenta(2000, "ES1234567890123456789013");
-        Cuenta cuenta3 = new Cuenta(3000, "ES1234567890123456789014");
-        Cuenta cuenta4 = new Cuenta(4000, "ES1234567890123456789015");
+        Cuenta cuenta1 = new Cuenta();
+        Cuenta cuenta2 = new Cuenta();
+        Cuenta cuenta3 = new Cuenta();
+        Cuenta cuenta4 = new Cuenta();
 
         Grid<Cuenta> gridCuentas = new Grid<>(Cuenta.class, false);
         gridCuentas.addClassName("TablaCuentaTarjeta");
@@ -92,15 +88,15 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
         Date date4 = cal4.getTime();
 
         // Inicializacion de la tabla de Tarjetas
-        Tarjeta tarjeta1 = new Tarjeta("1234567890123456", date1, 512, 2000, true);
-        Tarjeta tarjeta2 = new Tarjeta("2345678901234567", date2, 278, 4000, true);
-        Tarjeta tarjeta3 = new Tarjeta("3456789012345678", date3, 49, 1250, false);
-        Tarjeta tarjeta4 = new Tarjeta("0123456789012345", date4, 623, 500, true);
+        Tarjeta tarjeta1 = new Tarjeta();
+        Tarjeta tarjeta2 = new Tarjeta();
+        Tarjeta tarjeta3 = new Tarjeta();
+        Tarjeta tarjeta4 = new Tarjeta();
 
         Grid<Tarjeta> gridTarjetas = new Grid<>(Tarjeta.class, false);
         gridTarjetas.addClassName("TablaCuentaTarjeta");
-        gridTarjetas.addColumn(Tarjeta::getNumero).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetas.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Número de Tarjeta").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getFechaCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
         gridTarjetas.addColumn(tarjeta -> String.format("%03d", tarjeta.getCVV())).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER);
         gridTarjetas.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
         gridTarjetas.addComponentColumn(tarjeta -> {

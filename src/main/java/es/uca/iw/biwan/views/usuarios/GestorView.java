@@ -23,7 +23,7 @@ public class GestorView extends VerticalLayout {
     public GestorView(){
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRole().contentEquals("GESTOR")) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
                 UI.getCurrent().navigate("");
             } else {
                 //NEW

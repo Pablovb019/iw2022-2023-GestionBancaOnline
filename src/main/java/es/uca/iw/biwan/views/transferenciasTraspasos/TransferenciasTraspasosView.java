@@ -1,5 +1,6 @@
 package es.uca.iw.biwan.views.transferenciasTraspasos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +114,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
 
                     Transferencia transferencia = new Transferencia(
                         importeTransferencia,
-                        LocalDateTime.now(),
+                        LocalDate.now(),
                         balanceActual - importeTransferencia,
                         cuentaOrigen.getValue().getIBAN(),
                         cuentaDestino.getValue(),
@@ -212,7 +213,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
 
                     Traspaso traspaso = new Traspaso(
                         importeTraspaso,
-                        LocalDateTime.now(),
+                            LocalDate.now(),
                         balanceActual - importeTraspaso,
                         cuentaOrigen.getValue().getIBAN(),
                         cuentaDestino.getValue().getIBAN(),
@@ -267,7 +268,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                 IBAN += (int) (Math.random() * 10);
             }
 
-            cuentas.add(new Cuenta(1000, IBAN));
+            // cuentas.add(new Cuenta(1000, IBAN));
         }
         
         return cuentas;

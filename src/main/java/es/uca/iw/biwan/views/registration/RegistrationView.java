@@ -155,7 +155,7 @@ public class RegistrationView extends VerticalLayout {
                 usuario.setFechaNacimiento(birthDate.getValue());
                 usuario.setEmail(email.getValue());
                 usuario.setPassword(passwordEncoder.encode(password.getValue()));
-                usuario.setRole(Role.CLIENTE);
+                usuario.setRol(Role.CLIENTE);
                 CreateRequest(usuario);
             }
         });

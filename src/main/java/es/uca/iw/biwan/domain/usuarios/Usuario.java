@@ -1,12 +1,15 @@
 package es.uca.iw.biwan.domain.usuarios;
 
 import es.uca.iw.biwan.domain.rol.Role;
+import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "rol")
 public class Usuario {
 
     @Id
@@ -22,11 +25,12 @@ public class Usuario {
     @Column(nullable = false)
     private Double telefono;
     @Column(nullable = false)
+    @Unique
     private String dni;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private String role;
+    private String rol;
     @Column(nullable = false)
     private String password;
 
@@ -40,7 +44,7 @@ public class Usuario {
         this.telefono = telefono;
         this.dni = dni;
         this.email = email;
-        this.role = role.toString();
+        this.rol = role.toString();
         this.password = password;
     }
 
@@ -104,12 +108,12 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
+    public String getRol() {
+        return rol;
     }
 
-    public void setRole(Role role) {
-        this.role = role.toString();
+    public void setRol(Role role) {
+        this.rol = role.toString();
     }
 
     public String getPassword() {

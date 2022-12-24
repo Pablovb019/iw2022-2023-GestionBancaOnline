@@ -21,7 +21,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @EnableJpaRepositories
-@EntityScan(basePackages = {"es.uca.iw.biwan.domain"})
 
 @Theme(value = "biwan")
 @PWA(name = "Biwan", shortName = "Biwan", offlineResources = {})

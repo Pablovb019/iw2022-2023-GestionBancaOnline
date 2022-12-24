@@ -118,23 +118,23 @@ public class LoginView extends VerticalLayout {
                 VaadinSession session = VaadinSession.getCurrent();
                 session.setAttribute(Usuario.class, user);
 
-                if (user.getRole().equals(Role.CLIENTE.toString())) {
+                if (user.getRol().equals(Role.CLIENTE.toString())) {
                     // Mostrar mensaje de bienvenida
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
                     UI.getCurrent().navigate("pagina-principal-cliente");
-                } else if (user.getRole().equals(Role.GESTOR.toString())) {
+                } else if (user.getRol().equals(Role.GESTOR.toString())) {
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
                     UI.getCurrent().navigate("pagina-principal-gestor");
-                } else if (user.getRole().equals(Role.ENCARGADO_COMUNICACIONES.toString())) {
+                } else if (user.getRol().equals(Role.ENCARGADO_COMUNICACIONES.toString())) {
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
                     UI.getCurrent().navigate("pagina-principal-encargado");
-                } else if (user.getRole().equals(Role.ADMINISTRADOR.toString())) {
+                } else if (user.getRol().equals(Role.ADMINISTRADOR.toString())) {
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
