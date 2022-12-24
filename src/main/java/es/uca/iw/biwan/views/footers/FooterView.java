@@ -23,8 +23,8 @@ public class FooterView {
         Anchor Biwan = new Anchor("", new Image("images/logo.png", "Biwan"));
         Anchor AvisoLegal = new Anchor("aviso-legal", "Aviso legal");
         Anchor Tarifas = new Anchor("", "Tarifas");
-        Anchor Cookies = new Anchor("", "Cookies");
-        Anchor InformesLegales = new Anchor("", "Informes legales");
+        Anchor Cookies = new Anchor("cookies", "Cookies");
+        Anchor InformesLegales = new Anchor("informes-legales", "Informes legales");
         Anchor TablonAnuncios = new Anchor("", "Tablón de anuncios");
         Anchor NegocioResponsable = new Anchor("", "Negocio responsable");
 
