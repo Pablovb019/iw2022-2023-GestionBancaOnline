@@ -17,15 +17,24 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.AnuncioService;
 import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
+import es.uca.iw.biwan.domain.comunicaciones.Noticia;
+import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Route("add-noticia-encargado")
 @PageTitle("Añadir Noticia")
 @CssImport("./themes/biwan/addNoticia.css")
 public class AddNoticiaView extends VerticalLayout {
+    @Autowired
+    private AnuncioService anuncioService;
     private TextField titulo = new TextField("Título");
     private TextArea descripcion = new TextArea("Descripción");
     private Button guardar = new Button("Guardar");
@@ -106,10 +115,30 @@ public class AddNoticiaView extends VerticalLayout {
         guardar.addClickShortcut(Key.ENTER);
         guardar.addClickListener(event -> {
             if (binderNoticia.validate().isOk()) {
-                //Usuario user = anuncioService.findUserByEmail(email.getValue());
-                //CheckUser(user, password.getValue());
+                Noticia noticia = new Noticia();
+                noticia.setTipo(TipoAnuncio.NOTICIA);
+                noticia.setUUID(UUID.randomUUID());
+                noticia.setFechaInicio(LocalDate.now());
+                noticia.setFechaFin(null);
+                noticia.setTitulo(titulo.getValue());
+                noticia.setCuerpo(descripcion.getValue());
+                CreateRequest(noticia);
             }
         });
         return vlButtons;
+    }
+
+    private void CreateRequest(Anuncio anuncio) {
+        try {
+            anuncioService.save(anuncio);
+            ConfirmDialog confirmRequest = new ConfirmDialog("Añadida Noticia", "Noticia añadida correctamente", "Aceptar", event1 -> {
+                UI.getCurrent().navigate("/pagina-principal-encargado");
+            });
+            confirmRequest.open();
+        } catch (Exception e) {
+            ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud. Comunique al adminsitrador del sitio el error.\n" +
+                    "Error: " + e, "Aceptar", null);
+            error.open();
+        }
     }
 }

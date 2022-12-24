@@ -1,6 +1,7 @@
 package es.uca.iw.biwan.views.noticiasOfertas;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,17 +13,29 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.AnuncioService;
+import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
+import es.uca.iw.biwan.domain.comunicaciones.Noticia;
+import es.uca.iw.biwan.domain.comunicaciones.Oferta;
+import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Route("add-oferta-encargado")
 @PageTitle("Añadir Oferta")
 @CssImport("./themes/biwan/addOferta.css")
 public class AddOfertaView extends VerticalLayout {
+    @Autowired
+    private AnuncioService anuncioService;
     private TextField titulo = new TextField("Título");
     private TextArea descripcion = new TextArea("Descripción");
     private Button guardar = new Button("Guardar");
@@ -58,11 +71,22 @@ public class AddOfertaView extends VerticalLayout {
     }
 
     private Component crearAñadirOferta() {
+        Binder<Anuncio> binderOferta = new Binder<>(Anuncio.class);
+
         titulo.setMinWidth("700px");
         descripcion.setMinHeight("700px");
         descripcion.setMinHeight("198px");
         FormLayout flForm = new FormLayout();
-        Component botones = crearBotones();
+
+        binderOferta.forField(titulo)
+                .asRequired("El título es obligatorio")
+                .bind(Anuncio::getTitulo, Anuncio::setTitulo);
+
+        binderOferta.forField(descripcion)
+                .asRequired("La descripción es obligatoria")
+                .bind(Anuncio::getCuerpo, Anuncio::setCuerpo);
+
+        Component botones = crearBotones(binderOferta);
         flForm.add(titulo, descripcion, botones);
         flForm.setColspan(titulo, 2);
         flForm.setColspan(descripcion, 2);
@@ -71,7 +95,7 @@ public class AddOfertaView extends VerticalLayout {
         return flForm;
     }
 
-    private Component crearBotones() {
+    private Component crearBotones(Binder<Anuncio> binderOferta) {
         guardar.addClassName("guardar");
         atras.addClassName("atras");
         HorizontalLayout hlButtons = new HorizontalLayout();
@@ -81,10 +105,40 @@ public class AddOfertaView extends VerticalLayout {
         VerticalLayout vlButtons = new VerticalLayout(hlButtons);
         vlButtons.setAlignItems(Alignment.CENTER);
         vlButtons.addClassName("Buttons");
+
         // Evento para volver a la pagina principal
         atras.getElement().addEventListener("click", e -> {
             UI.getCurrent().navigate("pagina-principal-encargado");
         });
+
+        //Añadir oferta
+        guardar.addClickShortcut(Key.ENTER);
+        guardar.addClickListener(event -> {
+            if (binderOferta.validate().isOk()) {
+                Oferta oferta = new Oferta();
+                oferta.setTipo(TipoAnuncio.OFERTA);
+                oferta.setUUID(UUID.randomUUID());
+                oferta.setFechaInicio(LocalDate.now());
+                oferta.setFechaFin(LocalDate.now().plusDays(30));
+                oferta.setTitulo(titulo.getValue());
+                oferta.setCuerpo(descripcion.getValue());
+                CreateRequest(oferta);
+            }
+        });
         return vlButtons;
+    }
+
+    private void CreateRequest(Anuncio anuncio) {
+        try {
+            anuncioService.save(anuncio);
+            ConfirmDialog confirmRequest = new ConfirmDialog("Añadida Oferta", "Oferta añadida correctamente", "Aceptar", event1 -> {
+                UI.getCurrent().navigate("/pagina-principal-encargado");
+            });
+            confirmRequest.open();
+        } catch (Exception e) {
+            ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud. Comunique al adminsitrador del sitio el error.\n" +
+                    "Error: " + e, "Aceptar", null);
+            error.open();
+        }
     }
 }

@@ -49,7 +49,7 @@ public class EncargadoView extends VerticalLayout {
 
         H2 TituloTablonNoticias = new H2("Noticias");
         H2 TituloTablonOfertas = new H2("Ofertas");
-        Anchor AñadirNoticiaButton = new Anchor("add-noticia-encargado", "Añadir NoticiaService");
+        Anchor AñadirNoticiaButton = new Anchor("add-noticia-encargado", "Añadir Noticia");
         Anchor AñadirOfertaButton = new Anchor("add-oferta-encargado", "Añadir Oferta");
 
         // CSS
