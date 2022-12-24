@@ -24,7 +24,7 @@ public class FooterView {
         Anchor AvisoLegal = new Anchor("aviso-legal", "Aviso legal");
         Anchor Tarifas = new Anchor("", "Tarifas");
         Anchor Cookies = new Anchor("cookies", "Cookies");
-        Anchor InformesLegales = new Anchor("", "Informes legales");
+        Anchor InformesLegales = new Anchor("informes-legales", "Informes legales");
         Anchor TablonAnuncios = new Anchor("", "Tablón de anuncios");
         Anchor NegocioResponsable = new Anchor("", "Negocio responsable");
 
