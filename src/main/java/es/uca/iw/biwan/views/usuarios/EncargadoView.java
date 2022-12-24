@@ -24,14 +24,17 @@ public class EncargadoView extends VerticalLayout {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
             if (!session.getAttribute(Usuario.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
-                UI.getCurrent().navigate("");
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un encargado de comunicaciones", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
             } else {
                 add(HeaderUsuarioLogueadoView.Header());
                 add(crearPaginaPrincipal());
                 add(FooterView.Footer());
             }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", null);
             error.open();
             UI.getCurrent().navigate("");
         }
@@ -50,7 +53,7 @@ public class EncargadoView extends VerticalLayout {
         Anchor AñadirOfertaButton = new Anchor("add-oferta-encargado", "Añadir Oferta");
 
         // CSS
-        Titulo.addClassName("Titulo");
+        Titulo.addClassName("TituloWelcome");
         TituloTablonNoticias.addClassName("Textos");
         TituloTablonOfertas.addClassName("Textos");
         AñadirNoticiaButton.addClassName("AñadirNoticiaOfertaButtons");

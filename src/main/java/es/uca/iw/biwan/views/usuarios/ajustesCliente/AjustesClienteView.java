@@ -37,10 +37,18 @@ public class AjustesClienteView extends VerticalLayout {
     private Button save = new Button("Guardar");
 
     public AjustesClienteView(){
-        add(HeaderUsuarioLogueadoView.Header());
-        add(crearTitulo());
-        add(crearFormulario());
-        add(FooterView.Footer());
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            add(HeaderUsuarioLogueadoView.Header());
+            add(crearTitulo());
+            add(crearFormulario());
+            add(FooterView.Footer());
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Volver", event -> {
+                UI.getCurrent().navigate("");
+            });
+            error.open();
+        }
     }
 
     private Component crearTitulo() {

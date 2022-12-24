@@ -30,12 +30,12 @@ public class HeaderView {
         Anchor MasInfo = new Anchor("", "Más información");
         Anchor HazteCliente = new Anchor("registration", "+ Hazte cliente");
         Anchor Acceso = new Anchor("login", "Acceso");
-        Anchor CuentasTarjetasMenuItem = new Anchor("", "Cuentas y tarjetas");
+        Anchor CuentasTarjetasMenuItem = new Anchor("cuentas-tarjetas-cliente", "Cuentas y tarjetas");
         Anchor MovimientosRealizadosMenuItem = new Anchor("movimientos", "Movimientos realizados");
         Anchor RecibosDomiciliadosMenuItem = new Anchor("recibos-domiciliados", "Recibos domiciliados");
         Anchor TransferenciasTraspasosMenuItem = new Anchor("transferencias-traspasos", "Transferencias y Traspasos");
-        Anchor ConsultasOnlineMenuItem = new Anchor("consultas-online-gestor", "Consultas Online");
-        Anchor ConsultasOfflineMenuItem = new Anchor("consultas-offline-gestor", "Consultas Offline");
+        Anchor ConsultasOnlineMenuItem = new Anchor("consultas-online-cliente", "Consultas Online");
+        Anchor ConsultasOfflineMenuItem = new Anchor("consultas-offline-cliente", "Consultas Offline");
         MenuBar MenuPrincipal = new MenuBar();
         Icon iconMenu = new Icon(VaadinIcon.MENU);
         Icon iconHazteCliente = new Icon(VaadinIcon.USER);

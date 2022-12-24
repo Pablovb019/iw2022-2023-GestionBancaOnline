@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -21,7 +23,9 @@ import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -30,40 +34,55 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 public class RecibosDomiciliadosView extends VerticalLayout {
 
     public RecibosDomiciliadosView() {
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
+            } else {
+                setSizeFull();
+                add(HeaderUsuarioLogueadoView.Header());
 
-        setSizeFull();
-        add(HeaderUsuarioLogueadoView.Header());
+                H1 titleLayout = new H1("Recibos Domiciliados");
+                titleLayout.getStyle().set("margin-top", "10px");
+                titleLayout.getStyle().set("margin-bottom", "10px");
+                titleLayout.getStyle().set("text-align", "center");
+                titleLayout.setWidth("100%");
 
-        H1 titleLayout = new H1("Recibos Domiciliados");
-        titleLayout.getStyle().set("margin-top", "10px");
-        titleLayout.getStyle().set("margin-bottom", "10px");
-        titleLayout.getStyle().set("text-align", "center");
-        titleLayout.setWidth("100%");
+                add(titleLayout);
 
-        add(titleLayout);
+                Grid<ReciboDomiciliado> grid = new Grid<>(ReciboDomiciliado.class, false);
+                grid.addColumn(ReciboDomiciliado::getEmisor).setHeader("Emisor");
+                grid.addColumn(dateRenderer()).setHeader("Fecha").setComparator(ReciboDomiciliado::getFecha);
+                grid.addColumn(ReciboDomiciliado::getConcepto).setHeader("Concepto");
+                grid.setItemDetailsRenderer(createMovimientoDetailsRenderer());
 
-        Grid<ReciboDomiciliado> grid = new Grid<>(ReciboDomiciliado.class, false);
-        grid.addColumn(ReciboDomiciliado::getEmisor).setHeader("Emisor");
-        grid.addColumn(dateRenderer()).setHeader("Fecha").setComparator(ReciboDomiciliado::getFecha);
-        grid.addColumn(ReciboDomiciliado::getConcepto).setHeader("Concepto");
-        grid.setItemDetailsRenderer(createMovimientoDetailsRenderer());
+                GridListDataView<ReciboDomiciliado> dataView = grid.setItems(obtenerRecibos(5));
+                grid.setWidth("100%");
+                grid.getStyle().set("align-self", "center");
+                grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
+                grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 
-        GridListDataView<ReciboDomiciliado> dataView = grid.setItems(obtenerRecibos(5));
-        grid.setWidth("100%");
-        grid.getStyle().set("align-self", "center");
-        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+                VerticalLayout tableLayout = new VerticalLayout();
+                tableLayout.setSizeFull();
+                tableLayout.setWidth("80%");
+                tableLayout.getStyle().set("align-self", "center");
 
-        VerticalLayout tableLayout = new VerticalLayout();
-        tableLayout.setSizeFull();
-        tableLayout.setWidth("80%");
-        tableLayout.getStyle().set("align-self", "center");
+                tableLayout.add(grid);
 
-        tableLayout.add(grid);
+                add(tableLayout);
 
-        add(tableLayout);
-
-        add(FooterView.Footer());
+                add(FooterView.Footer());
+            }
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
+            });
+            error.open();
+            UI.getCurrent().navigate("");
+        }
     }
 
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM");

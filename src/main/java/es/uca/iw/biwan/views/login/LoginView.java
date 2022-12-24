@@ -27,6 +27,7 @@ import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,24 +46,31 @@ public class LoginView extends VerticalLayout {
     private PasswordEncoder passwordEncoder;
 
     public LoginView() {
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            ConfirmDialog error = new ConfirmDialog("Error", "Ya has iniciado sesión", "Volver", event -> {
+                UI.getCurrent().navigate("");
+            });
+            error.open();
+        } else {
+            //NEW
+            VerticalLayout layoutLogin = new VerticalLayout();
+            HorizontalLayout layoutHorLogin = new HorizontalLayout();
 
-        //NEW
-        VerticalLayout layoutLogin = new VerticalLayout();
-        HorizontalLayout layoutHorLogin = new HorizontalLayout();
+            //ADD
+            layoutHorLogin.add(Login());
+            layoutLogin.add(HeaderView.Header(), layoutHorLogin, FooterView.Footer());
 
-        //ADD
-        layoutHorLogin.add(Login());
-        layoutLogin.add(HeaderView.Header(), layoutHorLogin, FooterView.Footer());
+            //ALIGNMENT
+            layoutHorLogin.setWidth("30%");
+            layoutLogin.expand(layoutHorLogin);
+            layoutHorLogin.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Login());
+            layoutHorLogin.setAlignItems(FlexComponent.Alignment.CENTER);
+            layoutLogin.setAlignItems(FlexComponent.Alignment.CENTER);
+            layoutLogin.setSizeFull();
 
-        //ALIGNMENT
-        layoutHorLogin.setWidth("30%");
-        layoutLogin.expand(layoutHorLogin);
-        layoutHorLogin.setVerticalComponentAlignment(FlexComponent.Alignment.CENTER, Login());
-        layoutHorLogin.setAlignItems(FlexComponent.Alignment.CENTER);
-        layoutLogin.setAlignItems(FlexComponent.Alignment.CENTER);
-        layoutLogin.setSizeFull();
-
-        add(layoutLogin);
+            add(layoutLogin);
+        }
     }
 
     private FormLayout Login() {

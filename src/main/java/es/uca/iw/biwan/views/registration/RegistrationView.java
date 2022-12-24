@@ -18,6 +18,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
@@ -42,24 +43,31 @@ public class RegistrationView extends VerticalLayout {
     private final FormLayout registration = new FormLayout();
 
     public RegistrationView() {
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            ConfirmDialog error = new ConfirmDialog("Error", "Ya has iniciado sesión", "Volver", event -> {
+                UI.getCurrent().navigate("");
+            });
+            error.open();
+        } else {
+            //NEW
+            VerticalLayout layoutRegistration = new VerticalLayout();
+            HorizontalLayout layoutHorRegistration = new HorizontalLayout();
 
-        //NEW
-        VerticalLayout layoutRegistration = new VerticalLayout();
-        HorizontalLayout layoutHorRegistration = new HorizontalLayout();
+            //ADD
+            layoutHorRegistration.add(Registration());
+            layoutRegistration.add(HeaderView.Header(), layoutHorRegistration, FooterView.Footer());
 
-        //ADD
-        layoutHorRegistration.add(Registration());
-        layoutRegistration.add(HeaderView.Header(), layoutHorRegistration, FooterView.Footer());
+            //ALIGNMENT
+            layoutHorRegistration.setWidth("30%");
+            layoutRegistration.expand(layoutHorRegistration);
+            layoutHorRegistration.setVerticalComponentAlignment(Alignment.CENTER, Registration());
+            layoutHorRegistration.setAlignItems(Alignment.CENTER);
+            layoutRegistration.setAlignItems(Alignment.CENTER);
+            layoutRegistration.setSizeFull();
 
-        //ALIGNMENT
-        layoutHorRegistration.setWidth("30%");
-        layoutRegistration.expand(layoutHorRegistration);
-        layoutHorRegistration.setVerticalComponentAlignment(Alignment.CENTER, Registration());
-        layoutHorRegistration.setAlignItems(Alignment.CENTER);
-        layoutRegistration.setAlignItems(Alignment.CENTER);
-        layoutRegistration.setSizeFull();
-
-        add(layoutRegistration);
+            add(layoutRegistration);
+        }
     }
 
     private FormLayout Registration() {

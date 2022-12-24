@@ -24,7 +24,10 @@ public class GestorView extends VerticalLayout {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
             if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
-                UI.getCurrent().navigate("");
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
             } else {
                 //NEW
                 VerticalLayout layoutGestor = new VerticalLayout();
@@ -42,7 +45,7 @@ public class GestorView extends VerticalLayout {
                 add(layoutGestor);
             }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", null);
             error.open();
             UI.getCurrent().navigate("");
         }

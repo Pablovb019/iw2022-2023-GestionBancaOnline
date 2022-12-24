@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
@@ -13,11 +14,13 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @Route("add-oferta-encargado")
-@PageTitle("Añadir NoticiaService")
+@PageTitle("Añadir Oferta")
 @CssImport("./themes/biwan/addOferta.css")
 public class AddOfertaView extends VerticalLayout {
     private TextField titulo = new TextField("Título");
@@ -26,10 +29,24 @@ public class AddOfertaView extends VerticalLayout {
     private Button atras = new Button("Atrás");
 
     public AddOfertaView(){
-        add(HeaderUsuarioLogueadoView.Header());
-        add(crearTitulo());
-        add(crearAñadirOferta());
-        add(FooterView.Footer());
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un encargado de comunicaciones", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
+            } else {
+                add(HeaderUsuarioLogueadoView.Header());
+                add(crearTitulo());
+                add(crearAñadirOferta());
+                add(FooterView.Footer());
+            }
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", null);
+            error.open();
+            UI.getCurrent().navigate("");
+        }
     }
 
     private Component crearTitulo() {
