@@ -63,6 +63,8 @@ public class GestorView extends VerticalLayout {
         H1 Titulo = new H1("Bienvenido Gestor: " + nombre);
         Anchor NombreCliente = new Anchor("", "Jose Antonio Alonso de la Huerta");
         Anchor CuentasYTarjetasButton = new Anchor("cuentas-tarjetas-gestor", "Cuentas y tarjetas");
+        Anchor CrearCuentaButton = new Anchor("crear-cuenta-gestor", "Crear Cuenta");
+        Anchor CrearTarjetaButton = new Anchor("", "Crear Tarjeta");
         Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
         Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
         Span counterOnline = new Span("1");
@@ -74,8 +76,10 @@ public class GestorView extends VerticalLayout {
         Titulo.addClassName("Titulo");
         NombreCliente.addClassNames("NombreClienteAnchor", "Separacion");
         CuentasYTarjetasButton.addClassNames("Separacion", "AnchorButton");
-        ConsultaOnlineButton.addClassNames("Separacion", "AnchorConsultaOnlineOffline");
-        ConsultaOfflineButton.addClassNames("Separacion", "AnchorConsultaOnlineOffline");
+        CrearCuentaButton.addClassNames("Separacion", "BotonGestor");
+        CrearTarjetaButton.addClassNames("Separacion", "BotonGestor");
+        ConsultaOnlineButton.addClassNames("Separacion", "BotonGestor");
+        ConsultaOfflineButton.addClassNames("Separacion", "BotonGestor");
         layoutVerGestorPrincipal.addClassName("layoutVerGestor");
         layoutComponenteTabla.addClassName("layoutGestionCliente");
         counterOnline.addClassName("counter");
@@ -88,13 +92,10 @@ public class GestorView extends VerticalLayout {
         //ADD
         ConsultaOnlineButton.add(counterOnline);
         ConsultaOfflineButton.add(counterOffline);
-        layoutComponenteTabla.add(NombreCliente, CuentasYTarjetasButton, ConsultaOnlineButton, ConsultaOfflineButton);
+        layoutComponenteTabla.add(NombreCliente, CuentasYTarjetasButton, CrearCuentaButton, CrearTarjetaButton, ConsultaOnlineButton, ConsultaOfflineButton);
         layoutVerGestorTabla.add(layoutComponenteTabla);
         layoutVerGestorPrincipal.add(Titulo, layoutComponenteTabla);
 
         return  layoutVerGestorPrincipal;
     }
-
-
-
 }
