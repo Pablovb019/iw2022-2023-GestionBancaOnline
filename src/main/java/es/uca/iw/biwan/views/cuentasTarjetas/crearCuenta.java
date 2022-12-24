@@ -61,6 +61,7 @@ public class crearCuenta extends VerticalLayout {
         H3 NombreClienteSeleccionado = new H3("Creación de cuenta para el cliente: [Implementar nombre cliente]");
         TextField IBAN = new TextField("Número de Cuenta Bancaria \"IBAN\"", "ESXX XXXX XXXX XXXX XXXX XXXX");
         IBAN.setPattern("^ES(\\s*\\t*[0-9]){22}$");
+        IBAN.setMaxLength(29);
         IBAN.setErrorMessage("No es un formato correcto");
         IBAN.setClearButtonVisible(true);
         NumberField Balance = new NumberField();
@@ -75,7 +76,7 @@ public class crearCuenta extends VerticalLayout {
         CrearCuentaSubmit.addClickShortcut(Key.ENTER);
 
         //ADD CLASS NAME
-        Titulo.addClassName("Titulo");
+        Titulo.addClassName("TituloCrearCuenta");
         layoutPrincipalCrearCuenta.addClassName("layoutPrincipalCrearCuenta");
         IBAN.addClassName("Campo");
         Balance.addClassName("Campo");
