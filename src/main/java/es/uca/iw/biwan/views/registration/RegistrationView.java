@@ -22,11 +22,14 @@ import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.UUID;
 
 @CssImport("./themes/biwan/registration.css")
 @PageTitle("Formulario de registro")
@@ -154,17 +157,17 @@ public class RegistrationView extends VerticalLayout {
 
         submit.addClickListener(event -> {
             if(binderForm.validate().isOk()) {
-                Usuario usuario = new Usuario();
-                usuario.GenerateUUID();
-                usuario.setNombre(firstName.getValue());
-                usuario.setApellidos(lastName.getValue());
-                usuario.setTelefono(phoneNumber.getValue());
-                usuario.setDni(dni.getValue());
-                usuario.setFechaNacimiento(birthDate.getValue());
-                usuario.setEmail(email.getValue());
-                usuario.setPassword(passwordEncoder.encode(password.getValue()));
-                usuario.setRol(Role.CLIENTE);
-                CreateRequest(usuario);
+                Cliente cliente = new Cliente();
+                cliente.setUUID(UUID.randomUUID());
+                cliente.setNombre(firstName.getValue());
+                cliente.setApellidos(lastName.getValue());
+                cliente.setTelefono(phoneNumber.getValue());
+                cliente.setDni(dni.getValue());
+                cliente.setFechaNacimiento(birthDate.getValue());
+                cliente.setEmail(email.getValue());
+                cliente.setPassword(passwordEncoder.encode(password.getValue()));
+                cliente.setRol(Role.CLIENTE);
+                CreateRequest(cliente);
             }
         });
         return formLayout;
