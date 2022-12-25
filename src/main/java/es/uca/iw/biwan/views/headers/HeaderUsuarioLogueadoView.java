@@ -110,11 +110,11 @@ public class HeaderUsuarioLogueadoView {
         } else if (rol.equals("ENCARGADO_COMUNICACIONES")) {
             pagRol = "pagina-principal-encargado";
 
-            Anchor AñadirNoticia = new Anchor("añadir-noticia", "Añadir NoticiaService");
+            Anchor AñadirNoticia = new Anchor("add-noticia-encargado", "Añadir Noticia");
             AñadirNoticia.addClassName("AnchorMenuItem");
             MenuSecundario.addItem(AñadirNoticia);
 
-            Anchor AñadirOferta = new Anchor("añadir-oferta", "Añadir Oferta");
+            Anchor AñadirOferta = new Anchor("add-oferta-encargado", "Añadir Oferta");
             AñadirOferta.addClassName("AnchorMenuItem");
             MenuSecundario.addItem(AñadirOferta);
         }

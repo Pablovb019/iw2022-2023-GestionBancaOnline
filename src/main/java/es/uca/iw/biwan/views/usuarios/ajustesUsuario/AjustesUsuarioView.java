@@ -1,4 +1,4 @@
-package es.uca.iw.biwan.views.usuarios.ajustesCliente;
+package es.uca.iw.biwan.views.usuarios.ajustesUsuario;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -25,7 +25,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 @Route("ajustes-cliente")
 @PageTitle("Ajustes Cliente")
 @CssImport("./themes/biwan/ajustesCliente.css")
-public class AjustesClienteView extends VerticalLayout {
+public class AjustesUsuarioView extends VerticalLayout {
     private TextField nombre = new TextField("Nombre");
     private TextField apellidos = new TextField("Apellidos");
     private DatePicker fechaNacimiento = new DatePicker("Fecha de Nacimiento");
@@ -36,7 +36,7 @@ public class AjustesClienteView extends VerticalLayout {
     private Button atras = new Button("Atrás");
     private Button save = new Button("Guardar");
 
-    public AjustesClienteView(){
+    public AjustesUsuarioView(){
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
             add(HeaderUsuarioLogueadoView.Header());

@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
@@ -24,4 +26,16 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
                     @Param("titulo") String titulo,
                     @Param("cuerpo") String cuerpo
     );
+
+    @Query(
+            value = "SELECT * FROM Anuncio WHERE tipo = :tipo",
+            nativeQuery = true
+    )
+    ArrayList<Anuncio> findAnuncioByType(@Param("tipo") String tipo);
+
+    @Query(
+            value = "SELECT tipo FROM Anuncio WHERE uuid = :uuid",
+            nativeQuery = true
+    )
+    String findTypeByUUID(@Param("uuid") UUID uuid);
 }

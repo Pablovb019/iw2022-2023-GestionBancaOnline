@@ -10,19 +10,27 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.AnuncioService;
+import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
+import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.noticiasOfertas.EditarNoticiaView;
 import es.uca.iw.biwan.views.noticiasOfertas.EditarOfertaView;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
 
 @Route("pagina-principal-encargado")
 @CssImport("./themes/biwan/paginaPrincipalEncargado.css")
 @PageTitle("Página Principal Encargado de Comunicaciones")
 public class EncargadoView extends VerticalLayout {
-    public EncargadoView(){
+    @Autowired
+    private AnuncioService anuncioService;
+    public EncargadoView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
+        if (session.getAttribute(Usuario.class) != null) {
             if (!session.getAttribute(Usuario.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un encargado de comunicaciones", "Volver", event -> {
                     UI.getCurrent().navigate("");
@@ -41,6 +49,12 @@ public class EncargadoView extends VerticalLayout {
     }
 
     private Component crearPaginaPrincipal() {
+        try {
+            ArrayList<Anuncio> noticias = anuncioService.findAnuncioByType(TipoAnuncio.NOTICIA.toString());
+            System.out.println(noticias.get(0).getTitulo());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Creacion de los apartados
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
@@ -61,15 +75,15 @@ public class EncargadoView extends VerticalLayout {
 
         // Creacion de los tablones de noticias y ofertas
         // Noticias
-        // NoticiaService 1
+        // Noticia 1
         Anchor Noticia1EditarButton = new Anchor("editar-noticia-encargado", "Editar");
         Anchor Noticia1EliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
         Noticia1EditarButton.addClassName("EditarButtons");
         Noticia1EliminarButton.addClassName("EliminarButtons");
 
-        var TituloNoticia1 = new H3 ("Gracias al servicio de nuestros Gestores haremos todo por ti");
+        var TituloNoticia1 = new H3("Gracias al servicio de nuestros Gestores haremos todo por ti");
         TituloNoticia1.addClassName("Textos");
-        var TextoNoticia1 = new H5 ("¿No tienes tiempo para gestionar tus cuentas y tarjetas? ¿No sabes cómo hacerlo? " +
+        var TextoNoticia1 = new H5("¿No tienes tiempo para gestionar tus cuentas y tarjetas? ¿No sabes cómo hacerlo? " +
                 "¿No sabes qué hacer si te llega una factura? BIWAN te ofrece un servicio de gestión de tus cuentas y tarjetas " +
                 "para que no tengas que preocuparte de nada. Nosotros nos encargamos de gestionarlo todo, " +
                 "y de hacer las gestiones necesarias para que tu no tengas que preocuparte de nada. " +
@@ -90,15 +104,15 @@ public class EncargadoView extends VerticalLayout {
             hlNoticia1.setVisible(false);
         });
 
-        // NoticiaService 2
+        // Noticia 2
         Anchor Noticia2EditarButton = new Anchor("editar-noticia-encargado", "Editar");
         Anchor Noticia2EliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
         Noticia2EditarButton.addClassName("EditarButtons");
         Noticia2EliminarButton.addClassName("EliminarButtons");
 
-        var TituloNoticia2 = new H3 ("Gracias al servicio de nuestros Gestores haremos todo por ti");
+        var TituloNoticia2 = new H3("Gracias al servicio de nuestros Gestores haremos todo por ti");
         TituloNoticia2.addClassName("Textos");
-        var TextoNoticia2 = new H5 ("¿No tienes tiempo para gestionar tus cuentas y tarjetas? ¿No sabes cómo hacerlo? " +
+        var TextoNoticia2 = new H5("¿No tienes tiempo para gestionar tus cuentas y tarjetas? ¿No sabes cómo hacerlo? " +
                 "¿No sabes qué hacer si te llega una factura? BIWAN te ofrece un servicio de gestión de tus cuentas y tarjetas " +
                 "para que no tengas que preocuparte de nada. Nosotros nos encargamos de gestionarlo todo, " +
                 "y de hacer las gestiones necesarias para que tu no tengas que preocuparte de nada. " +
@@ -132,9 +146,9 @@ public class EncargadoView extends VerticalLayout {
         Oferta1EditarButton.addClassName("EditarButtons");
         Oferta1EliminarButton.addClassName("EliminarButtons");
 
-        var TituloOferta1 = new H3 ("Llévate hasta 150 € con el Plan Invita a un Amigo");
+        var TituloOferta1 = new H3("Llévate hasta 150 € con el Plan Invita a un Amigo");
         TituloOferta1.addClassName("Textos");
-        var TextoOferta1 = new H5 ("¿Quieres llevarte 15 € por cada amigo que invites a BIWAN (máximo 10 amigos)" +
+        var TextoOferta1 = new H5("¿Quieres llevarte 15 € por cada amigo que invites a BIWAN (máximo 10 amigos)" +
                 " y conseguir que ellos se lleven también 15 €?" +
                 " Solo tienes que seguir estos pasos: Primero, hazte cliente con la Cuenta Online Sin Comisiones. " +
                 "Accede al área privada de cliente en \"Mis promociones\" y comparte tu código con amigos y familiares." +
@@ -162,9 +176,9 @@ public class EncargadoView extends VerticalLayout {
         Oferta2EditarButton.addClassName("EditarButtons");
         Oferta2EliminarButton.addClassName("EliminarButtons");
 
-        var TituloOferta2 = new H3 ("Llévate hasta 150 € con el Plan Invita a un Amigo");
+        var TituloOferta2 = new H3("Llévate hasta 150 € con el Plan Invita a un Amigo");
         TituloOferta2.addClassName("Textos");
-        var TextoOferta2 = new H5 ("¿Quieres llevarte 15 € por cada amigo que invites a BIWAN (máximo 10 amigos)" +
+        var TextoOferta2 = new H5("¿Quieres llevarte 15 € por cada amigo que invites a BIWAN (máximo 10 amigos)" +
                 " y conseguir que ellos se lleven también 15 €?" +
                 " Solo tienes que seguir estos pasos: Primero, hazte cliente con la Cuenta Online Sin Comisiones. " +
                 "Accede al área privada de cliente en \"Mis promociones\" y comparte tu código con amigos y familiares." +

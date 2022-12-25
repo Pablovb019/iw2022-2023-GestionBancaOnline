@@ -20,7 +20,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.AnuncioService;
 import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
-import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
