@@ -37,7 +37,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @CssImport("./themes/biwan/login.css")
 @Route("login")
 @PageTitle("Formulario de inicio de sesión")
-@AnonymousAllowed
 public class LoginView extends VerticalLayout {
 
     @Autowired

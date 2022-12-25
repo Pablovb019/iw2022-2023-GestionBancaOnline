@@ -25,6 +25,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Theme(value = "biwan")
 @PWA(name = "Biwan", shortName = "Biwan", offlineResources = {})
 @NpmPackage(value = "line-awesome", version = "1.3.0")
+
 public class JpaApplication implements AppShellConfigurator {
     public static void main(String[] args) {
         SpringApplication.run(JpaApplication.class, args);

@@ -1,6 +1,9 @@
 package es.uca.iw.biwan.aplication.repository;
 
 import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
+import es.uca.iw.biwan.domain.comunicaciones.Noticia;
+import es.uca.iw.biwan.domain.comunicaciones.Oferta;
+import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
+
 
 public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
     @Transactional
@@ -28,14 +31,20 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
     );
 
     @Query(
-            value = "SELECT * FROM Anuncio WHERE tipo = :tipo",
-            nativeQuery = true
-    )
-    ArrayList<Anuncio> findAnuncioByType(@Param("tipo") String tipo);
-
-    @Query(
             value = "SELECT tipo FROM Anuncio WHERE uuid = :uuid",
             nativeQuery = true
     )
     String findTypeByUUID(@Param("uuid") UUID uuid);
+
+    @Query(
+            value = "SELECT * FROM Anuncio WHERE tipo = :tipo",
+            nativeQuery = true
+    )
+    ArrayList<Noticia> findNoticiaByType(@Param("tipo") String tipo);
+
+    @Query(
+            value = "SELECT * FROM Anuncio WHERE tipo = :tipo",
+            nativeQuery = true
+    )
+    ArrayList<Oferta> findOfertaByType(@Param("tipo") String tipo);
 }
