@@ -1,0 +1,26 @@
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}
+
+.TituloCrearCuenta {
+    margin-top: 20px !important;
+    margin-bottom: 0;
+}
+
+.layoutPrincipalCrearCuenta {
+    padding-left: 100px;
+    padding-right: 100px;
+    width: fit-content !important;
+}
+
+.Campo {
+    width: 300px;
+}
+
+.CrearCuentaSubmit {
+    width: 200px;
+    background-color: #27AE60;
+    margin: 20px;
+}

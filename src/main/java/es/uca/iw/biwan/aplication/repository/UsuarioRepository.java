@@ -32,4 +32,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             value = "SELECT u FROM Usuario u WHERE u.email = :email"
     )
     Usuario findUserByEmail(@Param("email") String email);
+
+    @Query(
+            value = "SELECT rol FROM Usuario WHERE uuid = :uuid",
+            nativeQuery = true
+    )
+    String findRoleByUUID(@Param("uuid") UUID uuid);
 }

@@ -1,8 +1,10 @@
 package es.uca.iw.biwan.views.resetPassword;
 
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
@@ -14,7 +16,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
@@ -27,23 +31,30 @@ public class ResetPasswordView extends VerticalLayout {
     private final FormLayout registration = new FormLayout();
 
     public ResetPasswordView() {
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has solicitado restablecer tu contraseña", "Volver", event -> {
+                UI.getCurrent().navigate("");
+            });
+            error.open();
+        } else {
+            //NEW
+            VerticalLayout layoutResetPassword = new VerticalLayout();
+            HorizontalLayout layoutHorResetPassword = new HorizontalLayout();
 
-        //NEW
-        VerticalLayout layoutResetPassword = new VerticalLayout();
-        HorizontalLayout layoutHorResetPassword = new HorizontalLayout();
+            //ADDs
+            layoutHorResetPassword.add(ResetPassword());
+            layoutResetPassword.add(HeaderView.Header(), layoutHorResetPassword, FooterView.Footer());
 
-        //ADDs
-        layoutHorResetPassword.add(ResetPassword());
-        layoutResetPassword.add(HeaderView.Header(), layoutHorResetPassword, FooterView.Footer());
+            //ALIGNMENT
+            layoutHorResetPassword.setWidth("30%");
+            layoutResetPassword.expand(layoutHorResetPassword);
+            layoutHorResetPassword.setVerticalComponentAlignment(Alignment.CENTER, ResetPassword());
+            layoutResetPassword.setAlignItems(Alignment.CENTER);
+            layoutResetPassword.setSizeFull();
 
-        //ALIGNMENT
-        layoutHorResetPassword.setWidth("30%");
-        layoutResetPassword.expand(layoutHorResetPassword);
-        layoutHorResetPassword.setVerticalComponentAlignment(Alignment.CENTER, ResetPassword());
-        layoutResetPassword.setAlignItems(Alignment.CENTER);
-        layoutResetPassword.setSizeFull();
-
-        add(layoutResetPassword);
+            add(layoutResetPassword);
+        }
     }
 
     private FormLayout ResetPassword() {

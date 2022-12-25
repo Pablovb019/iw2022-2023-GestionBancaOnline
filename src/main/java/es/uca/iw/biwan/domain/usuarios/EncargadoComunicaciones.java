@@ -7,7 +7,7 @@ import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue("ENCARGADO_COMUNICACION")
-public class EncargadoComunicacion extends Usuario {
+@DiscriminatorValue("ENCARGADO_COMUNICACIONES")
+public class EncargadoComunicaciones extends Usuario {
 
 }

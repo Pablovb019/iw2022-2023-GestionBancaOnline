@@ -1,7 +1,9 @@
 package es.uca.iw.biwan.views.consultasOnlineGestor;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
@@ -14,6 +16,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -30,22 +34,38 @@ import java.util.List;
 public class ConsultasOnlineGestorView extends VerticalLayout {
 
     public ConsultasOnlineGestorView() {
-        //NEW
-        VerticalLayout layoutConsultaOnline = new VerticalLayout();
-        VerticalLayout layoutConsultas = new VerticalLayout();
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
+            } else {
+                //NEW
+                VerticalLayout layoutConsultaOnline = new VerticalLayout();
+                VerticalLayout layoutConsultas = new VerticalLayout();
 
-        //ADD CLASS NAME
-        layoutConsultas.addClassName("layoutConsultas");
+                //ADD CLASS NAME
+                layoutConsultas.addClassName("layoutConsultas");
 
-        //ADD
-        layoutConsultas.add(ConsultasOnline());
-        layoutConsultaOnline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
+                //ADD
+                layoutConsultas.add(ConsultasOnline());
+                layoutConsultaOnline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
 
-        //ALIGNMENT
-        layoutConsultaOnline.expand(layoutConsultas);
-        layoutConsultaOnline.setSizeFull();
+                //ALIGNMENT
+                layoutConsultaOnline.expand(layoutConsultas);
+                layoutConsultaOnline.setSizeFull();
 
-        add(layoutConsultaOnline);
+                add(layoutConsultaOnline);
+            }
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
+            });
+            error.open();
+            UI.getCurrent().navigate("");
+        }
     }
 
     private VerticalLayout ConsultasOnline() {

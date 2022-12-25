@@ -2,6 +2,7 @@ package es.uca.iw.biwan.views.consultasOfflineGestor;
 
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
@@ -14,6 +15,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -31,23 +34,38 @@ import java.util.Objects;
 public class ConsultasOfflineGestorView extends VerticalLayout {
 
     public ConsultasOfflineGestorView() {
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
+            } else {
+                //NEW
+                VerticalLayout layoutConsultaOffline = new VerticalLayout();
+                VerticalLayout layoutConsultas = new VerticalLayout();
 
-        //NEW
-        VerticalLayout layoutConsultaOffline = new VerticalLayout();
-        VerticalLayout layoutConsultas = new VerticalLayout();
+                //ADD CLASS NAME
+                layoutConsultas.addClassName("layoutConsultas");
 
-        //ADD CLASS NAME
-        layoutConsultas.addClassName("layoutConsultas");
+                //ADD
+                layoutConsultas.add(ConsultasOffline());
+                layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
 
-        //ADD
-        layoutConsultas.add(ConsultasOffline());
-        layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
+                //ALIGNMENT
+                layoutConsultaOffline.expand(layoutConsultas);
+                layoutConsultaOffline.setSizeFull();
 
-        //ALIGNMENT
-        layoutConsultaOffline.expand(layoutConsultas);
-        layoutConsultaOffline.setSizeFull();
-
-        add(layoutConsultaOffline);
+                add(layoutConsultaOffline);
+            }
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
+            });
+            error.open();
+            UI.getCurrent().navigate("");
+        }
     }
 
     private VerticalLayout ConsultasOffline() {

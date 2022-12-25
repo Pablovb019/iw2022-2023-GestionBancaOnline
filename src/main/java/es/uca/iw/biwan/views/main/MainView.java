@@ -70,7 +70,7 @@ public class MainView extends VerticalLayout {
                 "la destrucción del hábitat. Cada vez que un cliente llega a BIWAN, nosotros plantamos un árbol. " +
                 "Estamos comprometidos contigo pero también con el medio ambiente. Por eso, y muchas otras cosas, " +
                 "te invitamos a que te unas a nosotros.");
-        TextoAnuncio1.addClassName("TextoAnuncio1");
+        TextoAnuncio1.addClassName("TxtAnuncio1");
 
         var vlImagenAnuncio1 = new VerticalLayout(img1);
         vlImagenAnuncio1.setAlignItems(Alignment.END);
@@ -103,7 +103,7 @@ public class MainView extends VerticalLayout {
                 "y de hacer las gestiones necesarias para que tu no tengas que preocuparte de nada. " +
                 "Además, te ofrecemos un servicio de atención al cliente para que puedas resolver cualquier duda " +
                 "que tengas sobre tus cuentas y tarjetas, las cuales seran respondidas por nuestros grandes gestores.");
-        TextoAnuncio2.addClassName("TextoAnuncio2");
+        TextoAnuncio2.addClassName("TxtAnuncio2");
 
         var vlImagenAnuncio2 = new VerticalLayout(img2);
         vlImagenAnuncio2.setAlignItems(Alignment.START);

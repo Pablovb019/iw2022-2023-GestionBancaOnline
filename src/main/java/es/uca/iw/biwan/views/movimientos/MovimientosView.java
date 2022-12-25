@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -29,6 +31,7 @@ import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.domain.operaciones.Movimiento;
 import es.uca.iw.biwan.domain.operaciones.PagoTarjeta;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
@@ -41,6 +44,7 @@ import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.EmisorInvalidoExcept
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.FechaVencimientoInvalidaException;
 import es.uca.iw.biwan.domain.operaciones.Transferencia.BeneficiarioInvalidoException;
 import es.uca.iw.biwan.domain.operaciones.Transferencia.CuentaInvalidaException;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -50,83 +54,98 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 public class MovimientosView extends VerticalLayout {
 
     public MovimientosView() {
-        setSizeFull();
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
+            } else {
+                setSizeFull();
 
-        add(HeaderUsuarioLogueadoView.Header());
+                add(HeaderUsuarioLogueadoView.Header());
 
-        H1 titleLayout = new H1("Movimientos");
-        titleLayout.getStyle().set("margin-top", "10px");
-        titleLayout.getStyle().set("margin-bottom", "10px");
-        titleLayout.getStyle().set("text-align", "center");
-        titleLayout.setWidth("100%");
+                H1 titleLayout = new H1("Movimientos");
+                titleLayout.getStyle().set("margin-top", "10px");
+                titleLayout.getStyle().set("margin-bottom", "10px");
+                titleLayout.getStyle().set("text-align", "center");
+                titleLayout.setWidth("100%");
 
-        add(titleLayout);
+                add(titleLayout);
 
-        VerticalLayout tableLayout = new VerticalLayout();
-        tableLayout.setSizeFull();
-        tableLayout.setWidth("80%");
-        tableLayout.getStyle().set("align-self", "center");
+                VerticalLayout tableLayout = new VerticalLayout();
+                tableLayout.setSizeFull();
+                tableLayout.setWidth("80%");
+                tableLayout.getStyle().set("align-self", "center");
 
-        HorizontalLayout filterTableLayout = new HorizontalLayout();
-        filterTableLayout.setWidth("100%");
+                HorizontalLayout filterTableLayout = new HorizontalLayout();
+                filterTableLayout.setWidth("100%");
 
-        VerticalLayout filterTypeTableLayout = new VerticalLayout();
-        filterTypeTableLayout.setWidth("100%");
+                VerticalLayout filterTypeTableLayout = new VerticalLayout();
+                filterTypeTableLayout.setWidth("100%");
 
-        DatePicker fechaInicioPicker = new DatePicker("Fecha inicio");
-        DatePicker fechaFinPicker = new DatePicker("Fecha fin");
+                DatePicker fechaInicioPicker = new DatePicker("Fecha inicio");
+                DatePicker fechaFinPicker = new DatePicker("Fecha fin");
 
-        singleFormatI18n.setDateFormat("dd/MM/yyyy");
-        fechaInicioPicker.setI18n(singleFormatI18n);
-        fechaFinPicker.setI18n(singleFormatI18n);
+                singleFormatI18n.setDateFormat("dd/MM/yyyy");
+                fechaInicioPicker.setI18n(singleFormatI18n);
+                fechaFinPicker.setI18n(singleFormatI18n);
 
-        fechaInicioPicker.addValueChangeListener(e -> fechaFinPicker.setMin(e.getValue()));
-        fechaFinPicker.addValueChangeListener(e -> fechaInicioPicker.setMax(e.getValue()));
+                fechaInicioPicker.addValueChangeListener(e -> fechaFinPicker.setMin(e.getValue()));
+                fechaFinPicker.addValueChangeListener(e -> fechaInicioPicker.setMax(e.getValue()));
 
-        fechaInicioPicker.setValue(LocalDate.now().minusDays(30));
-        fechaFinPicker.setValue(LocalDate.now());
+                fechaInicioPicker.setValue(LocalDate.now().minusDays(30));
+                fechaFinPicker.setValue(LocalDate.now());
 
-        Grid<Movimiento> grid = new Grid<>(Movimiento.class, false);
-        grid.addColumn(dateRenderer()).setHeader("Fecha").setComparator(Movimiento::getFecha);
-        grid.addColumn(tipoMovimientoYConceptoRenderer()).setHeader("Movimiento");
-        grid.addColumn(importeYSaldoRenderer()).setHeader("Importe");
-        grid.setItemDetailsRenderer(createMovimientoDetailsRenderer());
+                Grid<Movimiento> grid = new Grid<>(Movimiento.class, false);
+                grid.addColumn(dateRenderer()).setHeader("Fecha").setComparator(Movimiento::getFecha);
+                grid.addColumn(tipoMovimientoYConceptoRenderer()).setHeader("Movimiento");
+                grid.addColumn(importeYSaldoRenderer()).setHeader("Importe");
+                grid.setItemDetailsRenderer(createMovimientoDetailsRenderer());
 
-        GridListDataView<Movimiento> dataView = grid.setItems(generateDatosPrueba(getFechaPickerValue(fechaInicioPicker), getFechaPickerValue(fechaFinPicker)));
-        grid.setWidth("100%");
-        grid.getStyle().set("align-self", "center");
-        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+                GridListDataView<Movimiento> dataView = grid.setItems(generateDatosPrueba(getFechaPickerValue(fechaInicioPicker), getFechaPickerValue(fechaFinPicker)));
+                grid.setWidth("100%");
+                grid.getStyle().set("align-self", "center");
+                grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
+                grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
 
-        Select<String> ingresosGastosFilter = new Select<>();
-        ingresosGastosFilter.setLabel("Filtrar por");
-        ingresosGastosFilter.setItems("Todos", "Ingresos", "Gastos");
-        ingresosGastosFilter.setValue("Todos");
+                Select<String> ingresosGastosFilter = new Select<>();
+                ingresosGastosFilter.setLabel("Filtrar por");
+                ingresosGastosFilter.setItems("Todos", "Ingresos", "Gastos");
+                ingresosGastosFilter.setValue("Todos");
 
-        ingresosGastosFilter.addValueChangeListener(e -> {
-            applyFilterIngresoGasto(dataView, ingresosGastosFilter);
-        });
+                ingresosGastosFilter.addValueChangeListener(e -> {
+                    applyFilterIngresoGasto(dataView, ingresosGastosFilter);
+                });
 
-        Button buttonDateFilter = new Button("Filtrar");
-        buttonDateFilter.addClickListener(e -> {
-            grid.setItems(generateDatosPrueba(getFechaPickerValue(fechaInicioPicker), getFechaPickerValue(fechaFinPicker)));
-            applyFilterIngresoGasto(dataView, ingresosGastosFilter);
-        });
-        buttonDateFilter.addClassName("ButtonDateFilter");
+                Button buttonDateFilter = new Button("Filtrar");
+                buttonDateFilter.addClickListener(e -> {
+                    grid.setItems(generateDatosPrueba(getFechaPickerValue(fechaInicioPicker), getFechaPickerValue(fechaFinPicker)));
+                    applyFilterIngresoGasto(dataView, ingresosGastosFilter);
+                });
+                buttonDateFilter.addClassName("ButtonDateFilter");
 
-        buttonDateFilter.getStyle().set("align-self", "end");
-        buttonDateFilter.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+                buttonDateFilter.getStyle().set("align-self", "end");
+                buttonDateFilter.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        ingresosGastosFilter.getStyle().set("align-self", "end");
-        ingresosGastosFilter.getStyle().set("margin-right", "35px");
+                ingresosGastosFilter.getStyle().set("align-self", "end");
+                ingresosGastosFilter.getStyle().set("margin-right", "35px");
 
-        filterTypeTableLayout.add(ingresosGastosFilter);
-        filterTableLayout.add(fechaInicioPicker, fechaFinPicker, buttonDateFilter, filterTypeTableLayout);
+                filterTypeTableLayout.add(ingresosGastosFilter);
+                filterTableLayout.add(fechaInicioPicker, fechaFinPicker, buttonDateFilter, filterTypeTableLayout);
 
-        tableLayout.add(filterTableLayout, grid);
-        add(tableLayout);
-        add(FooterView.Footer());
-
+                tableLayout.add(filterTableLayout, grid);
+                add(tableLayout);
+                add(FooterView.Footer());
+            }
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
+            });
+            error.open();
+            UI.getCurrent().navigate("");
+        }
     }
 
     //@Autowired

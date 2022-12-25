@@ -6,7 +6,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -35,45 +41,61 @@ import es.uca.iw.biwan.aplication.service.TraspasoService;
 public class TransferenciasTraspasosView extends VerticalLayout {
 
     public TransferenciasTraspasosView() {
-        setHeight("100%");
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
+            } else {
+                setHeight("100%");
 
-        add(HeaderUsuarioLogueadoView.Header());
+                add(HeaderUsuarioLogueadoView.Header());
 
-        VerticalLayout layout = new VerticalLayout();
-        layout.setWidth("80%");
-        layout.setHeight("100%");
-        layout.getStyle().set("align-self", "center");
+                VerticalLayout layout = new VerticalLayout();
+                layout.setWidth("80%");
+                layout.setHeight("100%");
+                layout.getStyle().set("align-self", "center");
 
-        HorizontalLayout tipoMovimiento = new HorizontalLayout();
+                HorizontalLayout tipoMovimiento = new HorizontalLayout();
 
-        Button transferencia = new Button("A otra cuenta");
-        Button traspaso = new Button("A una de mis cuentas");
-        transferencia.addClassName("BotonesTransferenciaTraspaso");
-        traspaso.addClassName("BotonesTransferenciaTraspaso");
+                Button transferencia = new Button("A otra cuenta");
+                Button traspaso = new Button("A una de mis cuentas");
+                transferencia.addClassName("BotonesTransferenciaTraspaso");
+                traspaso.addClassName("BotonesTransferenciaTraspaso");
 
-        VerticalLayout formulario = new VerticalLayout();
-        formulario.getStyle().set("align-self", "center");
+                VerticalLayout formulario = new VerticalLayout();
+                formulario.getStyle().set("align-self", "center");
 
-        transferencia.addClickListener(e -> {
-            TransferenciaForm form = new TransferenciaForm();
-            formulario.removeAll();
-            formulario.add(form);
-        });
+                transferencia.addClickListener(e -> {
+                    TransferenciaForm form = new TransferenciaForm();
+                    formulario.removeAll();
+                    formulario.add(form);
+                });
 
-        traspaso.addClickListener(e -> {
-            TraspasoForm form = new TraspasoForm();
-            formulario.removeAll();
-            formulario.add(form);
-        });
+                traspaso.addClickListener(e -> {
+                    TraspasoForm form = new TraspasoForm();
+                    formulario.removeAll();
+                    formulario.add(form);
+                });
 
 
-        tipoMovimiento.add(transferencia, traspaso);
+                tipoMovimiento.add(transferencia, traspaso);
 
-        layout.add(tipoMovimiento, formulario);
+                layout.add(tipoMovimiento, formulario);
 
-        add(layout);
+                add(layout);
 
-        add(FooterView.Footer());
+                add(FooterView.Footer());
+            }
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
+            });
+            error.open();
+            UI.getCurrent().navigate("");
+        }
     }
 
     private static class TransferenciaForm extends FormLayout {

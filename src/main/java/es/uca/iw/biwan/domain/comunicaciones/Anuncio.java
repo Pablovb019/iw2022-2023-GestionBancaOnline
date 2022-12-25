@@ -1,12 +1,14 @@
 package es.uca.iw.biwan.domain.comunicaciones;
 
+import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "tipo_anuncio")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
 public class Anuncio {
     @Id
     @GeneratedValue
@@ -16,7 +18,7 @@ public class Anuncio {
     @Column(nullable = false)
     private LocalDate fechaInicio;
 
-    @Column(nullable = false)
+    @Column
     private LocalDate fechaFin;
 
     @Column(nullable = false)
@@ -25,12 +27,16 @@ public class Anuncio {
     @Column(nullable = false)
     private String cuerpo;
 
-    public Anuncio(LocalDate fechaInicio, LocalDate fechaFin, String titulo, String cuerpo) {
+    @Transient
+    private String tipo;
+
+    public Anuncio(LocalDate fechaInicio, LocalDate fechaFin, String titulo, String cuerpo, TipoAnuncio tipo) {
         this.uuid = UUID.randomUUID();
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.titulo = titulo;
         this.cuerpo = cuerpo;
+        this.tipo = tipo.toString();
     }
 
     public Anuncio() {
@@ -41,8 +47,8 @@ public class Anuncio {
         return uuid;
     }
 
-    public void GenerateUUID() {
-        this.uuid = UUID.randomUUID();
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public LocalDate getFechaInicio() {
@@ -75,5 +81,13 @@ public class Anuncio {
 
     public void setCuerpo(String cuerpo) {
         this.cuerpo = cuerpo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoAnuncio tipo) {
+        this.tipo = tipo.toString();
     }
 }

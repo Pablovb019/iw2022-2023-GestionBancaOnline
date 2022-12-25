@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "rol")
 public class Usuario {
 
@@ -30,11 +30,10 @@ public class Usuario {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private String rol;
-    @Column(nullable = false)
     private String password;
 
-
+    @Transient
+    private String rol;
 
    public Usuario(String nombre, String apellidos, LocalDate fechaNacimiento, Double telefono, String dni, String email, Role role, String password) {
         this.uuid = UUID.randomUUID();
@@ -56,8 +55,8 @@ public class Usuario {
         return uuid;
     }
 
-    public void GenerateUUID() {
-       this.uuid = UUID.randomUUID();
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getNombre() {

@@ -18,14 +18,18 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.UUID;
 
 @CssImport("./themes/biwan/registration.css")
 @PageTitle("Formulario de registro")
@@ -42,24 +46,31 @@ public class RegistrationView extends VerticalLayout {
     private final FormLayout registration = new FormLayout();
 
     public RegistrationView() {
+        VaadinSession session = VaadinSession.getCurrent();
+        if(session.getAttribute(Usuario.class) != null) {
+            ConfirmDialog error = new ConfirmDialog("Error", "Ya has iniciado sesión", "Volver", event -> {
+                UI.getCurrent().navigate("");
+            });
+            error.open();
+        } else {
+            //NEW
+            VerticalLayout layoutRegistration = new VerticalLayout();
+            HorizontalLayout layoutHorRegistration = new HorizontalLayout();
 
-        //NEW
-        VerticalLayout layoutRegistration = new VerticalLayout();
-        HorizontalLayout layoutHorRegistration = new HorizontalLayout();
+            //ADD
+            layoutHorRegistration.add(Registration());
+            layoutRegistration.add(HeaderView.Header(), layoutHorRegistration, FooterView.Footer());
 
-        //ADD
-        layoutHorRegistration.add(Registration());
-        layoutRegistration.add(HeaderView.Header(), layoutHorRegistration, FooterView.Footer());
+            //ALIGNMENT
+            layoutHorRegistration.setWidth("30%");
+            layoutRegistration.expand(layoutHorRegistration);
+            layoutHorRegistration.setVerticalComponentAlignment(Alignment.CENTER, Registration());
+            layoutHorRegistration.setAlignItems(Alignment.CENTER);
+            layoutRegistration.setAlignItems(Alignment.CENTER);
+            layoutRegistration.setSizeFull();
 
-        //ALIGNMENT
-        layoutHorRegistration.setWidth("30%");
-        layoutRegistration.expand(layoutHorRegistration);
-        layoutHorRegistration.setVerticalComponentAlignment(Alignment.CENTER, Registration());
-        layoutHorRegistration.setAlignItems(Alignment.CENTER);
-        layoutRegistration.setAlignItems(Alignment.CENTER);
-        layoutRegistration.setSizeFull();
-
-        add(layoutRegistration);
+            add(layoutRegistration);
+        }
     }
 
     private FormLayout Registration() {
@@ -146,17 +157,17 @@ public class RegistrationView extends VerticalLayout {
 
         submit.addClickListener(event -> {
             if(binderForm.validate().isOk()) {
-                Usuario usuario = new Usuario();
-                usuario.GenerateUUID();
-                usuario.setNombre(firstName.getValue());
-                usuario.setApellidos(lastName.getValue());
-                usuario.setTelefono(phoneNumber.getValue());
-                usuario.setDni(dni.getValue());
-                usuario.setFechaNacimiento(birthDate.getValue());
-                usuario.setEmail(email.getValue());
-                usuario.setPassword(passwordEncoder.encode(password.getValue()));
-                usuario.setRol(Role.CLIENTE);
-                CreateRequest(usuario);
+                Cliente cliente = new Cliente();
+                cliente.setUUID(UUID.randomUUID());
+                cliente.setNombre(firstName.getValue());
+                cliente.setApellidos(lastName.getValue());
+                cliente.setTelefono(phoneNumber.getValue());
+                cliente.setDni(dni.getValue());
+                cliente.setFechaNacimiento(birthDate.getValue());
+                cliente.setEmail(email.getValue());
+                cliente.setPassword(passwordEncoder.encode(password.getValue()));
+                cliente.setRol(Role.CLIENTE);
+                CreateRequest(cliente);
             }
         });
         return formLayout;

@@ -24,7 +24,10 @@ public class GestorView extends VerticalLayout {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
             if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
-                UI.getCurrent().navigate("");
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
             } else {
                 //NEW
                 VerticalLayout layoutGestor = new VerticalLayout();
@@ -42,7 +45,7 @@ public class GestorView extends VerticalLayout {
                 add(layoutGestor);
             }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", null);
             error.open();
             UI.getCurrent().navigate("");
         }
@@ -60,6 +63,8 @@ public class GestorView extends VerticalLayout {
         H1 Titulo = new H1("Bienvenido Gestor: " + nombre);
         Anchor NombreCliente = new Anchor("", "Jose Antonio Alonso de la Huerta");
         Anchor CuentasYTarjetasButton = new Anchor("cuentas-tarjetas-gestor", "Cuentas y tarjetas");
+        Anchor CrearCuentaButton = new Anchor("crear-cuenta-gestor", "Crear Cuenta");
+        Anchor CrearTarjetaButton = new Anchor("crear-cuenta-gestor", "Crear Tarjeta");
         Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
         Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
         Span counterOnline = new Span("1");
@@ -71,8 +76,10 @@ public class GestorView extends VerticalLayout {
         Titulo.addClassName("Titulo");
         NombreCliente.addClassNames("NombreClienteAnchor", "Separacion");
         CuentasYTarjetasButton.addClassNames("Separacion", "AnchorButton");
-        ConsultaOnlineButton.addClassNames("Separacion", "AnchorConsultaOnlineOffline");
-        ConsultaOfflineButton.addClassNames("Separacion", "AnchorConsultaOnlineOffline");
+        CrearCuentaButton.addClassNames("Separacion", "BotonGestor");
+        CrearTarjetaButton.addClassNames("Separacion", "BotonGestor");
+        ConsultaOnlineButton.addClassNames("Separacion", "BotonGestor");
+        ConsultaOfflineButton.addClassNames("Separacion", "BotonGestor");
         layoutVerGestorPrincipal.addClassName("layoutVerGestor");
         layoutComponenteTabla.addClassName("layoutGestionCliente");
         counterOnline.addClassName("counter");
@@ -85,13 +92,10 @@ public class GestorView extends VerticalLayout {
         //ADD
         ConsultaOnlineButton.add(counterOnline);
         ConsultaOfflineButton.add(counterOffline);
-        layoutComponenteTabla.add(NombreCliente, CuentasYTarjetasButton, ConsultaOnlineButton, ConsultaOfflineButton);
+        layoutComponenteTabla.add(NombreCliente, CuentasYTarjetasButton, CrearCuentaButton, CrearTarjetaButton, ConsultaOnlineButton, ConsultaOfflineButton);
         layoutVerGestorTabla.add(layoutComponenteTabla);
         layoutVerGestorPrincipal.add(Titulo, layoutComponenteTabla);
 
         return  layoutVerGestorPrincipal;
     }
-
-
-
 }

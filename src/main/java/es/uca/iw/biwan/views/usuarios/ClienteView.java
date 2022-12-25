@@ -23,14 +23,17 @@ public class ClienteView extends VerticalLayout {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
             if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
-                UI.getCurrent().navigate("");
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
+                    UI.getCurrent().navigate("");
+                });
+                error.open();
             } else {
                 add(HeaderUsuarioLogueadoView.Header());
                 add(crearPaginaPrincipal());
                 add(FooterView.Footer());
             }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", event -> {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
                 UI.getCurrent().navigate("/login");
             });
             error.open();
@@ -60,7 +63,7 @@ public class ClienteView extends VerticalLayout {
 
         //CSS
         TablonAnuncios.addClassName("TablonAnuncios");
-        Titulo.addClassName("Titulos");
+        Titulo.addClassName("TituloPrincipal");
         TituloBalance.addClassName("Titulos");
         Operacionnes.addClassName("Titulos");
         TablonAnuncios.addClassName("Titulos");
