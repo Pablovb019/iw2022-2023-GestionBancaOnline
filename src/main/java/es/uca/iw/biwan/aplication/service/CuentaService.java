@@ -1,6 +1,10 @@
 package es.uca.iw.biwan.aplication.service;
 
 import es.uca.iw.biwan.aplication.repository.CuentaRepository;
+import es.uca.iw.biwan.domain.cuenta.Cuenta;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,4 +16,14 @@ public class CuentaService {
     public CuentaService(CuentaRepository cuentaRepository) {
         this.cuentaRepository = cuentaRepository;
     }
+
+    public List<Cuenta> findAll() {
+        return cuentaRepository.findAll();
+    }
+
+    public Cuenta updateBalance(Cuenta cuenta, float balance) {
+        cuenta.setBalance(balance);
+        return cuentaRepository.save(cuenta);
+    }
+
 }

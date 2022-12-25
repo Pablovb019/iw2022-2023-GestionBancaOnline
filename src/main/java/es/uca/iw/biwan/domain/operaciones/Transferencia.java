@@ -1,8 +1,6 @@
 package es.uca.iw.biwan.domain.operaciones;
 
-import java.time.LocalDate;
-
-import org.json.JSONObject;
+import java.time.LocalDateTime;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -19,14 +17,35 @@ public class Transferencia extends Movimiento {
     private String beneficiario;
     private String concepto;
 
-    public Transferencia(float importe, LocalDate fecha, float balanceRestante, String cuentaOrigen, String cuentaDestino, String beneficiario, String concepto) throws IllegalArgumentException {
+    public static class CuentaInvalidaException extends Exception {
+        public CuentaInvalidaException(String message) {
+            super(message);
+        }
+    }
+
+    public static class BeneficiarioInvalidoException extends Exception {
+        public BeneficiarioInvalidoException(String message) {
+            super(message);
+        }
+    }
+
+    public Transferencia(float importe, LocalDateTime fecha, float balanceRestante, String cuentaOrigen, String cuentaDestino, String beneficiario, String concepto) throws BeneficiarioInvalidoException, CuentaInvalidaException, ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
         super(importe, fecha, balanceRestante);
 
-        // TODO: La validation de los datos, y la construccion del JSON de la transferencia se ha de hacer en la vista, NUNCA en la clase
-        //  Lo mismo para el resto de clases que usan JSON
-
+        if(cuentaOrigen == null || cuentaOrigen.isEmpty() || !isValidCuenta(cuentaOrigen))
+            throw new CuentaInvalidaException("Cuenta origen no puede estar vacía");
         this.cuentaOrigen = cuentaOrigen;
+
+        if(cuentaDestino == null || cuentaDestino.isEmpty() || !isValidCuenta(cuentaDestino))
+            throw new CuentaInvalidaException("Cuenta destino no puede estar vacía");
+        
+        if(cuentaOrigen.equals(cuentaDestino))
+            throw new CuentaInvalidaException("Cuenta origen y destino no pueden ser iguales");
         this.cuentaDestino = cuentaDestino;
+
+        if(beneficiario == null || beneficiario.isEmpty())
+            throw new BeneficiarioInvalidoException("El beneficiario no puede estar vacío");
+
         this.beneficiario = beneficiario;
         this.concepto = concepto;
     }
@@ -65,5 +84,38 @@ public class Transferencia extends Movimiento {
 
     public void setConcepto(String concepto) {
         this.concepto = concepto;
+    }
+
+    private boolean isValidCuenta(String cuenta) {
+        // Check if cuenta is a valid iban number of 24 characters
+        if(cuenta.length() != 24)
+            return false;
+
+        // Check if cuenta has the correct format
+        if(!cuenta.matches("[A-Z]{2}[0-9]{22}"))
+            return false;
+
+        // Check if cuenta has the correct checksum
+        String cuentaSinChecksum = cuenta.substring(0, 2) + cuenta.substring(4);
+        int checksum = 0;
+        for(int i = 0; i < cuentaSinChecksum.length(); i++) {
+            char c = cuentaSinChecksum.charAt(i);
+            int valor = 0;
+            if(Character.isDigit(c)) {
+                valor = Character.getNumericValue(c);
+            } else {
+                valor = (int) c - 55;
+            }
+            checksum += valor * Math.pow(2, 5 * (i % 2) + 4 * (i / 2));
+        }
+        int resto = checksum % 97;
+        int checksumCalculado = 98 - resto;
+        String checksumCuenta = cuenta.substring(2, 4);
+        int checksumCuentaInt = Integer.parseInt(checksumCuenta);
+        if(checksumCalculado != checksumCuentaInt)
+            return false;
+
+        return true;
+
     }
 }

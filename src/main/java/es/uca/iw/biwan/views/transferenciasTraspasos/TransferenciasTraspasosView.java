@@ -1,16 +1,17 @@
 package es.uca.iw.biwan.views.transferenciasTraspasos;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.flow.component.dependency.CssImport;
-import org.json.JSONObject;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -19,10 +20,14 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
+import es.uca.iw.biwan.domain.operaciones.Movimiento;
 import es.uca.iw.biwan.domain.operaciones.Transferencia;
 import es.uca.iw.biwan.domain.operaciones.Traspaso;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import es.uca.iw.biwan.aplication.service.CuentaService;
+import es.uca.iw.biwan.aplication.service.TransferenciaService;
+import es.uca.iw.biwan.aplication.service.TraspasoService;
 
 @PageTitle("Transferencias y Traspasos")
 @Route("transferencias-traspasos")
@@ -73,6 +78,9 @@ public class TransferenciasTraspasosView extends VerticalLayout {
 
     private static class TransferenciaForm extends FormLayout {
 
+        private TransferenciaService transferenciaService;
+        private CuentaService cuentaService;
+
         private final ComboBox<Cuenta> cuentaOrigen = new ComboBox<>("Cuenta Origen");
         private final TextField cuentaDestino = new TextField("Cuenta Destino");
         private final TextField beneficiario = new TextField("Beneficiario");
@@ -84,77 +92,72 @@ public class TransferenciasTraspasosView extends VerticalLayout {
         public TransferenciaForm() {
             getStyle().set("align-self", "center");
 
-            //cuentaOrigen.setItems(Cuenta.findAll());
-            cuentaOrigen.setItems(generateRandomCuentaDatosPrueba(3));
+            //TODO: Obtener cuentas del usuario logueado
+            cuentaOrigen.setItems(cuentaService.findAll());
             cuentaOrigen.setItemLabelGenerator(Cuenta::getIBAN);
             
             importe.setValue(0.0);
-
-            //TODO: Obtener balance de la cuenta seleccionada
-            float balanceActual = 1000;
 
             realizarTransferencia.addClickListener(e -> {
 
                 try {
                     float importeTransferencia = importe.getValue().floatValue();
 
+                    float balanceActual = cuentaOrigen.getValue().getBalance();
+
                     if (importeTransferencia > balanceActual) {
-                        JSONObject json = new JSONObject();
-                        json.put("message", "El importe de la transferencia es superior al balance de la cuenta");
-                        json.put("field", "importe");
-                        throw new Exception(json.toString());
+                        throw new Movimiento.ImporteInvalidoException("El importe de la transferencia es superior al balance de la cuenta");
                     }
 
                     if(importeTransferencia <= 0) {
-                        JSONObject json = new JSONObject();
-                        json.put("message", "El importe de la transferencia debe ser mayor que 0");
-                        json.put("field", "importe");
-                        throw new Exception(json.toString());
+                        throw new Movimiento.ImporteInvalidoException("El importe de la transferencia debe ser mayor que 0");
                     }
+
+                    float nuevoBalance = balanceActual - importeTransferencia;
 
                     Transferencia transferencia = new Transferencia(
                         importeTransferencia,
-                        LocalDate.now(),
-                        balanceActual - importeTransferencia,
+                        LocalDateTime.now(),
+                        nuevoBalance,
                         cuentaOrigen.getValue().getIBAN(),
                         cuentaDestino.getValue(),
                         beneficiario.getValue(),
                         concepto.getValue()
                     );
 
-                    //TODO: Save transferencia in database and update balance
+                    //Save transferencia in database and update balance
+                    this.transferenciaService.save(transferencia);
+                    this.cuentaService.updateBalance(cuentaOrigen.getValue(), nuevoBalance);
 
-                } catch (Exception ex) {
-
-                    System.out.println(ex.getMessage());
-
-                    JSONObject json = new JSONObject(ex.getMessage());
-
-                    if(json.has("field")){
-                        switch (json.getString("field")) {
-                            case "cuentaOrigen":
-                                cuentaOrigen.setErrorMessage(json.getString("message"));
-                                cuentaOrigen.setInvalid(true);
-                                break;
-                            case "cuentaDestino":
-                                cuentaDestino.setErrorMessage(json.getString("message"));
-                                cuentaDestino.setInvalid(true);
-                                break;
-                            case "beneficiario":
-                                beneficiario.setErrorMessage(json.getString("message"));
-                                beneficiario.setInvalid(true);
-                                break;
-                            case "concepto":
-                                concepto.setErrorMessage(json.getString("message"));
-                                concepto.setInvalid(true);
-                                break;
-                            case "importe":
-                                importe.setErrorMessage(json.getString("message"));
-                                importe.setInvalid(true);
-                                break;
-                        }
-                    }
                 }
+                catch (Exception ex) {
+
+                    if (ex instanceof Movimiento.ImporteInvalidoException) {
+                        importe.setErrorMessage(ex.getMessage());
+                        importe.setInvalid(true);
+                    }
+
+                    if(ex instanceof NumberFormatException) {
+                        importe.setErrorMessage("El importe debe ser un número");
+                        importe.setInvalid(true);
+                    }
+
+                    if(ex instanceof Movimiento.FechaInvalidaException) {
+                        Notification.show(ex.getMessage(), 3000, Notification.Position.MIDDLE);
+                    }
+
+                    if(ex instanceof Transferencia.CuentaInvalidaException) {
+                        cuentaOrigen.setErrorMessage(ex.getMessage());
+                        cuentaOrigen.setInvalid(true);
+                    }
+
+                    if(ex instanceof Transferencia.BeneficiarioInvalidoException) {
+                        beneficiario.setErrorMessage(ex.getMessage());
+                        beneficiario.setInvalid(true);
+                    }
+
+                }
+                
                 
             });
             realizarTransferencia.addClassName("EnviarButtonOtraCuenta");
@@ -166,7 +169,9 @@ public class TransferenciasTraspasosView extends VerticalLayout {
 
     private static class TraspasoForm extends FormLayout {
 
-        //private final TextField cuentaOrigen = new TextField("Cuenta Origen");
+        private TraspasoService traspasoService;
+        private CuentaService cuentaService;
+
         private final ComboBox<Cuenta> cuentaOrigen = new ComboBox<>("Cuenta Origen");
         private final ComboBox<Cuenta> cuentaDestino = new ComboBox<>("Cuenta Destino");
         private final TextField concepto = new TextField("Concepto");
@@ -177,77 +182,68 @@ public class TransferenciasTraspasosView extends VerticalLayout {
         public TraspasoForm() {
             getStyle().set("align-self", "center");
 
-            List<Cuenta> cuentasUsuario = generateRandomCuentaDatosPrueba(3);
+            //TODO: Obtener cuentas del usuario logueado
+            List<Cuenta> cuentasUsuario = cuentaService.findAll();
 
-            //cuentaOrigen.setItems(Cuenta.findAll());
             cuentaOrigen.setItems(cuentasUsuario);
             cuentaOrigen.setItemLabelGenerator(Cuenta::getIBAN);
 
-            //cuentaDestino.setItems(Cuenta.findAll());
             cuentaDestino.setItems(cuentasUsuario);
             cuentaDestino.setItemLabelGenerator(Cuenta::getIBAN);
 
             importe.setValue(0.0);
-
-            //TODO: Obtener balance de la cuenta seleccionada
-            float balanceActual = 1000;
 
             realizarTraspaso.addClickListener(e -> {
 
                 try {
                     float importeTraspaso = importe.getValue().floatValue();
 
+                    float balanceActual = cuentaOrigen.getValue().getBalance();
+
                     if (importeTraspaso > balanceActual) {
-                        JSONObject json = new JSONObject();
-                        json.put("message", "El importe del traspaso es superior al balance de la cuenta");
-                        json.put("field", "importe");
-                        throw new Exception(json.toString());
+                        throw new Movimiento.ImporteInvalidoException("El importe de la transferencia es superior al balance de la cuenta");
                     }
 
                     if(importeTraspaso <= 0) {
-                        JSONObject json = new JSONObject();
-                        json.put("message", "El importe del traspaso debe ser mayor que 0");
-                        json.put("field", "importe");
-                        throw new Exception(json.toString());
+                        throw new Movimiento.ImporteInvalidoException("El importe de la transferencia debe ser mayor que 0");
                     }
+
+                    float nuevoBalance = balanceActual - importeTraspaso;
 
                     Traspaso traspaso = new Traspaso(
                         importeTraspaso,
-                            LocalDate.now(),
-                        balanceActual - importeTraspaso,
+                        LocalDateTime.now(),
+                        nuevoBalance,
                         cuentaOrigen.getValue().getIBAN(),
                         cuentaDestino.getValue().getIBAN(),
                         concepto.getValue()
                     );
 
-                    //TODO: Save traspaso in database and update balance
+                    //Save traspaso in database and update balance
+                    this.traspasoService.save(traspaso);
+                    this.cuentaService.updateBalance(cuentaOrigen.getValue(), nuevoBalance);
 
                 } catch (Exception ex) {
 
-                    System.out.println(ex.getMessage());
-
-                    JSONObject json = new JSONObject(ex.getMessage());
-
-                    if(json.has("field")){
-                        switch (json.getString("field")) {
-                            case "cuentaOrigen":
-                                cuentaOrigen.setErrorMessage(json.getString("message"));
-                                cuentaOrigen.setInvalid(true);
-                                break;
-                            case "cuentaDestino":
-                                cuentaDestino.setErrorMessage(json.getString("message"));
-                                cuentaDestino.setInvalid(true);
-                                break;
-                            case "concepto":
-                                concepto.setErrorMessage(json.getString("message"));
-                                concepto.setInvalid(true);
-                                break;
-                            case "importe":
-                                importe.setErrorMessage(json.getString("message"));
-                                importe.setInvalid(true);
-                                break;
-                        }
+                    if (ex instanceof Movimiento.ImporteInvalidoException) {
+                        importe.setErrorMessage(ex.getMessage());
+                        importe.setInvalid(true);
                     }
+
+                    if(ex instanceof NumberFormatException) {
+                        importe.setErrorMessage("El importe debe ser un número");
+                        importe.setInvalid(true);
+                    }
+
+                    if(ex instanceof Movimiento.FechaInvalidaException) {
+                        Notification.show(ex.getMessage(), 3000, Notification.Position.MIDDLE);
+                    }
+
+                    if(ex instanceof Traspaso.CuentaInvalidaException) {
+                        cuentaOrigen.setErrorMessage(ex.getMessage());
+                        cuentaOrigen.setInvalid(true);
+                    }
+
                 }
             });
             realizarTraspaso.addClassName("EnviarButtonMisCuentas");
@@ -255,23 +251,6 @@ public class TransferenciasTraspasosView extends VerticalLayout {
             setColspan(realizarTraspaso, 3);
         }
         
-    }
-
-    private static List<Cuenta> generateRandomCuentaDatosPrueba(int numeroCuentas) {
-
-        List<Cuenta> cuentas = new ArrayList<Cuenta>();
-        
-        for (int i = 0; i < numeroCuentas; i++) {
-            // Generate random IBAN bank account number 24 digits
-            String IBAN = "ES";
-            for (int j = 0; j < 22; j++) {
-                IBAN += (int) (Math.random() * 10);
-            }
-
-            // cuentas.add(new Cuenta(1000, IBAN));
-        }
-        
-        return cuentas;
     }
 
 }

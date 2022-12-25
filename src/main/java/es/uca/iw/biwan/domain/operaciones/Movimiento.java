@@ -1,6 +1,6 @@
 package es.uca.iw.biwan.domain.operaciones;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -17,14 +17,41 @@ public class Movimiento {
     @Column(nullable = false)
     protected float importe;
     @Column(nullable = false)
-    protected LocalDate fecha;
+    protected LocalDateTime fecha;
     @Column(nullable = false)
     protected float balanceRestante;
 
-    public Movimiento(float importe, LocalDate fecha, float balanceRestante) {
+    public static class ImporteInvalidoException extends Exception {
+        public ImporteInvalidoException(String message) {
+            super(message);
+        }
+    }
+
+    public static class FechaInvalidaException extends Exception {
+        public FechaInvalidaException(String message) {
+            super(message);
+        }
+    }
+
+    public static class BalanceRestanteInvalidoException extends Exception {
+        public BalanceRestanteInvalidoException(String message) {
+            super(message);
+        }
+    }
+
+    public Movimiento(float importe, LocalDateTime fecha, float balanceRestante) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
         this.uuid = UUID.randomUUID();
+
+        if(importe == 0)
+            throw new ImporteInvalidoException("El importe no puede ser 0");
         this.importe = importe;
+
+        if(fecha == null || fecha.isAfter(LocalDateTime.now()))
+            throw new FechaInvalidaException("La fecha no puede ser nula");
         this.fecha = fecha;
+
+        if(balanceRestante <= 0)
+            throw new BalanceRestanteInvalidoException("No dispone de suficiente balance");
         this.balanceRestante = balanceRestante;
     }
 
@@ -40,11 +67,11 @@ public class Movimiento {
         this.importe = importe;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

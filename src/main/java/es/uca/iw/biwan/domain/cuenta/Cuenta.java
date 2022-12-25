@@ -7,7 +7,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 public class Cuenta {

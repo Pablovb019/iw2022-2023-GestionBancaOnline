@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -15,7 +15,7 @@ public class PagoTarjeta extends Movimiento {
     private String informacion;
     private String establecimiento;
 
-    public PagoTarjeta(float importe, LocalDate fecha, float balanceRestante, String informacion, String establecimiento) {
+    public PagoTarjeta(float importe, LocalDateTime fecha, float balanceRestante, String informacion, String establecimiento) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
         super(importe, fecha, balanceRestante);
         this.informacion = informacion;
         this.establecimiento = establecimiento;

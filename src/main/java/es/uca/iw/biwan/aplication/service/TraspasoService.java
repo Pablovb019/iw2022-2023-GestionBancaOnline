@@ -1,6 +1,8 @@
 package es.uca.iw.biwan.aplication.service;
 
 import es.uca.iw.biwan.aplication.repository.TraspasoRepository;
+import es.uca.iw.biwan.domain.operaciones.Traspaso;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,5 +13,9 @@ public class TraspasoService {
     @Autowired
     public TraspasoService(TraspasoRepository traspasoRepository) {
         this.traspasoRepository = traspasoRepository;
+    }
+
+    public void save(Traspaso traspaso) {
+        traspasoRepository.save(traspaso);
     }
 }

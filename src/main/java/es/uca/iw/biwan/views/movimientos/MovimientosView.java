@@ -1,8 +1,10 @@
 package es.uca.iw.biwan.views.movimientos;
 
 import java.text.DecimalFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,13 @@ import es.uca.iw.biwan.domain.operaciones.PagoTarjeta;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
 import es.uca.iw.biwan.domain.operaciones.Transferencia;
 import es.uca.iw.biwan.domain.operaciones.Traspaso;
+import es.uca.iw.biwan.domain.operaciones.Movimiento.BalanceRestanteInvalidoException;
+import es.uca.iw.biwan.domain.operaciones.Movimiento.FechaInvalidaException;
+import es.uca.iw.biwan.domain.operaciones.Movimiento.ImporteInvalidoException;
+import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.EmisorInvalidoException;
+import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.FechaVencimientoInvalidaException;
+import es.uca.iw.biwan.domain.operaciones.Transferencia.BeneficiarioInvalidoException;
+import es.uca.iw.biwan.domain.operaciones.Transferencia.CuentaInvalidaException;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -129,7 +138,7 @@ public class MovimientosView extends VerticalLayout {
     private static DatePicker.DatePickerI18n singleFormatI18n = new DatePicker.DatePickerI18n();
 
     private static String getFormattedMovimientoDate(Movimiento movimiento) {
-        if (movimiento.getFecha().isBefore(LocalDate.now().minusDays(1))) {
+        if (movimiento.getFecha().isBefore(LocalDateTime.now().minusDays(1))) {
             return dateFormatter.format(movimiento.getFecha());
         } else {
             return hourFormatter.format(movimiento.getFecha());
@@ -312,8 +321,9 @@ public class MovimientosView extends VerticalLayout {
         List<Movimiento> dataExample = new ArrayList<Movimiento>();
 
         for (int i = 0; i < 50; i++) {
-            // generate random localdate between fechaInicio and fechaFin
-            LocalDate fecha = fechaInicio.toLocalDate().plusDays((long) (Math.random() * (fechaFin.toLocalDate().toEpochDay() - fechaInicio.toLocalDate().toEpochDay())));
+            // generate random localdatetime between fechaInicio and fechaFin
+            LocalDateTime fecha = LocalDateTime.ofInstant(Instant.ofEpochMilli((long) (Math.random() * (fechaFin.toEpochSecond(ZoneOffset.UTC) - fechaInicio.toEpochSecond(ZoneOffset.UTC)) + fechaInicio.toEpochSecond(ZoneOffset.UTC)) * 1000), ZoneOffset.UTC);
+
             // generate random float between -100 and 100
             float importe = (float) (Math.random() * 200 - 100);
             if(importe == 0) {
@@ -345,16 +355,39 @@ public class MovimientosView extends VerticalLayout {
             // Generate random data example
             switch ((int) (Math.random() * 4)) {
                 case 0:
-                    dataExample.add(new PagoTarjeta(importe, fecha, balanceRestante, informacion, establecimiento));
+                    try {
+                        dataExample.add(new PagoTarjeta(importe, fecha, balanceRestante, informacion, establecimiento));
+                    } catch (ImporteInvalidoException | FechaInvalidaException | BalanceRestanteInvalidoException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     break;
                 case 1:
-                    dataExample.add(new ReciboDomiciliado(importe, fecha, balanceRestante, fecha, establecimiento, conceptoRecibo));
+                    try {
+                        dataExample.add(new ReciboDomiciliado(importe, fecha, balanceRestante, fecha, establecimiento, conceptoRecibo));
+                    } catch (ImporteInvalidoException | FechaInvalidaException | BalanceRestanteInvalidoException
+                            | FechaVencimientoInvalidaException | EmisorInvalidoException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     break;
                 case 2:
-                    dataExample.add(new Transferencia(importe, fecha, balanceRestante, cuentaOrigen, cuentaDestino, beneficiario, conceptoTransferencia));
+                    try {
+                        dataExample.add(new Transferencia(importe, fecha, balanceRestante, cuentaOrigen, cuentaDestino, beneficiario, conceptoTransferencia));
+                    } catch (BeneficiarioInvalidoException | CuentaInvalidaException | ImporteInvalidoException
+                            | FechaInvalidaException | BalanceRestanteInvalidoException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     break;
                 case 3:
-                    dataExample.add(new Traspaso(importe, fecha, balanceRestante, cuentaOrigen, cuentaDestino, conceptoTransferencia));
+                    try {
+                        dataExample.add(new Traspaso(importe, fecha, balanceRestante, cuentaOrigen, cuentaDestino, conceptoTransferencia));
+                    } catch (ImporteInvalidoException | FechaInvalidaException | BalanceRestanteInvalidoException
+                            | es.uca.iw.biwan.domain.operaciones.Traspaso.CuentaInvalidaException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     break;
             }
             

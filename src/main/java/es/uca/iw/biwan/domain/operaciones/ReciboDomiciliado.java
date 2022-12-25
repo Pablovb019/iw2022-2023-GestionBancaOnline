@@ -1,6 +1,6 @@
 package es.uca.iw.biwan.domain.operaciones;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -12,14 +12,35 @@ import javax.persistence.InheritanceType;
 @DiscriminatorValue("RECIBO_DOMICILIADO")
 public class ReciboDomiciliado extends Movimiento {
 
-    private LocalDate fechaVencimiento;
+    private LocalDateTime fechaVencimiento;
     private String emisor;
     private String concepto;
 
-    public ReciboDomiciliado(float importe, LocalDate fecha, float balanceRestante, LocalDate fechaVencimiento, String emisor, String concepto) {
+    public static class EmisorInvalidoException extends Exception {
+        public EmisorInvalidoException(String message) {
+            super(message);
+        }
+    }
+
+    public static class FechaVencimientoInvalidaException extends Exception {
+        public FechaVencimientoInvalidaException(String message) {
+            super(message);
+        }
+    }
+
+    public ReciboDomiciliado(float importe, LocalDateTime fecha, float balanceRestante, LocalDateTime fechaVencimiento, String emisor, String concepto) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException, FechaVencimientoInvalidaException, EmisorInvalidoException {
         super(importe, fecha, balanceRestante);
 
+        if(fechaVencimiento == null)
+            throw new FechaVencimientoInvalidaException("La fecha de vencimiento no puede ser nula");
+
+        if(fechaVencimiento.isBefore(fecha))
+            throw new FechaVencimientoInvalidaException("La fecha de vencimiento no puede ser anterior a la fecha del recibo");
+        
         this.fechaVencimiento = fechaVencimiento;
+
+        if(emisor == null || emisor.isEmpty())
+            throw new EmisorInvalidoException("El emisor no puede ser nulo o vacío");
         this.emisor = emisor;
         this.concepto = concepto;
     }
@@ -28,11 +49,11 @@ public class ReciboDomiciliado extends Movimiento {
 
     }
 
-    public LocalDate getFechaVencimiento() {
+    public LocalDateTime getFechaVencimiento() {
         return fechaVencimiento;
     }
 
-    public void setFechaVencimiento(LocalDate fechaVencimiento) {
+    public void setFechaVencimiento(LocalDateTime fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
 

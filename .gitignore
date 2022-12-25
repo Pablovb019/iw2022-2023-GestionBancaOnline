@@ -15,6 +15,7 @@ pnpmfile.js
 .npmrc
 webpack.generated.js
 vite.generated.ts
+package-lock.json
 
 # Browser drivers for local integration tests
 drivers/
