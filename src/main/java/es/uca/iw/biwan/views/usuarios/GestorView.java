@@ -64,7 +64,7 @@ public class GestorView extends VerticalLayout {
         Anchor NombreCliente = new Anchor("", "Jose Antonio Alonso de la Huerta");
         Anchor CuentasYTarjetasButton = new Anchor("cuentas-tarjetas-gestor", "Cuentas y tarjetas");
         Anchor CrearCuentaButton = new Anchor("crear-cuenta-gestor", "Crear Cuenta");
-        Anchor CrearTarjetaButton = new Anchor("crear-cuenta-gestor", "Crear Tarjeta");
+        Anchor CrearTarjetaButton = new Anchor("crear-tarjeta-gestor", "Crear Tarjeta");
         Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
         Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
         Span counterOnline = new Span("1");
