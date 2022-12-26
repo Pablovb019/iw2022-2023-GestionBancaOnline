@@ -7,6 +7,7 @@ import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class AnuncioService {
         this.anuncioRepository = anuncioRepository;
     }
 
+    @Transactional
     public void save(Anuncio anuncio) {
         anuncioRepository.insertAnuncio(anuncio.getTipo(), anuncio.getUUID(), anuncio.getFechaInicio(), anuncio.getFechaFin(), anuncio.getTitulo(), anuncio.getCuerpo());
     }
@@ -35,5 +37,15 @@ public class AnuncioService {
 
     public ArrayList<Oferta> findOfertaByType(String oferta) {
         return anuncioRepository.findOfertaByType(oferta);
+    }
+
+    @Transactional
+    public void delete(Anuncio anuncio) {
+        anuncioRepository.deleteAnuncio(anuncio.getUUID());
+    }
+
+    @Transactional
+    public void update(Anuncio anuncio) {
+        anuncioRepository.updateAnuncio(anuncio.getTipo(), anuncio.getUUID(), anuncio.getFechaInicio(), anuncio.getFechaFin(), anuncio.getTitulo(), anuncio.getCuerpo());
     }
 }

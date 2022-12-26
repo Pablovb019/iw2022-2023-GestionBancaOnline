@@ -79,10 +79,12 @@ public class AddNoticiaView extends VerticalLayout {
 
         binderNoticia.forField(titulo)
                 .asRequired("El título es obligatorio")
+                .withValidator(titulo -> titulo.length() <= 128, "El titulo debe tener un tamaño menor a 128 caracteres")
                 .bind(Anuncio::getTitulo, Anuncio::setTitulo);
 
         binderNoticia.forField(descripcion)
                 .asRequired("La descripción es obligatoria")
+                .withValidator(descripcion -> descripcion.length() <= 2048, "La descripción debe tener un tamaño menor a 2048 caracteres")
                 .bind(Anuncio::getCuerpo, Anuncio::setCuerpo);
 
         Component botones = crearBotones(binderNoticia);
@@ -111,7 +113,7 @@ public class AddNoticiaView extends VerticalLayout {
             UI.getCurrent().navigate("pagina-principal-encargado");
         });
 
-        //Añadir noticia
+        // Añadir noticia
         guardar.addClickShortcut(Key.ENTER);
         guardar.addClickListener(event -> {
             if (binderNoticia.validate().isOk()) {

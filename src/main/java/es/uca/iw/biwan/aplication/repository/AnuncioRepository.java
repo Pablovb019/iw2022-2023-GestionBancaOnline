@@ -16,7 +16,6 @@ import java.util.UUID;
 
 
 public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
-    @Transactional
     @Modifying
     @Query(
             value = "INSERT INTO Anuncio VALUES (:tipo, :uuid, :fecha_inicio, :fecha_fin, :titulo, :cuerpo)",
@@ -47,4 +46,24 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
             nativeQuery = true
     )
     ArrayList<Oferta> findOfertaByType(@Param("tipo") String tipo);
+
+    @Modifying
+    @Query(
+            value = "DELETE FROM Anuncio WHERE uuid = :uuid",
+            nativeQuery = true
+    )
+    void deleteAnuncio(@Param("uuid") UUID uuid);
+
+    @Modifying
+    @Query(
+            value = "UPDATE Anuncio SET tipo = :tipo, fecha_inicio = :fecha_inicio, fecha_fin = :fecha_fin, titulo = :titulo, cuerpo = :cuerpo WHERE uuid = :uuid",
+            nativeQuery = true
+    )
+    void updateAnuncio(@Param("tipo") String tipo,
+                    @Param("uuid") UUID uuid,
+                    @Param("fecha_inicio") LocalDate fecha_inicio,
+                    @Param("fecha_fin") LocalDate fecha_fin,
+                    @Param("titulo") String titulo,
+                    @Param("cuerpo") String cuerpo
+    );
 }

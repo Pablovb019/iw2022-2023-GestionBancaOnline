@@ -3,18 +3,27 @@
     background: #D1FFD6;
     border: 3px solid black !important;
     padding: 20px;
-    min-height: 500px;
-    max-height: 500px;
+    min-width: 720px;
+    min-height: 550px;
+    max-height: 550px;
 }
 
 .TituloWelcome {
     color: black;
-    margin-left: 20px;
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .Textos {
     color: black;
     margin: auto;
+}
+
+.FechaFinOferta {
+    color: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .AñadirNoticiaOfertaButtons {
@@ -59,10 +68,14 @@
 }
 
 .hlNoticiasOfertas {
-    max-width: 97%;
+    max-width: 98%;
     margin-bottom: auto;
     margin-top: auto;
     align-self: center;
+}
+
+.vlPaginaPrincipal {
+    align-content: center;
 }
 
 flow-container-root-2521314 {

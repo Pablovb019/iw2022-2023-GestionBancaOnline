@@ -88,7 +88,7 @@ public class AddOfertaView extends VerticalLayout {
                 .bind(Anuncio::getCuerpo, Anuncio::setCuerpo);
 
         binderOferta.forField(fechaFin)
-                .asRequired("La descripción es obligatoria")
+                .asRequired("La fecha fin de la oferta es obligatoria")
                 .withValidator(fecha -> fecha.isAfter(LocalDate.now()), "La fecha debe ser posterior a la actual")
                 .bind(Anuncio::getFechaFin, Anuncio::setFechaFin);
 

@@ -21,9 +21,11 @@ public class Anuncio {
     @Column
     private LocalDate fechaFin;
 
+    @Lob
     @Column(nullable = false)
     private String titulo;
 
+    @Lob
     @Column(nullable = false)
     private String cuerpo;
 
