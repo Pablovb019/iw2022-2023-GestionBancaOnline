@@ -23,11 +23,10 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
-import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -58,7 +57,7 @@ public class crearGestorView extends VerticalLayout{
 
                 //ADD
                 layoutHorCrearGestor.add(crearEncargadoComunicacion());
-                layoutCrearGestor.add(HeaderView.Header(), layoutHorCrearGestor, FooterView.Footer());
+                layoutCrearGestor.add(HeaderUsuarioLogueadoView.Header(), layoutHorCrearGestor, FooterView.Footer());
 
                 //ALIGNMENT
                 layoutHorCrearGestor.setWidth("30%");

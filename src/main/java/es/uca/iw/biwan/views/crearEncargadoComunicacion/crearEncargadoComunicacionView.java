@@ -25,7 +25,7 @@ import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -58,7 +58,7 @@ public class crearEncargadoComunicacionView extends VerticalLayout {
 
                 //ADD
                 layoutHorCrearEncargado.add(crearEncargadoComunicacion());
-                layoutCrearEncargado.add(HeaderView.Header(), layoutHorCrearEncargado, FooterView.Footer());
+                layoutCrearEncargado.add(HeaderUsuarioLogueadoView.Header(), layoutHorCrearEncargado, FooterView.Footer());
 
                 //ALIGNMENT
                 layoutHorCrearEncargado.setWidth("30%");

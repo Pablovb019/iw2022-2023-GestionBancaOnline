@@ -28,6 +28,22 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
                          @Param("password") String password
     );
 
+    @Transactional
+    @Modifying
+    @Query(
+            value = "UPDATE Usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
+            nativeQuery = true
+    )
+    void updateUser(@Param("uuid") UUID uuid,
+                         @Param("nombre") String nombre,
+                         @Param("apellidos") String apellidos,
+                         @Param("fechaNacimiento") LocalDate fechaNacimiento,
+                         @Param("telefono") Double telefono,
+                         @Param("dni") String dni,
+                         @Param("email") String email,
+                         @Param("password") String password
+    );
+
     @Query(
             value = "SELECT u FROM Usuario u WHERE u.email = :email"
     )

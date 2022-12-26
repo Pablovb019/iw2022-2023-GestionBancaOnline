@@ -40,7 +40,7 @@ public class HeaderUsuarioLogueadoView {
         String rol = session.getAttribute(Usuario.class).getRol().toString();
 
         // Crear menú de usuario
-        Anchor AjustesUsuario = new Anchor("ajustes-cliente", "Ajustes");
+        Anchor AjustesUsuario = new Anchor("ajustes-usuario", "Ajustes");
         AjustesUsuario.addClassName("AnchorMenuItem");
         Anchor CerrarSesion = new Anchor("", "Cerrar sesión");
         CerrarSesion.addClassName("AnchorMenuItem");
@@ -73,50 +73,65 @@ public class HeaderUsuarioLogueadoView {
         SubMenuAjustes.addItem(CerrarSesion);
 
         String pagRol = "";
-        if(rol.equals("ADMINISTRADOR")) {
+        switch (rol) {
+            case "ADMINISTRADOR":
+                pagRol = "pagina-principal-admin";
 
-        } else if (rol.equals("CLIENTE")) {
-            pagRol = "pagina-principal-cliente";
+                Anchor AñadirGestor = new Anchor("crear-gestor", "Añadir Gestor");
+                AñadirGestor.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(AñadirGestor);
 
-            Anchor CuentasTarjetasMenuItem = new Anchor("cuentas-tarjetas-cliente", "Cuentas y Tarjetas");
-            CuentasTarjetasMenuItem.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(CuentasTarjetasMenuItem);
+                Anchor AñadirEncargadoComunicacion = new Anchor("crear-encargado-comunicacion", "Añadir Encargado de Comunicación");
+                AñadirEncargadoComunicacion.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(AñadirEncargadoComunicacion);
+                break;
+            case "CLIENTE": {
+                pagRol = "pagina-principal-cliente";
 
-            Anchor MovimientosRealizadosMenuItem = new Anchor("movimientos", "Movimientos realizados");
-            MovimientosRealizadosMenuItem.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(MovimientosRealizadosMenuItem);
+                Anchor CuentasTarjetasMenuItem = new Anchor("cuentas-tarjetas-cliente", "Cuentas y Tarjetas");
+                CuentasTarjetasMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(CuentasTarjetasMenuItem);
 
-            Anchor RecibosDomiciliadosMenuItem = new Anchor("recibos-domiciliados", "Recibos domiciliados");
-            RecibosDomiciliadosMenuItem.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(RecibosDomiciliadosMenuItem);
+                Anchor MovimientosRealizadosMenuItem = new Anchor("movimientos", "Movimientos realizados");
+                MovimientosRealizadosMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(MovimientosRealizadosMenuItem);
 
-            Anchor TransferenciasTraspasosMenuItem = new Anchor("transferencias-traspasos", "Transferencias y Traspasos");
-            TransferenciasTraspasosMenuItem.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(TransferenciasTraspasosMenuItem);
-        } else if (rol.equals("GESTOR")) {
-            pagRol = "pagina-principal-gestor";
+                Anchor RecibosDomiciliadosMenuItem = new Anchor("recibos-domiciliados", "Recibos domiciliados");
+                RecibosDomiciliadosMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(RecibosDomiciliadosMenuItem);
 
-            Anchor CuentasTarjetasMenuItem = new Anchor("cuentas-tarjetas-gestor", "Cuentas y Tarjetas");
-            CuentasTarjetasMenuItem.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(CuentasTarjetasMenuItem);
+                Anchor TransferenciasTraspasosMenuItem = new Anchor("transferencias-traspasos", "Transferencias y Traspasos");
+                TransferenciasTraspasosMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(TransferenciasTraspasosMenuItem);
+                break;
+            }
+            case "GESTOR": {
+                pagRol = "pagina-principal-gestor";
 
-            Anchor ConsultasOnlineMenuItem = new Anchor("consultas-online-gestor", "Consultas Online");
-            ConsultasOnlineMenuItem.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(ConsultasOnlineMenuItem);
+                Anchor CuentasTarjetasMenuItem = new Anchor("cuentas-tarjetas-gestor", "Cuentas y Tarjetas");
+                CuentasTarjetasMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(CuentasTarjetasMenuItem);
 
-            Anchor ConsultasOfflineMenuItem = new Anchor("consultas-offline-gestor", "Consultas Offline");
-            ConsultasOfflineMenuItem.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(ConsultasOfflineMenuItem);
-        } else if (rol.equals("ENCARGADO_COMUNICACIONES")) {
-            pagRol = "pagina-principal-encargado";
+                Anchor ConsultasOnlineMenuItem = new Anchor("consultas-online-gestor", "Consultas Online");
+                ConsultasOnlineMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(ConsultasOnlineMenuItem);
 
-            Anchor AñadirNoticia = new Anchor("add-noticia-encargado", "Añadir Noticia");
-            AñadirNoticia.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(AñadirNoticia);
+                Anchor ConsultasOfflineMenuItem = new Anchor("consultas-offline-gestor", "Consultas Offline");
+                ConsultasOfflineMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(ConsultasOfflineMenuItem);
+                break;
+            }
+            case "ENCARGADO_COMUNICACIONES":
+                pagRol = "pagina-principal-encargado";
 
-            Anchor AñadirOferta = new Anchor("add-oferta-encargado", "Añadir Oferta");
-            AñadirOferta.addClassName("AnchorMenuItem");
-            MenuSecundario.addItem(AñadirOferta);
+                Anchor AñadirNoticia = new Anchor("add-noticia-encargado", "Añadir Noticia");
+                AñadirNoticia.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(AñadirNoticia);
+
+                Anchor AñadirOferta = new Anchor("add-oferta-encargado", "Añadir Oferta");
+                AñadirOferta.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(AñadirOferta);
+                break;
         }
 
         Anchor PaginaPrincipalAnchor = new Anchor(pagRol, "Página principal");
