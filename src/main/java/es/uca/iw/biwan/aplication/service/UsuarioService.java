@@ -24,6 +24,14 @@ public class UsuarioService {
         return usuarioRepository.findUserByEmail(email);
     }
 
+    public Usuario findUserByDni (String dni) {
+        return usuarioRepository.findUserByDni(dni);
+    }
+
+    public Usuario findUserByTelefono (Double telefono) {
+        return usuarioRepository.findUserByTelefono(telefono);
+    }
+
     public String getRole(UUID uuid) {
         return usuarioRepository.findRoleByUUID(uuid);
     }

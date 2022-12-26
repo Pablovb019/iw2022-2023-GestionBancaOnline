@@ -23,11 +23,13 @@ public class Usuario {
     @Column(nullable = false)
     private LocalDate fechaNacimiento;
     @Column(nullable = false)
+    @Unique
     private Double telefono;
     @Column(nullable = false)
     @Unique
     private String dni;
     @Column(nullable = false)
+    @Unique
     private String email;
     @Column(nullable = false)
     private String password;

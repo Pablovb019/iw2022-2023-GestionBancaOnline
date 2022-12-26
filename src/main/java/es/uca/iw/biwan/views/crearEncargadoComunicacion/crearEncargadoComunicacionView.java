@@ -8,6 +8,8 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -164,10 +166,35 @@ public class crearEncargadoComunicacionView extends VerticalLayout {
                 encargadoComunicaciones.setEmail(email.getValue());
                 encargadoComunicaciones.setPassword(passwordEncoder.encode(password.getValue()));
                 encargadoComunicaciones.setRol(Role.ENCARGADO_COMUNICACIONES);
-                CreateRequest(encargadoComunicaciones);
+                boolean correcto = ComprobarDatos(encargadoComunicaciones);
+                if (correcto) { CreateRequest(encargadoComunicaciones); }
             }
         });
         return formLayout;
+    }
+
+    private boolean ComprobarDatos(Usuario user) {
+        if (usuarioService.findUserByTelefono(user.getTelefono()) != null) {
+            Notification errorTelefono = new Notification("El teléfono ya está en uso", 3000);
+            errorTelefono.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            errorTelefono.open();
+            return false;
+        }
+
+        if (usuarioService.findUserByDni(user.getDni()) != null) {
+            Notification errorDni = new Notification("El DNI ya está en uso", 3000);
+            errorDni.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            errorDni.open();
+            return false;
+        }
+
+        if (usuarioService.findUserByEmail(user.getEmail()) != null) {
+            Notification errorEmail = new Notification("El correo electrónico ya está en uso", 3000);
+            errorEmail.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            errorEmail.open();
+            return false;
+        }
+        return true;
     }
 
     private void CreateRequest(Usuario user) {
