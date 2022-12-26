@@ -20,6 +20,10 @@ public class UsuarioService {
         usuarioRepository.insertUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getRol(), user.getPassword());
     }
 
+    public void update(Usuario user) {
+        usuarioRepository.updateUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getPassword());
+    }
+
     public Usuario findUserByEmail(String email) {
         return usuarioRepository.findUserByEmail(email);
     }
