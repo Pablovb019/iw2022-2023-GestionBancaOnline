@@ -1,0 +1,66 @@
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}
+
+.layoutVerAdminPrincipal {
+    padding-left: 50px;
+    padding-right: 50px;
+    width: 90%;
+}
+
+.layoutGestionAdmin {
+    background: #D1FFD6;
+    border: 3px solid black !important;
+    padding: 15px;
+    width: 80%;
+    min-width: fit-content;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.Titulo {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.BotonAdmin {
+    background-image: linear-gradient(to right, #38cc83, #25a468, #176538);
+    box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+    border: none;
+    color: white;
+    font-size: large;
+    font-weight: 500;
+    cursor: pointer;
+    height: 50px;
+    width: 300px;
+    display: flex;
+    text-decoration: none !important;
+    justify-content: center;
+    align-items: center;
+    background-size: 300% 100%;
+
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+
+    margin-left: 100px;
+}
+
+.BotonAdmin:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.SeparacionAdmin {
+    margin-right: 10px;
+}

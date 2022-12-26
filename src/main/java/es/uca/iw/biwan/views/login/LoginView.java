@@ -149,7 +149,7 @@ public class LoginView extends VerticalLayout {
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
-                    UI.getCurrent().navigate("");
+                    UI.getCurrent().navigate("pagina-principal-admin");
                 }
             } else {
                 Notification errorEmailPassword = Notification.show("El correo electrónico o la contraseña son incorrectos");

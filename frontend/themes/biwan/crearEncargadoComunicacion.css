@@ -1,0 +1,25 @@
+.ButtonSubmitCrearEncargadoComunicacion {
+    background-color: #27AE60;
+    color: white;
+    margin-top: 20px;
+}
+
+.CrearCuentaEncargado {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+vaadin-form-layout {
+    height: 500px;
+    display: flex;
+}
+
+::part(reveal-button) {
+    color: #27AE60;
+}
+
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}
