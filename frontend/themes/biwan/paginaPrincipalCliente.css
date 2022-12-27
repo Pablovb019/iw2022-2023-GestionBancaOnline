@@ -112,17 +112,15 @@ flow-container-root-2521314 {
     line-height: 3.3;
 }
 
-.hlAnuncio1Cliente, .hlAnuncio2Cliente{
-    align-items: center;
+.TituloTextoAnuncio {
+    color: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
-.TituloTextoAnuncio1, .TituloTextoAnuncio2 {
+.TextoAnuncio{
     color: black;
-    font-size: 20px;
-}
-
-.TextoAnuncio1, .TextoAnuncio2 {
-    color: black;
-    font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 

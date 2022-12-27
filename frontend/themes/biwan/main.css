@@ -35,54 +35,30 @@
     line-height: 3.3;
 }
 
-.TituloTextoAnuncio1{
+.tTextoAnuncio{
     color: black;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
-.TxtAnuncio1{
+.TxtAnuncio{
     color: black;
-    margin-top: -15px;
-}
-
-.TituloTextoAnuncio2{
-    color: black;
-}
-
-.TxtAnuncio2{
-    color: black;
-    margin-top: -15px;
-}
-
-.TituloTextoAnuncio3{
-    color: black;
-}
-
-.TextoAnuncio3{
-    color: black;
-    margin-top: -15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .hlAnuncioPrincipal{
     margin-top: 20px;
 }
 
-.hlAnuncio1{
+.hlAnuncio{
     margin-top: 30px;
     max-width: 80%;
     align-self: center;
 }
 
-.hlAnuncio2{
-    margin-top: 50px;
-    max-width: 80%;
-    align-self: center;
-}
-
-.hlAnuncio3{
-    margin-top: 80px;
-    margin-bottom: 80px;
-    max-width: 80%;
-    align-self: center;
+.vlAnunciosPagPrincipal {
+    margin-bottom: 30px;
 }
 
 flow-container-root-2521314 {

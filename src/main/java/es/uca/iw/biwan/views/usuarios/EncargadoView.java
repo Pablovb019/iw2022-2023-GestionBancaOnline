@@ -23,6 +23,7 @@ import es.uca.iw.biwan.views.noticiasOfertas.EditarOfertaView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,38 +127,41 @@ public class EncargadoView extends VerticalLayout {
         // Ofertas
         ArrayList<Component> listaOfertas = new ArrayList<>();
         for(Oferta oferta : ofertas) {
+            if(oferta.getFechaFin().isAfter(LocalDate.now())) {
+                // Creacion de los elementos de la oferta
+                H3 TituloOferta = new H3(oferta.getTitulo());
+                H4 FechaFinOferta = new H4("Fecha Fin: " + oferta.getFechaFin().toString());
+                Paragraph TextoOferta = new Paragraph(oferta.getCuerpo());
+                Anchor OfertaEditarButton = new Anchor("editar-oferta-encargado", "Editar");
+                Anchor OfertaEliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
 
-            // Creacion de los elementos de la oferta
-            H3 TituloOferta = new H3(oferta.getTitulo());
-            H4 FechaFinOferta = new H4("Fecha Fin: " + oferta.getFechaFin().toString());
-            Paragraph TextoOferta = new Paragraph(oferta.getCuerpo());
-            Anchor OfertaEditarButton = new Anchor("editar-oferta-encargado", "Editar");
-            Anchor OfertaEliminarButton = new Anchor("pagina-principal-encargado", "Eliminar");
+                // CSS
+                TituloOferta.addClassName("Textos");
+                TextoOferta.addClassName("Textos");
+                FechaFinOferta.addClassName("FechaFinOferta");
+                OfertaEditarButton.addClassName("EditarButtons");
+                OfertaEliminarButton.addClassName("EliminarButtons");
 
-            // CSS
-            TituloOferta.addClassName("Textos");
-            TextoOferta.addClassName("Textos");
-            FechaFinOferta.addClassName("FechaFinOferta");
-            OfertaEditarButton.addClassName("EditarButtons");
-            OfertaEliminarButton.addClassName("EliminarButtons");
+                var vlOferta = new VerticalLayout(TituloOferta, FechaFinOferta, TextoOferta);
+                var hlOferta = new HorizontalLayout(vlOferta, OfertaEditarButton, OfertaEliminarButton);
+                listaOfertas.add(hlOferta);
 
-            var vlOferta = new VerticalLayout(TituloOferta, FechaFinOferta, TextoOferta);
-            var hlOferta = new HorizontalLayout(vlOferta, OfertaEditarButton, OfertaEliminarButton);
-            listaOfertas.add(hlOferta);
-
-            // Editar oferta
-            OfertaEditarButton.getElement().addEventListener("click", event -> {
-                EditarOfertaView.setTituloDescripcion(oferta);
-            });
-
-            // Eliminar oferta
-            OfertaEliminarButton.getElement().addEventListener("click", event -> {
-                anuncioService.delete(oferta);
-                ConfirmDialog confirmRequest = new ConfirmDialog("Eliminada Oferta", "Oferta eliminada correctamente", "Aceptar", event1 -> {
-                    UI.getCurrent().getPage().reload();
+                // Editar oferta
+                OfertaEditarButton.getElement().addEventListener("click", event -> {
+                    EditarOfertaView.setTituloDescripcion(oferta);
                 });
-                confirmRequest.open();
-            });
+
+                // Eliminar oferta
+                OfertaEliminarButton.getElement().addEventListener("click", event -> {
+                    anuncioService.delete(oferta);
+                    ConfirmDialog confirmRequest = new ConfirmDialog("Eliminada Oferta", "Oferta eliminada correctamente", "Aceptar", event1 -> {
+                        UI.getCurrent().getPage().reload();
+                    });
+                    confirmRequest.open();
+                });
+            } else {
+                anuncioService.delete(oferta);
+            }
         }
 
         var vlTituloTablonOfertas = new VerticalLayout(TituloTablonOfertas);

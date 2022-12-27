@@ -103,6 +103,14 @@ public class HeaderUsuarioLogueadoView {
                 Anchor TransferenciasTraspasosMenuItem = new Anchor("transferencias-traspasos", "Transferencias y Traspasos");
                 TransferenciasTraspasosMenuItem.addClassName("AnchorMenuItem");
                 MenuSecundario.addItem(TransferenciasTraspasosMenuItem);
+
+                Anchor ConsultasOnlineMenuItem = new Anchor("consultas-online-cliente", "Consultas Online");
+                ConsultasOnlineMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(ConsultasOnlineMenuItem);
+
+                Anchor ConsultasOfflineMenuItem = new Anchor("consultas-offline-cliente", "Consultas Offline");
+                ConsultasOfflineMenuItem.addClassName("AnchorMenuItem");
+                MenuSecundario.addItem(ConsultasOfflineMenuItem);
                 break;
             }
             case "GESTOR": {
