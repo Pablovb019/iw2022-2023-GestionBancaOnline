@@ -60,9 +60,9 @@ public class crearCuenta extends VerticalLayout {
         H1 Titulo = new H1("Bienvenido Gestor: " + nombre);
         H3 NombreClienteSeleccionado = new H3("Creación de cuenta para el cliente: [Implementar nombre cliente]");
         TextField IBAN = new TextField("Número de Cuenta Bancaria \"IBAN\"", "ESXX XXXX XXXX XXXX XXXX XXXX");
-        IBAN.setPattern("^ES(\\s*\\t*[0-9]){22}$");
+        IBAN.setPattern("^ES[0-9]{2}(\\s[0-9]{4}){5}$");
         IBAN.setMaxLength(29);
-        IBAN.setErrorMessage("No es un formato correcto");
+        IBAN.setErrorMessage("No es un formato correcto, revisa que está bien escrito");
         IBAN.setClearButtonVisible(true);
         NumberField Balance = new NumberField();
         Balance.setLabel("Balance");

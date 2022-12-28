@@ -27,12 +27,8 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 @Route("cuentas-tarjetas-gestor")
 @CssImport(value = "./styles/components/vaadin-checkbox.css", themeFor = "vaadin-checkbox")
@@ -77,8 +73,10 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         comboBoxCliente.addValueChangeListener(event -> {
             removeAll();
             add(HeaderUsuarioLogueadoView.Header());
-            add(DesplegableCliente(event.getValue()));
-            add(CuentasTarjetasGestor(event.getValue()));
+            if(event.getValue() != null) {
+                add(DesplegableCliente(event.getValue()));
+                add(CuentasTarjetasGestor(event.getValue()));
+            }
             add(FooterView.Footer());
         });
 
@@ -91,8 +89,10 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         comboBoxCliente.addValueChangeListener(event -> {
             removeAll();
             add(HeaderUsuarioLogueadoView.Header());
-            add(DesplegableCliente(event.getValue()));
-            add(CuentasTarjetasGestor(event.getValue()));
+            if(event.getValue() != null) {
+                add(DesplegableCliente(event.getValue()));
+                add(CuentasTarjetasGestor(event.getValue()));
+            }
             add(FooterView.Footer());
 
             if(event.getValue() == null){
