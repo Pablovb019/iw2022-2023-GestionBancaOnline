@@ -3,7 +3,9 @@ package es.uca.iw.biwan.aplication.service;
 import es.uca.iw.biwan.aplication.repository.CuentaRepository;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +27,7 @@ public class CuentaService {
         cuenta.setBalance(balance);
         return cuentaRepository.save(cuenta);
     }
+
+    public ArrayList<Cuenta> findCuentaByUUID(UUID uuid) { return cuentaRepository.findCuentaByUUID(uuid); }
 
 }

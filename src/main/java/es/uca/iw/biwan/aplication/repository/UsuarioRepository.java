@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
@@ -64,4 +65,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             value = "SELECT u FROM Usuario u WHERE u.telefono = :telefono"
     )
     Usuario findUserByTelefono(@Param("telefono") Double telefono);
+
+    @Query(
+            value = "SELECT * from Usuario WHERE Usuario.rol = :rol",
+            nativeQuery = true
+    )
+    ArrayList<Usuario> findUsuarioByRol(@Param("rol") String rol);
+
+
 }

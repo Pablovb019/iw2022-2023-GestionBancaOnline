@@ -15,27 +15,42 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.CuentaService;
+import es.uca.iw.biwan.aplication.service.TarjetaService;
+import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
+import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
-import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.security.SecureRandom;
+import javax.annotation.PostConstruct;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.util.*;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 @Route("cuentas-tarjetas-gestor")
 @CssImport(value = "./styles/components/vaadin-checkbox.css", themeFor = "vaadin-checkbox")
 @PageTitle("Cuentas y Tarjetas")
 
 public class cuentasTarjetasGestorView extends VerticalLayout {
-    public cuentasTarjetasGestorView(){
-        VaadinSession session = VaadinSession.getCurrent();
+    private UsuarioService usuarioService;
+    private CuentaService cuentaService;
+    private TarjetaService tarjetaService;
+    private ComboBox<Usuario> comboBoxUsuarioCliente;
+    private Grid<Cuenta> gridCuentasClienteSeleccionado;
+    private Grid<Tarjeta> gridTarjetasClienteSeleccionado;
+@Autowired
+    public cuentasTarjetasGestorView(UsuarioService usuarioService, CuentaService cuentaService, TarjetaService tarjetaService){
+    this.usuarioService = usuarioService;
+    this.cuentaService = cuentaService;
+    this.tarjetaService = tarjetaService;
+    VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {
             if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
@@ -58,7 +73,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
     }
 
     private Component DesplegableCliente(){
-        ComboBox<Cliente> comboBoxCliente = generateComboBoxCliente();
+        ComboBox<Usuario> comboBoxCliente = generateComboBoxCliente();
         comboBoxCliente.addValueChangeListener(event -> {
             removeAll();
             add(HeaderUsuarioLogueadoView.Header());
@@ -70,8 +85,8 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         return comboBoxCliente;
     }
 
-    private Component DesplegableCliente(Cliente cliente){
-        ComboBox<Cliente> comboBoxCliente = generateComboBoxCliente();
+    private Component DesplegableCliente(Usuario cliente){
+        ComboBox<Usuario> comboBoxCliente = generateComboBoxCliente();
         comboBoxCliente.setValue(cliente);
         comboBoxCliente.addValueChangeListener(event -> {
             removeAll();
@@ -99,7 +114,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         return verticalLayout;
     }
 
-    private Component CuentasTarjetasGestor(Cliente value) {
+    private Component CuentasTarjetasGestor(Usuario clienteSeleccionado) {
         H1 Titulo = new H1("Cuentas y Tarjetas");
         H2 TituloCuentas = new H2("Cuentas");
         H2 TituloTarjetas = new H2("Tarjetas");
@@ -118,62 +133,40 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         // Layout de Cuenta y Tarjetas
 
         // Inicializacion de la tabla de Cuentas
-        Cuenta cuenta1 = new Cuenta();
-        Cuenta cuenta2 = new Cuenta();
-        Cuenta cuenta3 = new Cuenta();
-        Cuenta cuenta4 = new Cuenta();
+        ArrayList<Cuenta> cuentasCliente = cuentaService.findCuentaByUUID(clienteSeleccionado.getUUID());
 
-        Grid<Cuenta> gridCuentas = new Grid<>(Cuenta.class, false);
-        gridCuentas.addClassName("TablaCuentaTarjeta");
-        gridCuentas.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER);
-        gridCuentas.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER);
+        gridCuentasClienteSeleccionado = new Grid<>();
+        gridCuentasClienteSeleccionado.setItems(cuentasCliente);
+        gridCuentasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
+        gridCuentasClienteSeleccionado.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER);
+        gridCuentasClienteSeleccionado.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER);
+        gridCuentasClienteSeleccionado.setWidthFull();
 
-        gridCuentas.setItems(cuenta1, cuenta2, cuenta3, cuenta4);
-        gridCuentas.setWidthFull();
-        var vlCuentas = new VerticalLayout(TituloCuentas, gridCuentas);
+        var vlCuentas = new VerticalLayout(TituloCuentas, gridCuentasClienteSeleccionado);
 
-        DateFormat df = new SimpleDateFormat("MM/yy");
-        Calendar cal1 = Calendar.getInstance();
-        cal1.set(Calendar.YEAR, 2024);
-        cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
-        Date date1 = cal1.getTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
 
-        Calendar cal2 = Calendar.getInstance();
-        cal2.set(Calendar.YEAR, 2023);
-        cal2.set(Calendar.MONTH, Calendar.DECEMBER);
-        Date date2 = cal2.getTime();
+        ArrayList<Tarjeta> tarjetasCliente = tarjetaService.findTarjetaByUUID(clienteSeleccionado.getUUID());
 
-        Calendar cal3 = Calendar.getInstance();
-        cal3.set(Calendar.YEAR, 2021);
-        cal2.set(Calendar.MONTH, Calendar.APRIL);
-        Date date3 = cal3.getTime();
-
-        Calendar cal4 = Calendar.getInstance();
-        cal4.set(Calendar.YEAR, 2026);
-        cal4.set(Calendar.MONTH, Calendar.AUGUST);
-        Date date4 = cal4.getTime();
-
-        // Inicializacion de la tabla de Tarjetas
-        Tarjeta tarjeta1 = new Tarjeta();
-        Tarjeta tarjeta2 = new Tarjeta();
-        Tarjeta tarjeta3 = new Tarjeta();
-        Tarjeta tarjeta4 = new Tarjeta();
-
-        Grid<Tarjeta> gridTarjetas = new Grid<>(Tarjeta.class, false);
-        gridTarjetas.addClassName("TablaCuentaTarjeta");
-        gridTarjetas.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getFechaCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
-        gridTarjetas.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addComponentColumn(tarjeta -> {
+        gridTarjetasClienteSeleccionado = new Grid<>();
+        gridTarjetasClienteSeleccionado.setItems(tarjetasCliente);
+        gridTarjetasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
+        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
+        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetasClienteSeleccionado.addComponentColumn(tarjeta -> {
             ToggleButton toggleButton = new ToggleButton();
             toggleButton.setValue(tarjeta.getActiva());
+            toggleButton.getElement().addEventListener("click", event -> {
+                tarjeta.setActiva(toggleButton.getValue());
+                tarjetaService.update(tarjeta);
+            });
             return toggleButton;
         }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.setItems(tarjeta1, tarjeta2, tarjeta3, tarjeta4);
-        gridTarjetas.setWidthFull();
+        gridTarjetasClienteSeleccionado.setWidthFull();
 
-        var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetas);
+        var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetasClienteSeleccionado);
         var vlTitulo = new VerticalLayout(Titulo);
 
 
@@ -187,119 +180,32 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         return vlCuentasTarjetas;
     }
 
-    private ComboBox<Cliente> generateComboBoxCliente() {
+    private ComboBox<Usuario> generateComboBoxCliente() {
 
-        // Generate numClientes Clientes with random data
-        List<Cliente> clientes = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            // clientes.add(new Cliente(RandomStringUtils.randomAlphabetic(10), RandomStringUtils.randomAlphabetic(20) + " " + RandomStringUtils.randomAlphabetic(20), new Date(Math.abs(System.currentTimeMillis() - new Random().nextLong())).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), Double.parseDouble(RandomStringUtils.randomNumeric(9)), RandomStringUtils.randomNumeric(8) + RandomStringUtils.randomAlphabetic(1).toUpperCase(), RandomStringUtils.randomAlphanumeric(20) + "@gmail.com", new SecureRandom().ints(10, '!', '}').collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString()));
-        }
-
-        // Create a combo box with the clientes
-        ComboBox<Cliente> comboBoxCliente = new ComboBox<>();
-        comboBoxCliente.setLabel("Cliente");
-        comboBoxCliente.setItems(clientes);
-        comboBoxCliente.setItemLabelGenerator(Usuario::getNombre);
-        comboBoxCliente.setClearButtonVisible(true);
-        comboBoxCliente.setRequired(true);
-        comboBoxCliente.setRequiredIndicatorVisible(true);
-        comboBoxCliente.setWidth("300px");
-        comboBoxCliente.setPlaceholder("Selecciona un cliente");
-        comboBoxCliente.setHelperText("Selecciona un cliente para ver sus cuentas y tarjetas");
+        ArrayList<Usuario> clientes = usuarioService.findUsuarioByRol(Role.CLIENTE.toString());
+        // Create a combo box with clientes
+        comboBoxUsuarioCliente = new ComboBox<>();
+        comboBoxUsuarioCliente.setItems(clientes);
+        comboBoxUsuarioCliente.setItemLabelGenerator(Usuario::getNombre);
+        comboBoxUsuarioCliente.setLabel("Cliente");
+        comboBoxUsuarioCliente.setClearButtonVisible(true);
+        comboBoxUsuarioCliente.setRequired(true);
+        comboBoxUsuarioCliente.setRequiredIndicatorVisible(true);
+        comboBoxUsuarioCliente.setWidth("300px");
+        comboBoxUsuarioCliente.setPlaceholder("Selecciona un cliente");
+        comboBoxUsuarioCliente.setHelperText("Selecciona un cliente para ver sus cuentas y tarjetas");
         // posiciona el combobox en el centro
-        comboBoxCliente.getStyle().set("margin-left", "auto");
-        comboBoxCliente.getStyle().set("margin-right", "auto");
-        comboBoxCliente.getStyle().set("marging-top", "20px");
+        comboBoxUsuarioCliente.getStyle().set("margin-left", "auto");
+        comboBoxUsuarioCliente.getStyle().set("margin-right", "auto");
+        comboBoxUsuarioCliente.getStyle().set("marging-top", "20px");
 
-        return comboBoxCliente;
+
+        return comboBoxUsuarioCliente;
     }
 
-    private Component CuentasTarjetasGestorCliente() {
-        //Creacion de los apartados
-        H1 Titulo = new H1("Cuentas y Tarjetas");
-        H2 TituloCuentas = new H2("Cuentas");
-        H2 TituloTarjetas = new H2("Tarjetas");
-
-        //CSS
-        Titulo.addClassName("TituloPrincipalCuentaTarjeta");
-        Titulo.setWidthFull();
-
-        TituloCuentas.addClassName("TituloSecundarioCuentaTarjeta");
-        TituloCuentas.setWidthFull();
-
-        TituloTarjetas.addClassName("TituloSecundarioCuentaTarjeta");
-        TituloTarjetas.setWidthFull();
-
-        //Creacion de la pagina
-        // Layout de Cuenta y Tarjetas
-
-        // Inicializacion de la tabla de Cuentas
-        Cuenta cuenta1 = new Cuenta();
-        Cuenta cuenta2 = new Cuenta();
-        Cuenta cuenta3 = new Cuenta();
-        Cuenta cuenta4 = new Cuenta();
-
-        Grid<Cuenta> gridCuentas = new Grid<>(Cuenta.class, false);
-        gridCuentas.addClassName("TablaCuentaTarjeta");
-        gridCuentas.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER);
-        gridCuentas.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER);
-
-        gridCuentas.setItems(cuenta1, cuenta2, cuenta3, cuenta4);
-        gridCuentas.setWidthFull();
-        var vlCuentas = new VerticalLayout(TituloCuentas, gridCuentas);
-
-        DateFormat df = new SimpleDateFormat("MM/yy");
-        Calendar cal1 = Calendar.getInstance();
-        cal1.set(Calendar.YEAR, 2024);
-        cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
-        Date date1 = cal1.getTime();
-
-        Calendar cal2 = Calendar.getInstance();
-        cal2.set(Calendar.YEAR, 2023);
-        cal2.set(Calendar.MONTH, Calendar.DECEMBER);
-        Date date2 = cal2.getTime();
-
-        Calendar cal3 = Calendar.getInstance();
-        cal3.set(Calendar.YEAR, 2021);
-        cal2.set(Calendar.MONTH, Calendar.APRIL);
-        Date date3 = cal3.getTime();
-
-        Calendar cal4 = Calendar.getInstance();
-        cal4.set(Calendar.YEAR, 2026);
-        cal4.set(Calendar.MONTH, Calendar.AUGUST);
-        Date date4 = cal4.getTime();
-
-        // Inicializacion de la tabla de Tarjetas
-        Tarjeta tarjeta1 = new Tarjeta();
-        Tarjeta tarjeta2 = new Tarjeta();
-        Tarjeta tarjeta3 = new Tarjeta();
-        Tarjeta tarjeta4 = new Tarjeta();
-
-        Grid<Tarjeta> gridTarjetas = new Grid<>(Tarjeta.class, false);
-        gridTarjetas.addClassName("TablaCuentaTarjeta");
-        gridTarjetas.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getFechaCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
-        gridTarjetas.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addComponentColumn(tarjeta -> {
-            ToggleButton toggleButton = new ToggleButton();
-            toggleButton.setValue(tarjeta.getActiva());
-            return toggleButton;
-        }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.setItems(tarjeta1, tarjeta2, tarjeta3, tarjeta4);
-        gridTarjetas.setWidthFull();
-
-        var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetas);
-        var vlTitulo = new VerticalLayout(Titulo);
-
-
-        var hlCuentasTarjetas = new HorizontalLayout(vlCuentas, vlTarjetas);
-        hlCuentasTarjetas.setWidthFull();
-        hlCuentasTarjetas.addClassName("hlCuentasTarjetas");
-
-        var vlCuentasTarjetas = new VerticalLayout(vlTitulo, hlCuentasTarjetas);
-        vlCuentasTarjetas.addClassName("vlCuentasTarjetas");
-
-        return vlCuentasTarjetas;
+    @PostConstruct
+    public void init() {
+        add(DesplegableCliente());
+        add(FooterView.Footer());
     }
 }

@@ -5,6 +5,7 @@ import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
@@ -39,4 +40,6 @@ public class UsuarioService {
     public String getRole(UUID uuid) {
         return usuarioRepository.findRoleByUUID(uuid);
     }
+
+    public ArrayList<Usuario> findUsuarioByRol(String rol) { return usuarioRepository.findUsuarioByRol(rol); }
 }
