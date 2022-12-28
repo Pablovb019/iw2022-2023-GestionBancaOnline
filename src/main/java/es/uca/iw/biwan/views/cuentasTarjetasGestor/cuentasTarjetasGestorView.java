@@ -171,6 +171,11 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
 
 
         var hlCuentasTarjetas = new HorizontalLayout(vlCuentas, vlTarjetas);
+        hlCuentasTarjetas.getStyle().set("display", "flex");
+        vlCuentas.getStyle().set("flex-grow", "1");
+        vlCuentas.getStyle().set("width", "40%");
+        vlTarjetas.getStyle().set("flex-grow", "3");
+        vlTarjetas.getStyle().set("width", "60%");
         hlCuentasTarjetas.setWidthFull();
         hlCuentasTarjetas.addClassName("hlCuentasTarjetas");
 
