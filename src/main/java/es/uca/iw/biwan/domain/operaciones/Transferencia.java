@@ -29,7 +29,7 @@ public class Transferencia extends Movimiento {
         }
     }
 
-    public Transferencia(float importe, LocalDateTime fecha, float balanceRestante, String cuentaOrigen, String cuentaDestino, String beneficiario, String concepto) throws BeneficiarioInvalidoException, CuentaInvalidaException, ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
+    public Transferencia(double importe, LocalDateTime fecha, double balanceRestante, String cuentaOrigen, String cuentaDestino, String beneficiario, String concepto) throws BeneficiarioInvalidoException, CuentaInvalidaException, ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
         super(importe, fecha, balanceRestante);
 
         if(cuentaOrigen == null || cuentaOrigen.isEmpty() || !isValidCuenta(cuentaOrigen))

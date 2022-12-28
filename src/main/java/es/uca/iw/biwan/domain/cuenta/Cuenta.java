@@ -15,7 +15,7 @@ public class Cuenta {
     private String IBAN;
 
     @Column(nullable = false)
-    private float balance;
+    private double balance;
 
     @ManyToMany(mappedBy = "cuentas")
     private List<Cliente> clientes;
@@ -42,13 +42,14 @@ public class Cuenta {
         this.IBAN = IBAN;
     }
 
-    public float getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
+
 
     public void IngresosAnuales() {
 

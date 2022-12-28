@@ -41,6 +41,12 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
     private ComboBox<Usuario> comboBoxUsuarioCliente;
     private Grid<Cuenta> gridCuentasClienteSeleccionado;
     private Grid<Tarjeta> gridTarjetasClienteSeleccionado;
+    private static Usuario usuarioSeleccionado;
+
+    // Setter para coger la información que depende del usuario que hayamos seleccionado para ver sus cuentas y tarjetas
+    public static void setUsuarioSeleccionado(Usuario usuario) {
+        usuarioSeleccionado = usuario;
+    }
 @Autowired
     public cuentasTarjetasGestorView(UsuarioService usuarioService, CuentaService cuentaService, TarjetaService tarjetaService){
     this.usuarioService = usuarioService;
@@ -189,9 +195,10 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
 
         ArrayList<Usuario> clientes = usuarioService.findUsuarioByRol(Role.CLIENTE.toString());
         // Create a combo box with clientes
-        comboBoxUsuarioCliente = new ComboBox<>();
+        comboBoxUsuarioCliente = new ComboBox<>();;
         comboBoxUsuarioCliente.setItems(clientes);
         comboBoxUsuarioCliente.setItemLabelGenerator(usuario -> usuario.getNombre() + " " + usuario.getApellidos());
+        comboBoxUsuarioCliente.setValue(usuarioSeleccionado);
         comboBoxUsuarioCliente.setLabel("Cliente");
         comboBoxUsuarioCliente.setClearButtonVisible(true);
         comboBoxUsuarioCliente.setRequired(true);

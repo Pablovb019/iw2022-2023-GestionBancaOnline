@@ -29,6 +29,13 @@ import java.util.Date;
 @CssImport("./themes/biwan/crearTarjeta.css")
 public class crearTarjeta extends VerticalLayout {
 
+    private static Usuario usuarioSeleccionado;
+
+    // Setter para coger la información que depende del usuario que hayamos seleccionado para crear tarjeta
+    public static void setUsuarioSeleccionado(Usuario usuario) {
+        usuarioSeleccionado = usuario;
+    }
+
     public crearTarjeta() {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Usuario.class) != null) {

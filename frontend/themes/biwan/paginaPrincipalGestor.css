@@ -31,6 +31,7 @@ flow-container-root-2521314 {
     align-self: center;
     flex-grow: unset !important;
     padding: 0;
+    text-align: center;
     min-width: 300px;
 }
 

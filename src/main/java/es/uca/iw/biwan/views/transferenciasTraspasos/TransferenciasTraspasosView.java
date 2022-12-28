@@ -123,9 +123,9 @@ public class TransferenciasTraspasosView extends VerticalLayout {
             realizarTransferencia.addClickListener(e -> {
 
                 try {
-                    float importeTransferencia = importe.getValue().floatValue();
+                    double importeTransferencia = importe.getValue();
 
-                    float balanceActual = cuentaOrigen.getValue().getBalance();
+                    double balanceActual = cuentaOrigen.getValue().getBalance();
 
                     if (importeTransferencia > balanceActual) {
                         throw new Movimiento.ImporteInvalidoException("El importe de la transferencia es superior al balance de la cuenta");
@@ -135,7 +135,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                         throw new Movimiento.ImporteInvalidoException("El importe de la transferencia debe ser mayor que 0");
                     }
 
-                    float nuevoBalance = balanceActual - importeTransferencia;
+                    double nuevoBalance = balanceActual - importeTransferencia;
 
                     Transferencia transferencia = new Transferencia(
                         importeTransferencia,
@@ -218,9 +218,9 @@ public class TransferenciasTraspasosView extends VerticalLayout {
             realizarTraspaso.addClickListener(e -> {
 
                 try {
-                    float importeTraspaso = importe.getValue().floatValue();
+                    double importeTraspaso = importe.getValue().floatValue();
 
-                    float balanceActual = cuentaOrigen.getValue().getBalance();
+                    double balanceActual = cuentaOrigen.getValue().getBalance();
 
                     if (importeTraspaso > balanceActual) {
                         throw new Movimiento.ImporteInvalidoException("El importe de la transferencia es superior al balance de la cuenta");
@@ -230,7 +230,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                         throw new Movimiento.ImporteInvalidoException("El importe de la transferencia debe ser mayor que 0");
                     }
 
-                    float nuevoBalance = balanceActual - importeTraspaso;
+                    double nuevoBalance = balanceActual - importeTraspaso;
 
                     Traspaso traspaso = new Traspaso(
                         importeTraspaso,

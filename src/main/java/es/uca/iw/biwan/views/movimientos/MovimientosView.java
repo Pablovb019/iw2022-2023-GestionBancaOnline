@@ -165,7 +165,7 @@ public class MovimientosView extends VerticalLayout {
     }
 
     private static String getFormattedMovimientoImporteColor(Movimiento movimiento) {
-        float importe = movimiento.getImporte();
+       double importe = movimiento.getImporte();
 
         if(importe < 0) {
             return "red";
@@ -176,7 +176,7 @@ public class MovimientosView extends VerticalLayout {
     }
 
     private static String getFormattedMovimientoImporteDecimales(Movimiento movimiento) {
-        float importe = movimiento.getImporte();
+        double importe = movimiento.getImporte();
 
         return decimalformat.format(importe);
     }
@@ -242,7 +242,7 @@ public class MovimientosView extends VerticalLayout {
             return "Traspaso";
         }
         if(movimiento instanceof Transferencia) {
-            float importe = movimiento.getImporte();
+            double importe = movimiento.getImporte();
             if(importe < 0) {
                 return "Transferencia realizada";
             }
@@ -255,7 +255,7 @@ public class MovimientosView extends VerticalLayout {
     }
 
     private static String getSaldoRestante(Movimiento movimiento) {
-        float saldoRestante = movimiento.getBalanceRestante();
+        double saldoRestante = movimiento.getBalanceRestante();
 
         return decimalformat.format(saldoRestante);
     }

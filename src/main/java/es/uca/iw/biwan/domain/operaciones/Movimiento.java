@@ -15,11 +15,11 @@ public class Movimiento {
     @Column(length = 16)
     private UUID uuid;
     @Column(nullable = false)
-    protected float importe;
+    protected double importe;
     @Column(nullable = false)
     protected LocalDateTime fecha;
     @Column(nullable = false)
-    protected float balanceRestante;
+    protected double balanceRestante;
 
     public static class ImporteInvalidoException extends Exception {
         public ImporteInvalidoException(String message) {
@@ -39,7 +39,7 @@ public class Movimiento {
         }
     }
 
-    public Movimiento(float importe, LocalDateTime fecha, float balanceRestante) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
+    public Movimiento(double importe, LocalDateTime fecha, double balanceRestante) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
         this.uuid = UUID.randomUUID();
 
         if(importe == 0)
@@ -59,11 +59,11 @@ public class Movimiento {
 
     }
 
-    public float getImporte() {
+    public double getImporte() {
         return importe;
     }
 
-    public void setImporte(float importe) {
+    public void setImporte(double importe) {
         this.importe = importe;
     }
 
@@ -75,11 +75,11 @@ public class Movimiento {
         this.fecha = fecha;
     }
 
-    public float getBalanceRestante() {
+    public double getBalanceRestante() {
         return balanceRestante;
     }
 
-    public void setBalanceRestante(float balanceRestante) {
+    public void setBalanceRestante(double balanceRestante) {
         this.balanceRestante = balanceRestante;
     }
 

@@ -139,13 +139,13 @@ public class RecibosDomiciliadosView extends VerticalLayout {
     }
 
     private static String getFormattedMovimientoImporteDecimales(ReciboDomiciliado movimiento) {
-        float importe = movimiento.getImporte();
+        double importe = movimiento.getImporte();
 
         return decimalformat.format(importe);
     }
 
     private static String getFormattedMovimientoBalanceRestanteDecimales(ReciboDomiciliado movimiento) {
-        float importe = movimiento.getBalanceRestante();
+        double importe = movimiento.getBalanceRestante();
 
         return decimalformat.format(importe);
     }
