@@ -186,7 +186,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         // Create a combo box with clientes
         comboBoxUsuarioCliente = new ComboBox<>();
         comboBoxUsuarioCliente.setItems(clientes);
-        comboBoxUsuarioCliente.setItemLabelGenerator(Usuario::getNombre);
+        comboBoxUsuarioCliente.setItemLabelGenerator(usuario -> usuario.getNombre() + " " + usuario.getApellidos());
         comboBoxUsuarioCliente.setLabel("Cliente");
         comboBoxUsuarioCliente.setClearButtonVisible(true);
         comboBoxUsuarioCliente.setRequired(true);
