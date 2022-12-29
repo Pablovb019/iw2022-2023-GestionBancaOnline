@@ -12,11 +12,4 @@ import java.time.LocalDate;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("NOTICIA")
 public class Noticia extends Anuncio {
-    public Noticia(LocalDate fechaInicio, LocalDate fechaFin, String titulo, String cuerpo, TipoAnuncio tipo) {
-        super(fechaInicio, fechaFin, titulo, cuerpo, tipo);
-    }
-
-    public Noticia() {
-
-    }
 }

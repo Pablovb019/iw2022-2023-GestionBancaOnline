@@ -32,19 +32,6 @@ public class Anuncio {
     @Transient
     private String tipo;
 
-    public Anuncio(LocalDate fechaInicio, LocalDate fechaFin, String titulo, String cuerpo, TipoAnuncio tipo) {
-        this.uuid = UUID.randomUUID();
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.titulo = titulo;
-        this.cuerpo = cuerpo;
-        this.tipo = tipo.toString();
-    }
-
-    public Anuncio() {
-
-    }
-
     public UUID getUUID() {
         return uuid;
     }

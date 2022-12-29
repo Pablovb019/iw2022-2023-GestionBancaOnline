@@ -9,8 +9,6 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("GESTOR")
 public class Gestor extends Usuario {
-    @OneToMany
-    @JoinColumn(name = "gestor_id")
+    @OneToMany(mappedBy = "gestor")
     private List<Consulta> consultas;
-
 }

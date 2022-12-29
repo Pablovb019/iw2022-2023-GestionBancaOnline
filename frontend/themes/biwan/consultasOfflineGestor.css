@@ -10,8 +10,9 @@ flow-container-root-2521314 {
     width: 90%;
 }
 
-.Titulo {
+.TituloConsultasOffline {
     margin: 0;
+    color: black;
 }
 
 .layoutHorConsultasOffline {

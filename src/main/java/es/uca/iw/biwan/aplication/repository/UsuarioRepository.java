@@ -5,17 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
-    @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password)",
+            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, :gestor_id, :cliente_id)",
             nativeQuery = true
     )
     void insertUser(@Param("uuid") UUID uuid,
@@ -26,10 +24,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
                          @Param("dni") String dni,
                          @Param("email") String email,
                          @Param("role") String role,
-                         @Param("password") String password
+                         @Param("password") String password,
+                         @Param("cliente_id") UUID cliente_id,
+                         @Param("gestor_id") UUID gestor_id
     );
 
-    @Transactional
     @Modifying
     @Query(
             value = "UPDATE Usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
@@ -71,6 +70,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             nativeQuery = true
     )
     ArrayList<Usuario> findUsuarioByRol(@Param("rol") String rol);
+
+    @Modifying
+    @Query(
+            value = "UPDATE Usuario SET cliente_id = :cliente_id WHERE uuid = :gestor_id",
+            nativeQuery = true
+    )
+    void insertClienteToGestor(
+            @Param("gestor_id") UUID gestor_id,
+            @Param("cliente_id") UUID cliente_id
+    );
 
 
 }

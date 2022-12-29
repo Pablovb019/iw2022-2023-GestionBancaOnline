@@ -82,7 +82,7 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
         VolverAnchor.addClassName("VolverAnchor");
         TituloVolverLayout.addClassName("TituloVolverLayout");
         VolverIcon.addClassName("VolverIcon");
-        titulo.addClassName("Titulo");
+        titulo.addClassName("TituloConsultasOnline");
         layoutHorConsultasOnline.addClassName("layoutHorConsultasOnline");
         layoutConsultasOnlinePrincipal.addClassName("layoutConsultasOnlinePrincipal");
 

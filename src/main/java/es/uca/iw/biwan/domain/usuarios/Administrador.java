@@ -9,5 +9,4 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("ADMINISTRADOR")
 public class Administrador extends Usuario {
-
 }

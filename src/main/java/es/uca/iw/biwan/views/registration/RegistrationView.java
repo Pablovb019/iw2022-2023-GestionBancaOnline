@@ -32,6 +32,8 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 @CssImport("./themes/biwan/registration.css")
@@ -169,6 +171,11 @@ public class RegistrationView extends VerticalLayout {
                 cliente.setEmail(email.getValue());
                 cliente.setPassword(passwordEncoder.encode(password.getValue()));
                 cliente.setRol(Role.CLIENTE);
+                ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
+                Random random = new Random();
+                int randomGestor = random.nextInt(gestores.size());
+                cliente.setGestor_id(usuarioService.findUsuarioByRol(Role.GESTOR.toString()).get(randomGestor).getUUID());
+                usuarioService.insertClienteToGestor(gestores.get(randomGestor).getUUID(), cliente.getUUID());
                 boolean correcto = ComprobarDatos(cliente);
                 if(correcto) { CreateRequest(cliente); }
             }

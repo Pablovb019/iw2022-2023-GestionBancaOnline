@@ -11,7 +11,6 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "rol")
 public class Usuario {
-
     @Id
     @GeneratedValue
     @Column(length = 16)
@@ -33,25 +32,12 @@ public class Usuario {
     private String email;
     @Column(nullable = false)
     private String password;
-
     @Transient
     private String rol;
-
-   public Usuario(String nombre, String apellidos, LocalDate fechaNacimiento, Double telefono, String dni, String email, Role role, String password) {
-        this.uuid = UUID.randomUUID();
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.fechaNacimiento = fechaNacimiento;
-        this.telefono = telefono;
-        this.dni = dni;
-        this.email = email;
-        this.rol = role.toString();
-        this.password = password;
-    }
-
-    public Usuario() {
-
-    }
+    @Column
+    private UUID gestor_id;
+    @Column
+    private UUID cliente_id;
 
     public UUID getUUID() {
         return uuid;
@@ -127,5 +113,21 @@ public class Usuario {
 
     public boolean checkPassword(String password) {
         return this.password.equals(password);
+    }
+
+    public UUID getGestor_id() {
+        return gestor_id;
+    }
+
+    public void setGestor_id(UUID gestor_id) {
+        this.gestor_id = gestor_id;
+    }
+
+    public UUID getCliente_id() {
+        return cliente_id;
+    }
+
+    public void setCliente_id(UUID cliente_id) {
+        this.cliente_id = cliente_id;
     }
 }

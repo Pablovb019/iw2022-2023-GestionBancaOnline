@@ -4,6 +4,7 @@ import es.uca.iw.biwan.aplication.repository.UsuarioRepository;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -17,10 +18,12 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    @Transactional
     public void save(Usuario user) {
-        usuarioRepository.insertUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getRol(), user.getPassword());
+        usuarioRepository.insertUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getRol(), user.getPassword(), user.getCliente_id(), user.getGestor_id());
     }
 
+    @Transactional
     public void update(Usuario user) {
         usuarioRepository.updateUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getPassword());
     }
@@ -42,4 +45,9 @@ public class UsuarioService {
     }
 
     public ArrayList<Usuario> findUsuarioByRol(String rol) { return usuarioRepository.findUsuarioByRol(rol); }
+
+    @Transactional
+    public void insertClienteToGestor(UUID gestor_id, UUID cliente_id) {
+        usuarioRepository.insertClienteToGestor(gestor_id, cliente_id);
+    }
 }

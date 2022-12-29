@@ -82,7 +82,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
         VolverAnchor.addClassName("VolverAnchor");
         TituloVolverLayout.addClassName("TituloVolverLayout");
         VolverIcon.addClassName("VolverIcon");
-        titulo.addClassName("Titulo");
+        titulo.addClassName("TituloConsultasOffline");
         layoutHorConsultasOffline.addClassName("layoutHorConsultasOffline");
         layoutConsultasOfflinePrincipal.addClassName("layoutConsultasOfflinePrincipal");
 

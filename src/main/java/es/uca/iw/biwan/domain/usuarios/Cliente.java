@@ -10,20 +10,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("CLIENTE")
 public class Cliente extends Usuario {
-    @OneToMany
-    @JoinColumn(name = "cliente_id")
-    private List<Consulta> consultas;
-
     @ManyToMany
     private List<Cuenta> cuentas;
 
-    public Cliente(String nombre, String apellidos, LocalDate fechaNacimiento, Double telefono, String dni, String email, Role role, String password, String direccion) {
-        super(nombre, apellidos, fechaNacimiento, telefono, dni, email, role, password);
-    }
-
-    public Cliente() {
-    }
+    @OneToMany(mappedBy = "cliente")
+    private List<Consulta> consultas;
 }
