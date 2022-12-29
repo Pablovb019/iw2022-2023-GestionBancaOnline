@@ -79,10 +79,8 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         comboBoxCliente.addValueChangeListener(event -> {
             removeAll();
             add(HeaderUsuarioLogueadoView.Header());
-            if(event.getValue() != null) {
-                add(DesplegableCliente(event.getValue()));
-                add(CuentasTarjetasGestor(event.getValue()));
-            }
+            add(DesplegableCliente(event.getValue()));
+            add(CuentasTarjetasGestor(event.getValue()));
             add(FooterView.Footer());
         });
 
@@ -95,10 +93,8 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         comboBoxCliente.addValueChangeListener(event -> {
             removeAll();
             add(HeaderUsuarioLogueadoView.Header());
-            if(event.getValue() != null) {
-                add(DesplegableCliente(event.getValue()));
-                add(CuentasTarjetasGestor(event.getValue()));
-            }
+            add(DesplegableCliente(event.getValue()));
+            add(CuentasTarjetasGestor(event.getValue()));
             add(FooterView.Footer());
 
             if(event.getValue() == null){

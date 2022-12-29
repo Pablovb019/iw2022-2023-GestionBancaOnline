@@ -19,6 +19,10 @@ public class TarjetaService {
         this.tarjetaRepository = tarjetaRepository;
     }
 
+    public void save(Tarjeta tarjeta, String ibanUsuarioSeleccionado) {
+        tarjetaRepository.insertTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto(), ibanUsuarioSeleccionado);
+    }
+
     public void update(Tarjeta tarjeta) {
         tarjetaRepository.updateTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto());
     }
@@ -26,4 +30,6 @@ public class TarjetaService {
     public String findIbanByNumeroTarjeta(String numero_tarjeta) { return tarjetaRepository.findIbanByNumeroTarjeta(numero_tarjeta); }
 
     public ArrayList<Tarjeta> findTarjetaByUUID(UUID uuid) { return tarjetaRepository.findTarjetaByUUID(uuid); }
+
+    public Tarjeta findTarjetaByNumeroTarjeta(String numeroTarjeta) { return tarjetaRepository.findTarjetaByNumeroTarjeta(numeroTarjeta); }
 }

@@ -75,7 +75,7 @@ public class crearCuenta extends VerticalLayout{
 
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        String nombre = session.getAttribute(Usuario.class).getNombre();
+        String nombre = session.getAttribute(Usuario.class).getNombre() + " " + session.getAttribute(Usuario.class).getApellidos();
 
         //NEW
         VerticalLayout layoutPrincipalCrearCuenta = new VerticalLayout();
@@ -97,8 +97,8 @@ public class crearCuenta extends VerticalLayout{
         //BINDER
         binderCrearCuenta.forField(IBAN)
                 .asRequired("El IBAN es obligatorio")
-                .withValidator(iban1 -> iban1.length() == 29, "El IBAN debe tener 24 caracteres con espacio cada 4")
-                .withValidator(iban1 -> iban1.matches("^ES[0-9]{2}(\\s[0-9]{4}){5}$"), "No es un formato correcto, revisa que está bien escrito")
+                .withValidator(iban -> iban.length() == 29, "El IBAN debe tener 24 caracteres con espacio cada 4")
+                .withValidator(iban -> iban.matches("^ES[0-9]{2}(\\s[0-9]{4}){5}$"), "No es un formato correcto, revisa que está bien escrito")
                 .bind(Cuenta::getIBAN, Cuenta::setIBAN);
 
         binderCrearCuenta.forField(Balance)

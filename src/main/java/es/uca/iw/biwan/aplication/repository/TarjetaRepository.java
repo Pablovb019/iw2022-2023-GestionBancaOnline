@@ -9,11 +9,26 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.DoubleBuffer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "INSERT INTO Tarjeta VALUES (:numero_tarjeta, :fecha_caducidad, :activa, :cvv, :limite_gasto, :cuenta_id)",
+            nativeQuery = true
+    )
+    void insertTarjeta(@Param("numero_tarjeta") String numero_tarjeta,
+                       @Param("fecha_caducidad") LocalDate fecha_caducidad,
+                       @Param("activa") Boolean activa,
+                       @Param("cvv") String cvv,
+                       @Param("limite_gasto") Double limite_gasto,
+                       @Param("cuenta_id") String cuenta_id
+    );
 
     @Transactional
     @Modifying
@@ -25,7 +40,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
                     @Param("fecha_caducidad") LocalDate fecha_caducidad,
                     @Param("activa") Boolean activa,
                     @Param("cvv") String cvv,
-                    @Param("limite_gasto") Float limite_gasto
+                    @Param("limite_gasto") Double limite_gasto
     );
 
     @Query(
@@ -41,4 +56,9 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     )
     String findIbanByNumeroTarjeta(String numero_tarjeta);
 
+    @Query(
+            value = "SELECT * FROM Tarjeta WHERE Tarjeta.numero_tarjeta = :numeroTarjeta",
+            nativeQuery = true
+    )
+    Tarjeta findTarjetaByNumeroTarjeta(String numeroTarjeta);
 }

@@ -108,10 +108,6 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
         Date date4 = cal4.getTime();
 
         // Inicializacion de la tabla de Tarjetas
-        Tarjeta tarjeta1 = new Tarjeta();
-        Tarjeta tarjeta2 = new Tarjeta();
-        Tarjeta tarjeta3 = new Tarjeta();
-        Tarjeta tarjeta4 = new Tarjeta();
 
         Grid<Tarjeta> gridTarjetas = new Grid<>(Tarjeta.class, false);
         gridTarjetas.addClassName("TablaCuentaTarjeta");
@@ -124,7 +120,7 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
             toggleButton.setValue(tarjeta.getActiva());
             return toggleButton;
         }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.setItems(tarjeta1, tarjeta2, tarjeta3, tarjeta4);
+        //gridTarjetas.setItems(tarjeta1, tarjeta2, tarjeta3, tarjeta4);
         gridTarjetas.setWidthFull();
 
         var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetas);

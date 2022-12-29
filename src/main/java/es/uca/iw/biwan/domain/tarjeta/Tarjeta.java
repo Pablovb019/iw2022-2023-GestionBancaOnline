@@ -27,7 +27,7 @@ public class Tarjeta {
     private String CVV;
 
     @Column(nullable = false)
-    private Float limiteGasto;
+    private Double limiteGasto;
 
     @Transient
     private Random random = new Random();
@@ -45,7 +45,7 @@ public class Tarjeta {
         this.activa = true;
 
         this.CVV = RandomStringUtils.randomNumeric(3);
-        this.limiteGasto = 1000f;
+        this.limiteGasto = 1000d;
     }
 
     public String AlgorithmLuhn(String numeroTarjeta){
@@ -100,11 +100,11 @@ public class Tarjeta {
         this.CVV = CVV;
     }
 
-    public Float getLimiteGasto() {
+    public Double getLimiteGasto() {
         return limiteGasto;
     }
 
-    public void setLimiteGasto(Float limiteGasto) {
+    public void setLimiteGasto(Double limiteGasto) {
         this.limiteGasto = limiteGasto;
     }
 }
