@@ -1,18 +1,24 @@
 package es.uca.iw.biwan.domain.tarjeta;
 
 import es.uca.iw.biwan.domain.operaciones.Movimiento;
+import es.uca.iw.biwan.domain.operaciones.PagoTarjeta;
 import net.andreinc.mockneat.MockNeat;
 import net.andreinc.mockneat.types.enums.CreditCardType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Tarjeta {
 
     @Id
     @GeneratedValue
+    @Column(length = 16)
+    private UUID uuid;
+
+    @Column(nullable = false)
     private String numeroTarjeta;
 
     @Column(nullable = false)
@@ -32,15 +38,24 @@ public class Tarjeta {
 
     @OneToMany
     @JoinColumn(name = "tarjeta_id")
-    private List<Movimiento> movimientos;
+    private List<PagoTarjeta> pagoTarjetas;
 
 
     public Tarjeta() {
+        this.uuid = UUID.randomUUID();
         this.numeroTarjeta = mockNeat.creditCards().type(CreditCardType.VISA_16).get();
         this.fechaCaducidad = LocalDate.now().plusYears(5);
         this.CVV = mockNeat.cvvs().get();
         this.limiteGasto = 1000.0;
         this.activa = true;
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getNumeroTarjeta() {

@@ -9,11 +9,16 @@ import org.iban4j.Iban;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Cuenta {
     @Id
     @GeneratedValue
+    @Column(length = 16)
+    private UUID uuid;
+
+    @Column(nullable = false)
     private String IBAN;
 
     @Column(nullable = false)
@@ -31,8 +36,17 @@ public class Cuenta {
     private List<Movimiento> movimientos;
 
     public Cuenta() {
+        this.uuid = UUID.randomUUID();
         this.IBAN = Iban.random(CountryCode.ES).toString();
         this.balance = 0;
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getIBAN() {

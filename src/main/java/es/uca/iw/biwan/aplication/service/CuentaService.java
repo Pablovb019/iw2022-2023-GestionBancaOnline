@@ -17,8 +17,8 @@ public class CuentaService {
     private final CuentaRepository cuentaRepository;
 
     public void save(Cuenta cuenta, Cliente cliente) {
-        cuentaRepository.insertCuenta(cuenta.getIBAN(), cuenta.getBalance());
-        cuentaRepository.relacionarCuenta(cuenta.getIBAN(), cliente.getUUID());
+        cuentaRepository.insertCuenta(cuenta.getUUID(), cuenta.getIBAN(), cuenta.getBalance());
+        cuentaRepository.relacionarCuenta(cuenta.getUUID(), cliente.getUUID());
     }
 
     @Autowired
@@ -40,4 +40,6 @@ public class CuentaService {
     public Cuenta findCuentaByIban(String Iban) { return  cuentaRepository.findCuentaByIban(Iban); }
 
     public ArrayList<Cuenta> findCuentaByCliente(Usuario usuario) { return cuentaRepository.findCuentaByCliente(usuario.getUUID()); }
+
+    public Cliente findClienteByCuenta(Cuenta cuenta) { return cuentaRepository.findClienteByCuenta(cuenta.getIBAN()); }
 }

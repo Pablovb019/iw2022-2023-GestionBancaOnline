@@ -19,15 +19,16 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO Tarjeta VALUES (:numero_tarjeta, :fecha_caducidad, :cvv, :limite_gasto, :activa, :cuenta_id)",
+            value = "INSERT INTO Tarjeta VALUES (:uuid, :numero_tarjeta, :fecha_caducidad, :cvv, :limite_gasto, :activa, :cuenta_id)",
             nativeQuery = true
     )
-    void insertTarjeta(@Param("numero_tarjeta") String numero_tarjeta,
+    void insertTarjeta(@Param("uuid") UUID uuid,
+                       @Param("numero_tarjeta") String numero_tarjeta,
                        @Param("fecha_caducidad") LocalDate fecha_caducidad,
                        @Param("activa") Boolean activa,
                        @Param("cvv") String cvv,
                        @Param("limite_gasto") Double limite_gasto,
-                       @Param("cuenta_id") String cuenta_id
+                       @Param("cuenta_id") UUID cuenta_id
     );
 
     @Transactional
@@ -44,7 +45,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     );
 
     @Query(
-            value = "SELECT * from Tarjeta INNER JOIN Usuario_Cuentas ON Tarjeta.cuenta_id = Usuario_Cuentas.cuentas_iban" +
+            value = "SELECT * from Tarjeta INNER JOIN Usuario_Cuentas ON Tarjeta.cuenta_id = Usuario_Cuentas.cuentas_uuid" +
                     " AND Usuario_Cuentas.clientes_uuid = :uuid",
             nativeQuery = true
     )

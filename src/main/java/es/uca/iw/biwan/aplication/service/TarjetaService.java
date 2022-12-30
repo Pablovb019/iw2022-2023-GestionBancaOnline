@@ -20,7 +20,7 @@ public class TarjetaService {
     }
 
     public void save(Tarjeta tarjeta, Cuenta cuenta) {
-        tarjetaRepository.insertTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto(), cuenta.getIBAN());
+        tarjetaRepository.insertTarjeta(tarjeta.getUUID(), tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto(), cuenta.getUUID());
     }
 
     public void update(Tarjeta tarjeta) {
