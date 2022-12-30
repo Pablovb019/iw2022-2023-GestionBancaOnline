@@ -175,7 +175,10 @@ public class ClienteView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        add(crearPaginaPrincipal());
-        add(FooterView.Footer());
+        try {
+            add(crearPaginaPrincipal());
+            add(FooterView.Footer());
+        } catch (Exception ignored) { }
+
     }
 }
