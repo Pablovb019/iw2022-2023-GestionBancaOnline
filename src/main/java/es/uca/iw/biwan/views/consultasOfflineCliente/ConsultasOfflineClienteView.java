@@ -17,10 +17,16 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.ConsultaService;
+import es.uca.iw.biwan.aplication.service.UsuarioService;
+import es.uca.iw.biwan.domain.consulta.Consulta;
+import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -28,12 +34,18 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
 @CssImport("./themes/biwan/consultasOfflineGestor.css")
 @PageTitle("Consultas Offline")
 @Route("consultas-offline-cliente")
 public class ConsultasOfflineClienteView extends VerticalLayout {
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private ConsultaService consultaService;
 
     public ConsultasOfflineClienteView() {
         VaadinSession session = VaadinSession.getCurrent();
@@ -100,19 +112,38 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         return layoutConsultasOfflinePrincipal;
     }
 
-    public static VerticalLayout ListaMensajesConsulta() {
+    public VerticalLayout ListaMensajesConsulta() {
         HorizontalLayout MensajeSubmit = new HorizontalLayout();
         MessageList list = new MessageList();
         TextField CajaMensaje = new TextField("", "Mensaje");
         Button ButtonSubmit = new Button("Enviar");
+
+        VaadinSession session = VaadinSession.getCurrent();
+        String nombre = session.getAttribute(Usuario.class).getNombre();
+
         ButtonSubmit.addClickShortcut(Key.ENTER);
         ButtonSubmit.addClickListener(submitEvent -> {
             if(!CajaMensaje.getValue().equals("")) {
-                MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), "Gestor");
+                MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), nombre);
                 newMessage.setUserColorIndex(3);
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
                 items.add(newMessage);
                 list.setItems(items);
+                Consulta consulta = new Consulta();
+                consulta.setUUID(UUID.randomUUID());
+                consulta.setFecha(LocalDateTime.now());
+                consulta.setTipo(TipoConsulta.OFFLINE.toString());
+                consulta.setTexto(CajaMensaje.getValue());
+                consulta.setAutor(session.getAttribute(Usuario.class).getUUID());
+                consulta.setCliente(session.getAttribute(Usuario.class));
+                ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
+                for(Usuario gestor : gestores) {
+                    if(gestor.getUUID().equals(session.getAttribute(Usuario.class).getGestor_id())) {
+                        consulta.setGestor(gestor);
+                        break;
+                    }
+                }
+                CreateRequest(consulta);
                 CajaMensaje.setValue("");
             }
         });
@@ -132,5 +163,15 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         chatLayout.expand(list);
 
         return chatLayout;
+    }
+
+    private void CreateRequest(Consulta consulta) {
+        try {
+            consultaService.save(consulta);
+        } catch (Exception e) {
+            ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud. Comunique al adminsitrador del sitio el error.\n" +
+                    "Error: " + e, "Aceptar", null);
+            error.open();
+        }
     }
 }

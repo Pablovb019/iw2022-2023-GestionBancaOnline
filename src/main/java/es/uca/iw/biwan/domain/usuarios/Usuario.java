@@ -34,10 +34,8 @@ public class Usuario {
     private String password;
     @Transient
     private String rol;
-    @Column
+    @Column(length = 16)
     private UUID gestor_id;
-    @Column
-    private UUID cliente_id;
 
     public UUID getUUID() {
         return uuid;
@@ -121,13 +119,5 @@ public class Usuario {
 
     public void setGestor_id(UUID gestor_id) {
         this.gestor_id = gestor_id;
-    }
-
-    public UUID getCliente_id() {
-        return cliente_id;
-    }
-
-    public void setCliente_id(UUID cliente_id) {
-        this.cliente_id = cliente_id;
     }
 }

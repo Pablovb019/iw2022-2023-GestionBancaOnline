@@ -2,6 +2,8 @@ package es.uca.iw.biwan.aplication.service;
 
 import es.uca.iw.biwan.aplication.repository.UsuarioRepository;
 import es.uca.iw.biwan.domain.usuarios.*;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
+import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,7 @@ public class UsuarioService {
     }
 
     public Usuario findUserByDni (String dni) {
-        return usuarioRepository.findUserByEmail(dni);
+        return usuarioRepository.findUserByDni(dni);
     }
 
     public Usuario findUserByTelefono (Double telefono) { return usuarioRepository.findUserByTelefono(telefono); }
@@ -46,16 +48,11 @@ public class UsuarioService {
         usuarioRepository.updateCliente(cliente.getUUID(), cliente.getNombre(), cliente.getApellidos(), cliente.getFechaNacimiento(), cliente.getTelefono(), cliente.getDni(), cliente.getEmail(), cliente.getPassword());
     }
 
-    @Transactional
-    public void insertClienteToGestor(UUID gestor_id, UUID cliente_id) {
-        usuarioRepository.insertClienteToGestor(gestor_id, cliente_id);
-    }
-
     // GESTOR
 
     @Transactional
     public void saveGestor(Gestor gestor) {
-        usuarioRepository.insertGestor(gestor.getUUID(), gestor.getNombre(), gestor.getApellidos(), gestor.getFechaNacimiento(), gestor.getTelefono(), gestor.getDni(), gestor.getEmail(), gestor.getRol(), gestor.getPassword(), gestor.getCliente_id());
+        usuarioRepository.insertGestor(gestor.getUUID(), gestor.getNombre(), gestor.getApellidos(), gestor.getFechaNacimiento(), gestor.getTelefono(), gestor.getDni(), gestor.getEmail(), gestor.getRol(), gestor.getPassword());
     }
 
     @Transactional

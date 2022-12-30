@@ -1,6 +1,7 @@
 package es.uca.iw.biwan.aplication.repository;
 
 import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -32,32 +33,22 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     Usuario findUserByTelefono(@Param("telefono") Double telefono);
 
     @Query(
-            value = "SELECT * FROM Usuario dni = :dni",
+            value = "SELECT * FROM Usuario WHERE dni = :dni",
             nativeQuery = true
     )
     Usuario findUserByDni(@Param("dni") String dni);
 
     @Query(
-            value = "SELECT * from Usuario WHERE Usuario.rol = :rol",
+            value = "SELECT * from Usuario WHERE rol = :rol",
             nativeQuery = true
     )
     ArrayList<Usuario> findUsuarioByRol(@Param("rol") String rol);
-
-    @Modifying
-    @Query(
-            value = "UPDATE Usuario SET cliente_id = :cliente_id WHERE uuid = :gestor_id",
-            nativeQuery = true
-    )
-    void insertClienteToGestor(
-            @Param("gestor_id") UUID gestor_id,
-            @Param("cliente_id") UUID cliente_id
-    );
 
     // CLIENTE
 
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, :gestor_id, NULL)",
+            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, :gestor_id)",
             nativeQuery = true
     )
     void insertCliente(@Param("uuid") UUID uuid,
@@ -91,7 +82,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, NULL, :cliente_id)",
+            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password)",
             nativeQuery = true
     )
     void insertGestor(@Param("uuid") UUID uuid,
@@ -102,8 +93,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
                        @Param("dni") String dni,
                        @Param("email") String email,
                        @Param("role") String role,
-                       @Param("password") String password,
-                       @Param("cliente_id") UUID cliente_id
+                       @Param("password") String password
     );
 
     @Modifying
@@ -125,7 +115,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, NULL, NULL)",
+            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password)",
             nativeQuery = true
     )
     void insertEncargado(@Param("uuid") UUID uuid,

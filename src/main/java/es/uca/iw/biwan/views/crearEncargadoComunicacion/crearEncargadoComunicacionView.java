@@ -1,5 +1,6 @@
 package es.uca.iw.biwan.views.crearEncargadoComunicacion;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -154,6 +155,7 @@ public class crearEncargadoComunicacionView extends VerticalLayout {
         formLayout.setColspan(email, 2);
         setSizeFull();
 
+        submit.addClickShortcut(Key.ENTER);
         submit.addClickListener(event -> {
             if (binderForm.validate().isOk()) {
                 EncargadoComunicaciones encargadoComunicaciones = new EncargadoComunicaciones();
