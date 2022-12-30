@@ -13,7 +13,7 @@ import es.uca.iw.biwan.aplication.service.AnuncioService;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.headers.HeaderView;
@@ -33,7 +33,10 @@ public class MainView extends VerticalLayout {
     public MainView() {
         // Comprobar si hay un usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        if (session.getAttribute(Usuario.class) != null) {
+        if (session.getAttribute(Cliente.class) != null
+                || session.getAttribute(Gestor.class) != null
+                || session.getAttribute(EncargadoComunicaciones.class) != null
+                || session.getAttribute(Administrador.class) != null) {
             // Si hay un usuario logueado, mostrar la vista de usuario logueado
             add(HeaderUsuarioLogueadoView.Header());
         } else {

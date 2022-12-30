@@ -26,6 +26,7 @@ import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -216,5 +217,6 @@ public class AjustesGestorView extends VerticalLayout {
     @PostConstruct
     public void init() {
         add(crearFormulario());
+        add(FooterView.Footer());
     }
 }

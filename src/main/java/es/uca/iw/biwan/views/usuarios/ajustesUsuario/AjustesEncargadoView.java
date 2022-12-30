@@ -217,5 +217,6 @@ public class AjustesEncargadoView extends VerticalLayout {
     @PostConstruct
     public void init() {
         add(crearFormulario());
+        add(FooterView.Footer());
     }
 }

@@ -218,5 +218,6 @@ public class AjustesAdministradorView extends VerticalLayout {
     @PostConstruct
     public void init() {
         add(crearFormulario());
+        add(FooterView.Footer());
     }
 }
