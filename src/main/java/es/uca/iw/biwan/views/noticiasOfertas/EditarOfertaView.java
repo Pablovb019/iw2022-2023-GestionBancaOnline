@@ -24,6 +24,7 @@ import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -54,8 +55,8 @@ public class EditarOfertaView extends VerticalLayout {
 
     public EditarOfertaView(){
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
+        if(session.getAttribute(EncargadoComunicaciones.class) != null) {
+            if (!session.getAttribute(EncargadoComunicaciones.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un encargado de comunicaciones", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });

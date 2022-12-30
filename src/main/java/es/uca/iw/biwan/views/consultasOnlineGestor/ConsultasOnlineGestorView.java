@@ -17,6 +17,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -35,8 +36,8 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
 
     public ConsultasOnlineGestorView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
+        if(session.getAttribute(Gestor.class) != null) {
+            if (!session.getAttribute(Gestor.class).getRol().contentEquals("GESTOR")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });

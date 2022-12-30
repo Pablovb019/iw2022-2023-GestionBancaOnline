@@ -25,13 +25,14 @@ import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Objects;
 
 
 @CssImport("./themes/biwan/login.css")
@@ -127,29 +128,35 @@ public class LoginView extends VerticalLayout {
                 user.setRol(Role.valueOf(role));
                 // Coger el usuario logueado
                 VaadinSession session = VaadinSession.getCurrent();
-                session.setAttribute(Usuario.class, user);
 
-                if (user.getRol().equals(Role.CLIENTE.toString())) {
-                    // Mostrar mensaje de bienvenida
+                if (Objects.equals(user.getRol(), Role.CLIENTE.toString())) {
+                    session.setAttribute(Cliente.class, (Cliente) user);
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
                     UI.getCurrent().navigate("pagina-principal-cliente");
-                } else if (user.getRol().equals(Role.GESTOR.toString())) {
+
+                } else if (Objects.equals(user.getRol(), Role.GESTOR.toString())) {
+                    session.setAttribute(Gestor.class, (Gestor) user);
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
                     UI.getCurrent().navigate("pagina-principal-gestor");
-                } else if (user.getRol().equals(Role.ENCARGADO_COMUNICACIONES.toString())) {
+
+                } else if (Objects.equals(user.getRol(), Role.ENCARGADO_COMUNICACIONES.toString())) {
+                    session.setAttribute(EncargadoComunicaciones.class, (EncargadoComunicaciones) user);
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
                     UI.getCurrent().navigate("pagina-principal-encargado");
-                } else if (user.getRol().equals(Role.ADMINISTRADOR.toString())) {
+
+                } else if (Objects.equals(user.getRol(), Role.ADMINISTRADOR.toString())) {
+                    session.setAttribute(Administrador.class, (Administrador) user);
                     Notification notification = new Notification("Bienvenido " + user.getNombre() + " " + user.getApellidos(), 1000);
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     notification.open();
                     UI.getCurrent().navigate("pagina-principal-admin");
+
                 }
             } else {
                 Notification errorEmailPassword = Notification.show("El correo electrónico o la contraseña son incorrectos");

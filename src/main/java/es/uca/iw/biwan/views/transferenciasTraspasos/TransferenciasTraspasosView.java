@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,8 @@ public class TransferenciasTraspasosView extends VerticalLayout {
 
     public TransferenciasTraspasosView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
+        if(session.getAttribute(Cliente.class) != null) {
+            if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });

@@ -16,6 +16,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -32,8 +33,8 @@ import java.util.*;
 public class cuentasTarjetasClienteView extends VerticalLayout {
     public cuentasTarjetasClienteView(){
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
+        if(session.getAttribute(Cliente.class) != null) {
+            if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });

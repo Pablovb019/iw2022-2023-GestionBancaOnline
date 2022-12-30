@@ -11,7 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.Administrador;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -21,8 +21,8 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 public class AdminView extends VerticalLayout {
     public AdminView(){
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("ADMINISTRADOR")) {
+        if(session.getAttribute(Administrador.class) != null) {
+            if (!session.getAttribute(Administrador.class).getRol().contentEquals("ADMINISTRADOR")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un administrador", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });
@@ -59,7 +59,7 @@ public class AdminView extends VerticalLayout {
         HorizontalLayout layoutComponenteTabla = new HorizontalLayout();
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        String nombre = session.getAttribute(Usuario.class).getNombre();
+        String nombre = session.getAttribute(Administrador.class).getNombre();
         H1 Titulo = new H1("Bienvenido Administrador: " + nombre);
         Anchor CrearGestor = new Anchor("crear-gestor", "Crear Gestor");
         Anchor CrearEncargadoComunicacion = new Anchor("crear-encargado-comunicacion", "Crear Encargado Comunicación");

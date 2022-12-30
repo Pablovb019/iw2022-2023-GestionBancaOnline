@@ -29,6 +29,7 @@ import es.uca.iw.biwan.domain.operaciones.Movimiento.FechaInvalidaException;
 import es.uca.iw.biwan.domain.operaciones.Movimiento.ImporteInvalidoException;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.EmisorInvalidoException;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.FechaVencimientoInvalidaException;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -39,8 +40,8 @@ public class RecibosDomiciliadosView extends VerticalLayout {
 
     public RecibosDomiciliadosView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
+        if(session.getAttribute(Cliente.class) != null) {
+            if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });

@@ -21,6 +21,7 @@ import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -53,8 +54,8 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
     this.cuentaService = cuentaService;
     this.tarjetaService = tarjetaService;
     VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
+        if(session.getAttribute(Gestor.class) != null) {
+            if (!session.getAttribute(Gestor.class).getRol().contentEquals("GESTOR")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });

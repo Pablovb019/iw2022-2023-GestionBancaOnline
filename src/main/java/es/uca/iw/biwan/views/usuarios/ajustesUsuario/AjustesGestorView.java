@@ -22,19 +22,21 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
-import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.PostConstruct;
 import java.util.Objects;
 
-@Route("ajustes-usuario")
-@PageTitle("Ajustes Usuario")
+@Route("ajustes-gestor")
+@PageTitle("Ajustes Gestor")
 @CssImport("./themes/biwan/ajustesUsuario.css")
-public class AjustesUsuarioView extends VerticalLayout {
+public class AjustesGestorView extends VerticalLayout {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -52,13 +54,11 @@ public class AjustesUsuarioView extends VerticalLayout {
     private Button atras = new Button("Atrás");
     private Button save = new Button("Guardar");
 
-    public AjustesUsuarioView(){
+    public AjustesGestorView(){
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
+        if(session.getAttribute(Gestor.class) != null) {
             add(HeaderUsuarioLogueadoView.Header());
             add(crearTitulo());
-            add(crearFormulario());
-            add(FooterView.Footer());
         } else {
             ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Volver", event -> {
                 UI.getCurrent().navigate("");
@@ -68,7 +68,7 @@ public class AjustesUsuarioView extends VerticalLayout {
     }
 
     private Component crearTitulo() {
-        var titulo = new H2("Información Personal");
+        var titulo = new H2("Información Personal Gestor");
         VerticalLayout vlTitulo = new VerticalLayout(titulo);
         vlTitulo.setAlignItems(Alignment.CENTER);
         vlTitulo.addClassName("vlTitulo");
@@ -83,32 +83,34 @@ public class AjustesUsuarioView extends VerticalLayout {
         flForm.setColspan(email, 2);
         flForm.addClassName("Formulario");
 
-        Binder<Usuario> binderForm = new Binder<>(Usuario.class);
-        Usuario usuario = VaadinSession.getCurrent().getAttribute(Usuario.class);
-        usuario.setPassword(""); // Por defecto si la contraseña no se modifica, se deja vacía
-        binderForm.setBean(usuario);
+        Binder<Gestor> binderForm = new Binder<>(Gestor.class);
+        Gestor gestor = VaadinSession.getCurrent().getAttribute(Gestor.class);
+        gestor.setPassword(""); // Por defecto si la contraseña no se modifica, se deja vacía
+        binderForm.setBean(gestor);
+
+        Gestor gestorBD = (Gestor) usuarioService.findUserByEmail(gestor.getEmail());
 
         binderForm.forField(nombre)
                 .asRequired("El nombre es obligatorio")
-                .bind(Usuario::getNombre, Usuario::setNombre);
+                .bind(Gestor::getNombre, Gestor::setNombre);
 
         binderForm.forField(apellidos)
                 .asRequired("El apellido es obligatorio")
-                .bind(Usuario::getApellidos, Usuario::setApellidos);
+                .bind(Gestor::getApellidos, Gestor::setApellidos);
 
         binderForm.forField(fechaNacimiento)
                 .asRequired("La fecha de nacimiento es obligatoria")
                 .withValidator(birthDate1 -> birthDate1.isBefore((java.time.LocalDate.now().minusYears(18).plusDays(1))), "El usuario ha de ser mayor de edad")
-                .bind(Usuario::getFechaNacimiento, Usuario::setFechaNacimiento);
+                .bind(Gestor::getFechaNacimiento, Gestor::setFechaNacimiento);
 
         binderForm.forField(telefono)
                 .asRequired("El teléfono es obligatorio")
-                .bind(Usuario::getTelefono, Usuario::setTelefono);
+                .bind(Gestor::getTelefono, Gestor::setTelefono);
 
         binderForm.forField(email)
                 .asRequired("El correo electrónico es obligatorio")
                 .withValidator(email1 -> email1.matches("^[A-Za-z0-9+_.-]+@(.+)$"), "El correo electrónico no es válido")
-                .bind(Usuario::getEmail, Usuario::setEmail);
+                .bind(Gestor::getEmail, Gestor::setEmail);
 
 
         // binder of password, only check if is not empty
@@ -120,7 +122,7 @@ public class AjustesUsuarioView extends VerticalLayout {
                     .withValidator(password1 -> password1.matches(".*[a-z].*"), "La contraseña debe tener al menos una minúscula")
                     .withValidator(password1 -> password1.matches(".*[0-9].*"), "La contraseña debe tener al menos un número")
                     .withValidator(password1 -> password1.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "La contraseña debe tener al menos un caracter especial")
-                    .bind(Usuario::getPassword, Usuario::setPassword);
+                    .bind(Gestor::getPassword, Gestor::setPassword);
 
             binderForm.forField(confirmPassword)
                     .asRequired("La confirmación de la contraseña es obligatoria")
@@ -130,61 +132,37 @@ public class AjustesUsuarioView extends VerticalLayout {
                     .withValidator(password1 -> password1.matches(".*[0-9].*"), "La contraseña debe tener al menos un número")
                     .withValidator(password1 -> password1.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "La contraseña debe tener al menos un caracter especial")
                     .withValidator(password1 -> password1.equals(confirmPassword.getValue()), "Las contraseñas no coinciden")
-                    .bind(Usuario::getPassword, Usuario::setPassword);
+                    .bind(Gestor::getPassword, Gestor::setPassword);
         }
 
         save.addClickListener(event -> {
+
             if(binderForm.validate().isOk()){
-                Usuario usuario1 = binderForm.getBean();    // Nuevo usuario con los datos del formulario
-                Usuario usuario2 = usuarioService.findUserByEmail(usuario1.getEmail()); // Usuario con los datos de la base de datos
-                usuario2.setRol(Role.valueOf(usuario1.getRol()));
+                Gestor gestorForm = binderForm.getBean();
 
-                // Si todos los cambios, excepto la constraseña ya que esta cifrada, son iguales, no se hace nada
-                if(Objects.equals(usuario1.getNombre(), usuario2.getNombre()) &&
-                        Objects.equals(usuario1.getApellidos(), usuario2.getApellidos()) &&
-                        Objects.equals(usuario1.getFechaNacimiento(), usuario2.getFechaNacimiento()) &&
-                        Objects.equals(usuario1.getTelefono(), usuario2.getTelefono()) &&
-                        Objects.equals(usuario1.getEmail(), usuario2.getEmail())){
-                    Notification sinCambios = new Notification("No se han realizado cambios", 3000);
-                    sinCambios.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    sinCambios.open();
+                if(Objects.equals(gestorForm.getNombre(), gestorBD.getNombre()) &&
+                        Objects.equals(gestorForm.getApellidos(), gestorBD.getApellidos()) &&
+                        Objects.equals(gestorForm.getFechaNacimiento(), gestorBD.getFechaNacimiento()) &&
+                        Objects.equals(gestorForm.getTelefono(), gestorBD.getTelefono()) &&
+                        Objects.equals(gestorForm.getEmail(), gestorBD.getEmail())) {
+                    Notification errEqual = new Notification("No se han realizado cambios", 3000);
+                    errEqual.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    errEqual.open();
                 } else {
-                    if(!Objects.equals(usuario2.getNombre(), usuario1.getNombre())){
-                        usuario2.setNombre(usuario1.getNombre());
+
+                    if(gestorForm.getPassword().isBlank() || gestorForm.getPassword().equals("")) {
+                        gestorForm.setPassword(gestorBD.getPassword());
+                    } else {
+                        gestorForm.setPassword(passwordEncoder.encode(gestorForm.getPassword()));
                     }
 
-                    if(!Objects.equals(usuario2.getApellidos(), usuario1.getApellidos())){
-                        usuario2.setApellidos(usuario1.getApellidos());
-                    }
-
-                    if(!Objects.equals(usuario2.getFechaNacimiento(), usuario1.getFechaNacimiento())){
-                        usuario2.setFechaNacimiento(usuario1.getFechaNacimiento());
-                    }
-
-                    if(!Objects.equals(usuario2.getTelefono(), usuario1.getTelefono())){
-                        usuario2.setTelefono(usuario1.getTelefono());
-                    }
-
-                    if(!Objects.equals(usuario2.getEmail(), usuario1.getEmail())){
-                        usuario2.setEmail(usuario1.getEmail());
-                    }
-
-                    if(!Objects.equals(usuario1.getPassword(), "") && !passwordEncoder.matches(usuario1.getPassword(), usuario2.getPassword())) {
-                        usuario2.setPassword(passwordEncoder.encode(usuario1.getPassword()));
-                    }
-
-                    boolean correcto = ComprobarDatos(usuario2);
-                    if (correcto) {
-                        usuarioService.update(usuario2);
-                        ConfirmDialog ConfigUpdated = new ConfirmDialog("Cambios guardados", "Los cambios se han guardado correctamente", "Aceptar", event1 -> {
-
-                            if (usuario2.getRol().equals(Role.CLIENTE.toString())) { UI.getCurrent().navigate("pagina-principal-cliente"); }
-                            else if (usuario2.getRol().equals(Role.GESTOR.toString())) { UI.getCurrent().navigate("pagina-principal-gestor"); }
-                            else if (usuario2.getRol().equals(Role.ENCARGADO_COMUNICACIONES.toString())) { UI.getCurrent().navigate("pagina-principal-encargado"); }
-                            else if (usuario2.getRol().equals(Role.ADMINISTRADOR.toString())) { UI.getCurrent().navigate("pagina-principal-administrador"); }
-
+                    boolean correcta = ComprobarDatos(gestorForm);
+                    if (correcta) {
+                        usuarioService.updateGestor(gestorForm);
+                        ConfirmDialog confirmDialog = new ConfirmDialog("Éxito", "Los datos se han actualizado correctamente", "Confirmar", event1 -> {
+                            UI.getCurrent().navigate("pagina-principal-gestor");
                         });
-                        ConfigUpdated.open();
+                        confirmDialog.open();
                     }
                 }
             }
@@ -194,14 +172,15 @@ public class AjustesUsuarioView extends VerticalLayout {
     }
 
     private boolean ComprobarDatos(Usuario user) {
-        if (usuarioService.findUserByTelefono(user.getTelefono()) != null && Double.compare(user.getTelefono(), usuarioService.findUserByTelefono(user.getTelefono()).getTelefono()) != 0) {
+        if (usuarioService.findUserByTelefono(user.getTelefono()) != null &&
+                Double.compare(usuarioService.findUserByTelefono(user.getTelefono()).getTelefono(), user.getTelefono()) != 0) {
             Notification telefono = new Notification("El teléfono ya está en uso", 3000);
             telefono.addThemeVariants(NotificationVariant.LUMO_ERROR);
             telefono.open();
             return false;
         }
 
-        if (usuarioService.findUserByEmail(user.getEmail()) != null && user.getEmail().compareTo(usuarioService.findUserByEmail(user.getEmail()).getEmail()) != 0) {
+        if (usuarioService.findUserByEmail(user.getEmail()) != null && usuarioService.findUserByEmail(user.getEmail()).getEmail().compareTo(user.getEmail()) != 0) {
             Notification email = new Notification("El email ya está en uso", 3000);
             email.addThemeVariants(NotificationVariant.LUMO_ERROR);
             email.open();
@@ -224,21 +203,8 @@ public class AjustesUsuarioView extends VerticalLayout {
         // Evento para volver a la pagina principal
         atras.addClickListener(e -> {
             VaadinSession session = VaadinSession.getCurrent();
-            if(session.getAttribute(Usuario.class) != null) {
-                if (session.getAttribute(Usuario.class).getRol().contentEquals("ADMINISTRADOR")) {
-                    UI.getCurrent().navigate("");
-                } else if (session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
-                    UI.getCurrent().navigate("pagina-principal-cliente");
-                } else if (session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
-                    UI.getCurrent().navigate("pagina-principal-gestor");
-                } else if (session.getAttribute(Usuario.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
-                    UI.getCurrent().navigate("pagina-principal-encargado");
-                } else {
-                    ConfirmDialog error = new ConfirmDialog("Error", "El usuario no tiene rol", "Aceptar", null);
-                    error.open();
-                    UI.getCurrent().navigate("");
-                }
-            } else {
+            if(session.getAttribute(Gestor.class) != null) { UI.getCurrent().navigate("pagina-principal-gestor"); }
+            else {
                 ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
                 error.open();
                 UI.getCurrent().navigate("");
@@ -246,5 +212,9 @@ public class AjustesUsuarioView extends VerticalLayout {
         });
         return vlButtons;
     }
-}
 
+    @PostConstruct
+    public void init() {
+        add(crearFormulario());
+    }
+}

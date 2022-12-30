@@ -21,13 +21,13 @@ public class Tarjeta {
     private LocalDate fechaCaducidad;
 
     @Column(nullable = false)
-    private Boolean activa;
-
-    @Column(nullable = false)
     private String CVV;
 
     @Column(nullable = false)
     private Double limiteGasto;
+
+    @Column(nullable = false)
+    private Boolean activa;
 
     @Transient
     private Random random = new Random();

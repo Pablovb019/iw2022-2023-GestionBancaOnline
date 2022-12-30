@@ -15,7 +15,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.*;
@@ -33,14 +33,34 @@ public class HeaderUsuarioLogueadoView {
         HorizontalLayout headerRight = new HorizontalLayout();
         Anchor Biwan = new Anchor("", new Image("images/logo.png", "Biwan"));
         Anchor MasInfo = new Anchor("", "Más información");
+        String nombre;
+        String rol;
+        Anchor AjustesUsuario;
 
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        String nombre = session.getAttribute(Usuario.class).getNombre();
-        String rol = session.getAttribute(Usuario.class).getRol().toString();
+        if (session.getAttribute(Cliente.class) != null) {
+            nombre = session.getAttribute(Cliente.class).getNombre();
+            rol = session.getAttribute(Cliente.class).getRol();
+            AjustesUsuario = new Anchor("ajustes-cliente", "Ajustes");
+
+        } else if (session.getAttribute(Gestor.class) != null) {
+            nombre = session.getAttribute(Gestor.class).getNombre();
+            rol = session.getAttribute(Gestor.class).getRol();
+            AjustesUsuario = new Anchor("ajustes-gestor", "Ajustes");
+
+        } else if (session.getAttribute(EncargadoComunicaciones.class) != null) {
+            nombre = session.getAttribute(EncargadoComunicaciones.class).getNombre();
+            rol = session.getAttribute(EncargadoComunicaciones.class).getRol();
+            AjustesUsuario = new Anchor("ajustes-encargado", "Ajustes");
+
+        } else if (session.getAttribute(Administrador.class) != null) {
+            nombre = session.getAttribute(Administrador.class).getNombre();
+            rol = session.getAttribute(Administrador.class).getRol();
+            AjustesUsuario = new Anchor("ajustes-admin", "Ajustes");
+        } else throw new IllegalStateException("No hay usuario logueado");
 
         // Crear menú de usuario
-        Anchor AjustesUsuario = new Anchor("ajustes-usuario", "Ajustes");
         AjustesUsuario.addClassName("AnchorMenuItem");
         Anchor CerrarSesion = new Anchor("", "Cerrar sesión");
         CerrarSesion.addClassName("AnchorMenuItem");
@@ -173,7 +193,11 @@ public class HeaderUsuarioLogueadoView {
         header.expand(headerMiddle);
 
         CerrarSesion.getElement().addEventListener("click", e -> {
-            session.setAttribute(Usuario.class, null);
+            if (session.getAttribute(Cliente.class) != null) { session.setAttribute(Cliente.class, null); }
+            else if (session.getAttribute(Gestor.class) != null) { session.setAttribute(Gestor.class, null); }
+            else if (session.getAttribute(EncargadoComunicaciones.class) != null) { session.setAttribute(EncargadoComunicaciones.class, null); }
+            else if (session.getAttribute(Administrador.class) != null) { session.setAttribute(Administrador.class, null); }
+
             UI.getCurrent().navigate("");
         });
         return header;

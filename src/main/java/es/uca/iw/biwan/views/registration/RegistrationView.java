@@ -183,22 +183,22 @@ public class RegistrationView extends VerticalLayout {
         return formLayout;
     }
 
-    private boolean ComprobarDatos(Usuario user) {
-        if (usuarioService.findUserByTelefono(user.getTelefono()) != null) {
+    private boolean ComprobarDatos(Cliente cliente) {
+        if (usuarioService.findUserByTelefono(cliente.getTelefono()) != null) {
             Notification errorTelefono = new Notification("El teléfono ya está en uso", 3000);
             errorTelefono.addThemeVariants(NotificationVariant.LUMO_ERROR);
             errorTelefono.open();
             return false;
         }
 
-        if (usuarioService.findUserByDni(user.getDni()) != null) {
+        if (usuarioService.findUserByDni(cliente.getDni()) != null) {
             Notification errorDni = new Notification("El DNI ya está en uso", 3000);
             errorDni.addThemeVariants(NotificationVariant.LUMO_ERROR);
             errorDni.open();
             return false;
         }
 
-        if (usuarioService.findUserByEmail(user.getEmail()) != null) {
+        if (usuarioService.findUserByEmail(cliente.getEmail()) != null) {
             Notification errorEmail = new Notification("El correo electrónico ya está en uso", 3000);
             errorEmail.addThemeVariants(NotificationVariant.LUMO_ERROR);
             errorEmail.open();
@@ -207,9 +207,9 @@ public class RegistrationView extends VerticalLayout {
         return true;
     }
 
-    private void CreateRequest(Usuario user) {
+    private void CreateRequest(Cliente cliente) {
         try {
-            usuarioService.save(user);
+            usuarioService.saveCliente(cliente);
             ConfirmDialog confirmRequest = new ConfirmDialog("Registro Correcto", "Registro realizado correctamente", "Aceptar", event1 -> {
                 UI.getCurrent().navigate("/login");
             });

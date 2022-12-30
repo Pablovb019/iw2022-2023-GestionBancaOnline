@@ -24,6 +24,7 @@ import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.aplication.service.TarjetaService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -50,8 +51,8 @@ public class crearTarjeta extends VerticalLayout {
         this.tarjetaService = tarjetaService;
         this.cuentaService = cuentaService;
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
+        if(session.getAttribute(Gestor.class) != null) {
+            if (!session.getAttribute(Gestor.class).getRol().contentEquals("GESTOR")) {
                 UI.getCurrent().navigate("");
             } else {
                 //NEW

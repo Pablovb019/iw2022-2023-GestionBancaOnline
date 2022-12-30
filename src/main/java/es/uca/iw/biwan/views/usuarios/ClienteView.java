@@ -5,22 +5,17 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.AnuncioService;
-import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
-import es.uca.iw.biwan.views.noticiasOfertas.EditarNoticiaView;
-import es.uca.iw.biwan.views.noticiasOfertas.EditarOfertaView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -35,8 +30,8 @@ public class ClienteView extends VerticalLayout {
     private AnuncioService anuncioService;
     public ClienteView(){
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("CLIENTE")) {
+        if(session.getAttribute(Cliente.class) != null) {
+            if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });
@@ -56,7 +51,7 @@ public class ClienteView extends VerticalLayout {
         //Creacion de los apartados
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        String nombre = session.getAttribute(Usuario.class).getNombre();
+        String nombre = session.getAttribute(Cliente.class).getNombre();
         H1 Titulo = new H1("Bienvenido " + nombre);
 
         H2 TituloBalance = new H2("Balance BIWAN");

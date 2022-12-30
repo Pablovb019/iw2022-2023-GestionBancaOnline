@@ -23,6 +23,7 @@ import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -45,8 +46,8 @@ public class crearCuenta extends VerticalLayout{
     public crearCuenta(CuentaService cuentaService) {
         this.cuentaService = cuentaService;
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
+        if(session.getAttribute(Gestor.class) != null) {
+            if (!session.getAttribute(Gestor.class).getRol().contentEquals("GESTOR")) {
                 UI.getCurrent().navigate("");
             } else {
                 //NEW

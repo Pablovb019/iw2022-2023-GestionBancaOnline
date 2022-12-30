@@ -14,6 +14,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.cuentasTarjetas.crearCuenta;
 import es.uca.iw.biwan.views.cuentasTarjetas.crearTarjeta;
@@ -33,8 +34,8 @@ public class GestorView extends VerticalLayout {
     public GestorView(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Usuario.class) != null) {
-            if (!session.getAttribute(Usuario.class).getRol().contentEquals("GESTOR")) {
+        if(session.getAttribute(Gestor.class) != null) {
+            if (!session.getAttribute(Gestor.class).getRol().contentEquals("GESTOR")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });
@@ -70,7 +71,7 @@ public class GestorView extends VerticalLayout {
 
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        String nombre = session.getAttribute(Usuario.class).getNombre() + " " + session.getAttribute(Usuario.class).getApellidos();
+        String nombre = session.getAttribute(Gestor.class).getNombre() + " " + session.getAttribute(Gestor.class).getApellidos();
         H1 Titulo = new H1("Bienvenido Gestor: " + nombre);
 
         ArrayList<Usuario> clientes = usuarioService.findUsuarioByRol(Role.CLIENTE.toString());

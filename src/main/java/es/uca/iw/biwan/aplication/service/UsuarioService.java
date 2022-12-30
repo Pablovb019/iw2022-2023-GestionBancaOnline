@@ -1,7 +1,7 @@
 package es.uca.iw.biwan.aplication.service;
 
 import es.uca.iw.biwan.aplication.repository.UsuarioRepository;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +18,8 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    @Transactional
-    public void save(Usuario user) {
-        usuarioRepository.insertUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getRol(), user.getPassword(), user.getCliente_id(), user.getGestor_id());
-    }
-
-    @Transactional
-    public void update(Usuario user) {
-        usuarioRepository.updateUser(user.getUUID(), user.getNombre(), user.getApellidos(), user.getFechaNacimiento(), user.getTelefono(), user.getDni(), user.getEmail(), user.getPassword());
+    public String getRole(UUID uuid) {
+        return usuarioRepository.findRoleByUUID(uuid);
     }
 
     public Usuario findUserByEmail(String email) {
@@ -33,21 +27,56 @@ public class UsuarioService {
     }
 
     public Usuario findUserByDni (String dni) {
-        return usuarioRepository.findUserByDni(dni);
+        return usuarioRepository.findUserByEmail(dni);
     }
 
-    public Usuario findUserByTelefono (Double telefono) {
-        return usuarioRepository.findUserByTelefono(telefono);
-    }
-
-    public String getRole(UUID uuid) {
-        return usuarioRepository.findRoleByUUID(uuid);
-    }
+    public Usuario findUserByTelefono (Double telefono) { return usuarioRepository.findUserByTelefono(telefono); }
 
     public ArrayList<Usuario> findUsuarioByRol(String rol) { return usuarioRepository.findUsuarioByRol(rol); }
+
+    // CLIENTE
+
+    @Transactional
+    public void saveCliente(Cliente cliente) {
+        usuarioRepository.insertCliente(cliente.getUUID(), cliente.getNombre(), cliente.getApellidos(), cliente.getFechaNacimiento(), cliente.getTelefono(), cliente.getDni(), cliente.getEmail(), cliente.getRol(), cliente.getPassword(), cliente.getGestor_id());
+    }
+
+    @Transactional
+    public void updateCliente(Cliente cliente) {
+        usuarioRepository.updateCliente(cliente.getUUID(), cliente.getNombre(), cliente.getApellidos(), cliente.getFechaNacimiento(), cliente.getTelefono(), cliente.getDni(), cliente.getEmail(), cliente.getPassword());
+    }
 
     @Transactional
     public void insertClienteToGestor(UUID gestor_id, UUID cliente_id) {
         usuarioRepository.insertClienteToGestor(gestor_id, cliente_id);
+    }
+
+    // GESTOR
+
+    @Transactional
+    public void saveGestor(Gestor gestor) {
+        usuarioRepository.insertGestor(gestor.getUUID(), gestor.getNombre(), gestor.getApellidos(), gestor.getFechaNacimiento(), gestor.getTelefono(), gestor.getDni(), gestor.getEmail(), gestor.getRol(), gestor.getPassword(), gestor.getCliente_id());
+    }
+
+    @Transactional
+    public void updateGestor(Gestor gestor) {
+        usuarioRepository.updateGestor(gestor.getUUID(), gestor.getNombre(), gestor.getApellidos(), gestor.getFechaNacimiento(), gestor.getTelefono(), gestor.getDni(), gestor.getEmail(), gestor.getPassword());
+    }
+
+    // ENCARGADO COMUNICACIONES
+
+    @Transactional
+    public void saveEncargado(EncargadoComunicaciones encargado) {
+        usuarioRepository.insertEncargado(encargado.getUUID(), encargado.getNombre(), encargado.getApellidos(), encargado.getFechaNacimiento(), encargado.getTelefono(), encargado.getDni(), encargado.getEmail(), encargado.getRol(), encargado.getPassword());
+    }
+
+    @Transactional
+    public void updateEncargado(EncargadoComunicaciones encargado) {
+        usuarioRepository.updateEncargado(encargado.getUUID(), encargado.getNombre(), encargado.getApellidos(), encargado.getFechaNacimiento(), encargado.getTelefono(), encargado.getDni(), encargado.getEmail(), encargado.getPassword());
+    }
+
+    @Transactional
+    public void updateAdministrador(Administrador admin) {
+        usuarioRepository.updateAdministrador(admin.getUUID(), admin.getNombre(), admin.getApellidos(), admin.getFechaNacimiento(), admin.getTelefono(), admin.getDni(), admin.getEmail(), admin.getPassword());
     }
 }
