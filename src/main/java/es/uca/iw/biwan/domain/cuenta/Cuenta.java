@@ -4,6 +4,8 @@ import es.uca.iw.biwan.domain.operaciones.Movimiento;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.iban4j.CountryCode;
+import org.iban4j.Iban;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,8 +31,7 @@ public class Cuenta {
     private List<Movimiento> movimientos;
 
     public Cuenta() {
-        this.IBAN = "ES24" + "0033" + RandomStringUtils.randomNumeric(4)
-                + "19" + RandomStringUtils.randomNumeric(10);
+        this.IBAN = Iban.random(CountryCode.ES).toString();
         this.balance = 0;
     }
 

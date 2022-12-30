@@ -1,14 +1,12 @@
 package es.uca.iw.biwan.domain.tarjeta;
 
-import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.operaciones.Movimiento;
-import org.apache.commons.lang3.RandomStringUtils;
+import net.andreinc.mockneat.MockNeat;
+import net.andreinc.mockneat.types.enums.CreditCardType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 public class Tarjeta {
@@ -30,42 +28,19 @@ public class Tarjeta {
     private Boolean activa;
 
     @Transient
-    private Random random = new Random();
+    private MockNeat mockNeat = MockNeat.threadLocal();
 
     @OneToMany
     @JoinColumn(name = "tarjeta_id")
     private List<Movimiento> movimientos;
 
 
-    public Tarjeta(){
-        this.numeroTarjeta = "4026" + "33" + RandomStringUtils.randomNumeric(9);
-        this.numeroTarjeta += AlgorithmLuhn(this.numeroTarjeta);
-
+    public Tarjeta() {
+        this.numeroTarjeta = mockNeat.creditCards().type(CreditCardType.VISA_16).get();
         this.fechaCaducidad = LocalDate.now().plusYears(5);
+        this.CVV = mockNeat.cvvs().get();
+        this.limiteGasto = 1000.0;
         this.activa = true;
-
-        this.CVV = RandomStringUtils.randomNumeric(3);
-        this.limiteGasto = 1000d;
-    }
-
-    public String AlgorithmLuhn(String numeroTarjeta){
-        int sum = 0;
-        boolean alternate = false;
-        for (int i = numeroTarjeta.length() - 1; i >= 0; i--)
-        {
-            int n = Integer.parseInt(numeroTarjeta.substring(i, i + 1));
-            if (alternate)
-            {
-                n *= 2;
-                if (n > 9)
-                {
-                    n = (n % 10) + 1;
-                }
-            }
-            sum += n;
-            alternate = !alternate;
-        }
-        return (sum % 10 == 0) ? "0" : String.valueOf(10 - sum % 10);
     }
 
     public String getNumeroTarjeta() {
