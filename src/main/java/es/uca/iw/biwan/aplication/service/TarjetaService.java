@@ -19,8 +19,8 @@ public class TarjetaService {
         this.tarjetaRepository = tarjetaRepository;
     }
 
-    public void save(Tarjeta tarjeta, String ibanUsuarioSeleccionado) {
-        tarjetaRepository.insertTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto(), ibanUsuarioSeleccionado);
+    public void save(Tarjeta tarjeta, Cuenta cuenta) {
+        tarjetaRepository.insertTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto(), cuenta.getIBAN());
     }
 
     public void update(Tarjeta tarjeta) {

@@ -82,7 +82,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password)",
+            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, NULL)",
             nativeQuery = true
     )
     void insertGestor(@Param("uuid") UUID uuid,
@@ -115,7 +115,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password)",
+            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, NULL)",
             nativeQuery = true
     )
     void insertEncargado(@Param("uuid") UUID uuid,

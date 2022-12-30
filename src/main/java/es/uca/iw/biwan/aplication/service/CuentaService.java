@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,9 @@ import org.springframework.stereotype.Service;
 public class CuentaService {
     private final CuentaRepository cuentaRepository;
 
-    public void save(Cuenta cuenta) {
+    public void save(Cuenta cuenta, Cliente cliente) {
         cuentaRepository.insertCuenta(cuenta.getIBAN(), cuenta.getBalance());
+        cuentaRepository.relacionarCuenta(cuenta.getIBAN(), cliente.getUUID());
     }
 
     @Autowired
@@ -36,4 +38,6 @@ public class CuentaService {
     public ArrayList<Cuenta> findCuentaByUUID(UUID uuid) { return cuentaRepository.findCuentaByUUID(uuid); }
 
     public Cuenta findCuentaByIban(String Iban) { return  cuentaRepository.findCuentaByIban(Iban); }
+
+    public ArrayList<Cuenta> findCuentaByCliente(Usuario usuario) { return cuentaRepository.findCuentaByCliente(usuario.getUUID()); }
 }

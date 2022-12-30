@@ -19,7 +19,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO Tarjeta VALUES (:numero_tarjeta, :fecha_caducidad, :activa, :cvv, :limite_gasto, :cuenta_id)",
+            value = "INSERT INTO Tarjeta VALUES (:numero_tarjeta, :fecha_caducidad, :cvv, :limite_gasto, :activa, :cuenta_id)",
             nativeQuery = true
     )
     void insertTarjeta(@Param("numero_tarjeta") String numero_tarjeta,

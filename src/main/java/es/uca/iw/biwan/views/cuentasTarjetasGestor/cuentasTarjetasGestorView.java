@@ -21,6 +21,7 @@ import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
@@ -42,12 +43,9 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
     private ComboBox<Usuario> comboBoxUsuarioCliente;
     private Grid<Cuenta> gridCuentasClienteSeleccionado;
     private Grid<Tarjeta> gridTarjetasClienteSeleccionado;
-    private static Usuario usuarioSeleccionado;
 
-    // Setter para coger la información que depende del usuario que hayamos seleccionado para ver sus cuentas y tarjetas
-    public static void setUsuarioSeleccionado(Usuario usuario) {
-        usuarioSeleccionado = usuario;
-    }
+    public static Cliente cliente;
+
 @Autowired
     public cuentasTarjetasGestorView(UsuarioService usuarioService, CuentaService cuentaService, TarjetaService tarjetaService){
     this.usuarioService = usuarioService;
@@ -62,8 +60,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
                 error.open();
             } else {
                 add(HeaderUsuarioLogueadoView.Header());
-                add(DesplegableCliente());
-                add(WhiteSpace());
+                add(CuentasTarjetasGestor());
                 add(FooterView.Footer());
             }
         } else {
@@ -75,41 +72,6 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         }
     }
 
-    private Component DesplegableCliente(){
-        ComboBox<Usuario> comboBoxCliente = generateComboBoxCliente();
-        comboBoxCliente.addValueChangeListener(event -> {
-            removeAll();
-            add(HeaderUsuarioLogueadoView.Header());
-            add(DesplegableCliente(event.getValue()));
-            add(CuentasTarjetasGestor(event.getValue()));
-            add(FooterView.Footer());
-        });
-
-        return comboBoxCliente;
-    }
-
-    private Component DesplegableCliente(Usuario cliente){
-        ComboBox<Usuario> comboBoxCliente = generateComboBoxCliente();
-        comboBoxCliente.setValue(cliente);
-        comboBoxCliente.addValueChangeListener(event -> {
-            removeAll();
-            add(HeaderUsuarioLogueadoView.Header());
-            add(DesplegableCliente(event.getValue()));
-            add(CuentasTarjetasGestor(event.getValue()));
-            add(FooterView.Footer());
-
-            if(event.getValue() == null){
-                removeAll();
-                add(HeaderUsuarioLogueadoView.Header());
-                add(DesplegableCliente());
-                add(WhiteSpace());
-                add(FooterView.Footer());
-            }
-        });
-
-        return comboBoxCliente;
-    }
-
     private Component WhiteSpace(){
         // White space
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -117,7 +79,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         return verticalLayout;
     }
 
-    private Component CuentasTarjetasGestor(Usuario clienteSeleccionado) {
+    private Component CuentasTarjetasGestor() {
         H1 Titulo = new H1("Cuentas y Tarjetas");
         H2 TituloCuentas = new H2("Cuentas");
         H2 TituloTarjetas = new H2("Tarjetas");
@@ -136,7 +98,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         // Layout de Cuenta y Tarjetas
 
         // Inicializacion de la tabla de Cuentas
-        ArrayList<Cuenta> cuentasCliente = cuentaService.findCuentaByUUID(clienteSeleccionado.getUUID());
+        ArrayList<Cuenta> cuentasCliente = cuentaService.findCuentaByCliente(cliente);
 
         gridCuentasClienteSeleccionado = new Grid<>();
         gridCuentasClienteSeleccionado.setItems(cuentasCliente);
@@ -149,7 +111,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
 
-        ArrayList<Tarjeta> tarjetasCliente = tarjetaService.findTarjetaByUUID(clienteSeleccionado.getUUID());
+        ArrayList<Tarjeta> tarjetasCliente = tarjetaService.findTarjetaByUUID(cliente.getUUID());
 
         gridTarjetasClienteSeleccionado = new Grid<>();
         gridTarjetasClienteSeleccionado.setItems(tarjetasCliente);
@@ -186,35 +148,5 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         vlCuentasTarjetas.addClassName("vlCuentasTarjetas");
 
         return vlCuentasTarjetas;
-    }
-
-    private ComboBox<Usuario> generateComboBoxCliente() {
-
-        ArrayList<Usuario> clientes = usuarioService.findUsuarioByRol(Role.CLIENTE.toString());
-        // Create a combo box with clientes
-        comboBoxUsuarioCliente = new ComboBox<>();;
-        comboBoxUsuarioCliente.setItems(clientes);
-        comboBoxUsuarioCliente.setItemLabelGenerator(usuario -> usuario.getNombre() + " " + usuario.getApellidos());
-        comboBoxUsuarioCliente.setValue(usuarioSeleccionado);
-        comboBoxUsuarioCliente.setLabel("Cliente");
-        comboBoxUsuarioCliente.setClearButtonVisible(true);
-        comboBoxUsuarioCliente.setRequired(true);
-        comboBoxUsuarioCliente.setRequiredIndicatorVisible(true);
-        comboBoxUsuarioCliente.setWidth("300px");
-        comboBoxUsuarioCliente.setPlaceholder("Selecciona un cliente");
-        comboBoxUsuarioCliente.setHelperText("Selecciona un cliente para ver sus cuentas y tarjetas");
-        // posiciona el combobox en el centro
-        comboBoxUsuarioCliente.getStyle().set("margin-left", "auto");
-        comboBoxUsuarioCliente.getStyle().set("margin-right", "auto");
-        comboBoxUsuarioCliente.getStyle().set("marging-top", "20px");
-
-
-        return comboBoxUsuarioCliente;
-    }
-
-    @PostConstruct
-    public void init() {
-        add(DesplegableCliente());
-        add(FooterView.Footer());
     }
 }

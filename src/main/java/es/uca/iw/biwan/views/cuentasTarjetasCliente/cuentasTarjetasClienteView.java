@@ -14,15 +14,20 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.CuentaService;
+import es.uca.iw.biwan.aplication.service.TarjetaService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Route("cuentas-tarjetas-cliente")
@@ -31,6 +36,15 @@ import java.util.*;
 @PageTitle("Cuentas y Tarjetas")
 
 public class cuentasTarjetasClienteView extends VerticalLayout {
+
+    @Autowired
+    private CuentaService cuentaService;
+
+    @Autowired
+    private TarjetaService tarjetaService;
+
+    private Grid<Cuenta> gridCuentasCliente;
+    private Grid<Tarjeta> gridTarjetasCliente;
     public cuentasTarjetasClienteView(){
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null) {
@@ -41,8 +55,6 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
                 error.open();
             } else {
                 add(HeaderUsuarioLogueadoView.Header());
-                add(CuentasTarjetasCliente());
-                add(FooterView.Footer());
             }
         } else {
             ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
@@ -73,58 +85,45 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
         // Layout de Cuenta y Tarjetas
 
         // Inicializacion de la tabla de Cuentas
-        Cuenta cuenta1 = new Cuenta();
-        Cuenta cuenta2 = new Cuenta();
-        Cuenta cuenta3 = new Cuenta();
-        Cuenta cuenta4 = new Cuenta();
 
-        Grid<Cuenta> gridCuentas = new Grid<>(Cuenta.class, false);
-        gridCuentas.addClassName("TablaCuentaTarjeta");
-        gridCuentas.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER);
-        gridCuentas.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER);
 
-        gridCuentas.setItems(cuenta1, cuenta2, cuenta3, cuenta4);
-        gridCuentas.setWidthFull();
-        var vlCuentas = new VerticalLayout(TituloCuentas, gridCuentas);
+        ArrayList<Cuenta> cuentasCliente = cuentaService.findCuentaByCliente(VaadinSession.getCurrent().getAttribute(Cliente.class));
+
+        gridCuentasCliente = new Grid<>();
+        gridCuentasCliente.setItems(cuentasCliente);
+        gridCuentasCliente.addClassName("TablaCuentaTarjeta");
+        gridCuentasCliente.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER);
+        gridCuentasCliente.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER);
+        gridCuentasCliente.setWidthFull();
+        var vlCuentas = new VerticalLayout(TituloCuentas, gridCuentasCliente);
 
         DateFormat df = new SimpleDateFormat("MM/yy");
-        Calendar cal1 = Calendar.getInstance();
-        cal1.set(Calendar.YEAR, 2024);
-        cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
-        Date date1 = cal1.getTime();
-
-        Calendar cal2 = Calendar.getInstance();
-        cal2.set(Calendar.YEAR, 2023);
-        cal2.set(Calendar.MONTH, Calendar.DECEMBER);
-        Date date2 = cal2.getTime();
-
-        Calendar cal3 = Calendar.getInstance();
-        cal3.set(Calendar.YEAR, 2021);
-        cal2.set(Calendar.MONTH, Calendar.APRIL);
-        Date date3 = cal3.getTime();
-
-        Calendar cal4 = Calendar.getInstance();
-        cal4.set(Calendar.YEAR, 2026);
-        cal4.set(Calendar.MONTH, Calendar.AUGUST);
-        Date date4 = cal4.getTime();
 
         // Inicializacion de la tabla de Tarjetas
 
-        Grid<Tarjeta> gridTarjetas = new Grid<>(Tarjeta.class, false);
-        gridTarjetas.addClassName("TablaCuentaTarjeta");
-        gridTarjetas.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Número de Tarjeta").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addColumn(tarjeta -> df.format(tarjeta.getFechaCaducidad())).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addColumn(tarjeta -> String.format("%03d", tarjeta.getCVV())).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetas.addComponentColumn(tarjeta -> {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
+
+        ArrayList<Tarjeta> tarjetasCliente = tarjetaService.findTarjetaByUUID(VaadinSession.getCurrent().getAttribute(Cliente.class).getUUID());
+
+        gridTarjetasCliente = new Grid<>();
+        gridTarjetasCliente.setItems(tarjetasCliente);
+        gridTarjetasCliente.addClassName("TablaCuentaTarjeta");
+        gridTarjetasCliente.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
+        gridTarjetasCliente.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetasCliente.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
+        gridTarjetasCliente.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetasCliente.addComponentColumn(tarjeta -> {
             ToggleButton toggleButton = new ToggleButton();
             toggleButton.setValue(tarjeta.getActiva());
+            toggleButton.getElement().addEventListener("click", event -> {
+                tarjeta.setActiva(toggleButton.getValue());
+                tarjetaService.update(tarjeta);
+            });
             return toggleButton;
         }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);
-        //gridTarjetas.setItems(tarjeta1, tarjeta2, tarjeta3, tarjeta4);
-        gridTarjetas.setWidthFull();
+        gridTarjetasCliente.setWidthFull();
 
-        var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetas);
+        var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetasCliente);
         var vlTitulo = new VerticalLayout(Titulo);
 
 
@@ -136,5 +135,11 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
         vlCuentasTarjetas.addClassName("vlCuentasTarjetas");
 
         return vlCuentasTarjetas;
+    }
+
+    @PostConstruct
+    public void init() {
+        add(CuentasTarjetasCliente());
+        add(FooterView.Footer());
     }
 }

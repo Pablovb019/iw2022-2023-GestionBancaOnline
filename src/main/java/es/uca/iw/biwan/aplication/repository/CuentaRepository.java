@@ -23,6 +23,16 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
                     @Param("balance") Double balance
     );
 
+    @Transactional
+    @Modifying
+    @Query(
+            value = "INSERT INTO usuario_cuentas VALUES (:uuid, :iban)",
+            nativeQuery = true
+    )
+    void relacionarCuenta(@Param("iban") String iban,
+                          @Param("uuid") UUID uuid
+    );
+
     @Query(
             value = "SELECT balance FROM Cuenta WHERE uuid = :uuid",
             nativeQuery = true
@@ -41,4 +51,11 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
             nativeQuery = true
     )
     Cuenta findCuentaByIban(String Iban);
+
+    @Query(
+            value = "SELECT * from Cuenta INNER JOIN Usuario_Cuentas ON Cuenta.iban = Usuario_Cuentas.cuentas_iban" +
+                    " AND Usuario_Cuentas.clientes_uuid = :uuid",
+            nativeQuery = true
+    )
+    ArrayList<Cuenta> findCuentaByCliente(UUID uuid);
 }

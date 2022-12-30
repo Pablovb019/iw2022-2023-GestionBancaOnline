@@ -2,8 +2,11 @@ package es.uca.iw.biwan.views.usuarios;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
@@ -12,15 +15,19 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.CuentaService;
+import es.uca.iw.biwan.aplication.service.TarjetaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
+import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
-import es.uca.iw.biwan.views.cuentasTarjetas.crearCuenta;
-import es.uca.iw.biwan.views.cuentasTarjetas.crearTarjeta;
 import es.uca.iw.biwan.views.cuentasTarjetasGestor.cuentasTarjetasGestorView;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 
@@ -29,7 +36,14 @@ import java.util.ArrayList;
 @Route("pagina-principal-gestor")
 public class GestorView extends VerticalLayout {
 
+    @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private CuentaService cuentaService;
+
+    @Autowired
+    private TarjetaService tarjetaService;
 
     public GestorView(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
@@ -82,17 +96,47 @@ public class GestorView extends VerticalLayout {
             Anchor NombreCliente = new Anchor("");
             NombreCliente.setText(cliente.getNombre() + " " + cliente.getApellidos());
             Anchor CuentasYTarjetasButton = new Anchor("cuentas-tarjetas-gestor", "Cuentas y tarjetas");
+
             CuentasYTarjetasButton.getElement().addEventListener("click", event -> {
-                cuentasTarjetasGestorView.setUsuarioSeleccionado(cliente);
+                cuentasTarjetasGestorView.cliente = (Cliente) cliente;
             });
-            Anchor CrearCuentaButton = new Anchor("crear-cuenta-gestor", "Crear Cuenta");
-            CrearCuentaButton.getElement().addEventListener("click", event -> {
-                crearCuenta.setUsuarioSeleccionado(cliente);
+            Button CrearCuentaButton = new Button("Crear cuenta");
+            CrearCuentaButton.getElement().getStyle().set("cursor", "pointer");
+
+            Button CrearTarjetaButton = new Button("Crear tarjeta");
+            CrearTarjetaButton.getElement().getStyle().set("cursor", "pointer");
+
+            CrearCuentaButton.addClickListener(event -> {
+                Cuenta nuevaCuenta = new Cuenta();
+                cuentaService.save(nuevaCuenta, (Cliente) cliente);
+                new ConfirmDialog("Cuenta creada", "La cuenta ha sido creada correctamente", "Aceptar", null).open();
             });
-            Anchor CrearTarjetaButton = new Anchor("crear-tarjeta-gestor", "Crear Tarjeta");
-            CrearTarjetaButton.getElement().addEventListener("click", event -> {
-                crearTarjeta.setUsuarioSeleccionado(cliente);
+
+            CrearTarjetaButton.addClickListener(event -> {
+                Dialog dialog = new Dialog();
+                dialog.setHeaderTitle("Crear tarjeta");
+
+                VerticalLayout dialogLayout = new VerticalLayout();
+                ComboBox<Cuenta> cuentas = new ComboBox<>("Cuentas");
+                cuentas.setItems(cuentaService.findCuentaByCliente(cliente));
+                cuentas.setItemLabelGenerator(Cuenta::getIBAN);
+                cuentas.setRequired(true);
+                cuentas.setRequiredIndicatorVisible(true);
+
+                Button crearTarjeta = new Button("Crear tarjeta");
+                crearTarjeta.getElement().getStyle().set("cursor", "pointer");
+                crearTarjeta.addClickListener(event1 -> {
+                    Tarjeta nuevaTarjeta = new Tarjeta();
+                    tarjetaService.save(nuevaTarjeta, cuentas.getValue());
+                    new ConfirmDialog("Tarjeta creada", "La tarjeta ha sido creada correctamente", "Aceptar", null).open();
+                    dialog.close();
+                });
+
+                dialogLayout.add(cuentas, crearTarjeta);
+                dialog.add(dialogLayout);
+                dialog.open();
             });
+
             Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
             Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
             Span counterOnline = new Span("1");
