@@ -133,7 +133,7 @@ public class PagoTarjetaEndpoint {
             System.out.println(">>>> Recibida peticion de compra. Se requiere autorizacion mediante token de seguridad... <<<<");
             System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");
 
-            if (nuevoPagoTarjeta.getType() == TipoPago.ONLINE) {
+            if (nuevoPagoTarjeta.getType() == TipoPago.ONLINE && nuevoPagoTarjeta.getSecurityToken() == null) {
                 System.out.println(">>>> Se ha detectado que el pago es online. Se procede a enviar un SMS al usuario para que confirme la operacion... <<<<");
                 int telefono = cliente.getTelefono().intValue();
                 System.out.println(">>>> Se ha detectado que el telefono del usuario es: " + telefono + " <<<<");
@@ -148,34 +148,56 @@ public class PagoTarjetaEndpoint {
                                 + ".\nSi usted no ha realizado esta operación, contacte con su banco lo antes posible."
                 ).create();
                 System.out.println(">>>> Se ha enviado el SMS al usuario con el codigo de seguridad. <<<<");
-                nuevoPagoTarjeta.setSecurityToken(Integer.parseInt(CodigoSeguridad));
             }
 
-            // ONLINE
+            if (nuevoPagoTarjeta.getId() != null && nuevoPagoTarjeta.getPaymentStatus().equals(Estado.SECURITY_TOKEN_REQUIRED) && nuevoPagoTarjeta.getSecurityToken() != null) {
+                TipoPago tipoPago = nuevoPagoTarjeta.getType();
+                switch (tipoPago) {
+                    case OFFLINE:{
+                        if (!Objects.equals(nuevoPagoTarjeta.getSecurityToken(), tarjeta.getPIN())){
+                            nuevoPagoTarjeta.setPaymentStatus(Estado.REJECTED);
+                            System.out.println(">>>> Compra anulada ya que el PIN no coincide con el de la tarjeta. <<<<");
+                            System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");
+                            pagoTarjetaService.savePagoTarjeta(nuevoPagoTarjeta, tarjeta);
+                        } else {
+                            nuevoPagoTarjeta.setPaymentStatus(Estado.ACCEPTED);
+                            System.out.println(">>>> Compra aceptada. El PIN es correcto <<<<");
+                            System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");
+                            pagoTarjetaService.savePagoTarjeta(nuevoPagoTarjeta, tarjeta);
 
-            if (!Objects.equals(String.valueOf(nuevoPagoTarjeta.getSecurityToken()), CodigoSeguridad) && nuevoPagoTarjeta.getType() == TipoPago.ONLINE) {
-                nuevoPagoTarjeta.setPaymentStatus(Estado.REJECTED);
-                System.out.println(">>>> Compra anulada ya que el codigo de seguridad no coincide con el enviado al usuario. <<<<");
-                System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");
-                pagoTarjetaService.savePagoTarjeta(nuevoPagoTarjeta, tarjeta);
-                return nuevoPagoTarjeta;
-            }
+                            double nuevoBalance = cuenta.getBalance() - nuevoPagoTarjeta.getValue().doubleValue();
+                            cuenta.setBalance(nuevoBalance);
+                            cuentaService.updateBalance(cuenta);
 
-            if (nuevoPagoTarjeta.getId() != null && nuevoPagoTarjeta.getPaymentStatus().equals(Estado.SECURITY_TOKEN_REQUIRED) && nuevoPagoTarjeta.getSecurityToken() != null && nuevoPagoTarjeta.getType() == TipoPago.ONLINE) {
-                nuevoPagoTarjeta.setPaymentStatus(Estado.ACCEPTED);
-                System.out.println(">>>> Recibida autorizacion de compra. Compra ONLINE aceptada. <<<<");
-                System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");
-                pagoTarjetaService.savePagoTarjeta(nuevoPagoTarjeta, tarjeta);
-                return nuevoPagoTarjeta;
-            }
+                            double nuevoLimiteTarjeta = tarjeta.getLimiteGasto() - nuevoPagoTarjeta.getValue().doubleValue();
+                            tarjeta.setLimiteGasto(nuevoLimiteTarjeta);
+                            tarjetaService.updateLimiteGasto(tarjeta);
+                        }
+                        return nuevoPagoTarjeta;
+                    }
+                    case ONLINE:{
+                        if (!Objects.equals(nuevoPagoTarjeta.getSecurityToken(), Integer.parseInt(CodigoSeguridad))){
+                            nuevoPagoTarjeta.setPaymentStatus(Estado.REJECTED);
+                            System.out.println(">>>> Compra anulada ya que el codigo de seguridad no coincide con el enviado por SMS. <<<<");
+                            System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");
+                            pagoTarjetaService.savePagoTarjeta(nuevoPagoTarjeta, tarjeta);
+                            return nuevoPagoTarjeta;
+                        } else {
+                            nuevoPagoTarjeta.setPaymentStatus(Estado.ACCEPTED);
+                            System.out.println(">>>> Compra aceptada. El codigo de seguridad es correcto <<<<");
+                            System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");
+                            pagoTarjetaService.savePagoTarjeta(nuevoPagoTarjeta, tarjeta);
 
-            // OFFLINE
+                            double nuevoBalance = cuenta.getBalance() - nuevoPagoTarjeta.getValue().doubleValue();
+                            cuenta.setBalance(nuevoBalance);
+                            cuentaService.updateBalance(cuenta);
 
-            if (nuevoPagoTarjeta.getId() != null && nuevoPagoTarjeta.getPaymentStatus().equals(Estado.SECURITY_TOKEN_REQUIRED) && nuevoPagoTarjeta.getSecurityToken() != null && nuevoPagoTarjeta.getType() == TipoPago.OFFLINE) {
-                nuevoPagoTarjeta.setPaymentStatus(Estado.ACCEPTED);
-                System.out.println(">>>> Recibida autorizacion de compra. Compra OFFLINE aceptada. <<<<");
-                System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");
-                pagoTarjetaService.savePagoTarjeta(nuevoPagoTarjeta, tarjeta);
+                            double nuevoLimiteTarjeta = tarjeta.getLimiteGasto() - nuevoPagoTarjeta.getValue().doubleValue();
+                            tarjeta.setLimiteGasto(nuevoLimiteTarjeta);
+                            tarjetaService.updateLimiteGasto(tarjeta);
+                        }
+                    }
+                }
             }
         }
         return nuevoPagoTarjeta;
