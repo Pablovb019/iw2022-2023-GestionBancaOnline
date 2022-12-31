@@ -32,7 +32,7 @@ public class HeaderUsuarioLogueadoView {
         HorizontalLayout headerMiddle = new HorizontalLayout();
         HorizontalLayout headerRight = new HorizontalLayout();
         Anchor Biwan = new Anchor("", new Image("images/logo.png", "Biwan"));
-        Anchor MasInfo = new Anchor("", "Más información");
+        Anchor MasInfo = new Anchor("mas-informacion", "Más información");
         String nombre;
         String rol;
         Anchor AjustesUsuario;

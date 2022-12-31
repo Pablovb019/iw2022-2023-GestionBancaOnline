@@ -1,0 +1,35 @@
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}
+
+.Titulo {
+    margin-top: 50px !important;
+    margin-left: 0px !important;
+}
+
+.Numero {
+    color: #27AE60;
+    font-weight: bold;
+}
+
+.textoMasInformacion {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    margin-left: 35px !important;
+    color: black;
+    font-weight: normal !important;
+}
+
+.SubtituloMasInformacion {
+    font-weight: bold;
+}
+
+.tab {
+    padding-left: 30px;
+}
+
+.layoutTextoMasInformacion {
+    margin-bottom: 50px;
+}

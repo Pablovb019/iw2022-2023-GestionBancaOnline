@@ -27,7 +27,7 @@ public class HeaderView {
         HorizontalLayout headerRight = new HorizontalLayout();
         Anchor Biwan = new Anchor("", new Image("images/logo.png", "Biwan"));
         Anchor PaginaPrincipalAnchor = new Anchor("login", "Página principal");
-        Anchor MasInfo = new Anchor("", "Más información");
+        Anchor MasInfo = new Anchor("mas-informacion", "Más información");
         Anchor HazteCliente = new Anchor("registration", "+ Hazte cliente");
         Anchor Acceso = new Anchor("login", "Acceso");
         Anchor CuentasTarjetasMenuItem = new Anchor("login", "Cuentas y tarjetas");
