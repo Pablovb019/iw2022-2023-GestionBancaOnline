@@ -18,7 +18,7 @@ public class Consulta {
     @Column(length = 16)
     private UUID uuid;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 16)
     private UUID autor;
 
     @Column(nullable = false)

@@ -7,6 +7,8 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.messages.MessageList;
@@ -19,8 +21,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
+import es.uca.iw.biwan.domain.comunicaciones.Noticia;
+import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.consulta.Consulta;
 import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
@@ -28,8 +33,10 @@ import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -55,23 +62,6 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                     UI.getCurrent().navigate("");
                 });
                 error.open();
-            } else {
-                //NEW
-                VerticalLayout layoutConsultaOffline = new VerticalLayout();
-                VerticalLayout layoutConsultas = new VerticalLayout();
-
-                //ADD CLASS NAME
-                layoutConsultas.addClassName("layoutConsultas");
-
-                //ADD
-                layoutConsultas.add(ConsultasOffline());
-                layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
-
-                //ALIGNMENT
-                layoutConsultaOffline.expand(layoutConsultas);
-                layoutConsultaOffline.setSizeFull();
-
-                add(layoutConsultaOffline);
             }
         } else {
             ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
@@ -119,12 +109,12 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         Button ButtonSubmit = new Button("Enviar");
 
         VaadinSession session = VaadinSession.getCurrent();
-        String nombre = session.getAttribute(Usuario.class).getNombre();
+        Cliente cliente = session.getAttribute(Cliente.class);
 
         ButtonSubmit.addClickShortcut(Key.ENTER);
         ButtonSubmit.addClickListener(submitEvent -> {
             if(!CajaMensaje.getValue().equals("")) {
-                MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), nombre);
+                MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), cliente.getNombre());
                 newMessage.setUserColorIndex(3);
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
                 items.add(newMessage);
@@ -134,11 +124,11 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                 consulta.setFecha(LocalDateTime.now());
                 consulta.setTipo(TipoConsulta.OFFLINE.toString());
                 consulta.setTexto(CajaMensaje.getValue());
-                consulta.setAutor(session.getAttribute(Usuario.class).getUUID());
-                consulta.setCliente(session.getAttribute(Usuario.class));
+                consulta.setAutor(session.getAttribute(Cliente.class).getUUID());
+                consulta.setCliente(session.getAttribute(Cliente.class));
                 ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
                 for(Usuario gestor : gestores) {
-                    if(gestor.getUUID().equals(session.getAttribute(Usuario.class).getGestor_id())) {
+                    if(gestor.getUUID().equals(session.getAttribute(Cliente.class).getGestor_id())) {
                         consulta.setGestor(gestor);
                         break;
                     }
@@ -147,11 +137,6 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                 CajaMensaje.setValue("");
             }
         });
-
-        MessageListItem Presentacion = new MessageListItem("Escriba su consulta, le atenderé lo antes posible.",
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).minus(1, ChronoUnit.HOURS), "Gestor");
-        Presentacion.setUserColorIndex(1);
-        list.setItems(Presentacion);
 
         list.addClassName("list");
         MensajeSubmit.expand(CajaMensaje);
@@ -162,6 +147,45 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         chatLayout.addClassName("chatLayout");
         chatLayout.expand(list);
 
+        // Obtenemos los mensajes
+        ArrayList<Consulta> mensajesClienteGestor = consultaService.findMensajesClienteGestor(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), cliente.getGestor_id());
+        ArrayList<Consulta> mensajesOrdenados = new ArrayList<>();
+        for(Consulta mensaje : mensajesClienteGestor) {
+            if(mensajesOrdenados.size() == 0) {
+                mensajesOrdenados.add(mensaje);
+            } else {
+                for(int i = 0; i < mensajesOrdenados.size(); i++) {
+                    if(mensaje.getFecha().isBefore(mensajesOrdenados.get(i).getFecha())) {
+                        mensajesOrdenados.add(i, mensaje);
+                        break;
+                    } else if(i == mensajesOrdenados.size() - 1) {
+                        mensajesOrdenados.add(mensaje);
+                        break;
+                    }
+                }
+            }
+        }
+
+        for(Consulta mensaje : mensajesOrdenados) {
+            if(mensaje.getAutor().equals(cliente.getUUID())) {
+                MessageListItem newMessage = new MessageListItem(mensaje.getTexto(), mensaje.getFecha().toInstant(ZoneId.of("Europe/Berlin").getRules().getOffset(LocalDateTime.now())), cliente.getNombre());
+                newMessage.setUserColorIndex(3);
+                List<MessageListItem> items = new ArrayList<>(list.getItems());
+                items.add(newMessage);
+                list.setItems(items);
+            } else {
+                ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
+                for(Usuario gestor : gestores) {
+                    if(mensaje.getAutor().equals(gestor.getUUID())) {
+                        MessageListItem newMessage = new MessageListItem(mensaje.getTexto(), mensaje.getFecha().toInstant(ZoneId.of("Europe/Berlin").getRules().getOffset(LocalDateTime.now())), gestor.getNombre());
+                        newMessage.setUserColorIndex(1);
+                        List<MessageListItem> items = new ArrayList<>(list.getItems());
+                        items.add(newMessage);
+                        list.setItems(items);
+                    }
+                }
+            }
+        }
         return chatLayout;
     }
 
@@ -173,5 +197,25 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                     "Error: " + e, "Aceptar", null);
             error.open();
         }
+    }
+
+    @PostConstruct
+    public void init() {
+        //NEW
+        VerticalLayout layoutConsultaOffline = new VerticalLayout();
+        VerticalLayout layoutConsultas = new VerticalLayout();
+
+        //ADD CLASS NAME
+        layoutConsultas.addClassName("layoutConsultas");
+
+        //ADD
+        layoutConsultas.add(ConsultasOffline());
+        layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
+
+        //ALIGNMENT
+        layoutConsultaOffline.expand(layoutConsultas);
+        layoutConsultaOffline.setSizeFull();
+
+        add(layoutConsultaOffline);
     }
 }
