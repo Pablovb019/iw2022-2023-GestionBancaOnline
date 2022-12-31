@@ -60,12 +60,4 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
             nativeQuery = true
     )
     ArrayList<Cuenta> findCuentaByCliente(UUID uuid);
-
-    @Query(
-            value = "SELECT *  FROM Cliente INNER JOIN Usuario_Cuentas ON Cliente.uuid = Usuario_Cuentas.clientes_uuid" +
-                    " AND Usuario_Cuentas.cuentas_iban = :iban",
-            nativeQuery = true
-    )
-    Cliente findClienteByCuenta(String iban);
-
 }

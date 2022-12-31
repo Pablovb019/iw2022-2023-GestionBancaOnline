@@ -1,9 +1,11 @@
 package es.uca.iw.biwan.domain.operaciones;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -11,76 +13,84 @@ import javax.persistence.*;
 public class Movimiento {
 
     @Id
-    @GeneratedValue
     @Column(length = 16)
-    private UUID uuid;
-    @Column(nullable = false)
-    protected double importe;
-    @Column(nullable = false)
-    protected LocalDateTime fecha;
-    @Column(nullable = false)
-    protected double balanceRestante;
+    private UUID id;
 
-    public static class ImporteInvalidoException extends Exception {
-        public ImporteInvalidoException(String message) {
-            super(message);
-        }
+    @Column(columnDefinition="varchar(255)")
+    private Estado transactionStatus;
+
+    private String issuer;
+
+    @Column(columnDefinition="varchar(255)")
+    private TransaccionBancaria transactionType;
+
+    @NotEmpty(message = "El concepto es obligatorio")
+    private String concept;
+
+    @NotEmpty(message = "El IBAN es obligatorio")
+    private String iban;
+
+    @NotNull(message = "El importe es obligatorio")
+    private BigDecimal value;
+
+    public String getConcept() {
+        return this.concept;
     }
 
-    public static class FechaInvalidaException extends Exception {
-        public FechaInvalidaException(String message) {
-            super(message);
-        }
+    public void setConcept(String concept) {
+        this.concept = concept;
     }
 
-    public static class BalanceRestanteInvalidoException extends Exception {
-        public BalanceRestanteInvalidoException(String message) {
-            super(message);
-        }
+    public String getIban() {
+        return this.iban;
     }
 
-    public Movimiento(double importe, LocalDateTime fecha, double balanceRestante) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
-        this.uuid = UUID.randomUUID();
-
-        if(importe == 0)
-            throw new ImporteInvalidoException("El importe no puede ser 0");
-        this.importe = importe;
-
-        if(fecha == null || fecha.isAfter(LocalDateTime.now()))
-            throw new FechaInvalidaException("La fecha no puede ser nula");
-        this.fecha = fecha;
-
-        if(balanceRestante <= 0)
-            throw new BalanceRestanteInvalidoException("No dispone de suficiente balance");
-        this.balanceRestante = balanceRestante;
+    public void setIban(String iban) {
+        this.iban = iban;
     }
 
-    public Movimiento() {
-
+    public BigDecimal getValue() {
+        return this.value;
     }
 
-    public double getImporte() {
-        return importe;
+    public void setValue(BigDecimal value) {
+        this.value = value;
     }
 
-    public void setImporte(double importe) {
-        this.importe = importe;
+    public UUID getId() {
+        return this.id;
     }
 
-    public LocalDateTime getFecha() {
-        return fecha;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
+    public Estado getTransactionStatus() {
+        return this.transactionStatus;
     }
 
-    public double getBalanceRestante() {
-        return balanceRestante;
+    public void setTransactionStatus(Estado transactionStatus) {
+        this.transactionStatus = transactionStatus;
     }
 
-    public void setBalanceRestante(double balanceRestante) {
-        this.balanceRestante = balanceRestante;
+    public TransaccionBancaria getTransactionType() {
+        return this.transactionType;
+    }
+
+    public void setTransactionType(TransaccionBancaria transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public String getIssuer() {
+        return this.issuer;
+    }
+
+    public void setIssuer(String issuer) {
+        this.issuer = issuer;
+    }
+
+    public String toString() {
+        return "BankTransaction [id=" + this.id + ", transactionStatus=" + String.valueOf(this.transactionStatus) + ", issuer=" + this.issuer + ", transactionType=" + String.valueOf(this.transactionType) + ", concept=" + this.concept + ", iban=" + this.iban + ", value=" + String.valueOf(this.value) + "]";
     }
 
 }

@@ -40,6 +40,4 @@ public class CuentaService {
     public Cuenta findCuentaByIban(String Iban) { return  cuentaRepository.findCuentaByIban(Iban); }
 
     public ArrayList<Cuenta> findCuentaByCliente(Usuario usuario) { return cuentaRepository.findCuentaByCliente(usuario.getUUID()); }
-
-    public Cliente findClienteByCuenta(Cuenta cuenta) { return cuentaRepository.findClienteByCuenta(cuenta.getIBAN()); }
 }

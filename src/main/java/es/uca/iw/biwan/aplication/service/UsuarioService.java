@@ -1,6 +1,7 @@
 package es.uca.iw.biwan.aplication.service;
 
 import es.uca.iw.biwan.aplication.repository.UsuarioRepository;
+import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
@@ -47,6 +48,8 @@ public class UsuarioService {
     public void updateCliente(Cliente cliente) {
         usuarioRepository.updateCliente(cliente.getUUID(), cliente.getNombre(), cliente.getApellidos(), cliente.getFechaNacimiento(), cliente.getTelefono(), cliente.getDni(), cliente.getEmail(), cliente.getPassword());
     }
+
+    public Cliente findClienteByCuenta(Cuenta cuenta) { return usuarioRepository.findClienteByCuenta(cuenta.getUUID()); }
 
     // GESTOR
 

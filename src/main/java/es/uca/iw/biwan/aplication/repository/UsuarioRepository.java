@@ -78,6 +78,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
                        @Param("password") String password
     );
 
+    @Query(
+            value = "SELECT * from Usuario INNER JOIN Usuario_Cuentas ON Usuario.uuid = Usuario_Cuentas.clientes_uuid" +
+                    " AND Usuario_Cuentas.cuentas_uuid = :uuid AND Usuario.rol = 'Cliente'",
+            nativeQuery = true
+    )
+    Cliente findClienteByCuenta(@Param("uuid") UUID uuid);
+
     // GESTOR
 
     @Modifying
