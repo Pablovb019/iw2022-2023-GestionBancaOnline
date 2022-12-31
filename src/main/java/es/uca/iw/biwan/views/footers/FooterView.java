@@ -26,7 +26,7 @@ public class FooterView {
         Anchor Cookies = new Anchor("cookies", "Cookies");
         Anchor InformesLegales = new Anchor("informes-legales", "Informes legales");
         Anchor TablonAnuncios = new Anchor("", "Tablón de anuncios");
-        Anchor NegocioResponsable = new Anchor("", "Negocio responsable");
+        Anchor NegocioResponsable = new Anchor("negocio-responsable", "Negocio responsable");
 
         //ADD CLASS NAME
         footer.addClassName("header_footer");

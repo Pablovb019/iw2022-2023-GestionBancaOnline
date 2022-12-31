@@ -16,11 +16,10 @@ flow-container-root-2521314 {
     font-weight: normal !important;
 }
 
-.Subtitulo {
-    font-weight: bold;
-    text-decoration: underline;
+.tab {
+    padding-left: 30px;
 }
 
-.layoutTextoTarifas {
+.layoutTextoNegocioResponsable {
     margin-bottom: 50px;
 }

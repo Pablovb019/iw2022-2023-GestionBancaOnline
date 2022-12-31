@@ -73,14 +73,12 @@ public class TarifasView extends VerticalLayout{
         //ADD CLASS NAME
         Titulo.addClassName("Titulo");
         layoutTextoTarifas.addClassName("layoutTextoTarifas");
-        CuentaBiwan.addClassNames("texto", "verde");
         CuentaBiwan1.addClassName("texto");
         CuentaBiwan2.addClassName("texto");
         CuentaBiwan3.addClassName("texto");
         SubTituloCuentaBiwan.addClassName("Subtitulo");
         CaracteristicaCuentaBiwan1.addClassName("texto");
         CaracteristicaCuentaBiwan2.addClassName("texto");
-        CuentaJoven.addClassNames("texto", "verde");
         CuentaJoven1.addClassName("texto");
         CuentaJoven2.addClassName("texto");
         SubTituloCuentaJoven.addClassName("Subtitulo");
@@ -88,7 +86,6 @@ public class TarifasView extends VerticalLayout{
         CaracteristicaCuentaJoven2.addClassName("texto");
         CaracteristicaCuentaJoven3.addClassName("texto");
         CaracteristicaCuentaJoven4.addClassName("texto");
-        TarifasGenerales.addClassNames("texto", "verde");
         TarifasGenerales1.addClassName("texto");
         TarifasGenerales2.addClassName("texto");
         TarifasGenerales3.addClassName("texto");
