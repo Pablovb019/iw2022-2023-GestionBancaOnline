@@ -35,6 +35,13 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
                           @Param("uuid_cliente") UUID uuid_cliente
     );
 
+    @Modifying
+    @Query(
+            value = "DELETE Usuario_Cuentas FROM Usuario_Cuentas JOIN Cuenta ON Usuario_Cuentas.cuentas_uuid = Cuenta.uuid WHERE Cuenta.uuid = :uuid",
+            nativeQuery = true
+    )
+    void deleteCuenta(@Param("uuid") UUID uuid);
+
     @Query(
             value = "SELECT balance FROM Cuenta WHERE uuid = :uuid",
             nativeQuery = true

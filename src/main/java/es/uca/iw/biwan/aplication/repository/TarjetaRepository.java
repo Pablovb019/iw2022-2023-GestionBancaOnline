@@ -44,6 +44,13 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
                     @Param("limite_gasto") Double limite_gasto
     );
 
+    @Modifying
+    @Query(
+            value = "DELETE FROM Tarjeta WHERE Tarjeta.uuid = :uuid",
+            nativeQuery = true
+    )
+    void deleteTarjeta(@Param("uuid") UUID uuid);
+
     @Query(
             value = "SELECT * from Tarjeta INNER JOIN Usuario_Cuentas ON Tarjeta.cuenta_id = Usuario_Cuentas.cuentas_uuid" +
                     " AND Usuario_Cuentas.clientes_uuid = :uuid",
@@ -52,7 +59,8 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     ArrayList<Tarjeta> findTarjetaByUUID(UUID uuid);
 
     @Query(
-            value = "SELECT tarjeta.cuenta_id FROM Tarjeta WHERE tarjeta.numero_tarjeta = :numero_tarjeta",
+            value = "SELECT Cuenta.iban FROM Cuenta INNER JOIN Tarjeta ON Cuenta.uuid = Tarjeta.cuenta_id " +
+                    "AND Tarjeta.numero_tarjeta = :numero_tarjeta",
             nativeQuery = true
     )
     String findIbanByNumeroTarjeta(String numero_tarjeta);
@@ -62,4 +70,10 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
             nativeQuery = true
     )
     Tarjeta findTarjetaByNumeroTarjeta(String numeroTarjeta);
+
+    @Query(
+            value = "SELECT COUNT(uuid) FROM Tarjeta WHERE Tarjeta.cuenta_id = :uuid",
+            nativeQuery = true
+    )
+    int findTarjetaByCuentaUUID(UUID uuid);
 }

@@ -11,6 +11,7 @@ import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CuentaService {
@@ -20,6 +21,9 @@ public class CuentaService {
         cuentaRepository.insertCuenta(cuenta.getUUID(), cuenta.getIBAN(), cuenta.getBalance());
         cuentaRepository.relacionarCuenta(cuenta.getUUID(), cliente.getUUID());
     }
+
+    @Transactional
+    public void delete(Cuenta cuenta) { cuentaRepository.deleteCuenta(cuenta.getUUID()); }
 
     @Autowired
     public CuentaService(CuentaRepository cuentaRepository) {

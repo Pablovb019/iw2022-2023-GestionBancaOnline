@@ -3,6 +3,7 @@ package es.uca.iw.biwan.views.cuentasTarjetasGestor;
 import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -34,13 +35,13 @@ import java.util.ArrayList;
 
 @Route("cuentas-tarjetas-gestor")
 @CssImport(value = "./styles/components/vaadin-checkbox.css", themeFor = "vaadin-checkbox")
+@CssImport("./themes/biwan/cuentasTarjetasGestor.css")
 @PageTitle("Cuentas y Tarjetas")
 
 public class cuentasTarjetasGestorView extends VerticalLayout {
     private UsuarioService usuarioService;
     private CuentaService cuentaService;
     private TarjetaService tarjetaService;
-    private ComboBox<Usuario> comboBoxUsuarioCliente;
     private Grid<Cuenta> gridCuentasClienteSeleccionado;
     private Grid<Tarjeta> gridTarjetasClienteSeleccionado;
 
@@ -109,8 +110,36 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
             gridCuentasClienteSeleccionado = new Grid<>();
             gridCuentasClienteSeleccionado.setItems(cuentasCliente);
             gridCuentasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
-            gridCuentasClienteSeleccionado.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER);
+            gridCuentasClienteSeleccionado.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
             gridCuentasClienteSeleccionado.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER);
+            gridCuentasClienteSeleccionado.addComponentColumn(cuenta -> {
+                Button EliminarCuenta = new Button("Eliminar");
+                EliminarCuenta.addClassName("EliminarCuentaTarjeta");
+                EliminarCuenta.getElement().addEventListener("click", event -> {
+                    if(tarjetaService.findTarjetaByCuentaUUID(cuenta.getUUID()) == 0) {
+                        ConfirmDialog ConfirmarEliminarCuenta = new ConfirmDialog();
+                        ConfirmarEliminarCuenta.open();
+                        ConfirmarEliminarCuenta.setHeader("Eliminar cuenta");
+                        ConfirmarEliminarCuenta.setText("¿Estás seguro de que quieres eliminar esta cuenta?");
+                        ConfirmarEliminarCuenta.setCancelable(true);
+                        ConfirmarEliminarCuenta.setConfirmButtonTheme("error primary");
+                        ConfirmarEliminarCuenta.setConfirmText("Eliminar");
+                        ConfirmarEliminarCuenta.addConfirmListener(event2 -> {
+                            cuentaService.delete(cuenta);
+                            ConfirmDialog AceptarYRecargar = new ConfirmDialog();
+                            AceptarYRecargar.open();
+                            AceptarYRecargar.setHeader("Cuenta eliminada");
+                            AceptarYRecargar.setText("La cuenta ha sido eliminada correctamente");
+                            AceptarYRecargar.setConfirmText("Aceptar");
+                            AceptarYRecargar.addConfirmListener(event3 -> {
+                                UI.getCurrent().getPage().reload();
+                            });
+                        });
+                    }
+                    else new ConfirmDialog("No permitido", "La cuenta no se puede eliminar si tiene asignada alguna tarjeta", "Aceptar", null).open();
+                });
+                return EliminarCuenta;
+            }).setHeader("Eliminar").setTextAlign(ColumnTextAlign.CENTER);
             gridCuentasClienteSeleccionado.setWidthFull();
         }
 
@@ -120,31 +149,50 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
 
         ArrayList<Tarjeta> tarjetasCliente = tarjetaService.findTarjetaByUUID(cliente.getUUID());
 
-        if (tarjetasCliente.size() == 0) {
-            ConfirmDialog error = new ConfirmDialog("Error", "No hay tarjetas para este cliente. Por favor, cree una tarjeta", "Aceptar", event -> {
-                UI.getCurrent().navigate("pagina-principal-gestor");
+        gridTarjetasClienteSeleccionado = new Grid<>();
+        gridTarjetasClienteSeleccionado.setItems(tarjetasCliente);
+        gridTarjetasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);;
+        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
+        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetasClienteSeleccionado.addComponentColumn(tarjeta -> {
+            ToggleButton toggleButton = new ToggleButton();
+            toggleButton.setValue(tarjeta.getActiva());
+            toggleButton.getElement().addEventListener("click", event -> {
+                tarjeta.setActiva(toggleButton.getValue());
+                tarjetaService.update(tarjeta);
             });
-            error.open();
-        } else {
-            gridTarjetasClienteSeleccionado = new Grid<>();
-            gridTarjetasClienteSeleccionado.setItems(tarjetasCliente);
-            gridTarjetasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
-            gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-            gridTarjetasClienteSeleccionado.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
-            gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
-            gridTarjetasClienteSeleccionado.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
-            gridTarjetasClienteSeleccionado.addComponentColumn(tarjeta -> {
-                ToggleButton toggleButton = new ToggleButton();
-                toggleButton.setValue(tarjeta.getActiva());
-                toggleButton.getElement().addEventListener("click", event -> {
-                    tarjeta.setActiva(toggleButton.getValue());
-                    tarjetaService.update(tarjeta);
+            return toggleButton;
+        }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetasClienteSeleccionado.addComponentColumn(tarjeta -> {
+            Button EliminarTarjeta = new Button("Eliminar");
+            EliminarTarjeta.addClassName("EliminarCuentaTarjeta");
+            EliminarTarjeta.getElement().addEventListener("click", event -> {
+                String ibanTarjetaAEliminar = tarjetaService.findIbanByNumeroTarjeta(tarjeta.getNumeroTarjeta());
+                ConfirmDialog ConfirmarEliminarTarjeta = new ConfirmDialog();
+                ConfirmarEliminarTarjeta.open();
+                ConfirmarEliminarTarjeta.setHeader("Eliminar tarjeta");
+                ConfirmarEliminarTarjeta.setText("¿Estás seguro de que quieres eliminar esta tarjeta? Pertenece " +
+                        "a la cuenta " + ibanTarjetaAEliminar);
+                ConfirmarEliminarTarjeta.setCancelable(true);
+                ConfirmarEliminarTarjeta.setConfirmButtonTheme("error primary");
+                ConfirmarEliminarTarjeta.setConfirmText("Eliminar");
+                ConfirmarEliminarTarjeta.addConfirmListener(event2 -> {
+                    tarjetaService.delete(tarjeta);
+                    ConfirmDialog AceptarYRecargar = new ConfirmDialog();
+                    AceptarYRecargar.open();
+                    AceptarYRecargar.setHeader("Tarjeta eliminada");
+                    AceptarYRecargar.setText("La tarjeta ha sido eliminada correctamente");
+                    AceptarYRecargar.setConfirmText("Aceptar");
+                    AceptarYRecargar.addConfirmListener(event3 -> {
+                        UI.getCurrent().getPage().reload();
+                    });
                 });
-                return toggleButton;
-            }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);
+            });
+            return EliminarTarjeta;
+        }).setHeader("Eliminar").setTextAlign(ColumnTextAlign.CENTER);
             gridTarjetasClienteSeleccionado.setWidthFull();
-        }
-
 
         var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetasClienteSeleccionado);
         var vlTitulo = new VerticalLayout(Titulo);

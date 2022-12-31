@@ -6,6 +6,7 @@ import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -27,9 +28,14 @@ public class TarjetaService {
         tarjetaRepository.updateTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto());
     }
 
+    @Transactional
+    public void delete(Tarjeta tarjeta) { tarjetaRepository.deleteTarjeta(tarjeta.getUUID()); }
+
     public String findIbanByNumeroTarjeta(String numero_tarjeta) { return tarjetaRepository.findIbanByNumeroTarjeta(numero_tarjeta); }
 
     public ArrayList<Tarjeta> findTarjetaByUUID(UUID uuid) { return tarjetaRepository.findTarjetaByUUID(uuid); }
 
     public Tarjeta findTarjetaByNumeroTarjeta(String numeroTarjeta) { return tarjetaRepository.findTarjetaByNumeroTarjeta(numeroTarjeta); }
+
+    public int findTarjetaByCuentaUUID(UUID uuid) { return tarjetaRepository.findTarjetaByCuentaUUID(uuid); }
 }
