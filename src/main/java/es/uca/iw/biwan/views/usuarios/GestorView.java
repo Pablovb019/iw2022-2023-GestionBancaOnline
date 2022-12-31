@@ -18,6 +18,7 @@ import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.aplication.service.TarjetaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
+import es.uca.iw.biwan.domain.consulta.Consulta;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
@@ -44,6 +45,8 @@ public class GestorView extends VerticalLayout {
 
     @Autowired
     private TarjetaService tarjetaService;
+
+    public static Cliente _cliente;
 
     public GestorView(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
@@ -138,9 +141,12 @@ public class GestorView extends VerticalLayout {
             });
 
             Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
-            Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
             Span counterOnline = new Span("1");
+            Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
             Span counterOffline = new Span("3");
+            ConsultaOfflineButton.getElement().addEventListener("click", event -> {
+                _cliente = (Cliente) cliente;
+            });
 
             //ADD CLASS
             NombreCliente.addClassNames("NombreClienteAnchor", "Separacion");

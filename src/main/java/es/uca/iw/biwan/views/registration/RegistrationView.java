@@ -171,10 +171,10 @@ public class RegistrationView extends VerticalLayout {
                 cliente.setEmail(email.getValue());
                 cliente.setPassword(passwordEncoder.encode(password.getValue()));
                 cliente.setRol(Role.CLIENTE);
-                /*ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
+                ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
                 Random random = new Random();
                 int randomGestor = random.nextInt(gestores.size());
-                cliente.setGestor_id(usuarioService.findUsuarioByRol(Role.GESTOR.toString()).get(randomGestor).getUUID());*/
+                cliente.setGestor_id(usuarioService.findUsuarioByRol(Role.GESTOR.toString()).get(randomGestor).getUUID());
                 boolean correcto = ComprobarDatos(cliente);
                 if(correcto) { CreateRequest(cliente); }
             }
