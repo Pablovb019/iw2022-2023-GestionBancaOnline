@@ -40,7 +40,7 @@ import es.uca.iw.biwan.aplication.service.TraspasoService;
 @Route("transferencias-traspasos")
 @CssImport("./themes/biwan/transferenciasTraspasos.css")
 public class TransferenciasTraspasosView extends VerticalLayout {
-
+/*
     public TransferenciasTraspasosView() {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null) {
@@ -275,5 +275,5 @@ public class TransferenciasTraspasosView extends VerticalLayout {
         }
         
     }
-
+*/
 }

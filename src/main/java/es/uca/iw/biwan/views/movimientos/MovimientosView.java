@@ -37,9 +37,6 @@ import es.uca.iw.biwan.domain.operaciones.PagoTarjeta;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
 import es.uca.iw.biwan.domain.operaciones.Transferencia;
 import es.uca.iw.biwan.domain.operaciones.Traspaso;
-import es.uca.iw.biwan.domain.operaciones.Movimiento.BalanceRestanteInvalidoException;
-import es.uca.iw.biwan.domain.operaciones.Movimiento.FechaInvalidaException;
-import es.uca.iw.biwan.domain.operaciones.Movimiento.ImporteInvalidoException;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.EmisorInvalidoException;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.FechaVencimientoInvalidaException;
 import es.uca.iw.biwan.domain.operaciones.Transferencia.BeneficiarioInvalidoException;
@@ -53,7 +50,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 @Route("movimientos")
 @CssImport("./themes/biwan/movimientos.css")
 public class MovimientosView extends VerticalLayout {
-
+/*
     public MovimientosView() {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null) {
@@ -415,5 +412,5 @@ public class MovimientosView extends VerticalLayout {
 
         return dataExample;
     }
-    
+   */
 }

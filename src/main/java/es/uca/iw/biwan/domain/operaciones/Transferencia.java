@@ -29,8 +29,7 @@ public class Transferencia extends Movimiento {
         }
     }
 
-    public Transferencia(double importe, LocalDateTime fecha, double balanceRestante, String cuentaOrigen, String cuentaDestino, String beneficiario, String concepto) throws BeneficiarioInvalidoException, CuentaInvalidaException, ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
-        super(importe, fecha, balanceRestante);
+    public Transferencia(double importe, LocalDateTime fecha, double balanceRestante, String cuentaOrigen, String cuentaDestino, String beneficiario, String concepto) throws BeneficiarioInvalidoException, CuentaInvalidaException {
 
         if(cuentaOrigen == null || cuentaOrigen.isEmpty() || !isValidCuenta(cuentaOrigen))
             throw new CuentaInvalidaException("Cuenta origen no puede estar vacía");

@@ -24,20 +24,16 @@ import com.vaadin.flow.router.Route;
 
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
-import es.uca.iw.biwan.domain.operaciones.Movimiento.BalanceRestanteInvalidoException;
-import es.uca.iw.biwan.domain.operaciones.Movimiento.FechaInvalidaException;
-import es.uca.iw.biwan.domain.operaciones.Movimiento.ImporteInvalidoException;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.EmisorInvalidoException;
 import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.FechaVencimientoInvalidaException;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @PageTitle("Recibos domiciliados")
 @Route("recibos-domiciliados")
 public class RecibosDomiciliadosView extends VerticalLayout {
-
+/*
     public RecibosDomiciliadosView() {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null) {
@@ -242,6 +238,8 @@ public class RecibosDomiciliadosView extends VerticalLayout {
 
         return recibosSinDuplicados;
     }
+
+    */
 
 
 }

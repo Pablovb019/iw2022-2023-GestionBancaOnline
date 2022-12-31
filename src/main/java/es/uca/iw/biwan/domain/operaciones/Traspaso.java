@@ -22,8 +22,7 @@ public class Traspaso extends Movimiento {
         }
     }
 
-    public Traspaso(double importe, LocalDateTime fecha, double balanceRestante, String cuentaOrigen, String cuentaDestinatario, String concepto) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException, CuentaInvalidaException {
-        super(importe, fecha, balanceRestante);
+    public Traspaso(double importe, LocalDateTime fecha, double balanceRestante, String cuentaOrigen, String cuentaDestinatario, String concepto) throws CuentaInvalidaException {
 
         if(cuentaOrigen == null || cuentaOrigen.isEmpty() || !isValidCuenta(cuentaOrigen))
             throw new CuentaInvalidaException("Cuenta origen inválida");

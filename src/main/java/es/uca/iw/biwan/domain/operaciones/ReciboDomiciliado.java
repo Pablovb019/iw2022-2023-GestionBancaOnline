@@ -28,8 +28,7 @@ public class ReciboDomiciliado extends Movimiento {
         }
     }
 
-    public ReciboDomiciliado(float importe, LocalDateTime fecha, float balanceRestante, LocalDateTime fechaVencimiento, String emisor, String concepto) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException, FechaVencimientoInvalidaException, EmisorInvalidoException {
-        super(importe, fecha, balanceRestante);
+    public ReciboDomiciliado(float importe, LocalDateTime fecha, float balanceRestante, LocalDateTime fechaVencimiento, String emisor, String concepto) throws FechaVencimientoInvalidaException, EmisorInvalidoException {
 
         if(fechaVencimiento == null)
             throw new FechaVencimientoInvalidaException("La fecha de vencimiento no puede ser nula");

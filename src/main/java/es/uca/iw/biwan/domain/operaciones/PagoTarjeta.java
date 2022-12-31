@@ -15,8 +15,7 @@ public class PagoTarjeta extends Movimiento {
     private String informacion;
     private String establecimiento;
 
-    public PagoTarjeta(float importe, LocalDateTime fecha, float balanceRestante, String informacion, String establecimiento) throws ImporteInvalidoException, FechaInvalidaException, BalanceRestanteInvalidoException {
-        super(importe, fecha, balanceRestante);
+    public PagoTarjeta(float importe, LocalDateTime fecha, float balanceRestante, String informacion, String establecimiento)  {
         this.informacion = informacion;
         this.establecimiento = establecimiento;
     }
