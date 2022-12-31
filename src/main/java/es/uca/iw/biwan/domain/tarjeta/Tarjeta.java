@@ -25,7 +25,10 @@ public class Tarjeta {
     private LocalDate fechaCaducidad;
 
     @Column(nullable = false)
-    private String CVV;
+    private String CSV;
+
+    @Column(nullable = false)
+    private Integer PIN;
 
     @Column(nullable = false)
     private Double limiteGasto;
@@ -44,8 +47,10 @@ public class Tarjeta {
     public Tarjeta() {
         this.uuid = UUID.randomUUID();
         this.numeroTarjeta = mockNeat.creditCards().type(CreditCardType.VISA_16).get();
-        this.fechaCaducidad = LocalDate.now().plusYears(5);
-        this.CVV = mockNeat.cvvs().get();
+        this.fechaCaducidad = LocalDate.now().plusYears(2);
+        this.CSV = mockNeat.cvvs().get();
+        String pin = String.format("%04d", mockNeat.ints().range(1000, 9999).get());
+        this.PIN = Integer.valueOf(pin);
         this.limiteGasto = 1000.0;
         this.activa = true;
     }
@@ -82,12 +87,20 @@ public class Tarjeta {
         this.activa = activa;
     }
 
-    public String getCVV() {
-        return CVV;
+    public String getCSV() {
+        return CSV;
     }
 
-    public void setCVV(String CVV) {
-        this.CVV = CVV;
+    public void setCSV(String CSV) {
+        this.CSV = CSV;
+    }
+
+    public Integer getPIN() {
+        return PIN;
+    }
+
+    public void setPIN(Integer PIN) {
+        this.PIN = PIN;
     }
 
     public Double getLimiteGasto() {

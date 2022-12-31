@@ -3,6 +3,8 @@ package es.uca.iw.biwan.aplication.service;
 import es.uca.iw.biwan.aplication.repository.MovimientoRepository;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.operaciones.Movimiento;
+import es.uca.iw.biwan.domain.operaciones.PagoTarjeta;
+import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

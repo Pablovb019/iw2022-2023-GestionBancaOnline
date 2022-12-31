@@ -90,7 +90,7 @@ public class Movimiento {
     }
 
     public String toString() {
-        return "BankTransaction [id=" + this.id + ", transactionStatus=" + String.valueOf(this.transactionStatus) + ", issuer=" + this.issuer + ", transactionType=" + String.valueOf(this.transactionType) + ", concept=" + this.concept + ", iban=" + this.iban + ", value=" + String.valueOf(this.value) + "]";
+        return "Movimiento [id=" + this.id + ", transactionStatus=" + String.valueOf(this.transactionStatus) + ", issuer=" + this.issuer + ", transactionType=" + String.valueOf(this.transactionType) + ", concept=" + this.concept + ", iban=" + this.iban + ", value=" + String.valueOf(this.value) + "]";
     }
 
 }

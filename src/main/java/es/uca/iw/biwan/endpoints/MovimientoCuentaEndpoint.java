@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Payload;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +41,27 @@ public class MovimientoCuentaEndpoint {
     @PostMapping(value = "/api/movimientos")
     Movimiento addMovimiento(@RequestBody Movimiento nuevoMovimiento) {
         nuevoMovimiento.setId(UUID.randomUUID());
-        nuevoMovimiento.setTransactionStatus(Estado.ACCEPTED);
         Cuenta cuenta = cuentaService.findCuentaByIban(nuevoMovimiento.getIban());
-        movimientoService.saveMovimiento(nuevoMovimiento, cuenta);
-        // disminuir saldo de la cuenta
-        return nuevoMovimiento;
+        if (cuenta.getBalance() < nuevoMovimiento.getValue().doubleValue() && nuevoMovimiento.getTransactionType() == TransaccionBancaria.WITHDRAWAL) {
+            nuevoMovimiento.setTransactionStatus(Estado.REJECTED);
+            movimientoService.saveMovimiento(nuevoMovimiento, cuenta);
+            return nuevoMovimiento;
+
+        } else {
+            nuevoMovimiento.setTransactionStatus(Estado.ACCEPTED);
+            movimientoService.saveMovimiento(nuevoMovimiento, cuenta);
+            BigDecimal nuevoBalance;
+            if (nuevoMovimiento.getTransactionType() == TransaccionBancaria.DEPOSIT) {
+                nuevoBalance = BigDecimal.valueOf(cuenta.getBalance()).add(nuevoMovimiento.getValue());
+            }
+            else {
+                nuevoBalance = BigDecimal.valueOf(cuenta.getBalance()).subtract(nuevoMovimiento.getValue());
+            }
+            cuenta.setBalance(nuevoBalance.setScale(2, RoundingMode.HALF_UP).doubleValue());
+            cuentaService.updateBalance(cuenta);
+            return nuevoMovimiento;
+        }
+
     }
 }
 

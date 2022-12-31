@@ -152,9 +152,10 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         gridTarjetasClienteSeleccionado = new Grid<>();
         gridTarjetasClienteSeleccionado.setItems(tarjetasCliente);
         gridTarjetasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
-        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);;
-        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
-        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("200px");;
+        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCSV).setHeader("CSV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getPIN).setHeader("PIN").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
         gridTarjetasClienteSeleccionado.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
         gridTarjetasClienteSeleccionado.addComponentColumn(tarjeta -> {
             ToggleButton toggleButton = new ToggleButton();
@@ -162,6 +163,10 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
             toggleButton.getElement().addEventListener("click", event -> {
                 tarjeta.setActiva(toggleButton.getValue());
                 tarjetaService.update(tarjeta);
+                ConfirmDialog confirmacion = new ConfirmDialog("Confirmación", "Se ha actualizado el estado de la tarjeta", "Aceptar", event1 -> {
+                    UI.getCurrent().navigate("cuentas-tarjetas-gestor");
+                });
+                confirmacion.open();
             });
             return toggleButton;
         }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);

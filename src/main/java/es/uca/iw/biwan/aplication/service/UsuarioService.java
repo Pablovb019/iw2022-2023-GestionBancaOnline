@@ -81,4 +81,6 @@ public class UsuarioService {
     public void updateAdministrador(Administrador admin) {
         usuarioRepository.updateAdministrador(admin.getUUID(), admin.getNombre(), admin.getApellidos(), admin.getFechaNacimiento(), admin.getTelefono(), admin.getDni(), admin.getEmail(), admin.getPassword());
     }
+
+
 }

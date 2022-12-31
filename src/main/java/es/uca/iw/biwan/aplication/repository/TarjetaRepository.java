@@ -19,7 +19,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO Tarjeta VALUES (:uuid, :numero_tarjeta, :fecha_caducidad, :cvv, :limite_gasto, :activa, :cuenta_id)",
+            value = "INSERT INTO Tarjeta VALUES (:uuid, :numero_tarjeta, :fecha_caducidad, :cvv, :pin, :limite_gasto, :activa, :cuenta_id)",
             nativeQuery = true
     )
     void insertTarjeta(@Param("uuid") UUID uuid,
@@ -27,6 +27,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
                        @Param("fecha_caducidad") LocalDate fecha_caducidad,
                        @Param("activa") Boolean activa,
                        @Param("cvv") String cvv,
+                       @Param("pin") Integer pin,
                        @Param("limite_gasto") Double limite_gasto,
                        @Param("cuenta_id") UUID cuenta_id
     );
@@ -34,13 +35,14 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     @Transactional
     @Modifying
     @Query(
-            value = "UPDATE Tarjeta SET fecha_caducidad = :fecha_caducidad, activa = :activa, cvv = :cvv, limite_gasto = :limite_gasto WHERE numero_tarjeta = :numero_tarjeta",
+            value = "UPDATE Tarjeta SET fecha_caducidad = :fecha_caducidad, activa = :activa, cvv = :cvv, pin = :pin, limite_gasto = :limite_gasto WHERE numero_tarjeta = :numero_tarjeta",
             nativeQuery = true
     )
     void updateTarjeta(@Param("numero_tarjeta") String numero_tarjeta,
                     @Param("fecha_caducidad") LocalDate fecha_caducidad,
                     @Param("activa") Boolean activa,
                     @Param("cvv") String cvv,
+                    @Param("pin") Integer pin,
                     @Param("limite_gasto") Double limite_gasto
     );
 
@@ -76,4 +78,13 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
             nativeQuery = true
     )
     int findTarjetaByCuentaUUID(UUID uuid);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "UPDATE Tarjeta SET limite_gasto = :limite_gasto WHERE uuid = :uuid",
+            nativeQuery = true
+    )
+    void updateLimiteGasto(@Param("limite_gasto") Double limiteGasto,
+                           @Param("uuid") UUID uuid);
 }

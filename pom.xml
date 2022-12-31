@@ -164,6 +164,11 @@
             <artifactId>mockneat</artifactId>
             <version>0.4.8</version>
         </dependency>
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>9.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>

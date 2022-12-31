@@ -21,11 +21,11 @@ public class TarjetaService {
     }
 
     public void save(Tarjeta tarjeta, Cuenta cuenta) {
-        tarjetaRepository.insertTarjeta(tarjeta.getUUID(), tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto(), cuenta.getUUID());
+        tarjetaRepository.insertTarjeta(tarjeta.getUUID(), tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCSV(), tarjeta.getPIN(), tarjeta.getLimiteGasto(), cuenta.getUUID());
     }
 
     public void update(Tarjeta tarjeta) {
-        tarjetaRepository.updateTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getLimiteGasto());
+        tarjetaRepository.updateTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCSV(), tarjeta.getPIN(), tarjeta.getLimiteGasto());
     }
 
     @Transactional
@@ -38,4 +38,6 @@ public class TarjetaService {
     public Tarjeta findTarjetaByNumeroTarjeta(String numeroTarjeta) { return tarjetaRepository.findTarjetaByNumeroTarjeta(numeroTarjeta); }
 
     public int findTarjetaByCuentaUUID(UUID uuid) { return tarjetaRepository.findTarjetaByCuentaUUID(uuid); }
+
+    public void updateLimiteGasto(Tarjeta tarjeta) { tarjetaRepository.updateLimiteGasto(tarjeta.getLimiteGasto(), tarjeta.getUUID()); }
 }

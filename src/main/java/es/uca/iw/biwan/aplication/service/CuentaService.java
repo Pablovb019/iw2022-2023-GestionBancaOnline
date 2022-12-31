@@ -34,9 +34,8 @@ public class CuentaService {
         return cuentaRepository.findAll();
     }
 
-    public Cuenta updateBalance(Cuenta cuenta, double balance) {
-        cuenta.setBalance(balance);
-        return cuentaRepository.save(cuenta);
+    public void updateBalance(Cuenta cuenta) {
+        cuentaRepository.updateBalance(cuenta.getUUID(), cuenta.getBalance());
     }
 
     public ArrayList<Cuenta> findCuentaByUUID(UUID uuid) { return cuentaRepository.findCuentaByUUID(uuid); }
@@ -44,4 +43,6 @@ public class CuentaService {
     public Cuenta findCuentaByIban(String Iban) { return  cuentaRepository.findCuentaByIban(Iban); }
 
     public ArrayList<Cuenta> findCuentaByCliente(Usuario usuario) { return cuentaRepository.findCuentaByCliente(usuario.getUUID()); }
+
+    public Cuenta findCuentaByNumeroTarjeta(String numeroTarjeta) { return cuentaRepository.findCuentaByNumeroTarjeta(numeroTarjeta); }
 }

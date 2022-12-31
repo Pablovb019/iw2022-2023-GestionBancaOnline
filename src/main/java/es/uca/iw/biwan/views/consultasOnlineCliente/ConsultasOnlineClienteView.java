@@ -112,6 +112,7 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
                 items.add(newMessage);
                 list.setItems(items);
+                list.getElement().executeJs("this.$.list.scrollToIndex(this.$.list.items.length - 1)");
                 CajaMensaje.setValue("");
             }
         });

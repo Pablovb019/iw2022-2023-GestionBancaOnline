@@ -19,7 +19,6 @@ import es.uca.iw.biwan.aplication.service.TarjetaService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,9 +118,10 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
             gridTarjetasCliente = new Grid<>();
             gridTarjetasCliente.setItems(tarjetasCliente);
             gridTarjetasCliente.addClassName("TablaCuentaTarjeta");
-            gridTarjetasCliente.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-            gridTarjetasCliente.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER);
-            gridTarjetasCliente.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
+            gridTarjetasCliente.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("200px");
+            gridTarjetasCliente.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
+            gridTarjetasCliente.addColumn(Tarjeta::getCSV).setHeader("CSV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
+            gridTarjetasCliente.addColumn(Tarjeta::getPIN).setHeader("PIN").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
             gridTarjetasCliente.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
             gridTarjetasCliente.addComponentColumn(tarjeta -> {
                 ToggleButton toggleButton = new ToggleButton();
@@ -129,6 +129,10 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
                 toggleButton.getElement().addEventListener("click", event -> {
                     tarjeta.setActiva(toggleButton.getValue());
                     tarjetaService.update(tarjeta);
+                    ConfirmDialog confirmacion = new ConfirmDialog("Confirmación", "Se ha actualizado el estado de la tarjeta", "Aceptar", event1 -> {
+                        UI.getCurrent().navigate("cuentas-tarjetas-cliente");
+                    });
+                    confirmacion.open();
                 });
                 return toggleButton;
             }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);

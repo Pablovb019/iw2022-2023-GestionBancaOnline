@@ -1,14 +1,12 @@
 package es.uca.iw.biwan.aplication.repository;
 
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -67,4 +65,20 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
             nativeQuery = true
     )
     ArrayList<Cuenta> findCuentaByCliente(UUID uuid);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "UPDATE Cuenta SET balance = :balance WHERE uuid = :uuid",
+            nativeQuery = true
+    )
+    void updateBalance(@Param("uuid") UUID uuid,
+                       @Param("balance") Double balance
+    );
+
+    @Query(
+            value = "SELECT * from Cuenta JOIN Tarjeta ON Cuenta.uuid = Tarjeta.cuenta_id AND Tarjeta.numero_tarjeta = :numeroTarjeta",
+            nativeQuery = true
+    )
+    Cuenta findCuentaByNumeroTarjeta(String numeroTarjeta);
 }
