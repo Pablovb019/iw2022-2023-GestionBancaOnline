@@ -98,8 +98,8 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
                 gridCuentasCliente = new Grid<>();
                 gridCuentasCliente.setItems(cuentasCliente);
                 gridCuentasCliente.addClassName("TablaCuentaTarjeta");
-                gridCuentasCliente.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER);
-                gridCuentasCliente.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER);
+                gridCuentasCliente.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+                gridCuentasCliente.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
                 gridCuentasCliente.setWidthFull();
             }
         } catch (Exception ignored) { }
@@ -118,11 +118,11 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
             gridTarjetasCliente = new Grid<>();
             gridTarjetasCliente.setItems(tarjetasCliente);
             gridTarjetasCliente.addClassName("TablaCuentaTarjeta");
-            gridTarjetasCliente.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("200px");
-            gridTarjetasCliente.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-            gridTarjetasCliente.addColumn(Tarjeta::getCSV).setHeader("CSV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
-            gridTarjetasCliente.addColumn(Tarjeta::getPIN).setHeader("PIN").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
-            gridTarjetasCliente.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
+            gridTarjetasCliente.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+            gridTarjetasCliente.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+            gridTarjetasCliente.addColumn(Tarjeta::getCVV).setHeader("CSV").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+            gridTarjetasCliente.addColumn(Tarjeta::getPIN).setHeader("PIN").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+            gridTarjetasCliente.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
             gridTarjetasCliente.addComponentColumn(tarjeta -> {
                 ToggleButton toggleButton = new ToggleButton();
                 toggleButton.setValue(tarjeta.getActiva());
@@ -135,15 +135,18 @@ public class cuentasTarjetasClienteView extends VerticalLayout {
                     confirmacion.open();
                 });
                 return toggleButton;
-            }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);
+            }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
             gridTarjetasCliente.setWidthFull();
         } catch (Exception ignored) { }
 
         var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetasCliente);
         var vlTitulo = new VerticalLayout(Titulo);
 
-
         var hlCuentasTarjetas = new HorizontalLayout(vlCuentas, vlTarjetas);
+        vlCuentas.getStyle().set("flex-grow", "1");
+        vlCuentas.getStyle().set("width", "40%");
+        vlTarjetas.getStyle().set("flex-grow", "3");
+        vlTarjetas.getStyle().set("width", "60%");
         hlCuentasTarjetas.setWidthFull();
         hlCuentasTarjetas.addClassName("hlCuentasTarjetas");
 

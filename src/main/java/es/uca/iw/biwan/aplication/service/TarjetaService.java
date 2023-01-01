@@ -3,7 +3,6 @@ package es.uca.iw.biwan.aplication.service;
 import es.uca.iw.biwan.aplication.repository.TarjetaRepository;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +20,11 @@ public class TarjetaService {
     }
 
     public void save(Tarjeta tarjeta, Cuenta cuenta) {
-        tarjetaRepository.insertTarjeta(tarjeta.getUUID(), tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCSV(), tarjeta.getPIN(), tarjeta.getLimiteGasto(), cuenta.getUUID());
+        tarjetaRepository.insertTarjeta(tarjeta.getUUID(), tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getPIN(), tarjeta.getLimiteGasto(), cuenta.getUUID());
     }
 
     public void update(Tarjeta tarjeta) {
-        tarjetaRepository.updateTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCSV(), tarjeta.getPIN(), tarjeta.getLimiteGasto());
+        tarjetaRepository.updateTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getPIN(), tarjeta.getLimiteGasto());
     }
 
     @Transactional
