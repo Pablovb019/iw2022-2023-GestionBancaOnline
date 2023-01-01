@@ -18,7 +18,7 @@ import java.util.UUID;
 public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
     @Modifying
     @Query(
-            value = "INSERT INTO Anuncio VALUES (:tipo, :uuid, :fecha_inicio, :fecha_fin, :titulo, :cuerpo)",
+            value = "INSERT INTO anuncio VALUES (:tipo, :uuid, :fecha_inicio, :fecha_fin, :titulo, :cuerpo)",
             nativeQuery = true
     )
     void insertAnuncio(@Param("tipo") String tipo,
@@ -30,33 +30,33 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
     );
 
     @Query(
-            value = "SELECT tipo FROM Anuncio WHERE uuid = :uuid",
+            value = "SELECT tipo FROM anuncio WHERE uuid = :uuid",
             nativeQuery = true
     )
     String findTypeByUUID(@Param("uuid") UUID uuid);
 
     @Query(
-            value = "SELECT * FROM Anuncio WHERE tipo = :tipo",
+            value = "SELECT * FROM anuncio WHERE tipo = :tipo",
             nativeQuery = true
     )
     ArrayList<Noticia> findNoticiaByType(@Param("tipo") String tipo);
 
     @Query(
-            value = "SELECT * FROM Anuncio WHERE tipo = :tipo",
+            value = "SELECT * FROM anuncio WHERE tipo = :tipo",
             nativeQuery = true
     )
     ArrayList<Oferta> findOfertaByType(@Param("tipo") String tipo);
 
     @Modifying
     @Query(
-            value = "DELETE FROM Anuncio WHERE uuid = :uuid",
+            value = "DELETE FROM anuncio WHERE uuid = :uuid",
             nativeQuery = true
     )
     void deleteAnuncio(@Param("uuid") UUID uuid);
 
     @Modifying
     @Query(
-            value = "UPDATE Anuncio SET tipo = :tipo, fecha_inicio = :fecha_inicio, fecha_fin = :fecha_fin, titulo = :titulo, cuerpo = :cuerpo WHERE uuid = :uuid",
+            value = "UPDATE anuncio SET tipo = :tipo, fecha_inicio = :fecha_inicio, fecha_fin = :fecha_fin, titulo = :titulo, cuerpo = :cuerpo WHERE uuid = :uuid",
             nativeQuery = true
     )
     void updateAnuncio(@Param("tipo") String tipo,

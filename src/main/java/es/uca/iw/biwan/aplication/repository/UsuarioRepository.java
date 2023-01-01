@@ -15,31 +15,31 @@ import java.util.UUID;
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Query(
-            value = "SELECT rol FROM Usuario WHERE uuid = :uuid",
+            value = "SELECT rol FROM usuario WHERE uuid = :uuid",
             nativeQuery = true
     )
     String findRoleByUUID(@Param("uuid") UUID uuid);
 
     @Query(
-            value = "SELECT * FROM Usuario WHERE email = :email",
+            value = "SELECT * FROM usuario WHERE email = :email",
             nativeQuery = true
     )
     Usuario findUserByEmail(@Param("email") String email);
 
     @Query(
-            value = "SELECT * FROM Usuario WHERE telefono = :telefono",
+            value = "SELECT * FROM usuario WHERE telefono = :telefono",
             nativeQuery = true
     )
     Usuario findUserByTelefono(@Param("telefono") Double telefono);
 
     @Query(
-            value = "SELECT * FROM Usuario WHERE dni = :dni",
+            value = "SELECT * FROM usuario WHERE dni = :dni",
             nativeQuery = true
     )
     Usuario findUserByDni(@Param("dni") String dni);
 
     @Query(
-            value = "SELECT * from Usuario WHERE rol = :rol",
+            value = "SELECT * from usuario WHERE rol = :rol",
             nativeQuery = true
     )
     ArrayList<Usuario> findUsuarioByRol(@Param("rol") String rol);
@@ -48,7 +48,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, :gestor_id)",
+            value = "INSERT INTO usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, :gestor_id)",
             nativeQuery = true
     )
     void insertCliente(@Param("uuid") UUID uuid,
@@ -65,7 +65,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "UPDATE Usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
+            value = "UPDATE usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
             nativeQuery = true
     )
     void updateCliente(@Param("uuid") UUID uuid,
@@ -79,8 +79,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     );
 
     @Query(
-            value = "SELECT * from Usuario INNER JOIN Usuario_Cuentas ON Usuario.uuid = Usuario_Cuentas.clientes_uuid" +
-                    " AND Usuario_Cuentas.cuentas_uuid = :uuid AND Usuario.rol = 'Cliente'",
+            value = "SELECT * from usuario INNER JOIN usuario_cuentas ON usuario.uuid = usuario_cuentas.clientes_uuid" +
+                    " AND usuario_cuentas.cuentas_uuid = :uuid AND usuario.rol = 'Cliente'",
             nativeQuery = true
     )
     Cliente findClienteByCuenta(@Param("uuid") UUID uuid);
@@ -89,7 +89,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, NULL)",
+            value = "INSERT INTO usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, NULL)",
             nativeQuery = true
     )
     void insertGestor(@Param("uuid") UUID uuid,
@@ -105,7 +105,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "UPDATE Usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
+            value = "UPDATE usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
             nativeQuery = true
     )
     void updateGestor(@Param("uuid") UUID uuid,
@@ -122,7 +122,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "INSERT INTO Usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, NULL)",
+            value = "INSERT INTO usuario VALUES (:role, :uuid, :nombre, :apellidos, :fechaNacimiento, :telefono, :dni, :email, :password, NULL)",
             nativeQuery = true
     )
     void insertEncargado(@Param("uuid") UUID uuid,
@@ -138,7 +138,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "UPDATE Usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
+            value = "UPDATE usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
             nativeQuery = true
     )
     void updateEncargado(@Param("uuid") UUID uuid,
@@ -155,7 +155,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     @Modifying
     @Query(
-            value = "UPDATE Usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
+            value = "UPDATE usuario SET nombre = :nombre, apellidos = :apellidos, fecha_nacimiento = :fechaNacimiento, telefono = :telefono, dni = :dni, email = :email, password = :password WHERE uuid = :uuid",
             nativeQuery = true
     )
     void updateAdministrador(@Param("uuid") UUID uuid,

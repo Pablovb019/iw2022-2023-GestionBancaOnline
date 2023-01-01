@@ -1,64 +1,68 @@
 package es.uca.iw.biwan.views.consultasOnlineCliente;
 
-import com.vaadin.flow.component.Key;
+import com.vaadin.collaborationengine.CollaborationAvatarGroup;
+import com.vaadin.collaborationengine.CollaborationMessageInput;
+import com.vaadin.collaborationengine.CollaborationMessageList;
+import com.vaadin.collaborationengine.UserInfo;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.messages.MessageList;
-import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.shared.Registration;
+import es.uca.iw.biwan.aplication.service.ConsultaService;
+import es.uca.iw.biwan.aplication.service.UsuarioService;
+import es.uca.iw.biwan.domain.consulta.Consulta;
+import es.uca.iw.biwan.domain.rol.Role;
+import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.views.consultasOnlineGestor.ConsultasOnlineGestorView;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @CssImport("./themes/biwan/consultasOnlineGestor.css")
 @PageTitle("Consultas Online")
 @Route("consultas-online-cliente")
 public class ConsultasOnlineClienteView extends VerticalLayout {
 
+    public static UUID idSala;
+    private UserInfo userInfo;
+
     public ConsultasOnlineClienteView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Cliente.class) != null) {
+        if (session.getAttribute(Cliente.class) != null) {
             if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
                     UI.getCurrent().navigate("");
                 });
                 error.open();
             } else {
-                //NEW
-                VerticalLayout layoutConsultaOnline = new VerticalLayout();
-                VerticalLayout layoutConsultas = new VerticalLayout();
-
-                //ADD CLASS NAME
-                layoutConsultas.addClassName("layoutConsultas");
-
-                //ADD
-                layoutConsultas.add(ConsultasOnline());
-                layoutConsultaOnline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
-
-                //ALIGNMENT
-                layoutConsultaOnline.expand(layoutConsultas);
-                layoutConsultaOnline.setSizeFull();
-
-                add(layoutConsultaOnline);
+                Component enterLayout = createEnterLayout();
+                add(HeaderUsuarioLogueadoView.Header(), enterLayout, FooterView.Footer());
             }
         } else {
             ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
@@ -69,8 +73,40 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
         }
     }
 
-    private VerticalLayout ConsultasOnline() {
+    public VerticalLayout createEnterLayout() {
+        VerticalLayout enterlayout = new VerticalLayout();
+        VaadinSession session = VaadinSession.getCurrent();
+        Cliente cliente = session.getAttribute(Cliente.class);
+        H1 titulo = new H1("Consultas Online");
+        Button enter = new Button("Enviar solicitud de consulta online");
+        Button salir = new Button("Volver a la página principal");
 
+        enter.addClickListener(event -> {
+            userInfo = new UserInfo(cliente.getEmail(), cliente.getNombre());
+            Component chatLayout = ConsultasOnline();
+            ConsultasOnlineClienteView.this.replace(enterlayout, chatLayout);
+        });
+
+        salir.addClickListener(e -> {
+            if(session.getAttribute(Cliente.class) != null) { UI.getCurrent().navigate("pagina-principal-cliente"); }
+            else {
+                ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
+                error.open();
+                UI.getCurrent().navigate("");
+            }
+        });
+
+        salir.addClassName("salirButton");
+        enter.addClassName("enterButton");
+        titulo.addClassName("tituloConsultasOnline");
+        enterlayout.add(titulo, enter, salir);
+        enterlayout.addClassName("enterLayout");
+        enterlayout.setAlignItems(Alignment.CENTER);
+        enterlayout.setHeightFull();
+        return enterlayout;
+    }
+
+    private VerticalLayout ConsultasOnline() {
         //NEW
         VerticalLayout layoutConsultasOnlinePrincipal = new VerticalLayout();
         HorizontalLayout TituloVolverLayout = new HorizontalLayout();
@@ -83,7 +119,7 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
         VolverAnchor.addClassName("VolverAnchor");
         TituloVolverLayout.addClassName("TituloVolverLayout");
         VolverIcon.addClassName("VolverIcon");
-        titulo.addClassName("Titulo");
+        titulo.addClassName("TituloConsultasOnline");
         layoutHorConsultasOnline.addClassName("layoutHorConsultasOnline");
         layoutConsultasOnlinePrincipal.addClassName("layoutConsultasOnlinePrincipal");
 
@@ -99,39 +135,25 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
         return layoutConsultasOnlinePrincipal;
     }
 
-    public static VerticalLayout ListaMensajesConsulta() {
-        HorizontalLayout MensajeSubmit = new HorizontalLayout();
-        MessageList list = new MessageList();
-        TextField CajaMensaje = new TextField("", "Mensaje");
-        Button ButtonSubmit = new Button("Enviar");
-        ButtonSubmit.addClickShortcut(Key.ENTER);
-        ButtonSubmit.addClickListener(submitEvent -> {
-            if(!CajaMensaje.getValue().equals("")) {
-                MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), "Gestor");
-                newMessage.setUserColorIndex(3);
-                List<MessageListItem> items = new ArrayList<>(list.getItems());
-                items.add(newMessage);
-                list.setItems(items);
-                list.getElement().executeJs("this.$.list.scrollToIndex(this.$.list.items.length - 1)");
-                CajaMensaje.setValue("");
-            }
-        });
+    public VerticalLayout ListaMensajesConsulta() {
+        VerticalLayout chatLayout = new VerticalLayout();
+        idSala = UUID.randomUUID();
+        CollaborationAvatarGroup avatars = new CollaborationAvatarGroup(userInfo, idSala.toString());
 
-        MessageListItem Presentacion = new MessageListItem("Escriba su consulta, le atenderé lo antes posible.",
-                LocalDateTime.now().toInstant(ZoneOffset.UTC).minus(1, ChronoUnit.HOURS), "Gestor");
-        Presentacion.setUserColorIndex(1);
-        list.setItems(Presentacion);
+        CollaborationMessageList list = new CollaborationMessageList(userInfo, idSala.toString());
+        CollaborationMessageInput input = new CollaborationMessageInput(list);
 
         list.addClassName("list");
-        MensajeSubmit.expand(CajaMensaje);
-        MensajeSubmit.add(CajaMensaje, ButtonSubmit);
-        VerticalLayout chatLayout = new VerticalLayout(list, MensajeSubmit);
-        MensajeSubmit.addClassName("MensajeSubmit");
-        ButtonSubmit.addClassName("ButtonSubmit");
         chatLayout.addClassName("chatLayout");
+        HorizontalLayout conectados = new HorizontalLayout();
+        H3 conectadosH3 = new H3("Conectados: ");
+        conectadosH3.addClassName("conectadosH3");
+        conectados.add(conectadosH3 , avatars);
+        conectados.addClassName("conectados");
+        chatLayout.add(conectados, list, input);
         chatLayout.expand(list);
+        chatLayout.setSizeFull();
 
         return chatLayout;
     }
-
 }

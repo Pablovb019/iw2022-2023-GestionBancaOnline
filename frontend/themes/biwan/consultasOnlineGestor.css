@@ -21,6 +21,8 @@ flow-container-root-2521314 {
     display: table;
     border: 1px solid black !important;
     gap: 0;
+    max-width: 95%;
+    align-self: center;
 }
 
 .layoutConsultasOnlinePrincipal {
@@ -82,6 +84,8 @@ vaadin-input-container::part(input-field) {
 
 .TituloVolverLayout {
     width: 100%;
+    max-width: 95%;
+    align-self: center;
 }
 
 .VolverIcon {
@@ -103,4 +107,44 @@ input[type="button"], input[type="submit"], button {
     background: #27AE60;
     color: white;
     width: 120px;
+}
+
+.conectados {
+    margin-top: 10px;
+}
+
+.conectadosH3 {
+    margin-left: 20px;
+    margin-bottom: 0px;
+    margin-top: 4px;
+    min-width: 125px;
+    color: black;
+}
+
+.enterLayout {
+    background: #D1FFD6;
+    max-width: 30%;
+    max-height: 35%;
+    align-self: center;
+    border: black 1px solid;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.enterButton {
+    background: #27AE60;
+    color: white;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.tituloConsultasOnline{
+    color: black;
+    margin-bottom: 10px;
+}
+
+.salirButton {
+    color: #27AE60;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }

@@ -25,13 +25,19 @@ import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.views.consultasOfflineGestor.ConsultasOfflineGestorView;
+import es.uca.iw.biwan.views.consultasOnlineCliente.ConsultasOnlineClienteView;
+import es.uca.iw.biwan.views.consultasOnlineGestor.ConsultasOnlineGestorView;
 import es.uca.iw.biwan.views.cuentasTarjetasGestor.cuentasTarjetasGestorView;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.UUID;
 
 @CssImport("./themes/biwan/paginaPrincipalGestor.css")
 @PageTitle("Página Principal Gestor")
@@ -46,8 +52,6 @@ public class GestorView extends VerticalLayout {
 
     @Autowired
     private TarjetaService tarjetaService;
-
-    public static Cliente _cliente;
 
     public GestorView(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
@@ -143,11 +147,23 @@ public class GestorView extends VerticalLayout {
                 });
 
                 Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
-                Span counterOnline = new Span("1");
+                Span counterOnline = new Span("0");
+
+                ConsultaOnlineButton.getElement().addEventListener("click", event -> {
+                    if(ConsultasOnlineClienteView.idSala != null) {
+                        ConsultasOnlineGestorView.idSala = ConsultasOnlineClienteView.idSala;
+                    } else {
+                        ConfirmDialog error = new ConfirmDialog("Error", "No hay ninguna petición de consulta online", "Aceptar", event1 -> {
+                            UI.getCurrent().navigate("pagina-principal-gestor");
+                        });
+                        error.open();
+                    }
+                });
+
                 Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
-                Span counterOffline = new Span("3");
+                Span counterOffline = new Span("0");
                 ConsultaOfflineButton.getElement().addEventListener("click", event -> {
-                    _cliente = (Cliente) cliente;
+                    ConsultasOfflineGestorView.cliente = (Cliente) cliente;
                 });
 
                 //ADD CLASS

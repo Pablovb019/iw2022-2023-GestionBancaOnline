@@ -15,7 +15,7 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO Cuenta VALUES (:uuid, :iban, :balance)",
+            value = "INSERT INTO cuenta VALUES (:uuid, :iban, :balance)",
             nativeQuery = true
     )
     void insertCuenta(@Param("uuid") UUID uuid,
@@ -35,33 +35,33 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
 
     @Modifying
     @Query(
-            value = "DELETE Usuario_Cuentas FROM Usuario_Cuentas JOIN Cuenta ON Usuario_Cuentas.cuentas_uuid = Cuenta.uuid WHERE Cuenta.uuid = :uuid",
+            value = "DELETE usuario_cuentas FROM usuario_cuentas JOIN cuenta ON usuario_cuentas.cuentas_uuid = cuenta.uuid WHERE cuenta.uuid = :uuid",
             nativeQuery = true
     )
     void deleteCuenta(@Param("uuid") UUID uuid);
 
     @Query(
-            value = "SELECT balance FROM Cuenta WHERE uuid = :uuid",
+            value = "SELECT balance FROM cuenta WHERE uuid = :uuid",
             nativeQuery = true
     )
     String findTypeByUUID(@Param("uuid") UUID uuid);
 
     @Query(
-            value = "SELECT * from Cuenta INNER JOIN Usuario_Cuentas ON Cuenta.iban = Usuario_Cuentas.cuentas_iban" +
-                    " AND Usuario_Cuentas.clientes_uuid = :uuid",
+            value = "SELECT * from cuenta INNER JOIN usuario_cuentas ON cuenta.iban = usuario_cuentas.cuentas_iban" +
+                    " AND usuario_cuentas.clientes_uuid = :uuid",
             nativeQuery = true
     )
     ArrayList<Cuenta> findCuentaByUUID(UUID uuid);
 
     @Query(
-            value = "SELECT * from Cuenta WHERE iban = :Iban",
+            value = "SELECT * from cuenta WHERE iban = :Iban",
             nativeQuery = true
     )
     Cuenta findCuentaByIban(String Iban);
 
     @Query(
-            value = "SELECT * from Cuenta INNER JOIN Usuario_Cuentas ON Cuenta.uuid = Usuario_Cuentas.cuentas_uuid" +
-                    " AND Usuario_Cuentas.clientes_uuid = :uuid",
+            value = "SELECT * from cuenta INNER JOIN usuario_cuentas ON cuenta.uuid = usuario_cuentas.cuentas_uuid" +
+                    " AND usuario_cuentas.clientes_uuid = :uuid",
             nativeQuery = true
     )
     ArrayList<Cuenta> findCuentaByCliente(UUID uuid);

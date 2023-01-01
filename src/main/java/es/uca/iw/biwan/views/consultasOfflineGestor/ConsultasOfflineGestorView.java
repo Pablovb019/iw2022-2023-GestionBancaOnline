@@ -44,12 +44,10 @@ import java.util.UUID;
 @PageTitle("Consultas Offline")
 @Route("consultas-offline-gestor")
 public class ConsultasOfflineGestorView extends VerticalLayout {
-
-    @Autowired
-    private UsuarioService usuarioService;
-
     @Autowired
     private ConsultaService consultaService;
+
+    public static Cliente cliente;
 
     public ConsultasOfflineGestorView() {
         VaadinSession session = VaadinSession.getCurrent();
@@ -107,13 +105,12 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
 
         VaadinSession session = VaadinSession.getCurrent();
         Gestor gestor = session.getAttribute(Gestor.class);
-        Cliente cliente = GestorView._cliente;
 
         ButtonSubmit.addClickShortcut(Key.ENTER);
         ButtonSubmit.addClickListener(submitEvent -> {
             if (!CajaMensaje.getValue().equals("")) {
                 MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), gestor.getNombre());
-                newMessage.setUserColorIndex(3);
+                newMessage.setUserColorIndex(1);
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
                 items.add(newMessage);
                 list.setItems(items);

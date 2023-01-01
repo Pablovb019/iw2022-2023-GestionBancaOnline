@@ -39,9 +39,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @CssImport("./themes/biwan/consultasOfflineGestor.css")
 @PageTitle("Consultas Offline")
@@ -56,7 +54,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
 
     public ConsultasOfflineClienteView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Cliente.class) != null) {
+        if (session.getAttribute(Cliente.class) != null) {
             if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
                     UI.getCurrent().navigate("");
@@ -86,7 +84,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         VolverAnchor.addClassName("VolverAnchor");
         TituloVolverLayout.addClassName("TituloVolverLayout");
         VolverIcon.addClassName("VolverIcon");
-        titulo.addClassName("Titulo");
+        titulo.addClassName("TituloConsultasOffline");
         layoutHorConsultasOffline.addClassName("layoutHorConsultasOffline");
         layoutConsultasOfflinePrincipal.addClassName("layoutConsultasOfflinePrincipal");
 
@@ -113,7 +111,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
 
         ButtonSubmit.addClickShortcut(Key.ENTER);
         ButtonSubmit.addClickListener(submitEvent -> {
-            if(!CajaMensaje.getValue().equals("")) {
+            if (!CajaMensaje.getValue().equals("")) {
                 MessageListItem newMessage = new MessageListItem(CajaMensaje.getValue(), Instant.now(), cliente.getNombre());
                 newMessage.setUserColorIndex(3);
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
@@ -127,8 +125,8 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                 consulta.setAutor(session.getAttribute(Cliente.class).getUUID());
                 consulta.setCliente(session.getAttribute(Cliente.class));
                 ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
-                for(Usuario gestor : gestores) {
-                    if(gestor.getUUID().equals(session.getAttribute(Cliente.class).getGestor_id())) {
+                for (Usuario gestor : gestores) {
+                    if (gestor.getUUID().equals(session.getAttribute(Cliente.class).getGestor_id())) {
                         consulta.setGestor(gestor);
                         break;
                     }
@@ -150,15 +148,15 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         // Obtenemos los mensajes
         ArrayList<Consulta> mensajesClienteGestor = consultaService.findMensajesClienteGestor(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), cliente.getGestor_id());
         ArrayList<Consulta> mensajesOrdenados = new ArrayList<>();
-        for(Consulta mensaje : mensajesClienteGestor) {
-            if(mensajesOrdenados.size() == 0) {
+        for (Consulta mensaje : mensajesClienteGestor) {
+            if (mensajesOrdenados.size() == 0) {
                 mensajesOrdenados.add(mensaje);
             } else {
-                for(int i = 0; i < mensajesOrdenados.size(); i++) {
-                    if(mensaje.getFecha().isBefore(mensajesOrdenados.get(i).getFecha())) {
+                for (int i = 0; i < mensajesOrdenados.size(); i++) {
+                    if (mensaje.getFecha().isBefore(mensajesOrdenados.get(i).getFecha())) {
                         mensajesOrdenados.add(i, mensaje);
                         break;
-                    } else if(i == mensajesOrdenados.size() - 1) {
+                    } else if (i == mensajesOrdenados.size() - 1) {
                         mensajesOrdenados.add(mensaje);
                         break;
                     }
@@ -166,8 +164,8 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
             }
         }
 
-        for(Consulta mensaje : mensajesOrdenados) {
-            if(mensaje.getAutor().equals(cliente.getUUID())) {
+        for (Consulta mensaje : mensajesOrdenados) {
+            if (mensaje.getAutor().equals(cliente.getUUID())) {
                 MessageListItem newMessage = new MessageListItem(mensaje.getTexto(), mensaje.getFecha().toInstant(ZoneId.of("Europe/Berlin").getRules().getOffset(LocalDateTime.now())), cliente.getNombre());
                 newMessage.setUserColorIndex(3);
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
@@ -175,8 +173,8 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                 list.setItems(items);
             } else {
                 ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
-                for(Usuario gestor : gestores) {
-                    if(mensaje.getAutor().equals(gestor.getUUID())) {
+                for (Usuario gestor : gestores) {
+                    if (mensaje.getAutor().equals(gestor.getUUID())) {
                         MessageListItem newMessage = new MessageListItem(mensaje.getTexto(), mensaje.getFecha().toInstant(ZoneId.of("Europe/Berlin").getRules().getOffset(LocalDateTime.now())), gestor.getNombre());
                         newMessage.setUserColorIndex(1);
                         List<MessageListItem> items = new ArrayList<>(list.getItems());
@@ -186,6 +184,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                 }
             }
         }
+
         return chatLayout;
     }
 

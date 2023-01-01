@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
     @Modifying
     @Query(
-            value = "INSERT INTO Consulta VALUES (:tipo, :uuid, :autor, :texto, :fecha, :cliente_uuid, :gestor_uuid)",
+            value = "INSERT INTO consulta VALUES (:tipo, :uuid, :autor, :texto, :fecha, :cliente_uuid, :gestor_uuid)",
             nativeQuery = true
     )
     void insertConsulta(@Param("uuid") UUID uuid,
@@ -29,7 +29,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
     );
 
     @Query(
-            value = "SELECT * FROM Consulta WHERE tipo = :tipo AND cliente_uuid = :cliente_uuid AND gestor_uuid = :gestor_uuid",
+            value = "SELECT * FROM consulta WHERE tipo = :tipo AND cliente_uuid = :cliente_uuid AND gestor_uuid = :gestor_uuid",
             nativeQuery = true
     )
     ArrayList<Consulta> findMensajesClienteGestor(@Param("tipo") String tipo,

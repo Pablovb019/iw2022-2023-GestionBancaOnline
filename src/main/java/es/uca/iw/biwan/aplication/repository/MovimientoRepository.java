@@ -18,7 +18,7 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, UUID> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO Movimiento VALUES (:uuid, :estado, :emisor, :tipo, :concepto, :iban, :valor, :cuenta)",
+            value = "INSERT INTO movimiento VALUES (:uuid, :estado, :emisor, :tipo, :concepto, :iban, :valor, :cuenta)",
             nativeQuery = true
     )
     void saveMovimiento(@Param("uuid") UUID uuid,
