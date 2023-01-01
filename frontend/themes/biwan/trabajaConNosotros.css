@@ -1,0 +1,46 @@
+flow-container-root-2521314 {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}
+
+.Titulo {
+    margin-top: 50px !important;
+    margin-left: 0px !important;
+}
+
+.Numero {
+    color: #27AE60;
+    font-weight: bold;
+}
+
+.textoSinMargenTrabajaConNosotros {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    color: black;
+    font-weight: normal !important;
+}
+
+.textoTrabajaConNosotros {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    margin-left: 35px !important;
+    color: black;
+    font-weight: normal !important;
+}
+
+.textoTrabajaConNosotrosDobleMargen {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    margin-left: 70px !important;
+    color: black;
+    font-weight: normal !important;
+}
+
+.PreguntaTrabajaConNosotros {
+    font-weight: bold;
+}
+
+.layoutTextoTrabajaConNosotros {
+    margin-bottom: 50px;
+}

@@ -4,7 +4,6 @@ import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -20,16 +19,13 @@ import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.aplication.service.TarjetaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
-import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -111,7 +107,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
             gridCuentasClienteSeleccionado.setItems(cuentasCliente);
             gridCuentasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
             gridCuentasClienteSeleccionado.addColumn(Cuenta::getIBAN).setHeader("IBAN").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
-            gridCuentasClienteSeleccionado.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER);
+            gridCuentasClienteSeleccionado.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
             gridCuentasClienteSeleccionado.addComponentColumn(cuenta -> {
                 Button EliminarCuenta = new Button("Eliminar");
                 EliminarCuenta.addClassName("EliminarCuentaTarjeta");
@@ -139,7 +135,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
                     else new ConfirmDialog("No permitido", "La cuenta no se puede eliminar si tiene asignada alguna tarjeta", "Aceptar", null).open();
                 });
                 return EliminarCuenta;
-            }).setHeader("Eliminar").setTextAlign(ColumnTextAlign.CENTER);
+            }).setHeader("Eliminar").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
             gridCuentasClienteSeleccionado.setWidthFull();
         }
 
@@ -152,11 +148,11 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         gridTarjetasClienteSeleccionado = new Grid<>();
         gridTarjetasClienteSeleccionado.setItems(tarjetasCliente);
         gridTarjetasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
-        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setWidth("200px");;
-        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER).setWidth("150px");
-        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCSV).setHeader("CSV").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
-        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getPIN).setHeader("PIN").setTextAlign(ColumnTextAlign.CENTER).setWidth("100px");
-        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER);
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCVV).setHeader("CSV").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getPIN).setHeader("PIN").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+        gridTarjetasClienteSeleccionado.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
         gridTarjetasClienteSeleccionado.addComponentColumn(tarjeta -> {
             ToggleButton toggleButton = new ToggleButton();
             toggleButton.setValue(tarjeta.getActiva());
@@ -169,7 +165,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
                 confirmacion.open();
             });
             return toggleButton;
-        }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER);
+        }).setHeader("Estado").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
         gridTarjetasClienteSeleccionado.addComponentColumn(tarjeta -> {
             Button EliminarTarjeta = new Button("Eliminar");
             EliminarTarjeta.addClassName("EliminarCuentaTarjeta");
@@ -196,7 +192,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
                 });
             });
             return EliminarTarjeta;
-        }).setHeader("Eliminar").setTextAlign(ColumnTextAlign.CENTER);
+        }).setHeader("Eliminar").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
             gridTarjetasClienteSeleccionado.setWidthFull();
 
         var vlTarjetas = new VerticalLayout(TituloTarjetas, gridTarjetasClienteSeleccionado);

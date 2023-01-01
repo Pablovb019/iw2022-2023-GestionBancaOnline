@@ -1,10 +1,13 @@
 .TituloPrincipalCuentaTarjeta {
     font-weight: bold;
     text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 
 .TituloSecundarioCuentaTarjeta{
     text-align: center;
+    margin: 0;
 }
 
 .TablaCuentaTarjeta  {

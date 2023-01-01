@@ -79,7 +79,7 @@ public class PagoTarjetaEndpoint {
                 return nuevoPagoTarjeta;
             }
 
-            if (!Objects.equals(tarjeta.getCSV(), nuevoPagoTarjeta.getCsc())) {
+            if (!Objects.equals(tarjeta.getCVV(), nuevoPagoTarjeta.getCsc())) {
                 nuevoPagoTarjeta.setPaymentStatus(Estado.REJECTED);
                 System.out.println(">>>> Compra anulada ya que el CSV no coincide con el de la cuenta. <<<<");
                 System.out.println(">>>> Payload devuelto: " + nuevoPagoTarjeta + " <<<<");

@@ -1,6 +1,5 @@
 package es.uca.iw.biwan.domain.tarjeta;
 
-import es.uca.iw.biwan.domain.operaciones.Movimiento;
 import es.uca.iw.biwan.domain.operaciones.PagoTarjeta;
 import net.andreinc.mockneat.MockNeat;
 import net.andreinc.mockneat.types.enums.CreditCardType;
@@ -25,7 +24,7 @@ public class Tarjeta {
     private LocalDate fechaCaducidad;
 
     @Column(nullable = false)
-    private String CSV;
+    private String CVV;
 
     @Column(nullable = false)
     private Integer PIN;
@@ -48,7 +47,7 @@ public class Tarjeta {
         this.uuid = UUID.randomUUID();
         this.numeroTarjeta = mockNeat.creditCards().type(CreditCardType.VISA_16).get();
         this.fechaCaducidad = LocalDate.now().plusYears(2);
-        this.CSV = mockNeat.cvvs().get();
+        this.CVV = mockNeat.cvvs().get();
         String pin = String.format("%04d", mockNeat.ints().range(1000, 9999).get());
         this.PIN = Integer.valueOf(pin);
         this.limiteGasto = 1000.0;
@@ -87,12 +86,12 @@ public class Tarjeta {
         this.activa = activa;
     }
 
-    public String getCSV() {
-        return CSV;
+    public String getCVV() {
+        return CVV;
     }
 
-    public void setCSV(String CSV) {
-        this.CSV = CSV;
+    public void setCVV(String CVV) {
+        this.CVV = CVV;
     }
 
     public Integer getPIN() {
