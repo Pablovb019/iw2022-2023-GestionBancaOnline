@@ -2,21 +2,29 @@ package es.uca.iw.biwan.views.usuarios;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.AnuncioService;
+import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
+import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
@@ -28,6 +36,9 @@ import java.util.ArrayList;
 public class ClienteView extends VerticalLayout {
     @Autowired
     private AnuncioService anuncioService;
+
+    @Autowired
+    private CuentaService cuentaService;
     public ClienteView(){
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null) {
@@ -53,9 +64,42 @@ public class ClienteView extends VerticalLayout {
         VaadinSession session = VaadinSession.getCurrent();
         String nombre = session.getAttribute(Cliente.class).getNombre();
         H1 Titulo = new H1("Bienvenido " + nombre);
+        H1 Balance = new H1();
 
         H2 TituloBalance = new H2("Balance BIWAN");
-        H1 Balance = new H1("2550.67 €");
+        ArrayList<Cuenta> cuentas = cuentaService.findCuentaByCliente(session.getAttribute(Cliente.class));
+        if (cuentas.size() > 0) {
+            Balance.getElement().getStyle().set("cursor", "pointer");
+            double balance = 0;
+            for (Cuenta cuenta : cuentas) {
+                balance += cuenta.getBalance();
+            }
+            Balance.setText(balance + " €");
+
+            Balance.addClickListener(event -> {
+                Dialog dialog = new Dialog();
+                dialog.setHeaderTitle("Cuentas");
+                dialog.setWidth("600px");
+
+                VerticalLayout layout = new VerticalLayout();
+                Grid<Cuenta> gridBalance = new Grid<>();
+                gridBalance.setItems(cuentas);
+                gridBalance.addColumn(Cuenta::getIBAN).setHeader("IBAN").setWidth("300px");
+                gridBalance.addColumn(cuenta -> String.format("%,.2f €", cuenta.getBalance())).setHeader("Balance").setWidth("100px");
+                gridBalance.setAllRowsVisible(true);
+                layout.add(gridBalance);
+
+
+                Button cancelButton = new Button("Cerrar", e -> dialog.close());
+                layout.add(cancelButton);
+                dialog.add(layout);
+                dialog.open();
+            });
+
+        } else {
+            Balance = new H1("NO TIENES");
+        }
+
         Balance.getStyle().set("margin-top", "0px");
         Balance.getStyle().set("margin-bottom", "5px");
         H2 Operacionnes = new H2("Operaciones");
@@ -179,6 +223,6 @@ public class ClienteView extends VerticalLayout {
             add(crearPaginaPrincipal());
             add(FooterView.Footer());
         } catch (Exception ignored) { }
-
     }
+
 }

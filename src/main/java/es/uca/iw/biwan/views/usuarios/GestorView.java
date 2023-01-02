@@ -35,6 +35,7 @@ import es.uca.iw.biwan.views.cuentasTarjetasGestor.cuentasTarjetasGestorView;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

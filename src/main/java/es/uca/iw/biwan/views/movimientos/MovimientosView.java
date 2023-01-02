@@ -1,50 +1,9 @@
 package es.uca.iw.biwan.views.movimientos;
 
-import java.text.DecimalFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.grid.dataview.GridListDataView;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.data.renderer.LitRenderer;
-import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-import com.vaadin.flow.server.VaadinSession;
-import es.uca.iw.biwan.domain.operaciones.Movimiento;
-import es.uca.iw.biwan.domain.operaciones.PagoTarjeta;
-import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
-import es.uca.iw.biwan.domain.operaciones.Transferencia;
-import es.uca.iw.biwan.domain.operaciones.Traspaso;
-import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.EmisorInvalidoException;
-import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.FechaVencimientoInvalidaException;
-import es.uca.iw.biwan.domain.operaciones.Transferencia.BeneficiarioInvalidoException;
-import es.uca.iw.biwan.domain.operaciones.Transferencia.CuentaInvalidaException;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
-import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @PageTitle("Movimientos")
 @Route("movimientos")

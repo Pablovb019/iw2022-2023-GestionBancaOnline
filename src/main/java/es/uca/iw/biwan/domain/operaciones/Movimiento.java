@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@DiscriminatorColumn(name = "tipo_movimiento")
+@DiscriminatorColumn(name = "Tipo")
 public class Movimiento {
 
     @Id

@@ -2,7 +2,9 @@ package es.uca.iw.biwan.domain.operaciones;
 
 public enum TransaccionBancaria {
     WITHDRAWAL,
-    DEPOSIT;
+    DEPOSIT,
+    TRANSFERENCIA,
+    TRASPASO;
 
     private TransaccionBancaria() {
     }

@@ -1,34 +1,8 @@
 package es.uca.iw.biwan.views.recibosDomiciliados;
 
-import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.grid.dataview.GridListDataView;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.data.renderer.LitRenderer;
-import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-import com.vaadin.flow.server.VaadinSession;
-import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado;
-import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.EmisorInvalidoException;
-import es.uca.iw.biwan.domain.operaciones.ReciboDomiciliado.FechaVencimientoInvalidaException;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.views.footers.FooterView;
-import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
 @PageTitle("Recibos domiciliados")
 @Route("recibos-domiciliados")
