@@ -19,6 +19,7 @@ import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.consulta.Consulta;
+import es.uca.iw.biwan.domain.consulta.Offline;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
@@ -114,7 +115,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
                 items.add(newMessage);
                 list.setItems(items);
-                Consulta consulta = new Consulta();
+                Offline consulta = new Offline();
                 consulta.setUUID(UUID.randomUUID());
                 consulta.setFecha(LocalDateTime.now());
                 consulta.setTipo(TipoConsulta.OFFLINE.toString());
@@ -138,9 +139,9 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
 
 
         // Obtenemos los mensajes
-        ArrayList<Consulta> mensajesClienteGestor = consultaService.findMensajesClienteGestor(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), gestor.getUUID());
-        ArrayList<Consulta> mensajesOrdenados = new ArrayList<>();
-        for (Consulta mensaje : mensajesClienteGestor) {
+        ArrayList<Offline> mensajesClienteGestor = consultaService.findMensajesClienteGestorOffline(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), gestor.getUUID());
+        ArrayList<Offline> mensajesOrdenados = new ArrayList<>();
+        for (Offline mensaje : mensajesClienteGestor) {
             if (mensajesOrdenados.size() == 0) {
                 mensajesOrdenados.add(mensaje);
             } else {
@@ -156,7 +157,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
             }
         }
 
-        for (Consulta mensaje : mensajesOrdenados) {
+        for (Offline mensaje : mensajesOrdenados) {
             if (mensaje.getAutor().equals(gestor.getUUID())) {
                 MessageListItem newMessage = new MessageListItem(mensaje.getTexto(), mensaje.getFecha().toInstant(ZoneId.of("Europe/Berlin").getRules().getOffset(LocalDateTime.now())), gestor.getNombre());
                 newMessage.setUserColorIndex(1);
@@ -177,9 +178,9 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
         return chatLayout;
     }
 
-    private void CreateRequest(Consulta consulta) {
+    private void CreateRequest(Offline consulta) {
         try {
-            consultaService.save(consulta);
+            consultaService.saveOffline(consulta);
         } catch (Exception e) {
             ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud. Comunique al adminsitrador del sitio el error.\n" +
                     "Error: " + e, "Aceptar", null);

@@ -25,6 +25,8 @@ import com.vaadin.flow.shared.Registration;
 import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.consulta.Consulta;
+import es.uca.iw.biwan.domain.consulta.Offline;
+import es.uca.iw.biwan.domain.consulta.Online;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
@@ -49,7 +51,10 @@ import java.util.UUID;
 @Route("consultas-online-cliente")
 public class ConsultasOnlineClienteView extends VerticalLayout {
 
-    public static UUID idSala;
+    @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
+    private ConsultaService consultaService;
     private UserInfo userInfo;
 
     public ConsultasOnlineClienteView() {
@@ -137,10 +142,28 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
 
     public VerticalLayout ListaMensajesConsulta() {
         VerticalLayout chatLayout = new VerticalLayout();
-        idSala = UUID.randomUUID();
-        CollaborationAvatarGroup avatars = new CollaborationAvatarGroup(userInfo, idSala.toString());
 
-        CollaborationMessageList list = new CollaborationMessageList(userInfo, idSala.toString());
+        VaadinSession session = VaadinSession.getCurrent();
+        Cliente cliente = session.getAttribute(Cliente.class);
+
+        Online consulta = new Online();
+        consulta.setCliente(cliente);
+        consulta.setTipo(TipoConsulta.ONLINE.toString());
+        consulta.setUUID(UUID.randomUUID());
+        consulta.setSala(UUID.randomUUID());
+        consulta.setFecha(LocalDateTime.now());
+        ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
+        for (Usuario gestor : gestores) {
+            if (gestor.getUUID().equals(cliente.getGestor_id())) {
+                consulta.setGestor(gestor);
+                break;
+            }
+        }
+        CreateRequest(consulta);
+
+        CollaborationAvatarGroup avatars = new CollaborationAvatarGroup(userInfo, consulta.getSala().toString());
+
+        CollaborationMessageList list = new CollaborationMessageList(userInfo, consulta.getSala().toString());
         CollaborationMessageInput input = new CollaborationMessageInput(list);
 
         list.addClassName("list");
@@ -155,5 +178,15 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
         chatLayout.setSizeFull();
 
         return chatLayout;
+    }
+
+    private void CreateRequest(Online consulta) {
+        try {
+            consultaService.saveOnline(consulta);
+        } catch (Exception e) {
+            ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud. Comunique al adminsitrador del sitio el error.\n" +
+                    "Error: " + e, "Aceptar", null);
+            error.open();
+        }
     }
 }

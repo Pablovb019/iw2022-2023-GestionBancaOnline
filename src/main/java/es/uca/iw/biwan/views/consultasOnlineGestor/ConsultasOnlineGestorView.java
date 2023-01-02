@@ -19,6 +19,7 @@ import com.vaadin.flow.component.messages.MessageList;
 import com.vaadin.flow.component.messages.MessageListItem;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -149,8 +150,6 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
         chatLayout.add(conectados, list, input);
         chatLayout.expand(list);
         chatLayout.setSizeFull();
-
-        ConsultasOnlineClienteView.idSala = null;
 
         return chatLayout;
     }

@@ -24,6 +24,7 @@ import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.consulta.Consulta;
+import es.uca.iw.biwan.domain.consulta.Offline;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
@@ -117,7 +118,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                 List<MessageListItem> items = new ArrayList<>(list.getItems());
                 items.add(newMessage);
                 list.setItems(items);
-                Consulta consulta = new Consulta();
+                Offline consulta = new Offline();
                 consulta.setUUID(UUID.randomUUID());
                 consulta.setFecha(LocalDateTime.now());
                 consulta.setTipo(TipoConsulta.OFFLINE.toString());
@@ -126,7 +127,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                 consulta.setCliente(session.getAttribute(Cliente.class));
                 ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
                 for (Usuario gestor : gestores) {
-                    if (gestor.getUUID().equals(session.getAttribute(Cliente.class).getGestor_id())) {
+                    if (gestor.getUUID().equals(cliente.getGestor_id())) {
                         consulta.setGestor(gestor);
                         break;
                     }
@@ -146,9 +147,9 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         chatLayout.expand(list);
 
         // Obtenemos los mensajes
-        ArrayList<Consulta> mensajesClienteGestor = consultaService.findMensajesClienteGestor(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), cliente.getGestor_id());
-        ArrayList<Consulta> mensajesOrdenados = new ArrayList<>();
-        for (Consulta mensaje : mensajesClienteGestor) {
+        ArrayList<Offline> mensajesClienteGestor = consultaService.findMensajesClienteGestorOffline(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), cliente.getGestor_id());
+        ArrayList<Offline> mensajesOrdenados = new ArrayList<>();
+        for (Offline mensaje : mensajesClienteGestor) {
             if (mensajesOrdenados.size() == 0) {
                 mensajesOrdenados.add(mensaje);
             } else {
@@ -164,7 +165,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
             }
         }
 
-        for (Consulta mensaje : mensajesOrdenados) {
+        for (Offline mensaje : mensajesOrdenados) {
             if (mensaje.getAutor().equals(cliente.getUUID())) {
                 MessageListItem newMessage = new MessageListItem(mensaje.getTexto(), mensaje.getFecha().toInstant(ZoneId.of("Europe/Berlin").getRules().getOffset(LocalDateTime.now())), cliente.getNombre());
                 newMessage.setUserColorIndex(3);
@@ -188,9 +189,9 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         return chatLayout;
     }
 
-    private void CreateRequest(Consulta consulta) {
+    private void CreateRequest(Offline consulta) {
         try {
-            consultaService.save(consulta);
+            consultaService.saveOffline(consulta);
         } catch (Exception e) {
             ConfirmDialog error = new ConfirmDialog("Error", "Ha ocurrido un error al crear la solicitud. Comunique al adminsitrador del sitio el error.\n" +
                     "Error: " + e, "Aceptar", null);

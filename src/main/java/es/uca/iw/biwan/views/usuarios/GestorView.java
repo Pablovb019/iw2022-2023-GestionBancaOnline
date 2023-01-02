@@ -15,13 +15,16 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.aplication.service.TarjetaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.consulta.Consulta;
+import es.uca.iw.biwan.domain.consulta.Online;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
@@ -52,6 +55,9 @@ public class GestorView extends VerticalLayout {
 
     @Autowired
     private TarjetaService tarjetaService;
+
+    @Autowired
+    private ConsultaService consultaService;
 
     public GestorView(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
@@ -150,14 +156,8 @@ public class GestorView extends VerticalLayout {
                 Span counterOnline = new Span("0");
 
                 ConsultaOnlineButton.getElement().addEventListener("click", event -> {
-                    if(ConsultasOnlineClienteView.idSala != null) {
-                        ConsultasOnlineGestorView.idSala = ConsultasOnlineClienteView.idSala;
-                    } else {
-                        ConfirmDialog error = new ConfirmDialog("Error", "No hay ninguna petición de consulta online", "Aceptar", event1 -> {
-                            UI.getCurrent().navigate("pagina-principal-gestor");
-                        });
-                        error.open();
-                    }
+                    Online consultaOnline = consultaService.findMensajesClienteGestorOnline(TipoConsulta.ONLINE.toString(), cliente.getUUID(), session.getAttribute(Gestor.class).getUUID());
+                    ConsultasOnlineGestorView.idSala = consultaOnline.getSala();
                 });
 
                 Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");

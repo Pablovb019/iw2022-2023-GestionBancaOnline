@@ -1,6 +1,8 @@
 package es.uca.iw.biwan.aplication.repository;
 
 import es.uca.iw.biwan.domain.consulta.Consulta;
+import es.uca.iw.biwan.domain.consulta.Offline;
+import es.uca.iw.biwan.domain.consulta.Online;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,10 +18,10 @@ import java.util.UUID;
 public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
     @Modifying
     @Query(
-            value = "INSERT INTO consulta VALUES (:tipo, :uuid, :autor, :texto, :fecha, :cliente_uuid, :gestor_uuid)",
+            value = "INSERT INTO consulta VALUES (:tipo, :uuid, :autor, :texto, :fecha, :cliente_uuid, :gestor_uuid, NULL)",
             nativeQuery = true
     )
-    void insertConsulta(@Param("uuid") UUID uuid,
+    void insertConsultaOffline(@Param("uuid") UUID uuid,
                         @Param("fecha") LocalDateTime fecha,
                         @Param("tipo") String tipo,
                         @Param("autor") UUID autor,
@@ -28,12 +30,34 @@ public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
                         @Param("gestor_uuid") UUID gestor_uuid
     );
 
+    @Modifying
+    @Query(
+            value = "INSERT INTO consulta VALUES (:tipo, :uuid, :fecha, NULL, NULL, :sala, :cliente_uuid, :gestor_uuid)",
+            nativeQuery = true
+    )
+    void insertConsultaOnline(@Param("uuid") UUID uuid,
+                        @Param("tipo") String tipo,
+                        @Param("cliente_uuid") UUID cliente_uuid,
+                        @Param("gestor_uuid") UUID gestor_uuid,
+                        @Param("sala") UUID sala,
+                              @Param("fecha") LocalDateTime fecha
+    );
+
     @Query(
             value = "SELECT * FROM consulta WHERE tipo = :tipo AND cliente_uuid = :cliente_uuid AND gestor_uuid = :gestor_uuid",
             nativeQuery = true
     )
-    ArrayList<Consulta> findMensajesClienteGestor(@Param("tipo") String tipo,
-                                                  @Param("cliente_uuid") UUID cliente_uuid,
-                                                  @Param("gestor_uuid") UUID gestor_uuid
+    ArrayList<Offline> findMensajesClienteGestorOffline(@Param("tipo") String tipo,
+                                                 @Param("cliente_uuid") UUID cliente_uuid,
+                                                 @Param("gestor_uuid") UUID gestor_uuid
+    );
+
+    @Query(
+            value = "SELECT * FROM consulta WHERE tipo = :tipo AND cliente_uuid = :cliente_uuid AND gestor_uuid = :gestor_uuid",
+            nativeQuery = true
+    )
+    Online findMensajesClienteGestorOnline(@Param("tipo") String tipo,
+                                                      @Param("cliente_uuid") UUID cliente_uuid,
+                                                      @Param("gestor_uuid") UUID gestor_uuid
     );
 }

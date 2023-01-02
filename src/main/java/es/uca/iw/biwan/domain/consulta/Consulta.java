@@ -18,17 +18,11 @@ public class Consulta {
     @Column(length = 16)
     private UUID uuid;
 
-    @Column(nullable = false, length = 16)
-    private UUID autor;
-
-    @Column(nullable = false)
-    private String texto;
+    @Transient
+    private String tipo;
 
     @Column(nullable = false)
     private LocalDateTime fecha;
-
-    @Transient
-    private String tipo;
 
     @ManyToOne
     private Usuario cliente;
@@ -42,30 +36,6 @@ public class Consulta {
 
     public UUID getUUID() {
         return uuid;
-    }
-
-    public void setAutor(UUID autor) {
-        this.autor = autor;
-    }
-
-    public UUID getAutor() {
-        return autor;
-    }
-
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
-
-    public String getTexto() {
-        return texto;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
     }
 
     public void setTipo(String tipo) {
@@ -90,5 +60,13 @@ public class Consulta {
 
     public Usuario getGestor() {
         return gestor;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
     }
 }
