@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
@@ -56,8 +57,8 @@ public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
             value = "SELECT * FROM consulta WHERE tipo = :tipo AND cliente_uuid = :cliente_uuid AND gestor_uuid = :gestor_uuid",
             nativeQuery = true
     )
-    Online findMensajesClienteGestorOnline(@Param("tipo") String tipo,
-                                                      @Param("cliente_uuid") UUID cliente_uuid,
-                                                      @Param("gestor_uuid") UUID gestor_uuid
+    ArrayList<Online> findMensajesClienteGestorOnline(@Param("tipo") String tipo,
+                                                 @Param("cliente_uuid") UUID cliente_uuid,
+                                                 @Param("gestor_uuid") UUID gestor_uuid
     );
 }

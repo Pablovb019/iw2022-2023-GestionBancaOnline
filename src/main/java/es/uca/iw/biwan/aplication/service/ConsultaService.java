@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,7 +35,7 @@ public class ConsultaService {
         return consultaRepository.findMensajesClienteGestorOffline(tipo, cliente_uuid, gestor_uuid);
     }
 
-    public Online findMensajesClienteGestorOnline(String tipo, UUID cliente_uuid, UUID gestor_uuid) {
+    public ArrayList<Online> findMensajesClienteGestorOnline(String tipo, UUID cliente_uuid, UUID gestor_uuid) {
         return consultaRepository.findMensajesClienteGestorOnline(tipo, cliente_uuid, gestor_uuid);
     }
 }

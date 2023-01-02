@@ -37,10 +37,7 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.UUID;
+import java.util.*;
 
 @CssImport("./themes/biwan/paginaPrincipalGestor.css")
 @PageTitle("Página Principal Gestor")
@@ -156,8 +153,25 @@ public class GestorView extends VerticalLayout {
                 Span counterOnline = new Span("0");
 
                 ConsultaOnlineButton.getElement().addEventListener("click", event -> {
-                    Online consultaOnline = consultaService.findMensajesClienteGestorOnline(TipoConsulta.ONLINE.toString(), cliente.getUUID(), session.getAttribute(Gestor.class).getUUID());
-                    ConsultasOnlineGestorView.idSala = consultaOnline.getSala();
+                    ArrayList<Online> consultaOnline = consultaService.findMensajesClienteGestorOnline(TipoConsulta.ONLINE.toString(), cliente.getUUID(), session.getAttribute(Gestor.class).getUUID());
+                    if(consultaOnline.size() > 0) {
+                        Online consultaOnlineMasReciente = null;
+                        for (Online online : consultaOnline) {
+                            if (consultaOnlineMasReciente == null) {
+                                consultaOnlineMasReciente = online;
+                            } else {
+                                if (consultaOnlineMasReciente.getFecha().isBefore(online.getFecha())) {
+                                    consultaOnlineMasReciente = online;
+                                }
+                            }
+                        }
+                        ConsultasOnlineGestorView.idSala = consultaOnlineMasReciente.getSala();
+                    } else {
+                        ConfirmDialog error = new ConfirmDialog("Error", "No hay ninguna petición de consulta online", "Aceptar", event1 -> {
+                            UI.getCurrent().navigate("pagina-principal-gestor");
+                        });
+                        error.open();
+                    }
                 });
 
                 Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
