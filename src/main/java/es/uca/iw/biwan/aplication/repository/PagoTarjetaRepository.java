@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public interface PagoTarjetaRepository extends JpaRepository<PagoTarjeta, UUID> {
@@ -26,5 +27,11 @@ public interface PagoTarjetaRepository extends JpaRepository<PagoTarjeta, UUID> 
                          @Param("tienda") String tienda,
                          @Param("tarjeta") UUID tarjeta
     );
+
+    @Query(
+            value = "SELECT * FROM pago_tarjeta",
+            nativeQuery = true
+    )
+    ArrayList<PagoTarjeta> findPagosTarjeta();
 }
 

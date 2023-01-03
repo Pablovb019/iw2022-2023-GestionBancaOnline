@@ -1,5 +1,7 @@
 package es.uca.iw.biwan.domain.operaciones;
 
+import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -12,8 +14,7 @@ public class PagoTarjeta {
     @Id
     @Column(length = 16)
     private UUID id;
-    @Column(columnDefinition="varchar(255)")
-    private Estado paymentStatus;
+    private String paymentStatus;
 
     @NotEmpty(message = "El numero de tarjeta es obligatorio")
     @Transient
@@ -39,13 +40,17 @@ public class PagoTarjeta {
     private BigDecimal value;
 
     @Column(columnDefinition="varchar(255)")
-    private TipoPago type;
+    private String type;
 
     @Transient
     private Integer securityToken;
 
     @NotEmpty(message = "El nombre del establecimiento debe estar relleno")
     private String shop;
+
+    @ManyToOne
+    @JoinColumn(name = "tarjeta_id")
+    private Tarjeta tarjeta;
 
     public String getCardNumber() {
         return this.cardNumber;
@@ -111,11 +116,11 @@ public class PagoTarjeta {
         this.id = id;
     }
 
-    public TipoPago getType() {
+    public String getType() {
         return this.type;
     }
 
-    public void setType(TipoPago type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -127,15 +132,19 @@ public class PagoTarjeta {
         this.securityToken = securityToken;
     }
 
-    public Estado getPaymentStatus() {
+    public String getPaymentStatus() {
         return this.paymentStatus;
     }
 
-    public void setPaymentStatus(Estado paymentStatus) {
+    public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
     public String toString() {
         return "CreditCardPayment [paymentStatus=" + this.paymentStatus + ", id=" + this.id + ", cardNumber=" + this.cardNumber + ", cardholderName=" + this.cardholderName + ", month=" + this.month + ", year=" + this.year + ", csc=" + this.csc + ", value=" + this.value + ", type=" + this.type + ", securityToken=" + this.securityToken + ", shop=" + this.shop + "]";
+    }
+
+    public String getCardNumbers() {
+        return this.tarjeta.getNumeroTarjeta();
     }
 }

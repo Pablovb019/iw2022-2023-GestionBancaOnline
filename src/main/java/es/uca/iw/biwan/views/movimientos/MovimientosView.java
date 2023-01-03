@@ -2,8 +2,6 @@ package es.uca.iw.biwan.views.movimientos;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -177,7 +175,6 @@ public class MovimientosView extends VerticalLayout {
 
     private static String getFormattedMovimientoImporteDecimales(Movimiento movimiento) {
         BigDecimal importe = movimiento.getValue();
-
         return decimalFormat.format(importe);
     }
 

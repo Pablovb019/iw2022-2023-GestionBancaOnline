@@ -7,6 +7,8 @@ import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class PagoTarjetaService {
     private final PagoTarjetaRepository pagoTarjetaRepository;
@@ -18,5 +20,9 @@ public class PagoTarjetaService {
 
     public void savePagoTarjeta(PagoTarjeta pagoTarjeta, Tarjeta tarjeta) {
         pagoTarjetaRepository.savePagoTarjeta(pagoTarjeta.getId(), String.valueOf(pagoTarjeta.getPaymentStatus()), pagoTarjeta.getValue().doubleValue(), String.valueOf(pagoTarjeta.getType()), pagoTarjeta.getShop(), tarjeta.getUUID());
+    }
+
+    public ArrayList<PagoTarjeta> findPagosTarjeta() {
+        return pagoTarjetaRepository.findPagosTarjeta();
     }
 }
