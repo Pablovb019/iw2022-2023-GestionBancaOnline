@@ -8,11 +8,10 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.AnuncioService;
 import es.uca.iw.biwan.aplication.service.CuentaService;
@@ -24,7 +23,6 @@ import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
@@ -157,15 +155,12 @@ public class ClienteView extends VerticalLayout {
             // Creacion de los elementos de la noticia
             H3 TituloNoticia = new H3(noticia.getTitulo());
             Paragraph TextoNoticia = new Paragraph(noticia.getCuerpo());
-            Anchor BotonInfo = new Anchor("", "Más información");
 
             // CSS
             TituloNoticia.addClassName("TituloTextoAnuncio");
             TextoNoticia.addClassName("TextoAnuncio");
-            BotonInfo.addClassName("BotonesInfo");
 
-            var vlTextoAnuncio = new VerticalLayout(TituloNoticia, TextoNoticia,
-                    new HorizontalLayout(BotonInfo));
+            var vlTextoAnuncio = new VerticalLayout(TituloNoticia, TextoNoticia);
 
             var hlAnuncio = new HorizontalLayout(vlTextoAnuncio);
             listaNoticias.add(hlAnuncio);
@@ -178,15 +173,12 @@ public class ClienteView extends VerticalLayout {
                 // Creacion de los elementos de la oferta
                 H3 TituloOferta = new H3(oferta.getTitulo());
                 Paragraph TextoOferta = new Paragraph(oferta.getCuerpo());
-                Anchor BotonInfo = new Anchor("", "Más información");
 
                 // CSS
                 TituloOferta.addClassName("TituloTextoAnuncio");
                 TextoOferta.addClassName("TextoAnuncio");
-                BotonInfo.addClassName("BotonesInfo");
 
-                var vlTextoAnuncio = new VerticalLayout(TituloOferta, TextoOferta,
-                        new HorizontalLayout(BotonInfo));
+                var vlTextoAnuncio = new VerticalLayout(TituloOferta, TextoOferta);
 
                 var hlAnuncio = new HorizontalLayout(vlTextoAnuncio);
                 listaOfertas.add(hlAnuncio);

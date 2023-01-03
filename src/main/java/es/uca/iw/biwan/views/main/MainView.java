@@ -76,16 +76,14 @@ public class MainView extends VerticalLayout {
             H3 TituloNoticia = new H3(noticia.getTitulo());
             Paragraph TextoNoticia = new Paragraph(noticia.getCuerpo());
             Anchor BotonHazteCliente = new Anchor("registration", "Hazte cliente");
-            Anchor BotonInfo = new Anchor("", "Más información");
 
             // CSS
             TituloNoticia.addClassName("tTextoAnuncio");
             TextoNoticia.addClassName("TxtAnuncio");
             BotonHazteCliente.addClassName("BotonesHazteCliente");
-            BotonInfo.addClassName("BotonesInfo");
 
             var vlTextoAnuncio = new VerticalLayout(TituloNoticia, TextoNoticia,
-                    new HorizontalLayout(BotonHazteCliente, BotonInfo));
+                    new HorizontalLayout(BotonHazteCliente));
 
             var hlAnuncio = new HorizontalLayout(vlTextoAnuncio);
             hlAnuncio.setWidthFull();
@@ -102,16 +100,13 @@ public class MainView extends VerticalLayout {
                 H3 TituloOferta = new H3(oferta.getTitulo());
                 Paragraph TextoOferta = new Paragraph(oferta.getCuerpo());
                 Anchor BotonHazteCliente = new Anchor("registration", "Hazte cliente");
-                Anchor BotonInfo = new Anchor("", "Más información");
 
                 // CSS
                 TituloOferta.addClassName("tTextoAnuncio");
                 TextoOferta.addClassName("TxtAnuncio");
                 BotonHazteCliente.addClassName("BotonesHazteCliente");
-                BotonInfo.addClassName("BotonesInfo");
-
                 var vlTextoAnuncio = new VerticalLayout(TituloOferta, TextoOferta,
-                        new HorizontalLayout(BotonHazteCliente, BotonInfo));
+                        new HorizontalLayout(BotonHazteCliente));
 
                 var hlAnuncio = new HorizontalLayout(vlTextoAnuncio);
                 hlAnuncio.setWidthFull();

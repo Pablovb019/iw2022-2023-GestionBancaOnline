@@ -150,7 +150,7 @@ public class cuentasTarjetasGestorView extends VerticalLayout {
         gridTarjetasClienteSeleccionado.addClassName("TablaCuentaTarjeta");
         gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getNumeroTarjeta).setHeader("Numero").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
         gridTarjetasClienteSeleccionado.addColumn(tarjeta -> tarjeta.getFechaCaducidad().format(formatter)).setHeader("Fecha Caducidad").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
-        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCVV).setHeader("CSV").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
+        gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getCVV).setHeader("CVV").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
         gridTarjetasClienteSeleccionado.addColumn(Tarjeta::getPIN).setHeader("PIN").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
         gridTarjetasClienteSeleccionado.addColumn(tarjeta -> String.format("%,.2f €", tarjeta.getLimiteGasto())).setHeader("Limite").setTextAlign(ColumnTextAlign.CENTER).setAutoWidth(true);
         gridTarjetasClienteSeleccionado.addComponentColumn(tarjeta -> {
