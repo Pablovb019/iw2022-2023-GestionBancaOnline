@@ -1,14 +1,14 @@
-package es.uca.iw.biwan.views.recibosDomiciliados;
+package es.uca.iw.biwan.views.pagosTarjeta;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Recibos domiciliados")
-@Route("recibos-domiciliados")
-public class RecibosDomiciliadosView extends VerticalLayout {
+@PageTitle("Pagos con Tarjeta")
+@Route("pagos-tarjeta")
+public class PagosTarjetaView extends VerticalLayout {
 /*
-    public RecibosDomiciliadosView() {
+    public PagosTarjetaView() {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null) {
             if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
@@ -69,7 +69,7 @@ public class RecibosDomiciliadosView extends VerticalLayout {
             "<vaadin-vertical-layout style=\"line-height: 60px;\">"
                 + "  <span>${item.fecha}</span>"
                 + "</vaadin-vertical-layout>")
-            .withProperty("fecha", RecibosDomiciliadosView::getFormattedMovimientoDate);
+            .withProperty("fecha", PagosTarjetaView::getFormattedMovimientoDate);
     }
 
     private static String getFormattedMovimientoDate(ReciboDomiciliado movimiento) {

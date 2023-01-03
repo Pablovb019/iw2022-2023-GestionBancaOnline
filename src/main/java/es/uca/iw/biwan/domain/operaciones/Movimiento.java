@@ -1,5 +1,9 @@
 package es.uca.iw.biwan.domain.operaciones;
 
+import es.uca.iw.biwan.aplication.service.CuentaService;
+import es.uca.iw.biwan.domain.cuenta.Cuenta;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -8,21 +12,17 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@DiscriminatorColumn(name = "Tipo")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
+@DiscriminatorValue("MOVIMIENTO")
 public class Movimiento {
 
     @Id
     @Column(length = 16)
     private UUID id;
-
-    @Column(columnDefinition="varchar(255)")
-    private Estado transactionStatus;
-
+    private String transactionStatus;
     private String issuer;
-
-    @Column(columnDefinition="varchar(255)")
-    private TransaccionBancaria transactionType;
+    private String transactionType;
 
     @NotEmpty(message = "El concepto es obligatorio")
     private String concept;
@@ -32,6 +32,10 @@ public class Movimiento {
 
     @NotNull(message = "El importe es obligatorio")
     private BigDecimal value;
+
+    @ManyToOne
+    @JoinColumn(name = "cuenta_id")
+    private Cuenta cuenta;
 
     public String getConcept() {
         return this.concept;
@@ -65,19 +69,19 @@ public class Movimiento {
         this.id = id;
     }
 
-    public Estado getTransactionStatus() {
+    public String getTransactionStatus() {
         return this.transactionStatus;
     }
 
-    public void setTransactionStatus(Estado transactionStatus) {
+    public void setTransactionStatus(String transactionStatus) {
         this.transactionStatus = transactionStatus;
     }
 
-    public TransaccionBancaria getTransactionType() {
+    public String getTransactionType() {
         return this.transactionType;
     }
 
-    public void setTransactionType(TransaccionBancaria transactionType) {
+    public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -89,9 +93,15 @@ public class Movimiento {
         this.issuer = issuer;
     }
 
+    public String getCuentaIBAN() {
+        return this.cuenta.getIBAN();
+    }
+    public void setCuenta(Cuenta cuenta) {
+    	this.cuenta = cuenta;
+    }
+
     public String toString() {
         return "Movimiento [id=" + this.id + ", transactionStatus=" + String.valueOf(this.transactionStatus) + ", issuer=" + this.issuer + ", transactionType=" + String.valueOf(this.transactionType) + ", concept=" + this.concept + ", iban=" + this.iban + ", value=" + String.valueOf(this.value) + "]";
     }
-
 }
 

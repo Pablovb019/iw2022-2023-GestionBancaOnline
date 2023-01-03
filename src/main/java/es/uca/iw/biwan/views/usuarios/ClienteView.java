@@ -74,7 +74,7 @@ public class ClienteView extends VerticalLayout {
             for (Cuenta cuenta : cuentas) {
                 balance += cuenta.getBalance();
             }
-            Balance.setText(balance + " €");
+            Balance.setText(String.format("%.2f", balance) + " €");
 
             Balance.addClickListener(event -> {
                 Dialog dialog = new Dialog();
@@ -104,7 +104,7 @@ public class ClienteView extends VerticalLayout {
         Balance.getStyle().set("margin-bottom", "5px");
         H2 Operacionnes = new H2("Operaciones");
         Anchor MovimientosButton = new Anchor("movimientos", "Movimientos");
-        Anchor RecibosButton = new Anchor("recibos-domiciliados", "Recibos");
+        Anchor RecibosButton = new Anchor("pagos-tarjeta", "Pagos Tarjeta");
         Anchor CuentasTarjetasButton = new Anchor("cuentas-tarjetas-cliente", "Cuentas y Tarjetas");
         Anchor TransferenciasButton = new Anchor("transferencias-traspasos", "Realizar Transferencia o Traspaso");
         Anchor ConsultaOnlineButton = new Anchor("consultas-online-cliente", "Realizar Consulta Online");

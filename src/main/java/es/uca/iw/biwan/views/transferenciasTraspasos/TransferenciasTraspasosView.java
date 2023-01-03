@@ -19,8 +19,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.CuentaService;
-import es.uca.iw.biwan.aplication.service.TransferenciaService;
-import es.uca.iw.biwan.aplication.service.TraspasoService;
+import es.uca.iw.biwan.aplication.service.MovimientoService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.operaciones.Estado;
@@ -49,10 +48,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
     private CuentaService cuentaService;
 
     @Autowired
-    private TransferenciaService transferenciaService;
-
-    @Autowired
-    private TraspasoService traspasoService;
+    private MovimientoService movimientoService;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -176,7 +172,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                         newTransferencia.setConcept(concepto.getValue());
                         newTransferencia.setValue(importe.getValue().setScale(2, RoundingMode.HALF_UP));
                         newTransferencia.setIssuer("Transferencia BIWAN IW 2023");
-                        newTransferencia.setTransactionType(TransaccionBancaria.TRANSFERENCIA);
+                        newTransferencia.setTransactionType(TransaccionBancaria.TRANSFERENCIA.toString());
                         Cuenta cuentaOrigen = cuentaService.findCuentaByIban(newTransferencia.getIban());
                         Cuenta cuentaDestino = cuentaService.findCuentaByIban(newTransferencia.getIbanDestino());
 
@@ -191,8 +187,8 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                                 errorPropietario.addThemeVariants(NotificationVariant.LUMO_ERROR);
                                 errorPropietario.open();
                             } else {
-                                newTransferencia.setTransactionStatus(Estado.ACCEPTED);
-                                transferenciaService.saveTransferencia(newTransferencia, cuentaOrigen);
+                                newTransferencia.setTransactionStatus(Estado.ACCEPTED.toString());
+                                movimientoService.saveTransferencia(newTransferencia, cuentaOrigen);
 
                                 double nuevoSaldoOrigen = cuentaOrigen.getBalance() - newTransferencia.getValue().doubleValue();
                                 cuentaOrigen.setBalance(nuevoSaldoOrigen);
@@ -263,7 +259,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                         newTraspaso.setConcept(concepto.getValue());
                         newTraspaso.setValue(importe.getValue().setScale(2, RoundingMode.HALF_UP));
                         newTraspaso.setIssuer("Traspaso BIWAN IW 2023");
-                        newTraspaso.setTransactionType(TransaccionBancaria.TRASPASO);
+                        newTraspaso.setTransactionType(TransaccionBancaria.TRASPASO.toString());
                         Cuenta cuentaOrigen = cuentaService.findCuentaByIban(newTraspaso.getIban());
                         Cuenta cuentaDestino = cuentaService.findCuentaByIban(newTraspaso.getIbanDestino());
 
@@ -279,8 +275,8 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                                 errorMismaCuenta.open();
 
                             } else {
-                                newTraspaso.setTransactionStatus(Estado.ACCEPTED);
-                                traspasoService.saveTraspaso(newTraspaso, cuentaOrigen);
+                                newTraspaso.setTransactionStatus(Estado.ACCEPTED.toString());
+                                movimientoService.saveTraspaso(newTraspaso, cuentaOrigen);
 
                                 double nuevoSaldoOrigen = cuentaOrigen.getBalance() - newTraspaso.getValue().doubleValue();
                                 cuentaOrigen.setBalance(nuevoSaldoOrigen);
