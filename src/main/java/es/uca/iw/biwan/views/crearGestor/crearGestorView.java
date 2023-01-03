@@ -72,6 +72,12 @@ public class crearGestorView extends VerticalLayout{
 
                 add(layoutCrearGestor);
             }
+        } else {
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
+            });
+            error.open();
+            UI.getCurrent().navigate("");
         }
     }
 
@@ -151,10 +157,13 @@ public class crearGestorView extends VerticalLayout{
         formLayout.add(Titulo, firstName, lastName, phoneNumber, dni, birthDate, email, password, confirmPassword, submit);
 
         //ALIGNMENT
-        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("", 2));
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("21em", 2));
+
         formLayout.setColspan(Titulo, 2);
-        formLayout.setColspan(email, 2);
         setSizeFull();
+        formLayout.setHeight("650px");
 
         submit.addClickShortcut(Key.ENTER);
         submit.addClickListener(event -> {

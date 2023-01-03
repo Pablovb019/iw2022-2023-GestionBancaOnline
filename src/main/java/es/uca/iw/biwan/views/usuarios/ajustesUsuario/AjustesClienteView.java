@@ -112,30 +112,31 @@ public class AjustesClienteView extends VerticalLayout {
                 .withValidator(email1 -> email1.matches("^[A-Za-z0-9+_.-]+@(.+)$"), "El correo electrónico no es válido")
                 .bind(Cliente::getEmail, Cliente::setEmail);
 
-
-        // binder of password, only check if is not empty
-        if(!password.getValue().isBlank() || !confirmPassword.getValue().isBlank()) {
-            binderForm.forField(password)
-                    .asRequired("La contraseña es obligatoria")
-                    .withValidator(password1 -> password1.length() >= 8, "La contraseña debe tener al menos 8 caracteres")
-                    .withValidator(password1 -> password1.matches(".*[A-Z].*"), "La contraseña debe tener al menos una mayúscula")
-                    .withValidator(password1 -> password1.matches(".*[a-z].*"), "La contraseña debe tener al menos una minúscula")
-                    .withValidator(password1 -> password1.matches(".*[0-9].*"), "La contraseña debe tener al menos un número")
-                    .withValidator(password1 -> password1.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "La contraseña debe tener al menos un caracter especial")
-                    .bind(Cliente::getPassword, Cliente::setPassword);
-
-            binderForm.forField(confirmPassword)
-                    .asRequired("La confirmación de la contraseña es obligatoria")
-                    .withValidator(password1 -> password1.length() >= 8, "La contraseña debe tener al menos 8 caracteres")
-                    .withValidator(password1 -> password1.matches(".*[A-Z].*"), "La contraseña debe tener al menos una mayúscula")
-                    .withValidator(password1 -> password1.matches(".*[a-z].*"), "La contraseña debe tener al menos una minúscula")
-                    .withValidator(password1 -> password1.matches(".*[0-9].*"), "La contraseña debe tener al menos un número")
-                    .withValidator(password1 -> password1.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "La contraseña debe tener al menos un caracter especial")
-                    .withValidator(password1 -> password1.equals(confirmPassword.getValue()), "Las contraseñas no coinciden")
-                    .bind(Cliente::getPassword, Cliente::setPassword);
-        }
+        System.out.println("Contraseña vacia: " + password.isEmpty());
+        System.out.println("Confirmar Contraseña vacia: " + confirmPassword.isEmpty());
 
         save.addClickListener(event -> {
+
+            if(!password.getValue().isEmpty() || !confirmPassword.getValue().isEmpty()) {
+                binderForm.forField(password)
+                        .asRequired("La contraseña es obligatoria")
+                        .withValidator(password1 -> password1.length() >= 8, "La contraseña debe tener al menos 8 caracteres")
+                        .withValidator(password1 -> password1.matches(".*[A-Z].*"), "La contraseña debe tener al menos una mayúscula")
+                        .withValidator(password1 -> password1.matches(".*[a-z].*"), "La contraseña debe tener al menos una minúscula")
+                        .withValidator(password1 -> password1.matches(".*[0-9].*"), "La contraseña debe tener al menos un número")
+                        .withValidator(password1 -> password1.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "La contraseña debe tener al menos un caracter especial")
+                        .bind(Cliente::getPassword, Cliente::setPassword);
+
+                binderForm.forField(confirmPassword)
+                        .asRequired("La confirmación de la contraseña es obligatoria")
+                        .withValidator(password1 -> password1.length() >= 8, "La contraseña debe tener al menos 8 caracteres")
+                        .withValidator(password1 -> password1.matches(".*[A-Z].*"), "La contraseña debe tener al menos una mayúscula")
+                        .withValidator(password1 -> password1.matches(".*[a-z].*"), "La contraseña debe tener al menos una minúscula")
+                        .withValidator(password1 -> password1.matches(".*[0-9].*"), "La contraseña debe tener al menos un número")
+                        .withValidator(password1 -> password1.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "La contraseña debe tener al menos un caracter especial")
+                        .withValidator(password1 -> password1.equals(confirmPassword.getValue()), "Las contraseñas no coinciden")
+                        .bind(Cliente::getPassword, Cliente::setPassword);
+            }
 
             if(binderForm.validate().isOk()){
                 Cliente clienteForm = binderForm.getBean();
@@ -144,13 +145,13 @@ public class AjustesClienteView extends VerticalLayout {
                         Objects.equals(clienteForm.getApellidos(), clienteBD.getApellidos()) &&
                         Objects.equals(clienteForm.getFechaNacimiento(), clienteBD.getFechaNacimiento()) &&
                         Objects.equals(clienteForm.getTelefono(), clienteBD.getTelefono()) &&
-                        Objects.equals(clienteForm.getEmail(), clienteBD.getEmail())) {
+                        Objects.equals(clienteForm.getEmail(), clienteBD.getEmail()) &&
+                        password.isEmpty() && confirmPassword.isEmpty()) {
                     Notification errEqual = new Notification("No se han realizado cambios", 3000);
                     errEqual.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     errEqual.open();
                 } else {
-
-                    if(clienteForm.getPassword().isBlank() || clienteForm.getPassword().equals("")) {
+                    if(clienteForm.getPassword().isEmpty()) {
                         clienteForm.setPassword(clienteBD.getPassword());
                     } else {
                         clienteForm.setPassword(passwordEncoder.encode(clienteForm.getPassword()));
@@ -172,19 +173,22 @@ public class AjustesClienteView extends VerticalLayout {
     }
 
     private boolean ComprobarDatos(Usuario user) {
-        if (usuarioService.findUserByTelefono(user.getTelefono()) != null &&
-                Double.compare(usuarioService.findUserByTelefono(user.getTelefono()).getTelefono(), user.getTelefono()) != 0) {
-            Notification telefono = new Notification("El teléfono ya está en uso", 3000);
-            telefono.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            telefono.open();
-            return false;
+        if (usuarioService.findUserByTelefono(user.getTelefono()) != null) {
+            if (!Objects.equals(user.getDni(), usuarioService.findUserByTelefono(user.getTelefono()).getDni())) {
+                Notification errTelefono = new Notification("El teléfono ya está en uso", 3000);
+                errTelefono.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                errTelefono.open();
+                return false;
+            }
         }
 
-        if (usuarioService.findUserByEmail(user.getEmail()) != null && usuarioService.findUserByEmail(user.getEmail()).getEmail().compareTo(user.getEmail()) != 0) {
-            Notification email = new Notification("El email ya está en uso", 3000);
-            email.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            email.open();
-            return false;
+        if (usuarioService.findUserByEmail(user.getEmail()) != null) {
+            if (!Objects.equals(user.getDni(), usuarioService.findUserByEmail(user.getEmail()).getDni())) {
+                Notification errEmail = new Notification("El correo electrónico ya está en uso", 3000);
+                errEmail.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                errEmail.open();
+                return false;
+            }
         }
 
         return true;

@@ -9,11 +9,6 @@
     margin-bottom: 10px;
 }
 
-vaadin-form-layout {
-    height: 500px;
-    display: flex;
-}
-
 ::part(reveal-button) {
     color: #27AE60;
 }

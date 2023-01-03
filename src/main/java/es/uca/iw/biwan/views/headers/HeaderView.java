@@ -43,7 +43,7 @@ public class HeaderView {
 
         //ADD CLASS NAME
         Biwan.addClassNames("banner");
-        header.addClassName("header_footer");
+        header.addClassName("header");
         PaginaPrincipalAnchor.addClassName("AnchorMainPage");
         MasInfo.addClassName("AnchorMoreInfo");
         HazteCliente.addClassName("AnchorHazteCliente");

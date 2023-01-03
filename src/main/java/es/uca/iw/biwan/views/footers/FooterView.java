@@ -29,7 +29,8 @@ public class FooterView {
         Anchor NegocioResponsable = new Anchor("negocio-responsable", "Negocio responsable");
 
         //ADD CLASS NAME
-        footer.addClassName("header_footer");
+        Biwan.addClassNames("banner");
+        footer.addClassName("footer");
         AvisoLegal.addClassName("AnchorAvisoLegal");
         Tarifas.addClassName("AnchorTarifas");
         Cookies.addClassName("AnchorCookies");
@@ -39,11 +40,11 @@ public class FooterView {
 
         //ADD FOOTERS
         footer.add(footerTitulo, footerEtc);
-        footerEtc.add(footerEtc1, footerEtc2, footerEtc3);
         footerTitulo.add(Biwan);
         footerEtc1.add(AvisoLegal, Tarifas);
         footerEtc2.add(Cookies, InformesLegales);
         footerEtc3.add(TablonAnuncios, NegocioResponsable);
+        footerEtc.add(footerEtc1, footerEtc2, footerEtc3);
 
         //ALIGNMENT
         footer.setWidth("100%");
@@ -54,6 +55,9 @@ public class FooterView {
         footerEtc3.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         footerTitulo.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
         footerEtc.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
+        footerEtc.setWidth("40%");
+
+        // all
 
         return footer;
     }

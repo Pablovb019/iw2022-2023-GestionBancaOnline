@@ -164,7 +164,7 @@ public class HeaderUsuarioLogueadoView {
 
         Anchor PaginaPrincipalAnchor = new Anchor(pagRol, "Página principal");
 
-        header.addClassName("header_footer");
+        header.addClassName("header");
         PaginaPrincipalAnchor.addClassName("AnchorMainPageLogged");
         MasInfo.addClassName("AnchorMoreInfoLogged");
         headerRight.addClassName("HeaderSpacing");

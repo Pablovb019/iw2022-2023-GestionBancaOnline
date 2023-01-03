@@ -1,6 +1,6 @@
-.header_footer {
+.footer {
     background-color: #27AE60;
-    height: 90px;
+    height: 100px;
     padding: 20px;
 }
 
@@ -10,7 +10,7 @@
     text-decoration: none !important;
     border: 3px solid  transparent;
     border-radius: 50px;
-    padding-top: -20px;
+    text-align: center;
 }
 
 .AnchorAvisoLegal:hover, .AnchorTarifas:hover, .AnchorCookies:hover, .AnchorInformesLegales:hover, .AnchorTablonAnuncios:hover, .AnchorNegocioResponsable:hover {
@@ -19,19 +19,4 @@
     -o-transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
-}
-
-.AnchorAvisoLegal, .AnchorTarifas {
-    width: 80px;
-    height: 15px;
-}
-
-.AnchorCookies, .AnchorInformesLegales {
-    width: 120px;
-    height: 15px;
-}
-
-.AnchorTablonAnuncios, .AnchorNegocioResponsable {
-    width: 160px;
-    height: 15px;
 }
