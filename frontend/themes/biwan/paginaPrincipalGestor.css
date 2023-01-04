@@ -12,13 +12,15 @@ flow-container-root-2521314 {
 
 .layoutGestionCliente {
     background: #D1FFD6;
-    border: 3px solid black !important;
+    border: 1px solid grey;
     padding: 15px;
     width: 80%;
     min-width: fit-content;
+    align-self: center;
 }
 
 .Titulo {
+    align-self: center;
     margin-top: 10px;
     margin-bottom: 0;
     color: black;
@@ -37,35 +39,36 @@ flow-container-root-2521314 {
 }
 
 .BotonGestor {
-    border: 2px solid black !important;
-    padding-left: 20px;
-    padding-right: 20px;
+    align-self: center;
+    background-image: linear-gradient(to right, #38cc83, #25a468, #176538);
+    box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+    border: none;
     color: white;
-    background: #39751D;
+    font-size: large;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
     text-decoration: none !important;
-    white-space  : nowrap;
-    text-overflow: ellipsis;
-    text-align: center;
-    width: 115px;
-    max-height: 30px;
-    max-width: 160px;
+    justify-content: center;
+    align-items: center;
+    background-size: 300% 100%;
+    width: 100%;
+    min-height: 50px;
+    position: relative;
+
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
 }
 
-.AnchorButton {
-    border: 2px solid black !important;
-    padding-left: 50px;
-    padding-right: 50px;
-    color: white;
-    background: #27AE60;
-    text-decoration: none !important;
-    white-space  : nowrap;
-    text-overflow: ellipsis;
-    text-align: center;
-    max-height: 30px;
-    max-width: 230px;
-    min-width: 120px;
-}
-
-.Separacion {
-    margin-right: 10px;
+.BotonGestor:hover{
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
 }

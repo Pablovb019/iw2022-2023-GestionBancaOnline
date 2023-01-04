@@ -193,12 +193,12 @@ public class GestorView extends VerticalLayout {
                 });
 
                 //ADD CLASS
-                NombreCliente.addClassNames("NombreClienteAnchor", "Separacion");
-                CuentasYTarjetasButton.addClassNames("Separacion", "AnchorButton");
-                CrearCuentaButton.addClassNames("Separacion", "BotonGestor");
-                CrearTarjetaButton.addClassNames("Separacion", "BotonGestor");
-                ConsultaOnlineButton.addClassNames("Separacion", "BotonGestor");
-                ConsultaOfflineButton.addClassNames("Separacion", "BotonGestor");
+                NombreCliente.addClassNames("NombreClienteAnchor");
+                CuentasYTarjetasButton.addClassNames("BotonGestor");
+                CrearCuentaButton.addClassNames("BotonGestor");
+                CrearTarjetaButton.addClassNames("BotonGestor");
+                ConsultaOnlineButton.addClassNames("BotonGestor");
+                ConsultaOfflineButton.addClassNames("BotonGestor");
                 layoutComponenteTabla.addClassName("layoutGestionCliente");
 
                 //ALIGNMENT
