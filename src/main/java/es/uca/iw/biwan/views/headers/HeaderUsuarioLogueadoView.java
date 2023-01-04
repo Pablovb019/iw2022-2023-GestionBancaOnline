@@ -108,7 +108,7 @@ public class HeaderUsuarioLogueadoView {
                 MovimientosRealizadosMenuItem.addClassName("AnchorMenuItem");
                 MenuSecundario.addItem(MovimientosRealizadosMenuItem);
 
-                Anchor RecibosDomiciliadosMenuItem = new Anchor("recibos-domiciliados", "Recibos domiciliados");
+                Anchor RecibosDomiciliadosMenuItem = new Anchor("pagos-tarjeta", "Pagos con Tarjeta");
                 RecibosDomiciliadosMenuItem.addClassName("AnchorMenuItem");
                 MenuSecundario.addItem(RecibosDomiciliadosMenuItem);
 

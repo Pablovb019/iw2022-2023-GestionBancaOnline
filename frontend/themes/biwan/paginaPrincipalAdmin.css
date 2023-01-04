@@ -12,11 +12,12 @@ flow-container-root-2521314 {
 
 .layoutGestionAdmin {
     background: #D1FFD6;
-    border: 3px solid black !important;
+    border: 1px solid grey;
     padding: 15px;
     width: 80%;
     min-width: fit-content;
     border-radius: 10px;
+    align-self: center;
 
     display: flex;
     justify-content: center;

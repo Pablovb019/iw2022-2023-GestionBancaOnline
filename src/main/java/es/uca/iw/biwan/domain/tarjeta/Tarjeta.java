@@ -42,7 +42,6 @@ public class Tarjeta {
     @JoinColumn(name = "tarjeta_id")
     private List<PagoTarjeta> pagoTarjetas;
 
-
     public Tarjeta() {
         this.uuid = UUID.randomUUID();
         this.numeroTarjeta = mockNeat.creditCards().type(CreditCardType.VISA_16).get();

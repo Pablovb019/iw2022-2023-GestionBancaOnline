@@ -27,14 +27,6 @@ public class HeaderView {
         Anchor MasInfo = new Anchor("mas-informacion", "Más información");
         Anchor HazteCliente = new Anchor("registration", "+ Hazte cliente");
         Anchor Acceso = new Anchor("login", "Acceso");
-        Anchor CuentasTarjetasMenuItem = new Anchor("login", "Cuentas y tarjetas");
-        Anchor MovimientosRealizadosMenuItem = new Anchor("login", "Movimientos realizados");
-        Anchor RecibosDomiciliadosMenuItem = new Anchor("login", "Recibos domiciliados");
-        Anchor TransferenciasTraspasosMenuItem = new Anchor("login", "Transferencias y Traspasos");
-        Anchor ConsultasOnlineMenuItem = new Anchor("login", "Consultas Online");
-        Anchor ConsultasOfflineMenuItem = new Anchor("login", "Consultas Offline");
-        MenuBar MenuPrincipal = new MenuBar();
-        Icon iconMenu = new Icon(VaadinIcon.MENU);
         Icon iconHazteCliente = new Icon(VaadinIcon.USER);
         Icon PaginaPrincipalIcon = new Icon(VaadinIcon.HOME);
 
@@ -49,38 +41,15 @@ public class HeaderView {
         headerLeft.addClassName("HeaderSpacing");
         iconHazteCliente.addClassName("iconHazteCliente");
         PaginaPrincipalIcon.addClassName("PaginaPrincipalIcon");
-        CuentasTarjetasMenuItem.addClassName("AnchorMenuItem");
-        MovimientosRealizadosMenuItem.addClassName("AnchorMenuItem");
-        RecibosDomiciliadosMenuItem.addClassName("AnchorMenuItem");
-        TransferenciasTraspasosMenuItem.addClassName("AnchorMenuItem");
-        ConsultasOnlineMenuItem.addClassName("AnchorMenuItem");
-        ConsultasOfflineMenuItem.addClassName("AnchorMenuItem");
-
-        //MENU
-        MenuItem itemPrincipal = MenuPrincipal.addItem("Menú");
-        itemPrincipal.getElement().getStyle().set("color", "black");
-        itemPrincipal.getElement().getStyle().set("cursor", "pointer");
-
-        itemPrincipal.addComponentAtIndex(1, iconMenu);
-        SubMenu MenuSecundario = itemPrincipal.getSubMenu();
-        MenuSecundario.addItem(CuentasTarjetasMenuItem);
-        MenuSecundario.addItem(MovimientosRealizadosMenuItem);
-        MenuSecundario.addItem(RecibosDomiciliadosMenuItem);
-        MenuSecundario.addItem(TransferenciasTraspasosMenuItem);
-        MenuSecundario.addItem(ConsultasOnlineMenuItem);
-        MenuSecundario.addItem(ConsultasOfflineMenuItem);
 
         //ADD HEADERS
         header.add(headerLeft, headerMiddle, headerRight);
         headerLeft.add(Biwan, PaginaPrincipalAnchor, MasInfo);
-        headerRight.add(HazteCliente, Acceso, MenuPrincipal);
+        headerRight.add(HazteCliente, Acceso);
 
         //ADJUSTMENTS
         PaginaPrincipalAnchor.addComponentAsFirst(PaginaPrincipalIcon);
         HazteCliente.addComponentAsFirst(iconHazteCliente);
-        iconMenu.getElement().setAttribute("part", "iconMenu");
-        MenuPrincipal.getStyle().set("padding-top", "5px");
-        //SearchField.setPrefixComponent(iconBusqueda);  //Cambiar icono en un field
 
         //ALIGNMENT
         header.setWidth("100%");

@@ -144,6 +144,14 @@ public class PagoTarjeta {
         return "CreditCardPayment [paymentStatus=" + this.paymentStatus + ", id=" + this.id + ", cardNumber=" + this.cardNumber + ", cardholderName=" + this.cardholderName + ", month=" + this.month + ", year=" + this.year + ", csc=" + this.csc + ", value=" + this.value + ", type=" + this.type + ", securityToken=" + this.securityToken + ", shop=" + this.shop + "]";
     }
 
+    public Tarjeta getTarjeta() {
+        return this.tarjeta;
+    }
+
+    public void setTarjeta(Tarjeta tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
     public String getCardNumbers() {
         return this.tarjeta.getNumeroTarjeta();
     }

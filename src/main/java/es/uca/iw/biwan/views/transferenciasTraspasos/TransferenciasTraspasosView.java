@@ -8,6 +8,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -79,6 +80,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                 UI.getCurrent().navigate("/login");
             });
             error.open();
+
         }
     }
 
@@ -109,9 +111,11 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                 });
                 errorUnaCuenta.open();
             } else {
+                H1 titulo = new H1("Transferencia");
+                titulo.addClassName("Titulo");
                 TransferenciaForm form = new TransferenciaForm();
                 formulario.removeAll();
-                formulario.add(form);
+                formulario.add(titulo, form);
             }
         });
 
@@ -123,9 +127,11 @@ public class TransferenciasTraspasosView extends VerticalLayout {
                 });
                 errorUnaCuenta.open();
             } else {
+                H1 titulo = new H1("Traspaso");
+                titulo.addClassName("Titulo");
                 TraspasoForm form = new TraspasoForm();
                 formulario.removeAll();
-                formulario.add(form);
+                formulario.add(titulo, form);
             }
         });
 

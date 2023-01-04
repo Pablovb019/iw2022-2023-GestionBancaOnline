@@ -44,6 +44,7 @@ public class PagoTarjetaEndpoint {
     PagoTarjeta addPagoTarjeta(@RequestBody PagoTarjeta nuevoPagoTarjeta) {
         Cuenta cuenta = cuentaService.findCuentaByNumeroTarjeta(nuevoPagoTarjeta.getCardNumber());
         Tarjeta tarjeta = tarjetaService.findTarjetaByNumeroTarjeta(nuevoPagoTarjeta.getCardNumber());
+        nuevoPagoTarjeta.setTarjeta(tarjeta);
 
         if (cuenta == null) {
             nuevoPagoTarjeta.setPaymentStatus(Estado.REJECTED.toString());

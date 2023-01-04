@@ -9,7 +9,7 @@
     bottom: 5px;
 }
 
-.iconHazteCliente, .AnchorMainPage, .AnchorMoreInfo, .AnchorAcceso, .AnchorHazteCliente, .AnchorMenuItem {
+.iconHazteCliente, .AnchorMainPage, .AnchorMoreInfo, .AnchorAcceso, .AnchorHazteCliente {
     align-self: center !important;
     color: black;
     text-decoration: none !important;
@@ -40,11 +40,6 @@
     -o-transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
-}
-
-.AnchorMenuItem {
-    background: transparent;
-    font-size: large;
 }
 
 .AnchorMainPage:hover, .AnchorMoreInfo:hover, .AnchorAcceso:hover, .AnchorHazteCliente:hover {

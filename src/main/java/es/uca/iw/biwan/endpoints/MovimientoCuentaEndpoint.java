@@ -28,6 +28,7 @@ public class MovimientoCuentaEndpoint {
     Movimiento addMovimiento(@RequestBody Movimiento nuevoMovimiento) {
         nuevoMovimiento.setId(UUID.randomUUID());
         Cuenta cuenta = cuentaService.findCuentaByIban(nuevoMovimiento.getIban());
+        nuevoMovimiento.setCuenta(cuenta);
         if (cuenta.getBalance() < nuevoMovimiento.getValue().doubleValue() && Objects.equals(nuevoMovimiento.getTransactionType(), TransaccionBancaria.WITHDRAWAL.toString())) {
             nuevoMovimiento.setTransactionStatus(Estado.REJECTED.toString());
             movimientoService.saveMovimiento(nuevoMovimiento, cuenta);
@@ -45,6 +46,7 @@ public class MovimientoCuentaEndpoint {
             cuenta.setBalance(nuevoBalance.setScale(2, RoundingMode.HALF_UP).doubleValue());
             cuentaService.updateBalance(cuenta);
         }
+        System.out.println(nuevoMovimiento.toString());
         return nuevoMovimiento;
     }
 }
