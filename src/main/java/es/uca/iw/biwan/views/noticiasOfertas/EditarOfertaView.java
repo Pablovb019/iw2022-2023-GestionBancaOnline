@@ -92,6 +92,7 @@ public class EditarOfertaView extends VerticalLayout {
         titulo.setMinWidth("700px");
         descripcion.setMinHeight("700px");
         descripcion.setMinHeight("198px");
+        descripcion.addClassName("descripcion");
         FormLayout flForm = new FormLayout();
 
         binderOferta.forField(titulo)

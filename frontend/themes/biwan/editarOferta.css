@@ -11,7 +11,7 @@
     padding: 20px;
     width: 800px;
     align-self: center;
-    height: auto;
+    height: 480px !important;
 }
 
 .saveEditar {

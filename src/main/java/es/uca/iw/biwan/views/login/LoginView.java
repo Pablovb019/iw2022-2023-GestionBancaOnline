@@ -111,6 +111,9 @@ public class LoginView extends VerticalLayout {
         formLayout.setColspan(submit, 2); // Stretch the submit button over 2 columns
         setSizeFull();
 
+        //ADD CLASS NAME
+        formLayout.addClassName("formLayout");
+
         submit.addClickShortcut(Key.ENTER);
         submit.addClickListener(event -> {
             if (binderLogin.validate().isOk()) {
