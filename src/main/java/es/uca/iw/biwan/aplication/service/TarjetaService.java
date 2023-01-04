@@ -38,5 +38,7 @@ public class TarjetaService {
 
     public int findTarjetaByCuentaUUID(UUID uuid) { return tarjetaRepository.findTarjetaByCuentaUUID(uuid); }
 
+    public ArrayList<Tarjeta> findTarjetaByCuenta(UUID uuid) { return tarjetaRepository.findTarjetaByCuenta(uuid); }
+
     public void updateLimiteGasto(Tarjeta tarjeta) { tarjetaRepository.updateLimiteGasto(tarjeta.getLimiteGasto(), tarjeta.getUUID()); }
 }

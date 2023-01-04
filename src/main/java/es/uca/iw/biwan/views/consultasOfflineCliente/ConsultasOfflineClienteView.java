@@ -28,8 +28,7 @@ import es.uca.iw.biwan.domain.consulta.Offline;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +54,16 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
 
     public ConsultasOfflineClienteView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if (session.getAttribute(Cliente.class) != null) {
-            if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
-                    UI.getCurrent().navigate("");
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Aceptar", event -> {
+                    if (session.getAttribute(Gestor.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-gestor");
+                    }else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    } else if (session.getAttribute(Administrador.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
                 });
                 error.open();
             }
@@ -67,7 +72,6 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
                 UI.getCurrent().navigate("/login");
             });
             error.open();
-            UI.getCurrent().navigate("");
         }
     }
 
@@ -201,21 +205,23 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        //NEW
-        VerticalLayout layoutConsultaOffline = new VerticalLayout();
-        VerticalLayout layoutConsultas = new VerticalLayout();
+        try{
+            //NEW
+            VerticalLayout layoutConsultaOffline = new VerticalLayout();
+            VerticalLayout layoutConsultas = new VerticalLayout();
 
-        //ADD CLASS NAME
-        layoutConsultas.addClassName("layoutConsultas");
+            //ADD CLASS NAME
+            layoutConsultas.addClassName("layoutConsultas");
 
-        //ADD
-        layoutConsultas.add(ConsultasOffline());
-        layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
+            //ADD
+            layoutConsultas.add(ConsultasOffline());
+            layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
 
-        //ALIGNMENT
-        layoutConsultaOffline.expand(layoutConsultas);
-        layoutConsultaOffline.setSizeFull();
+            //ALIGNMENT
+            layoutConsultaOffline.expand(layoutConsultas);
+            layoutConsultaOffline.setSizeFull();
 
-        add(layoutConsultaOffline);
+            add(layoutConsultaOffline);
+        } catch (Exception ignored) {}
     }
 }

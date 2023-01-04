@@ -24,9 +24,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Gestor;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.consultasOnlineCliente.ConsultasOnlineClienteView;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -53,10 +51,16 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
 
     public ConsultasOnlineGestorView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Gestor.class) != null) {
-            if (!session.getAttribute(Gestor.class).getRol().contentEquals("GESTOR")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
-                    UI.getCurrent().navigate("");
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Cliente.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Aceptar", event -> {
+                    if (session.getAttribute(Cliente.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-cliente");
+                    }else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    } else if (session.getAttribute(Administrador.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
                 });
                 error.open();
             } else {
@@ -68,7 +72,6 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
                 UI.getCurrent().navigate("/login");
             });
             error.open();
-            UI.getCurrent().navigate("");
         }
     }
     public VerticalLayout createEnterLayout() {

@@ -7,8 +7,14 @@ import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import es.uca.iw.biwan.domain.usuarios.Administrador;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @CssImport("./themes/biwan/avisoLegal.css")
@@ -18,6 +24,18 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 public class AvisoLegalView extends VerticalLayout{
 
     public AvisoLegalView() {
+
+        VaadinSession session = VaadinSession.getCurrent();
+        if (session.getAttribute(Cliente.class) != null
+                || session.getAttribute(Gestor.class) != null
+                || session.getAttribute(EncargadoComunicaciones.class) != null
+                || session.getAttribute(Administrador.class) != null) {
+            // Si hay un usuario logueado, mostrar la vista de usuario logueado
+            add(HeaderUsuarioLogueadoView.Header());
+        } else {
+            // Si no hay un usuario logueado, mostrar la vista de usuario no logueado
+            add(HeaderView.Header());
+        }
 
         //NEW
         VerticalLayout layoutAvisoLegal = new VerticalLayout();
@@ -75,7 +93,7 @@ public class AvisoLegalView extends VerticalLayout{
 
         //ADD
         layoutTextoAvisoLegal.add(Titulo, CondicionesGeneralesUso, TextoCondGenUso, ResponsabilidadGarantia, TextoRespGar1, TextoRespGar2, TextoRespGar3, TextoRespGar4, TextoRespGar5, PropiedadIndustrialIntelectual, TextoPropIndInt, LegislacionAplicable, TextoLegApli, InformacionProteccionDatos, TextoInfProtDat1, TextoInfProtDat2, TextoInfProtDat3, TextoInfProtDat4);
-        layoutAvisoLegal.add(HeaderView.Header(), layoutTextoAvisoLegal, FooterView.Footer());
+        layoutAvisoLegal.add(layoutTextoAvisoLegal, FooterView.Footer());
 
         //ADD CLASS NAME
         Titulo.addClassName("Titulo");

@@ -23,10 +23,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
-import es.uca.iw.biwan.domain.usuarios.Administrador;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Gestor;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +55,25 @@ public class AjustesAdministradorView extends VerticalLayout {
 
     public AjustesAdministradorView(){
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Administrador.class) != null) {
-            add(HeaderUsuarioLogueadoView.Header());
-            add(crearTitulo());
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un administrador", "Aceptar", event -> {
+                    if (session.getAttribute(Cliente.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-cliente");
+                    }else if (session.getAttribute(Gestor.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-gestor");
+                    } else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    }
+                });
+                error.open();
+            } else {
+                add(HeaderUsuarioLogueadoView.Header());
+                add(crearTitulo());
+            }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Volver", event -> {
-                UI.getCurrent().navigate("");
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
             });
             error.open();
         }
@@ -218,7 +228,9 @@ public class AjustesAdministradorView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        add(crearFormulario());
-        add(FooterView.Footer());
+        try{
+            add(crearFormulario());
+            add(FooterView.Footer());
+        } catch (Exception ignored) {}
     }
 }

@@ -23,8 +23,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.rol.Role;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +55,25 @@ public class AjustesClienteView extends VerticalLayout {
 
     public AjustesClienteView(){
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Cliente.class) != null) {
-            add(HeaderUsuarioLogueadoView.Header());
-            add(crearTitulo());
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Aceptar", event -> {
+                    if (session.getAttribute(Gestor.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-gestor");
+                    }else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    } else if (session.getAttribute(Administrador.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
+                });
+                error.open();
+            } else {
+                add(HeaderUsuarioLogueadoView.Header());
+                add(crearTitulo());
+            }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Volver", event -> {
-                UI.getCurrent().navigate("");
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
             });
             error.open();
         }
@@ -85,7 +97,7 @@ public class AjustesClienteView extends VerticalLayout {
 
         Binder<Cliente> binderForm = new Binder<>(Cliente.class);
         Cliente cliente = VaadinSession.getCurrent().getAttribute(Cliente.class);
-        cliente.setPassword(""); // Por defecto si la contraseña no se modifica, se deja vacía
+        cliente.setPassword("");
         binderForm.setBean(cliente);
 
         Cliente clienteBD = (Cliente) usuarioService.findUserByEmail(cliente.getEmail());
@@ -112,12 +124,9 @@ public class AjustesClienteView extends VerticalLayout {
                 .withValidator(email1 -> email1.matches("^[A-Za-z0-9+_.-]+@(.+)$"), "El correo electrónico no es válido")
                 .bind(Cliente::getEmail, Cliente::setEmail);
 
-        System.out.println("Contraseña vacia: " + password.isEmpty());
-        System.out.println("Confirmar Contraseña vacia: " + confirmPassword.isEmpty());
-
         save.addClickListener(event -> {
 
-            if(!password.getValue().isEmpty() || !confirmPassword.getValue().isEmpty()) {
+            if(!password.isEmpty() || !confirmPassword.isEmpty()) {
                 binderForm.forField(password)
                         .asRequired("La contraseña es obligatoria")
                         .withValidator(password1 -> password1.length() >= 8, "La contraseña debe tener al menos 8 caracteres")
@@ -219,8 +228,10 @@ public class AjustesClienteView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        add(crearFormulario());
-        add(FooterView.Footer());
+        try {
+            add(crearFormulario());
+            add(FooterView.Footer());
+        } catch (Exception ignored) {}
     }
 }
 

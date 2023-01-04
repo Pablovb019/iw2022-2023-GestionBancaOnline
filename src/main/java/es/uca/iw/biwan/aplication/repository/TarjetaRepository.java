@@ -79,6 +79,12 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     )
     int findTarjetaByCuentaUUID(UUID uuid);
 
+    @Query(
+            value = "SELECT * FROM tarjeta WHERE tarjeta.cuenta_id = :uuid",
+            nativeQuery = true
+    )
+    ArrayList<Tarjeta> findTarjetaByCuenta(UUID uuid);
+
     @Transactional
     @Modifying
     @Query(

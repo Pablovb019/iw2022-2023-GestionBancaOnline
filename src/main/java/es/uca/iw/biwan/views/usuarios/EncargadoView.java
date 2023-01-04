@@ -15,8 +15,7 @@ import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
-import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.noticiasOfertas.EditarNoticiaView;
@@ -38,10 +37,16 @@ public class EncargadoView extends VerticalLayout {
 
     public EncargadoView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if (session.getAttribute(EncargadoComunicaciones.class) != null) {
-            if (!session.getAttribute(EncargadoComunicaciones.class).getRol().contentEquals("ENCARGADO_COMUNICACIONES")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un encargado de comunicaciones", "Volver", event -> {
-                    UI.getCurrent().navigate("/");
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(Administrador.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un encargado de comunicación", "Aceptar", event -> {
+                    if (session.getAttribute(Cliente.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-cliente");
+                    }else if (session.getAttribute(Gestor.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-gestor");
+                    } else if (session.getAttribute(Administrador.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
                 });
                 error.open();
             } else {
@@ -186,7 +191,9 @@ public class EncargadoView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        add(crearPaginaPrincipal());
-        add(FooterView.Footer());
+        try{
+            add(crearPaginaPrincipal());
+            add(FooterView.Footer());
+        } catch (Exception ignored) {}
     }
 }

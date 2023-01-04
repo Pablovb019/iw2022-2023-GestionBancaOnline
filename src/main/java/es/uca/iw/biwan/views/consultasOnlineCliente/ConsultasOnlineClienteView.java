@@ -11,39 +11,26 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.shared.Registration;
 import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.consulta.Consulta;
-import es.uca.iw.biwan.domain.consulta.Offline;
 import es.uca.iw.biwan.domain.consulta.Online;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Gestor;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
-import es.uca.iw.biwan.views.consultasOnlineGestor.ConsultasOnlineGestorView;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @CssImport("./themes/biwan/consultasOnlineGestor.css")
@@ -59,10 +46,16 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
 
     public ConsultasOnlineClienteView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if (session.getAttribute(Cliente.class) != null) {
-            if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
-                    UI.getCurrent().navigate("");
+        if (session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null) {
+            if (session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null) {
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Aceptar", event -> {
+                    if (session.getAttribute(Gestor.class) != null) {
+                        UI.getCurrent().navigate("pagina-principal-gestor");
+                    } else if (session.getAttribute(EncargadoComunicaciones.class) != null) {
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    } else if (session.getAttribute(Administrador.class) != null) {
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
                 });
                 error.open();
             } else {
@@ -74,7 +67,6 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
                 UI.getCurrent().navigate("/login");
             });
             error.open();
-            UI.getCurrent().navigate("");
         }
     }
 
@@ -93,8 +85,9 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
         });
 
         salir.addClickListener(e -> {
-            if(session.getAttribute(Cliente.class) != null) { UI.getCurrent().navigate("pagina-principal-cliente"); }
-            else {
+            if (session.getAttribute(Cliente.class) != null) {
+                UI.getCurrent().navigate("pagina-principal-cliente");
+            } else {
                 ConfirmDialog error = new ConfirmDialog("Error", "El usuario no esta logueado", "Aceptar", null);
                 error.open();
                 UI.getCurrent().navigate("");
@@ -172,7 +165,7 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
         HorizontalLayout conectados = new HorizontalLayout();
         H3 conectadosH3 = new H3("Conectados: ");
         conectadosH3.addClassName("conectadosH3");
-        conectados.add(conectadosH3 , avatars);
+        conectados.add(conectadosH3, avatars);
         conectados.addClassName("conectados");
         chatLayout.add(conectados, list, input);
         chatLayout.expand(list);

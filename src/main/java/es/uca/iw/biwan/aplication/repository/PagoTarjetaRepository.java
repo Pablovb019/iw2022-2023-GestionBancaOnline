@@ -29,9 +29,11 @@ public interface PagoTarjetaRepository extends JpaRepository<PagoTarjeta, UUID> 
     );
 
     @Query(
-            value = "SELECT * FROM pago_tarjeta",
+            value = "SELECT * FROM pago_tarjeta WHERE tarjeta_id = :tarjeta",
             nativeQuery = true
     )
-    ArrayList<PagoTarjeta> findPagosTarjeta();
+    ArrayList<PagoTarjeta> findPagosTarjeta(
+            @Param("tarjeta") UUID tarjeta
+    );
 }
 

@@ -22,7 +22,7 @@ public class PagoTarjetaService {
         pagoTarjetaRepository.savePagoTarjeta(pagoTarjeta.getId(), String.valueOf(pagoTarjeta.getPaymentStatus()), pagoTarjeta.getValue().doubleValue(), String.valueOf(pagoTarjeta.getType()), pagoTarjeta.getShop(), tarjeta.getUUID());
     }
 
-    public ArrayList<PagoTarjeta> findPagosTarjeta() {
-        return pagoTarjetaRepository.findPagosTarjeta();
+    public ArrayList<PagoTarjeta> findPagosTarjetaByTarjeta(Tarjeta tarjeta) {
+        return pagoTarjetaRepository.findPagosTarjeta(tarjeta.getUUID());
     }
 }

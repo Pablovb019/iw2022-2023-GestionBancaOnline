@@ -69,23 +69,29 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, UUID> {
     );
 
     @Query(
-            value = "SELECT * FROM movimiento WHERE tipo = 'MOVIMIENTO'",
+            value = "SELECT * FROM movimiento WHERE tipo = 'MOVIMIENTO' AND cuenta_id = :cuenta",
             nativeQuery = true
     )
 
-    ArrayList<Movimiento> findAllMovimientos();
+    ArrayList<Movimiento> findAllMovimientos(
+            @Param("cuenta") UUID uuid
+    );
 
     @Query(
-            value = "SELECT * FROM movimiento WHERE tipo = 'TRANSFERENCIA'",
+            value = "SELECT * FROM movimiento WHERE tipo = 'TRANSFERENCIA' AND cuenta_id = :cuenta",
             nativeQuery = true
     )
 
-    ArrayList<Transferencia> findAllTransferencias();
+    ArrayList<Transferencia> findAllTransferencias(
+            @Param("cuenta") UUID uuid
+    );
 
     @Query(
-            value = "SELECT * FROM movimiento WHERE tipo = 'TRASPASO'",
+            value = "SELECT * FROM movimiento WHERE tipo = 'TRASPASO' AND cuenta_id = :cuenta",
             nativeQuery = true
     )
 
-    ArrayList<Traspaso> findAllTraspasos();
+    ArrayList<Traspaso> findAllTraspasos(
+            @Param("cuenta") UUID uuid
+    );
 }

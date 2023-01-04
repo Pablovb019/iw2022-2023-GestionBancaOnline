@@ -25,9 +25,7 @@ import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Gestor;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.consultasOfflineGestor.ConsultasOfflineGestorView;
 import es.uca.iw.biwan.views.consultasOnlineCliente.ConsultasOnlineClienteView;
 import es.uca.iw.biwan.views.consultasOnlineGestor.ConsultasOnlineGestorView;
@@ -60,10 +58,16 @@ public class GestorView extends VerticalLayout {
     public GestorView(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Gestor.class) != null) {
-            if (!session.getAttribute(Gestor.class).getRol().contentEquals("GESTOR")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
-                    UI.getCurrent().navigate("");
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Cliente.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Aceptar", event -> {
+                    if (session.getAttribute(Cliente.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-cliente");
+                    }else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    } else if (session.getAttribute(Administrador.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
                 });
                 error.open();
             } else {
@@ -83,9 +87,10 @@ public class GestorView extends VerticalLayout {
                 add(layoutGestor);
             }
         } else {
-            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", null);
+            ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
+                UI.getCurrent().navigate("/login");
+            });
             error.open();
-            UI.getCurrent().navigate("");
         }
     }
 

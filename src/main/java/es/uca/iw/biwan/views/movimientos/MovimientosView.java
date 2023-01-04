@@ -16,16 +16,21 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
+import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.aplication.service.MovimientoService;
+import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.operaciones.Movimiento;
 import es.uca.iw.biwan.domain.operaciones.TransaccionBancaria;
 import es.uca.iw.biwan.domain.operaciones.Transferencia;
 import es.uca.iw.biwan.domain.operaciones.Traspaso;
+import es.uca.iw.biwan.domain.usuarios.Administrador;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +56,16 @@ public class MovimientosView extends VerticalLayout {
 
     public MovimientosView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Cliente.class) != null) {
-            if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
-                    UI.getCurrent().navigate("");
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Aceptar", event -> {
+                    if (session.getAttribute(Gestor.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-gestor");
+                    }else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    } else if (session.getAttribute(Administrador.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
                 });
                 error.open();
             }
@@ -90,9 +101,18 @@ public class MovimientosView extends VerticalLayout {
         VerticalLayout filterTypeTableLayout = new VerticalLayout();
         filterTypeTableLayout.setWidth("100%");
 
-        ArrayList<Movimiento> moves = movimientoService.findAllMovimientos();
-        ArrayList<Transferencia> transferencias = movimientoService.findAllTransferencias();
-        ArrayList<Traspaso> traspasos = movimientoService.findAllTraspasos();
+        Cliente cliente = VaadinSession.getCurrent().getAttribute(Cliente.class);
+        ArrayList<Cuenta> cuentas = cuentaService.findCuentaByCliente(cliente);
+
+        ArrayList<Movimiento> moves = new ArrayList<>();
+        ArrayList<Transferencia> transferencias = new ArrayList<>();
+        ArrayList<Traspaso> traspasos = new ArrayList<>();
+
+        for(Cuenta cuenta : cuentas){
+            moves.addAll(movimientoService.findAllMovimientos(cuenta));
+            transferencias.addAll(movimientoService.findAllTransferencias(cuenta));
+            traspasos.addAll(movimientoService.findAllTraspasos(cuenta));
+        }
 
         ArrayList<Movimiento> movimientos = new ArrayList<>();
         movimientos.addAll(moves);
@@ -166,7 +186,7 @@ public class MovimientosView extends VerticalLayout {
     private static String getFormattedMovimientoImporteColor(Movimiento movimiento) {
        if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.DEPOSIT.toString())) {
             return "green";
-        } else if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.WITHDRAWAL.toString()) || Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.TRANSFERENCIA.toString())) {
+        } else if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.WITHDRAWAL.toString())) {
             return "red";
         } else {
             return "black";
@@ -284,7 +304,9 @@ public class MovimientosView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        add(VisualizadorMovimientos());
-        add(FooterView.Footer());
+        try{
+            add(VisualizadorMovimientos());
+            add(FooterView.Footer());
+        } catch (Exception ignored) {}
     }
 }

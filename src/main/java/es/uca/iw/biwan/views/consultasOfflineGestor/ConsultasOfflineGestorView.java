@@ -22,9 +22,7 @@ import es.uca.iw.biwan.domain.consulta.Consulta;
 import es.uca.iw.biwan.domain.consulta.Offline;
 import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Gestor;
-import es.uca.iw.biwan.domain.usuarios.Usuario;
+import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.usuarios.GestorView;
@@ -53,10 +51,16 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
 
     public ConsultasOfflineGestorView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if (session.getAttribute(Gestor.class) != null) {
-            if (!session.getAttribute(Gestor.class).getRol().contentEquals("GESTOR")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Volver", event -> {
-                    UI.getCurrent().navigate("");
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Cliente.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un gestor", "Aceptar", event -> {
+                    if (session.getAttribute(Cliente.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-cliente");
+                    }else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    } else if (session.getAttribute(Administrador.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
                 });
                 error.open();
             }
@@ -65,7 +69,6 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
                 UI.getCurrent().navigate("/login");
             });
             error.open();
-            UI.getCurrent().navigate("");
         }
     }
 
@@ -191,21 +194,23 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        //NEW
-        VerticalLayout layoutConsultaOffline = new VerticalLayout();
-        VerticalLayout layoutConsultas = new VerticalLayout();
+        try{
+            //NEW
+            VerticalLayout layoutConsultaOffline = new VerticalLayout();
+            VerticalLayout layoutConsultas = new VerticalLayout();
 
-        //ADD CLASS NAME
-        layoutConsultas.addClassName("layoutConsultas");
+            //ADD CLASS NAME
+            layoutConsultas.addClassName("layoutConsultas");
 
-        //ADD
-        layoutConsultas.add(ConsultasOffline());
-        layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
+            //ADD
+            layoutConsultas.add(ConsultasOffline());
+            layoutConsultaOffline.add(HeaderUsuarioLogueadoView.Header(), layoutConsultas, FooterView.Footer());
 
-        //ALIGNMENT
-        layoutConsultaOffline.expand(layoutConsultas);
-        layoutConsultaOffline.setSizeFull();
+            //ALIGNMENT
+            layoutConsultaOffline.expand(layoutConsultas);
+            layoutConsultaOffline.setSizeFull();
 
-        add(layoutConsultaOffline);
+            add(layoutConsultaOffline);
+        } catch (Exception ignored) {}
     }
 }

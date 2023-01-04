@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class MovimientoService {
@@ -32,15 +31,15 @@ public class MovimientoService {
         movimientoRepository.saveTraspaso(traspaso.getId(), String.valueOf(traspaso.getTransactionStatus()), traspaso.getIssuer(), String.valueOf(traspaso.getTransactionType()), traspaso.getConcept(), traspaso.getIban(), traspaso.getValue(), traspaso.getIbanDestino(), cuentaOrigen.getUUID());
     }
 
-    public ArrayList<Movimiento> findAllMovimientos() {
-        return movimientoRepository.findAllMovimientos();
+    public ArrayList<Movimiento> findAllMovimientos(Cuenta cuenta) {
+        return movimientoRepository.findAllMovimientos(cuenta.getUUID());
     }
 
-    public ArrayList<Transferencia> findAllTransferencias() {
-        return movimientoRepository.findAllTransferencias();
+    public ArrayList<Transferencia> findAllTransferencias(Cuenta cuenta) {
+        return movimientoRepository.findAllTransferencias(cuenta.getUUID());
     }
 
-    public ArrayList<Traspaso> findAllTraspasos() {
-        return movimientoRepository.findAllTraspasos();
+    public ArrayList<Traspaso> findAllTraspasos(Cuenta cuenta) {
+        return movimientoRepository.findAllTraspasos(cuenta.getUUID());
     }
 }

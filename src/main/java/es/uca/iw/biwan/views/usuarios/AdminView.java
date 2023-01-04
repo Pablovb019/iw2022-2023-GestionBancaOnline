@@ -12,6 +12,9 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.domain.usuarios.Administrador;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 
@@ -21,10 +24,16 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 public class AdminView extends VerticalLayout {
     public AdminView(){
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Administrador.class) != null) {
-            if (!session.getAttribute(Administrador.class).getRol().contentEquals("ADMINISTRADOR")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un administrador", "Volver", event -> {
-                    UI.getCurrent().navigate("");
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un administrador", "Aceptar", event -> {
+                    if (session.getAttribute(Cliente.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-cliente");
+                    }else if (session.getAttribute(Gestor.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-gestor");
+                    } else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    }
                 });
                 error.open();
             } else {

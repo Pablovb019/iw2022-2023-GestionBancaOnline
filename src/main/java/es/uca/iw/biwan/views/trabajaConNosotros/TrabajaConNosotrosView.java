@@ -9,8 +9,14 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import es.uca.iw.biwan.domain.usuarios.Administrador;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @CssImport("./themes/biwan/trabajaConNosotros.css")
@@ -20,6 +26,18 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 public class TrabajaConNosotrosView extends VerticalLayout{
 
     public TrabajaConNosotrosView() {
+
+        VaadinSession session = VaadinSession.getCurrent();
+        if (session.getAttribute(Cliente.class) != null
+                || session.getAttribute(Gestor.class) != null
+                || session.getAttribute(EncargadoComunicaciones.class) != null
+                || session.getAttribute(Administrador.class) != null) {
+            // Si hay un usuario logueado, mostrar la vista de usuario logueado
+            add(HeaderUsuarioLogueadoView.Header());
+        } else {
+            // Si no hay un usuario logueado, mostrar la vista de usuario no logueado
+            add(HeaderView.Header());
+        }
 
         //NEW
         VerticalLayout layoutTrabajaConNosotros = new VerticalLayout();
@@ -66,7 +84,7 @@ public class TrabajaConNosotrosView extends VerticalLayout{
         layoutQueEstamosBuscando.add(Segundo, QueEstamosBuscando);
         layoutComoSolicitarTrabajo.add(Tercero, ComoSolicitarTrabajo);
         layoutTextoTrabajaConNosotros.add(Titulo, Bienvenida, TextoBienvenida1, layoutQueOfrecemos, TextoQueOfrecemos, TextoQueOfrecemos1, TextoQueOfrecemos2, TextoQueOfrecemos3, TextoQueOfrecemos4, layoutQueEstamosBuscando, TextoQueEstamosBuscando, layoutComoSolicitarTrabajo, TextoComoSolicitarTrabajo);
-        layoutTrabajaConNosotros.add(HeaderView.Header(), layoutTextoTrabajaConNosotros, FooterView.Footer());
+        layoutTrabajaConNosotros.add(layoutTextoTrabajaConNosotros, FooterView.Footer());
 
         //ADD CLASS NAME
         Titulo.addClassName("Titulo");

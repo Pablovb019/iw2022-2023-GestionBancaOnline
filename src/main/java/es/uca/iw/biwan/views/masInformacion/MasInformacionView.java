@@ -8,8 +8,14 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import es.uca.iw.biwan.domain.usuarios.Administrador;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 @CssImport("./themes/biwan/masInformacion.css")
@@ -19,6 +25,18 @@ import es.uca.iw.biwan.views.headers.HeaderView;
 public class MasInformacionView extends VerticalLayout {
 
     public MasInformacionView() {
+
+        VaadinSession session = VaadinSession.getCurrent();
+        if (session.getAttribute(Cliente.class) != null
+                || session.getAttribute(Gestor.class) != null
+                || session.getAttribute(EncargadoComunicaciones.class) != null
+                || session.getAttribute(Administrador.class) != null) {
+            // Si hay un usuario logueado, mostrar la vista de usuario logueado
+            add(HeaderUsuarioLogueadoView.Header());
+        } else {
+            // Si no hay un usuario logueado, mostrar la vista de usuario no logueado
+            add(HeaderView.Header());
+        }
 
         //NEW
         VerticalLayout layoutMasInformacion = new VerticalLayout();
@@ -89,7 +107,7 @@ public class MasInformacionView extends VerticalLayout {
         layoutProteccionConsumidor.add(Septimo, ProteccionConsumidor);
         layoutContactos.add(Octavo, Contactos);
         layoutTextoMasInformacion.add(Titulo, layoutSobreBIWAN, TextoSobreBIWAN, layoutProductosServicios, TextoProductosServicios, TextoProductosServicios1, TextoProductosServicios2, TextoProductosServicios3, layoutSeguridadProteccionDatos, TextoSeguridadProteccionDatos, TextoSeguridadProteccionDatos1, TextoSeguridadProteccionDatos2, layoutTarifasCargos, TextoTarifasCargos, TextoTarifasCargos1, TextoTarifasCargos2, TextoTarifasCargos3, TextoTarifasCargos4, TextoTarifasCargosFinal, layoutAccesibilidad, TextoAccesibilidad, TextoAccesibilidad1, TextoAccesibilidad2, layoutSustentabilidad, TextoSustentabilidad, TextoSustentabilidad1, TextoSustentabilidad2, TextoSustentabilidad3, TextoSustentabilidad4, layoutProteccionConsumidor, TextoProteccionConsumidor, TextoProteccionConsumidor1, TextoProteccionConsumidor2, TextoProteccionConsumidor3, TextoProteccionConsumidor4, layoutContactos, TextoContactos, TextoContactos1, TextoContactos2);
-        layoutMasInformacion.add(HeaderView.Header(), layoutTextoMasInformacion, FooterView.Footer());
+        layoutMasInformacion.add(layoutTextoMasInformacion, FooterView.Footer());
 
         //ADD CLASS NAME
         Titulo.addClassName("Titulo");

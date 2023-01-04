@@ -83,7 +83,6 @@ public class LoginView extends VerticalLayout {
         EmailField email = new EmailField("Correo electrónico");
         PasswordField password = new PasswordField("Contraseña");
         Anchor registration = new Anchor("registration", "¿No tienes cuenta? Regístrate");
-        Anchor resetPassword = new Anchor("reset-password", "¿Has olvidado tu contraseña?");
         email.setErrorMessage("Introduce una dirección de correo electrónico válida");
         Button submit = new Button("Iniciar sesión");
         submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -101,7 +100,7 @@ public class LoginView extends VerticalLayout {
 
         FormLayout formLayout = new FormLayout();
         //ADD
-        formLayout.add(Titulo, email, password,registration,resetPassword, submit);
+        formLayout.add(Titulo, email, password,registration, submit);
 
         //ALIGNMENT
         formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("", 2));

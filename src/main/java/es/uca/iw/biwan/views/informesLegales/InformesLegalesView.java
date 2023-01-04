@@ -10,8 +10,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import es.uca.iw.biwan.domain.usuarios.Administrador;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
+import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import es.uca.iw.biwan.views.headers.HeaderView;
 
 import java.io.File;
@@ -26,6 +32,18 @@ import java.io.FileNotFoundException;
 public class InformesLegalesView  extends VerticalLayout {
 
     public InformesLegalesView(){
+
+        VaadinSession session = VaadinSession.getCurrent();
+        if (session.getAttribute(Cliente.class) != null
+                || session.getAttribute(Gestor.class) != null
+                || session.getAttribute(EncargadoComunicaciones.class) != null
+                || session.getAttribute(Administrador.class) != null) {
+            // Si hay un usuario logueado, mostrar la vista de usuario logueado
+            add(HeaderUsuarioLogueadoView.Header());
+        } else {
+            // Si no hay un usuario logueado, mostrar la vista de usuario no logueado
+            add(HeaderView.Header());
+        }
 
         //NEW
         VerticalLayout layoutInformesLegales = new VerticalLayout();
@@ -95,7 +113,7 @@ public class InformesLegalesView  extends VerticalLayout {
         DescargaInformeSostenibilidad.addComponentAsFirst(IconInformeSostenibilidad);
         layoutArchivosInformesLegales.add(Titulo, ArchivosDescargables, DescargaInformeAnual, DescargaInformeCumplimiento,
                 DescargaInformeGestionRiesgos, DescargaInformeGobiernoCorporativo, DescargaInformeSostenibilidad);
-        layoutInformesLegales.add(HeaderView.Header(), layoutArchivosInformesLegales, FooterView.Footer());
+        layoutInformesLegales.add(layoutArchivosInformesLegales, FooterView.Footer());
 
         //ADD CLASS NAME
         Titulo.addClassName("Titulo");

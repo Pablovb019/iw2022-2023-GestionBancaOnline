@@ -19,9 +19,16 @@ import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.aplication.service.PagoTarjetaService;
+import es.uca.iw.biwan.aplication.service.TarjetaService;
+import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.operaciones.*;
+import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
+import es.uca.iw.biwan.domain.usuarios.Administrador;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
+import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +49,24 @@ public class PagosTarjetaView extends VerticalLayout {
     @Autowired
     private PagoTarjetaService pagoTarjetaService;
 
+    @Autowired
+    private TarjetaService tarjetaService;
+
+    @Autowired
+    private CuentaService cuentaService;
+
     public PagosTarjetaView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if (session.getAttribute(Cliente.class) != null) {
-            if (!session.getAttribute(Cliente.class).getRol().contentEquals("CLIENTE")) {
-                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Volver", event -> {
-                    UI.getCurrent().navigate("");
+        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+            if (session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+                ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Aceptar", event -> {
+                    if (session.getAttribute(Gestor.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-gestor");
+                    }else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-encargado");
+                    } else if (session.getAttribute(Administrador.class) != null){
+                        UI.getCurrent().navigate("pagina-principal-admin");
+                    }
                 });
                 error.open();
             }
@@ -83,7 +102,18 @@ public class PagosTarjetaView extends VerticalLayout {
         VerticalLayout filterTypeTableLayout = new VerticalLayout();
         filterTypeTableLayout.setWidth("100%");
 
-        ArrayList<PagoTarjeta> pagosTarjeta = pagoTarjetaService.findPagosTarjeta();
+        Cliente cliente = VaadinSession.getCurrent().getAttribute(Cliente.class);
+        ArrayList<Cuenta> cuentas = cuentaService.findCuentaByCliente(cliente);
+        ArrayList<Tarjeta> tarjetas = new ArrayList<>();
+        for(Cuenta cuenta: cuentas){
+            tarjetas.addAll(tarjetaService.findTarjetaByCuenta(cuenta.getUUID()));
+        }
+        ArrayList<PagoTarjeta> pagosTarjeta = new ArrayList<>();
+
+        for(Tarjeta tarjeta: tarjetas){
+            pagosTarjeta.addAll(pagoTarjetaService.findPagosTarjetaByTarjeta(tarjeta));
+        }
+
         Collections.shuffle(pagosTarjeta);
 
         if (pagosTarjeta.size() == 0) {
@@ -223,7 +253,9 @@ public class PagosTarjetaView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        add(VisualizadorPagosTarjeta());
-        add(FooterView.Footer());
+        try{
+            add(VisualizadorPagosTarjeta());
+            add(FooterView.Footer());
+        } catch (Exception ignored) {}
     }
 }
