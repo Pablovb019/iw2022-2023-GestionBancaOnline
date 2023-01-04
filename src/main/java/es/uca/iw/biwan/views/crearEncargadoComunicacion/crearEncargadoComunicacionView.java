@@ -138,16 +138,17 @@ public class crearEncargadoComunicacionView extends VerticalLayout {
                 .withValidator(password1 -> password1.matches(".*[a-z].*"), "La contraseña debe tener al menos una minúscula")
                 .withValidator(password1 -> password1.matches(".*[0-9].*"), "La contraseña debe tener al menos un número")
                 .withValidator(password1 -> password1.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "La contraseña debe tener al menos un caracter especial")
+                .withValidator(password1 -> password1.equals(confirmPassword.getValue()), "Las contraseñas no coinciden")
                 .bind(EncargadoComunicaciones::getPassword, EncargadoComunicaciones::setPassword);
 
         binderForm.forField(confirmPassword)
                 .asRequired("La confirmación de la contraseña es obligatoria")
+                .withValidator(password1 -> password1.equals(confirmPassword.getValue()), "Las contraseñas no coinciden")
                 .withValidator(password1 -> password1.length() >= 8, "La contraseña debe tener al menos 8 caracteres")
                 .withValidator(password1 -> password1.matches(".*[A-Z].*"), "La contraseña debe tener al menos una mayúscula")
                 .withValidator(password1 -> password1.matches(".*[a-z].*"), "La contraseña debe tener al menos una minúscula")
                 .withValidator(password1 -> password1.matches(".*[0-9].*"), "La contraseña debe tener al menos un número")
                 .withValidator(password1 -> password1.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "La contraseña debe tener al menos un caracter especial")
-                .withValidator(password1 -> password1.equals(confirmPassword.getValue()), "Las contraseñas no coinciden")
                 .bind(EncargadoComunicaciones::getPassword, EncargadoComunicaciones::setPassword);
 
         binderForm.forField(email)
