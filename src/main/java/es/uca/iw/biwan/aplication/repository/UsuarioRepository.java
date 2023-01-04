@@ -85,6 +85,15 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     )
     Cliente findClienteByCuenta(@Param("uuid") UUID uuid);
 
+    @Query(
+            value = "SELECT * from usuario WHERE uuid = :uuid AND gestor_id = :gestor_id",
+            nativeQuery = true
+    )
+    Gestor findGestorByCliente(
+            @Param("uuid") UUID uuid,
+            @Param("gestor_id") UUID gestor_id
+    );
+
     // GESTOR
 
     @Modifying
