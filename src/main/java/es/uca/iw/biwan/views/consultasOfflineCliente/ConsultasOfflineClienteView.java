@@ -33,6 +33,7 @@ import es.uca.iw.biwan.domain.usuarios.Usuario;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
@@ -52,6 +53,10 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
 
     @Autowired
     private ConsultaService consultaService;
+
+    private ArrayList<Offline> mensajesClienteGestor;
+
+    private Cliente cliente;
 
     public ConsultasOfflineClienteView() {
         VaadinSession session = VaadinSession.getCurrent();
@@ -108,7 +113,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         Button ButtonSubmit = new Button("Enviar");
 
         VaadinSession session = VaadinSession.getCurrent();
-        Cliente cliente = session.getAttribute(Cliente.class);
+        cliente = session.getAttribute(Cliente.class);
 
         ButtonSubmit.addClickShortcut(Key.ENTER);
         ButtonSubmit.addClickListener(submitEvent -> {
@@ -147,7 +152,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         chatLayout.expand(list);
 
         // Obtenemos los mensajes
-        ArrayList<Offline> mensajesClienteGestor = consultaService.findMensajesClienteGestorOffline(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), cliente.getGestor_id());
+        mensajesClienteGestor = consultaService.findMensajesClienteGestorOffline(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), cliente.getGestor_id());
         ArrayList<Offline> mensajesOrdenados = new ArrayList<>();
         for (Offline mensaje : mensajesClienteGestor) {
             if (mensajesOrdenados.size() == 0) {
@@ -217,5 +222,24 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
         layoutConsultaOffline.setSizeFull();
 
         add(layoutConsultaOffline);
+    }
+
+    @Scheduled(fixedRate = 3000)
+    public void reload() {
+        ArrayList<Offline> mensajes = consultaService.findMensajesClienteGestorOffline(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), cliente.getGestor_id());
+        boolean hayNuevos = false;
+        if (mensajesClienteGestor.size() != mensajes.size()) {
+            for (Offline mensaje : mensajes) {
+                if (mensaje.getAutor().equals(cliente.getGestor_id())) {
+                    hayNuevos = true;
+                }
+            }
+        }
+
+        if (hayNuevos) {
+            getUI().ifPresent(ui -> ui.access(() -> {
+                ui.getPage().reload();
+            }));
+        }
     }
 }

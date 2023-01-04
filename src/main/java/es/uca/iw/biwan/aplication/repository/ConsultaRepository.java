@@ -19,7 +19,7 @@ import java.util.UUID;
 public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
     @Modifying
     @Query(
-            value = "INSERT INTO consulta VALUES (:tipo, :uuid, :autor, :texto, :fecha, :cliente_uuid, :gestor_uuid, NULL)",
+            value = "INSERT INTO consulta VALUES (:tipo, :uuid, :fecha, :autor, :texto, NULL, :cliente_uuid, :gestor_uuid)",
             nativeQuery = true
     )
     void insertConsultaOffline(@Param("uuid") UUID uuid,
