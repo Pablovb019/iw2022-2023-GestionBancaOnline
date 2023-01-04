@@ -6,8 +6,6 @@
 .EnviarButtonOtraCuenta {
     background: #27AE60;
     color: white;
-    position: relative;
-    left: 20px;
     width: 150px !important;
 }
 
@@ -15,4 +13,10 @@
     background: #27AE60;
     color: white;
     width: 150px !important;
+}
+
+.formulario {
+    position: relative;
+    top: 50px;
+    height: 400px;
 }

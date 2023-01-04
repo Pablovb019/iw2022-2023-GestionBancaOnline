@@ -18,6 +18,10 @@ vaadin-login-form {
     alignment: center;
 }
 
+.formLayout {
+    height: 480px;
+}
+
 vaadin-button[part='vaadin-login-submit'] {
     background-color: #27AE60;
     color: white;

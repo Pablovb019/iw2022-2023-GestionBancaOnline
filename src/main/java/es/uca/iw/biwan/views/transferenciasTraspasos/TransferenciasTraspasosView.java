@@ -91,6 +91,7 @@ public class TransferenciasTraspasosView extends VerticalLayout {
 
         VerticalLayout formulario = new VerticalLayout();
         formulario.getStyle().set("align-self", "center");
+        formulario.addClassName("formulario");
 
         transferencia.addClickListener(e -> {
             ArrayList<Cuenta> cuentas = cuentaService.findCuentaByCliente(VaadinSession.getCurrent().getAttribute(Cliente.class));

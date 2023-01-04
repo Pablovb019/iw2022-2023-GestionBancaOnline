@@ -98,6 +98,7 @@ public class RegistrationView extends VerticalLayout {
         submit.setClassName("ButtonSubmitRegistration");
         H1 Titulo = new H1("Crear cuenta");
         FormLayout formLayout = new FormLayout();
+        formLayout.addClassName("formRegister");
 
        binderForm.forField(firstName)
                 .asRequired("El nombre es obligatorio")
