@@ -105,7 +105,7 @@ public class EncargadoView extends VerticalLayout {
 
             // Editar noticia
             NoticiaEditarButton.getElement().addEventListener("click", event -> {
-                EditarNoticiaView.setTituloDescripcion(noticia);
+                VaadinSession.getCurrent().setAttribute(Noticia.class, noticia);
             });
 
             // Eliminar noticia
@@ -152,7 +152,7 @@ public class EncargadoView extends VerticalLayout {
 
                 // Editar oferta
                 OfertaEditarButton.getElement().addEventListener("click", event -> {
-                    EditarOfertaView.setTituloDescripcion(oferta);
+                    VaadinSession.getCurrent().setAttribute(Oferta.class, oferta);
                 });
 
                 // Eliminar oferta

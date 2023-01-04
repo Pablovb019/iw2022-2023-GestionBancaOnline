@@ -29,6 +29,7 @@ import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 
 @Route("editar-oferta-encargado")
@@ -37,20 +38,11 @@ import java.time.LocalDate;
 public class EditarOfertaView extends VerticalLayout {
     @Autowired
     private AnuncioService anuncioService;
-    private static Oferta newOferta;
-    private static final TextField titulo = new TextField("Título");
-    private static final TextArea descripcion = new TextArea("Descripción");
-    private static final DatePicker fechaFin = new DatePicker("Fecha fin de la oferta");
+    private final TextField titulo = new TextField("Título");
+    private final TextArea descripcion = new TextArea("Descripción");
+    private final DatePicker fechaFin = new DatePicker("Fecha fin de la oferta");
     private final Button guardar = new Button("Guardar");
     private final Button atras = new Button("Atrás");
-
-    // Setter para coger la informacion de depende que oferta hayamos seleccionado para editar
-    public static void setTituloDescripcion(Oferta oferta) {
-        newOferta = oferta;
-        titulo.setValue(oferta.getTitulo());
-        descripcion.setValue(oferta.getCuerpo());
-        fechaFin.setValue(oferta.getFechaFin());
-    }
 
     public EditarOfertaView(){
         VaadinSession session = VaadinSession.getCurrent();
@@ -66,11 +58,6 @@ public class EditarOfertaView extends VerticalLayout {
                     }
                 });
                 error.open();
-            } else {
-                add(HeaderUsuarioLogueadoView.Header());
-                add(crearTitulo());
-                add(crearEditarOferta());
-                add(FooterView.Footer());
             }
         } else {
             ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
@@ -91,9 +78,9 @@ public class EditarOfertaView extends VerticalLayout {
     private Component crearEditarOferta() {
         Binder<Anuncio> binderOferta = new Binder<>(Anuncio.class);
 
-        titulo.setValue(titulo.getValue());
-        descripcion.setValue(descripcion.getValue());
-        fechaFin.setValue(fechaFin.getValue());
+        titulo.setValue(VaadinSession.getCurrent().getAttribute(Oferta.class).getTitulo());
+        descripcion.setValue(VaadinSession.getCurrent().getAttribute(Oferta.class).getCuerpo());
+        fechaFin.setValue(VaadinSession.getCurrent().getAttribute(Oferta.class).getFechaFin());
 
         titulo.setMinWidth("700px");
         descripcion.setMinHeight("700px");
@@ -148,7 +135,7 @@ public class EditarOfertaView extends VerticalLayout {
             if (binderOferta.validate().isOk()) {
                 Noticia noticia = new Noticia();
                 noticia.setTipo(TipoAnuncio.OFERTA);
-                noticia.setUUID(newOferta.getUUID());
+                noticia.setUUID(VaadinSession.getCurrent().getAttribute(Oferta.class).getUUID());
                 noticia.setFechaInicio(LocalDate.now());
                 noticia.setFechaFin(fechaFin.getValue());
                 noticia.setTitulo(titulo.getValue());
@@ -171,5 +158,13 @@ public class EditarOfertaView extends VerticalLayout {
                     "Error: " + e, "Aceptar", null);
             error.open();
         }
+    }
+
+    @PostConstruct
+    public void init() {
+        add(HeaderUsuarioLogueadoView.Header());
+        add(crearTitulo());
+        add(crearEditarOferta());
+        add(FooterView.Footer());
     }
 }

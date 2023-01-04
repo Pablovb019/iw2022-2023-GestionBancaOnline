@@ -26,6 +26,7 @@ import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 
 @Route("editar-noticia-encargado")
@@ -34,18 +35,10 @@ import java.time.LocalDate;
 public class EditarNoticiaView extends VerticalLayout {
     @Autowired
     private AnuncioService anuncioService;
-    private static Noticia newNoticia;
-    private static final TextField titulo = new TextField("Título");
-    private static final TextArea descripcion = new TextArea("Descripción");
+    private final TextField titulo = new TextField("Título");
+    private final TextArea descripcion = new TextArea("Descripción");
     private final Button guardar = new Button("Guardar");
     private final Button atras = new Button("Atrás");
-
-    // Setter para coger la informacion de depende que noticia hayamos seleccionado para editar
-    public static void setTituloDescripcion(Noticia noticia) {
-        newNoticia = noticia;
-        titulo.setValue(noticia.getTitulo());
-        descripcion.setValue(noticia.getCuerpo());
-    }
 
     public EditarNoticiaView(){
         VaadinSession session = VaadinSession.getCurrent();
@@ -61,11 +54,6 @@ public class EditarNoticiaView extends VerticalLayout {
                     }
                 });
                 error.open();
-            } else {
-                add(HeaderUsuarioLogueadoView.Header());
-                add(crearTitulo());
-                add(crearEditarNoticia());
-                add(FooterView.Footer());
             }
         } else {
             ConfirmDialog error = new ConfirmDialog("Error", "No has iniciado sesión", "Aceptar", event -> {
@@ -86,8 +74,8 @@ public class EditarNoticiaView extends VerticalLayout {
     private Component crearEditarNoticia() {
         Binder<Anuncio> binderNoticia = new Binder<>(Anuncio.class);
 
-        titulo.setValue(titulo.getValue());
-        descripcion.setValue(descripcion.getValue());
+        titulo.setValue(VaadinSession.getCurrent().getAttribute(Noticia.class).getTitulo());
+        descripcion.setValue(VaadinSession.getCurrent().getAttribute(Noticia.class).getCuerpo());
 
         titulo.setMinWidth("700px");
         descripcion.setMinHeight("700px");
@@ -137,7 +125,7 @@ public class EditarNoticiaView extends VerticalLayout {
             if (binderNoticia.validate().isOk()) {
                 Noticia noticia = new Noticia();
                 noticia.setTipo(TipoAnuncio.NOTICIA);
-                noticia.setUUID(newNoticia.getUUID());
+                noticia.setUUID(VaadinSession.getCurrent().getAttribute(Noticia.class).getUUID());
                 noticia.setFechaInicio(LocalDate.now());
                 noticia.setFechaFin(null);
                 noticia.setTitulo(titulo.getValue());
@@ -160,5 +148,13 @@ public class EditarNoticiaView extends VerticalLayout {
                     "Error: " + e, "Aceptar", null);
             error.open();
         }
+    }
+
+    @PostConstruct
+    public void init() {
+        add(HeaderUsuarioLogueadoView.Header());
+        add(crearTitulo());
+        add(crearEditarNoticia());
+        add(FooterView.Footer());
     }
 }

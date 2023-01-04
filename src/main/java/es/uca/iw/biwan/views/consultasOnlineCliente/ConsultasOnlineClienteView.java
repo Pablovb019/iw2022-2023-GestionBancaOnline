@@ -152,7 +152,6 @@ public class ConsultasOnlineClienteView extends VerticalLayout {
                 break;
             }
         }
-        System.out.println("Id Sala: " + consulta.getSala());
         CreateRequest(consulta);
 
         CollaborationAvatarGroup avatars = new CollaborationAvatarGroup(userInfo, consulta.getSala().toString());
