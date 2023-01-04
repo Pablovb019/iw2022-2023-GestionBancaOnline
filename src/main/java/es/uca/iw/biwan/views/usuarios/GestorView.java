@@ -10,6 +10,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -37,6 +38,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @CssImport("./themes/biwan/paginaPrincipalGestor.css")
 @PageTitle("Página Principal Gestor")
@@ -55,7 +57,11 @@ public class GestorView extends VerticalLayout {
     @Autowired
     private ConsultaService consultaService;
 
-    public GestorView(UsuarioService usuarioService){
+    private ArrayList<Usuario> clientesMensajes;
+
+    private Gestor gestor;
+
+    public GestorView(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
@@ -102,14 +108,16 @@ public class GestorView extends VerticalLayout {
 
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
+        gestor = session.getAttribute(Gestor.class);
         String nombre = session.getAttribute(Gestor.class).getNombre() + " " + session.getAttribute(Gestor.class).getApellidos();
         H1 Titulo = new H1("Bienvenido Gestor: " + nombre);
 
         ArrayList<Usuario> clientes = usuarioService.findUsuarioByRol(Role.CLIENTE.toString());
+        clientesMensajes = clientes;
 
         ArrayList<Component> MenuPorCliente = new ArrayList<>();
-        for(Usuario cliente : clientes) {
-            if(Objects.equals(cliente.getGestor_id(), session.getAttribute(Gestor.class).getUUID())) {
+        for (Usuario cliente : clientes) {
+            if (Objects.equals(cliente.getGestor_id(), session.getAttribute(Gestor.class).getUUID())) {
                 HorizontalLayout layoutComponenteTabla = new HorizontalLayout();
                 Anchor NombreCliente = new Anchor("");
                 NombreCliente.setText(cliente.getNombre() + " " + cliente.getApellidos());
@@ -156,11 +164,10 @@ public class GestorView extends VerticalLayout {
                 });
 
                 Anchor ConsultaOnlineButton = new Anchor("consultas-online-gestor", "Consulta Online");
-                Span counterOnline = new Span("0");
 
                 ConsultaOnlineButton.getElement().addEventListener("click", event -> {
                     ArrayList<Online> consultaOnline = consultaService.findMensajesClienteGestorOnline(TipoConsulta.ONLINE.toString(), cliente.getUUID(), session.getAttribute(Gestor.class).getUUID());
-                    if(consultaOnline.size() > 0) {
+                    if (consultaOnline.size() > 0) {
                         Online consultaOnlineMasReciente = null;
                         for (Online online : consultaOnline) {
                             if (consultaOnlineMasReciente == null) {
@@ -181,7 +188,6 @@ public class GestorView extends VerticalLayout {
                 });
 
                 Anchor ConsultaOfflineButton = new Anchor("consultas-offline-gestor", "Consulta Offline");
-                Span counterOffline = new Span("0");
                 ConsultaOfflineButton.getElement().addEventListener("click", event -> {
                     ConsultasOfflineGestorView.cliente = (Cliente) cliente;
                 });
@@ -194,16 +200,12 @@ public class GestorView extends VerticalLayout {
                 ConsultaOnlineButton.addClassNames("Separacion", "BotonGestor");
                 ConsultaOfflineButton.addClassNames("Separacion", "BotonGestor");
                 layoutComponenteTabla.addClassName("layoutGestionCliente");
-                counterOnline.addClassName("counter");
-                counterOffline.addClassName("counter");
 
                 //ALIGNMENT
                 layoutComponenteTabla.expand(NombreCliente);
                 layoutComponenteTabla.setJustifyContentMode(JustifyContentMode.BETWEEN);
 
                 //ADD
-                ConsultaOnlineButton.add(counterOnline);
-                ConsultaOfflineButton.add(counterOffline);
                 layoutComponenteTabla.add(NombreCliente, CuentasYTarjetasButton, CrearCuentaButton, CrearTarjetaButton, ConsultaOnlineButton, ConsultaOfflineButton);
                 MenuPorCliente.add(layoutComponenteTabla);
             }
@@ -214,11 +216,11 @@ public class GestorView extends VerticalLayout {
         layoutVerGestorPrincipal.addClassName("layoutVerGestor");
 
         //ADD
-        for(Component menu : MenuPorCliente) {
+        for (Component menu : MenuPorCliente) {
             layoutVerGestorTabla.add(menu);
         }
         layoutVerGestorPrincipal.add(Titulo, layoutVerGestorTabla);
 
-        return  layoutVerGestorPrincipal;
+        return layoutVerGestorPrincipal;
     }
 }

@@ -8,13 +8,16 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.AnuncioService;
+import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.CuentaService;
+import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
@@ -22,14 +25,18 @@ import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.usuarios.Administrador;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
+import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
+import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Route("pagina-principal-cliente")
 @CssImport("./themes/biwan/paginaPrincipalCliente.css")
@@ -40,7 +47,18 @@ public class ClienteView extends VerticalLayout {
 
     @Autowired
     private CuentaService cuentaService;
-    public ClienteView(){
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private ConsultaService consultaService;
+
+    private Gestor gestor;
+
+    private Cliente cliente;
+
+    public ClienteView() {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
             if (session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
@@ -69,6 +87,7 @@ public class ClienteView extends VerticalLayout {
         //Creacion de los apartados
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
+        cliente = session.getAttribute(Cliente.class);
         String nombre = session.getAttribute(Cliente.class).getNombre();
         H1 Titulo = new H1("Bienvenido " + nombre);
         H1 Balance = new H1();
@@ -159,7 +178,7 @@ public class ClienteView extends VerticalLayout {
         // Creacion de los tablones de noticias y ofertas
         // Noticias
         ArrayList<Component> listaNoticias = new ArrayList<>();
-        for(Noticia noticia : noticias) {
+        for (Noticia noticia : noticias) {
 
             // Creacion de los elementos de la noticia
             H3 TituloNoticia = new H3(noticia.getTitulo());
@@ -177,8 +196,8 @@ public class ClienteView extends VerticalLayout {
 
         // Ofertas
         ArrayList<Component> listaOfertas = new ArrayList<>();
-        for(Oferta oferta : ofertas) {
-            if(oferta.getFechaFin().isAfter(LocalDate.now())) {
+        for (Oferta oferta : ofertas) {
+            if (oferta.getFechaFin().isAfter(LocalDate.now())) {
                 // Creacion de los elementos de la oferta
                 H3 TituloOferta = new H3(oferta.getTitulo());
                 Paragraph TextoOferta = new Paragraph(oferta.getCuerpo());
@@ -201,11 +220,11 @@ public class ClienteView extends VerticalLayout {
         vlTablonAnuncios.addClassName("vlTablonAnuncios");
         vlTablonAnuncios.setMaxWidth("1000px");
         var vlNoticias = new VerticalLayout();
-        for(Component noticia : listaNoticias) {
+        for (Component noticia : listaNoticias) {
             vlNoticias.add(noticia);
         }
         var vlOfertas = new VerticalLayout();
-        for(Component oferta : listaOfertas) {
+        for (Component oferta : listaOfertas) {
             vlOfertas.add(oferta);
         }
         vlTablonAnuncios.add(vlNoticias, vlOfertas);
@@ -215,6 +234,8 @@ public class ClienteView extends VerticalLayout {
         hlPaginaPrincipal.setWidthFull();
         hlPaginaPrincipal.addClassName("hlPaginaPrincipal");
 
+        gestor = usuarioService.findGestorByCliente(cliente);
+
         return hlPaginaPrincipal;
     }
 
@@ -223,7 +244,7 @@ public class ClienteView extends VerticalLayout {
         try {
             add(crearPaginaPrincipal());
             add(FooterView.Footer());
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
-
 }

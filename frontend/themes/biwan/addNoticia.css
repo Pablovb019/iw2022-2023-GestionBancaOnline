@@ -7,7 +7,12 @@
     padding: 20px;
     width: 800px;
     align-self: center;
-    height: auto;
+    height: 350px !important;
+}
+
+.descripcion {
+    overflow-y: auto;
+    height: 163px;
 }
 
 .guardarButton {

@@ -98,6 +98,7 @@ public class RegistrationView extends VerticalLayout {
         submit.setClassName("ButtonSubmitRegistration");
         H1 Titulo = new H1("Crear cuenta");
         FormLayout formLayout = new FormLayout();
+        formLayout.addClassName("formRegister");
 
        binderForm.forField(firstName)
                 .asRequired("El nombre es obligatorio")
@@ -175,9 +176,13 @@ public class RegistrationView extends VerticalLayout {
                 cliente.setPassword(passwordEncoder.encode(password.getValue()));
                 cliente.setRol(Role.CLIENTE);
                 ArrayList<Usuario> gestores = usuarioService.findUsuarioByRol(Role.GESTOR.toString());
-                Random random = new Random();
-                int randomGestor = random.nextInt(gestores.size());
-                cliente.setGestor_id(usuarioService.findUsuarioByRol(Role.GESTOR.toString()).get(randomGestor).getUUID());
+                if(gestores.size() == 0) {
+                    cliente.setGestor_id(null);
+                } else {
+                    Random random = new Random();
+                    int randomGestor = random.nextInt(gestores.size());
+                    cliente.setGestor_id(usuarioService.findUsuarioByRol(Role.GESTOR.toString()).get(randomGestor).getUUID());
+                }
                 boolean correcto = ComprobarDatos(cliente);
                 if(correcto) { CreateRequest(cliente); }
             }

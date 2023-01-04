@@ -14,6 +14,7 @@ public class Offline extends Consulta {
     @Column
     private String texto;
 
+
     public void setAutor(UUID autor) {
         this.autor = autor;
     }

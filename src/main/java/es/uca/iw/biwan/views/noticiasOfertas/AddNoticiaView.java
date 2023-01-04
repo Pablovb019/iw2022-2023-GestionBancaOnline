@@ -57,7 +57,7 @@ public class AddNoticiaView extends VerticalLayout {
             } else {
                 add(HeaderUsuarioLogueadoView.Header());
                 add(crearTitulo());
-                add(crearAñadirNoticia());
+                addAndExpand(crearAñadirNoticia());
                 add(FooterView.Footer());
             }
         } else {
@@ -82,6 +82,7 @@ public class AddNoticiaView extends VerticalLayout {
         titulo.setMinWidth("700px");
         descripcion.setMinHeight("700px");
         descripcion.setMinHeight("198px");
+        descripcion.addClassName("descripcion");
         FormLayout flForm = new FormLayout();
 
         binderNoticia.forField(titulo)

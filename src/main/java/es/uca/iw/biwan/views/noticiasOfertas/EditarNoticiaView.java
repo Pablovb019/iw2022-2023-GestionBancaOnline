@@ -79,7 +79,7 @@ public class EditarNoticiaView extends VerticalLayout {
     }
 
     private Component crearTitulo() {
-        var titulo = new H2("Editar NoticiaService");
+        var titulo = new H2("Editar Noticia");
         VerticalLayout vlTitulo = new VerticalLayout(titulo);
         vlTitulo.setAlignItems(Alignment.CENTER);
         titulo.addClassName("title");
@@ -95,6 +95,7 @@ public class EditarNoticiaView extends VerticalLayout {
         titulo.setMinWidth("700px");
         descripcion.setMinHeight("700px");
         descripcion.setMinHeight("198px");
+        descripcion.addClassName("descripcion");
         FormLayout flForm = new FormLayout();
 
         binderNoticia.forField(titulo)

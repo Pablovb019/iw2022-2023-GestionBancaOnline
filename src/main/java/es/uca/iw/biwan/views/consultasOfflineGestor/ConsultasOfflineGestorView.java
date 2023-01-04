@@ -49,6 +49,10 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
 
     public static Cliente cliente;
 
+    private ArrayList<Offline> mensajesClienteGestor;
+
+    private Gestor gestor;
+
     public ConsultasOfflineGestorView() {
         VaadinSession session = VaadinSession.getCurrent();
         if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
@@ -109,7 +113,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
         Button ButtonSubmit = new Button("Enviar");
 
         VaadinSession session = VaadinSession.getCurrent();
-        Gestor gestor = session.getAttribute(Gestor.class);
+        gestor = session.getAttribute(Gestor.class);
 
         ButtonSubmit.addClickShortcut(Key.ENTER);
         ButtonSubmit.addClickListener(submitEvent -> {
@@ -143,7 +147,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
 
 
         // Obtenemos los mensajes
-        ArrayList<Offline> mensajesClienteGestor = consultaService.findMensajesClienteGestorOffline(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), gestor.getUUID());
+        mensajesClienteGestor = consultaService.findMensajesClienteGestorOffline(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), gestor.getUUID());
         ArrayList<Offline> mensajesOrdenados = new ArrayList<>();
         for (Offline mensaje : mensajesClienteGestor) {
             if (mensajesOrdenados.size() == 0) {
@@ -212,5 +216,24 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
 
             add(layoutConsultaOffline);
         } catch (Exception ignored) {}
+    }
+
+    @Scheduled(fixedRate = 3000)
+    public void reload() {
+        ArrayList<Offline> mensajes = consultaService.findMensajesClienteGestorOffline(TipoConsulta.OFFLINE.toString(), cliente.getUUID(), gestor.getUUID());
+        boolean hayNuevos = false;
+        if(mensajesClienteGestor.size() != mensajes.size()) {
+            for(Offline mensaje : mensajes) {
+                if(mensaje.getAutor().equals(cliente.getUUID())) {
+                    hayNuevos = true;
+                }
+            }
+        }
+
+        if(hayNuevos) {
+            getUI().ifPresent(ui -> ui.access(() -> {
+                ui.getPage().reload();
+            }));
+        }
     }
 }
