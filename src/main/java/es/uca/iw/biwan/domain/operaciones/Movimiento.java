@@ -1,8 +1,6 @@
 package es.uca.iw.biwan.domain.operaciones;
 
-import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.util.UUID;

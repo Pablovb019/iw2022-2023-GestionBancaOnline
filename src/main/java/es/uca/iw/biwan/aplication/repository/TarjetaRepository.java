@@ -16,7 +16,6 @@ import java.util.UUID;
 
 public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
 
-    @Transactional
     @Modifying
     @Query(
             value = "INSERT INTO tarjeta VALUES (:uuid, :numero_tarjeta, :fecha_caducidad, :cvv, :pin, :limite_gasto, :activa, :cuenta_id)",
@@ -32,7 +31,6 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
                        @Param("cuenta_id") UUID cuenta_id
     );
 
-    @Transactional
     @Modifying
     @Query(
             value = "UPDATE tarjeta SET fecha_caducidad = :fecha_caducidad, activa = :activa, cvv = :cvv, pin = :pin, limite_gasto = :limite_gasto WHERE numero_tarjeta = :numero_tarjeta",
@@ -85,7 +83,6 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
     )
     ArrayList<Tarjeta> findTarjetaByCuenta(UUID uuid);
 
-    @Transactional
     @Modifying
     @Query(
             value = "UPDATE Tarjeta SET limite_gasto = :limite_gasto WHERE uuid = :uuid",

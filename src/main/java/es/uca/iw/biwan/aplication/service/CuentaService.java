@@ -4,8 +4,6 @@ import es.uca.iw.biwan.aplication.repository.CuentaRepository;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
@@ -17,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CuentaService {
     private final CuentaRepository cuentaRepository;
 
+    @Transactional
     public void save(Cuenta cuenta, Cliente cliente) {
         cuentaRepository.insertCuenta(cuenta.getUUID(), cuenta.getIBAN(), cuenta.getBalance());
         cuentaRepository.relacionarCuenta(cuenta.getUUID(), cliente.getUUID());
@@ -30,15 +29,10 @@ public class CuentaService {
         this.cuentaRepository = cuentaRepository;
     }
 
-    public List<Cuenta> findAll() {
-        return cuentaRepository.findAll();
-    }
-
+    @Transactional
     public void updateBalance(Cuenta cuenta) {
         cuentaRepository.updateBalance(cuenta.getUUID(), cuenta.getBalance());
     }
-
-    public ArrayList<Cuenta> findCuentaByUUID(UUID uuid) { return cuentaRepository.findCuentaByUUID(uuid); }
 
     public Cuenta findCuentaByIban(String Iban) { return  cuentaRepository.findCuentaByIban(Iban); }
 

@@ -19,10 +19,12 @@ public class TarjetaService {
         this.tarjetaRepository = tarjetaRepository;
     }
 
+    @Transactional
     public void save(Tarjeta tarjeta, Cuenta cuenta) {
         tarjetaRepository.insertTarjeta(tarjeta.getUUID(), tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getPIN(), tarjeta.getLimiteGasto(), cuenta.getUUID());
     }
 
+    @Transactional
     public void update(Tarjeta tarjeta) {
         tarjetaRepository.updateTarjeta(tarjeta.getNumeroTarjeta(), tarjeta.getFechaCaducidad(), tarjeta.getActiva(), tarjeta.getCVV(), tarjeta.getPIN(), tarjeta.getLimiteGasto());
     }
@@ -40,5 +42,6 @@ public class TarjetaService {
 
     public ArrayList<Tarjeta> findTarjetaByCuenta(UUID uuid) { return tarjetaRepository.findTarjetaByCuenta(uuid); }
 
+    @Transactional
     public void updateLimiteGasto(Tarjeta tarjeta) { tarjetaRepository.updateLimiteGasto(tarjeta.getLimiteGasto(), tarjeta.getUUID()); }
 }

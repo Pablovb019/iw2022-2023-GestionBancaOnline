@@ -1,11 +1,8 @@
 package es.uca.iw.biwan.domain.consulta;
 
-import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

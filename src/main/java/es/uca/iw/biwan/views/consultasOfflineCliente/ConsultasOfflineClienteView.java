@@ -7,8 +7,6 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.messages.MessageList;
@@ -21,12 +19,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.comunicaciones.Noticia;
-import es.uca.iw.biwan.domain.comunicaciones.Oferta;
-import es.uca.iw.biwan.domain.consulta.Consulta;
 import es.uca.iw.biwan.domain.consulta.Offline;
 import es.uca.iw.biwan.domain.rol.Role;
-import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
@@ -38,8 +32,6 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @CssImport("./themes/biwan/consultasOfflineGestor.css")
@@ -238,6 +230,7 @@ public class ConsultasOfflineClienteView extends VerticalLayout {
             for (Offline mensaje : mensajes) {
                 if (mensaje.getAutor().equals(cliente.getGestor_id())) {
                     hayNuevos = true;
+                    break;
                 }
             }
         }

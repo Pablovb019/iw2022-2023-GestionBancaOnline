@@ -12,7 +12,6 @@ import java.util.UUID;
 
 public interface CuentaRepository extends JpaRepository<Cuenta, String> {
 
-    @Transactional
     @Modifying
     @Query(
             value = "INSERT INTO cuenta VALUES (:uuid, :iban, :balance)",
@@ -23,7 +22,6 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
                       @Param("balance") Double balance
     );
 
-    @Transactional
     @Modifying
     @Query(
             value = "INSERT INTO usuario_cuentas VALUES (:uuid_cliente, :uuid_cuenta)",
@@ -41,19 +39,6 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
     void deleteCuenta(@Param("uuid") UUID uuid);
 
     @Query(
-            value = "SELECT balance FROM cuenta WHERE uuid = :uuid",
-            nativeQuery = true
-    )
-    String findTypeByUUID(@Param("uuid") UUID uuid);
-
-    @Query(
-            value = "SELECT * from cuenta INNER JOIN usuario_cuentas ON cuenta.iban = usuario_cuentas.cuentas_iban" +
-                    " AND usuario_cuentas.clientes_uuid = :uuid",
-            nativeQuery = true
-    )
-    ArrayList<Cuenta> findCuentaByUUID(UUID uuid);
-
-    @Query(
             value = "SELECT * from cuenta WHERE iban = :Iban",
             nativeQuery = true
     )
@@ -66,7 +51,6 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
     )
     ArrayList<Cuenta> findCuentaByCliente(UUID uuid);
 
-    @Transactional
     @Modifying
     @Query(
             value = "UPDATE Cuenta SET balance = :balance WHERE uuid = :uuid",

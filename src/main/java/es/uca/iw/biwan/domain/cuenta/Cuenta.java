@@ -3,7 +3,6 @@ package es.uca.iw.biwan.domain.cuenta;
 import es.uca.iw.biwan.domain.operaciones.Movimiento;
 import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 
@@ -31,7 +30,7 @@ public class Cuenta {
     @JoinColumn(name = "cuenta_id")
     private List<Tarjeta> tarjetas;
 
-    @OneToMany()
+    @OneToMany
     @JoinColumn(name = "cuenta_id")
     private List<Movimiento> movimientos;
 
@@ -63,26 +62,5 @@ public class Cuenta {
 
     public void setBalance(double balance) {
         this.balance = balance;
-    }
-
-
-    public void IngresosAnuales() {
-
-    }
-
-    public void GastosAnuales() {
-
-    }
-
-    public void RealizarMovimiento() {
-
-    }
-
-    public void BuscarMovimiento() {
-
-    }
-
-    public void ConsultarTarjetas() {
-
     }
 }

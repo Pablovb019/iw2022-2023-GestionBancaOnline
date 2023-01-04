@@ -22,7 +22,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
@@ -43,15 +42,15 @@ public class AjustesAdministradorView extends VerticalLayout {
     @Autowired
     private UsuarioService usuarioService;
 
-    private TextField nombre = new TextField("Nombre");
-    private TextField apellidos = new TextField("Apellidos");
-    private DatePicker fechaNacimiento = new DatePicker("Fecha de Nacimiento");
-    private NumberField telefono = new NumberField("Teléfono");
-    private EmailField email = new EmailField("Correo Electrónico");
-    private PasswordField password = new PasswordField("Contraseña");
-    private PasswordField confirmPassword = new PasswordField("Confirmar contraseña");
-    private Button atras = new Button("Atrás");
-    private Button save = new Button("Guardar");
+    private final TextField nombre = new TextField("Nombre");
+    private final TextField apellidos = new TextField("Apellidos");
+    private final DatePicker fechaNacimiento = new DatePicker("Fecha de Nacimiento");
+    private final NumberField telefono = new NumberField("Teléfono");
+    private final EmailField email = new EmailField("Correo Electrónico");
+    private final PasswordField password = new PasswordField("Contraseña");
+    private final PasswordField confirmPassword = new PasswordField("Confirmar contraseña");
+    private final Button atras = new Button("Atrás");
+    private final Button save = new Button("Guardar");
 
     public AjustesAdministradorView(){
         VaadinSession session = VaadinSession.getCurrent();

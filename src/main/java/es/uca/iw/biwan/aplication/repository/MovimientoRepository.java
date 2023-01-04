@@ -15,7 +15,6 @@ import java.util.UUID;
 
 public interface MovimientoRepository extends JpaRepository<Movimiento, UUID> {
 
-    @Transactional
     @Modifying
     @Query(
             value = "INSERT INTO movimiento VALUES ('MOVIMIENTO', :uuid, :estado, :emisor, :tipo_movimiento, :concepto, :iban, :valor, NULL, :cuenta)",
@@ -32,7 +31,6 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, UUID> {
                         @Param("cuenta") UUID cuenta
     );
 
-    @Transactional
     @Modifying
     @Query(
             value = "INSERT INTO movimiento VALUES ('TRANSFERENCIA', :uuid, :estado, :emisor, :tipo_movimiento, :concepto, :iban, :valor, :iban_destino, :cuenta)",
@@ -50,7 +48,6 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, UUID> {
             @Param("cuenta") UUID cuenta
     );
 
-    @Transactional
     @Modifying
     @Query(
             value = "INSERT INTO movimiento VALUES ('TRASPASO', :uuid, :estado, :emisor, :tipo_movimiento, :concepto, :iban, :valor, :iban_destino, :cuenta)",

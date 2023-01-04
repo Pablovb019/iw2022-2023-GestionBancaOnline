@@ -7,13 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public interface PagoTarjetaRepository extends JpaRepository<PagoTarjeta, UUID> {
 
-    @Transactional
     @Modifying
     @Query(
            value = "INSERT INTO Pago_Tarjeta VALUES (:uuid, :estado, :valor, :tipoPago, :tienda, :tarjeta)",

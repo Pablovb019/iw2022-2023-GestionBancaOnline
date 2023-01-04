@@ -38,11 +38,11 @@ public class EditarOfertaView extends VerticalLayout {
     @Autowired
     private AnuncioService anuncioService;
     private static Oferta newOferta;
-    private static TextField titulo = new TextField("Título");
-    private static TextArea descripcion = new TextArea("Descripción");
-    private static DatePicker fechaFin = new DatePicker("Fecha fin de la oferta");
-    private Button guardar = new Button("Guardar");
-    private Button atras = new Button("Atrás");
+    private static final TextField titulo = new TextField("Título");
+    private static final TextArea descripcion = new TextArea("Descripción");
+    private static final DatePicker fechaFin = new DatePicker("Fecha fin de la oferta");
+    private final Button guardar = new Button("Guardar");
+    private final Button atras = new Button("Atrás");
 
     // Setter para coger la informacion de depende que oferta hayamos seleccionado para editar
     public static void setTituloDescripcion(Oferta oferta) {

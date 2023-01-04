@@ -1,9 +1,5 @@
 package es.uca.iw.biwan.domain.operaciones;
 
-import es.uca.iw.biwan.domain.cuenta.Cuenta;
-
-import java.time.LocalDateTime;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;

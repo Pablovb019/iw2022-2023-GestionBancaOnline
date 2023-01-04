@@ -9,8 +9,6 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -29,7 +27,6 @@ import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Route("editar-noticia-encargado")
 @PageTitle("Editar Noticia")
@@ -38,10 +35,10 @@ public class EditarNoticiaView extends VerticalLayout {
     @Autowired
     private AnuncioService anuncioService;
     private static Noticia newNoticia;
-    private static TextField titulo = new TextField("Título");
-    private static TextArea descripcion = new TextArea("Descripción");
-    private Button guardar = new Button("Guardar");
-    private Button atras = new Button("Atrás");
+    private static final TextField titulo = new TextField("Título");
+    private static final TextArea descripcion = new TextArea("Descripción");
+    private final Button guardar = new Button("Guardar");
+    private final Button atras = new Button("Atrás");
 
     // Setter para coger la informacion de depende que noticia hayamos seleccionado para editar
     public static void setTituloDescripcion(Noticia noticia) {

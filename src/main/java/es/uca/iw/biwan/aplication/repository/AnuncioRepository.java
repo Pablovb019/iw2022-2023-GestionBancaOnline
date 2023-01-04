@@ -3,12 +3,10 @@ package es.uca.iw.biwan.aplication.repository;
 import es.uca.iw.biwan.domain.comunicaciones.Anuncio;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
-import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,12 +26,6 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
                     @Param("titulo") String titulo,
                     @Param("cuerpo") String cuerpo
     );
-
-    @Query(
-            value = "SELECT tipo FROM anuncio WHERE uuid = :uuid",
-            nativeQuery = true
-    )
-    String findTypeByUUID(@Param("uuid") UUID uuid);
 
     @Query(
             value = "SELECT * FROM anuncio WHERE tipo = :tipo",

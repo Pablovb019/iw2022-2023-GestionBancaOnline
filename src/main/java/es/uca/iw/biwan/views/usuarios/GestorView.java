@@ -9,8 +9,6 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -20,7 +18,6 @@ import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.CuentaService;
 import es.uca.iw.biwan.aplication.service.TarjetaService;
 import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.consulta.Consulta;
 import es.uca.iw.biwan.domain.consulta.Online;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
 import es.uca.iw.biwan.domain.rol.Role;
@@ -28,17 +25,13 @@ import es.uca.iw.biwan.domain.tarjeta.Tarjeta;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.consultasOfflineGestor.ConsultasOfflineGestorView;
-import es.uca.iw.biwan.views.consultasOnlineCliente.ConsultasOnlineClienteView;
 import es.uca.iw.biwan.views.consultasOnlineGestor.ConsultasOnlineGestorView;
 import es.uca.iw.biwan.views.cuentasTarjetasGestor.cuentasTarjetasGestorView;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @CssImport("./themes/biwan/paginaPrincipalGestor.css")
 @PageTitle("Página Principal Gestor")
@@ -56,10 +49,6 @@ public class GestorView extends VerticalLayout {
 
     @Autowired
     private ConsultaService consultaService;
-
-    private ArrayList<Usuario> clientesMensajes;
-
-    private Gestor gestor;
 
     public GestorView(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
@@ -108,12 +97,10 @@ public class GestorView extends VerticalLayout {
 
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        gestor = session.getAttribute(Gestor.class);
         String nombre = session.getAttribute(Gestor.class).getNombre() + " " + session.getAttribute(Gestor.class).getApellidos();
         H1 Titulo = new H1("Bienvenido Gestor: " + nombre);
 
         ArrayList<Usuario> clientes = usuarioService.findUsuarioByRol(Role.CLIENTE.toString());
-        clientesMensajes = clientes;
 
         ArrayList<Component> MenuPorCliente = new ArrayList<>();
         for (Usuario cliente : clientes) {

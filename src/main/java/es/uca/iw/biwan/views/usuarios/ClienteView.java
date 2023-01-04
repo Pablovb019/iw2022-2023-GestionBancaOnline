@@ -8,16 +8,13 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.AnuncioService;
-import es.uca.iw.biwan.aplication.service.ConsultaService;
 import es.uca.iw.biwan.aplication.service.CuentaService;
-import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.comunicaciones.Noticia;
 import es.uca.iw.biwan.domain.comunicaciones.Oferta;
 import es.uca.iw.biwan.domain.cuenta.Cuenta;
@@ -25,18 +22,14 @@ import es.uca.iw.biwan.domain.tipoAnuncio.TipoAnuncio;
 import es.uca.iw.biwan.domain.usuarios.Administrador;
 import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.EncargadoComunicaciones;
-import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
-import es.uca.iw.biwan.domain.usuarios.Cliente;
 import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Route("pagina-principal-cliente")
 @CssImport("./themes/biwan/paginaPrincipalCliente.css")
@@ -47,16 +40,6 @@ public class ClienteView extends VerticalLayout {
 
     @Autowired
     private CuentaService cuentaService;
-
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
-    private ConsultaService consultaService;
-
-    private Gestor gestor;
-
-    private Cliente cliente;
 
     public ClienteView() {
         VaadinSession session = VaadinSession.getCurrent();
@@ -87,7 +70,6 @@ public class ClienteView extends VerticalLayout {
         //Creacion de los apartados
         // Coger usuario logueado
         VaadinSession session = VaadinSession.getCurrent();
-        cliente = session.getAttribute(Cliente.class);
         String nombre = session.getAttribute(Cliente.class).getNombre();
         H1 Titulo = new H1("Bienvenido " + nombre);
         H1 Balance = new H1();
@@ -233,8 +215,6 @@ public class ClienteView extends VerticalLayout {
         var hlPaginaPrincipal = new HorizontalLayout(vlTituloBalanceOperaciones, vlTablonAnuncios);
         hlPaginaPrincipal.setWidthFull();
         hlPaginaPrincipal.addClassName("hlPaginaPrincipal");
-
-        gestor = usuarioService.findGestorByCliente(cliente);
 
         return hlPaginaPrincipal;
     }

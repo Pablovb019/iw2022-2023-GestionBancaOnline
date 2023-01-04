@@ -17,15 +17,11 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.aplication.service.ConsultaService;
-import es.uca.iw.biwan.aplication.service.UsuarioService;
-import es.uca.iw.biwan.domain.consulta.Consulta;
 import es.uca.iw.biwan.domain.consulta.Offline;
-import es.uca.iw.biwan.domain.rol.Role;
 import es.uca.iw.biwan.domain.tipoConsulta.TipoConsulta;
 import es.uca.iw.biwan.domain.usuarios.*;
 import es.uca.iw.biwan.views.footers.FooterView;
 import es.uca.iw.biwan.views.headers.HeaderUsuarioLogueadoView;
-import es.uca.iw.biwan.views.usuarios.GestorView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -33,11 +29,8 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @CssImport("./themes/biwan/consultasOfflineGestor.css")
@@ -226,6 +219,7 @@ public class ConsultasOfflineGestorView extends VerticalLayout {
             for(Offline mensaje : mensajes) {
                 if(mensaje.getAutor().equals(cliente.getUUID())) {
                     hayNuevos = true;
+                    break;
                 }
             }
         }

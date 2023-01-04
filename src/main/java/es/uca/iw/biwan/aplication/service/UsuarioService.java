@@ -63,10 +63,6 @@ public class UsuarioService {
         usuarioRepository.updateGestor(gestor.getUUID(), gestor.getNombre(), gestor.getApellidos(), gestor.getFechaNacimiento(), gestor.getTelefono(), gestor.getDni(), gestor.getEmail(), gestor.getPassword());
     }
 
-    public Gestor findGestorByCliente(Cliente cliente) {
-        return usuarioRepository.findGestorByCliente(cliente.getUUID(), cliente.getGestor_id());
-    }
-
     // ENCARGADO COMUNICACIONES
 
     @Transactional

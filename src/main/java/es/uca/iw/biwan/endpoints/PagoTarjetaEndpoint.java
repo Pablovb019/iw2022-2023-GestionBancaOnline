@@ -24,8 +24,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
-import static es.uca.iw.biwan.domain.operaciones.TipoPago.OFFLINE;
-
 @RestController
 public class PagoTarjetaEndpoint {
     @Autowired

@@ -1,7 +1,6 @@
 package es.uca.iw.biwan.aplication.repository;
 
 import es.uca.iw.biwan.domain.usuarios.Cliente;
-import es.uca.iw.biwan.domain.usuarios.Gestor;
 import es.uca.iw.biwan.domain.usuarios.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -84,15 +83,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             nativeQuery = true
     )
     Cliente findClienteByCuenta(@Param("uuid") UUID uuid);
-
-    @Query(
-            value = "SELECT * from usuario WHERE uuid = :uuid AND gestor_id = :gestor_id",
-            nativeQuery = true
-    )
-    Gestor findGestorByCliente(
-            @Param("uuid") UUID uuid,
-            @Param("gestor_id") UUID gestor_id
-    );
 
     // GESTOR
 

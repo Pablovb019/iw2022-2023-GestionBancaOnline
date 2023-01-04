@@ -36,11 +36,11 @@ import java.util.UUID;
 public class AddOfertaView extends VerticalLayout {
     @Autowired
     private AnuncioService anuncioService;
-    private TextField titulo = new TextField("Título");
-    private TextArea descripcion = new TextArea("Descripción");
-    private DatePicker fechaFin = new DatePicker("Fecha fin de la oferta");
-    private Button guardar = new Button("Guardar");
-    private Button atras = new Button("Atrás");
+    private final TextField titulo = new TextField("Título");
+    private final TextArea descripcion = new TextArea("Descripción");
+    private final DatePicker fechaFin = new DatePicker("Fecha fin de la oferta");
+    private final Button guardar = new Button("Guardar");
+    private final Button atras = new Button("Atrás");
 
     public AddOfertaView(){
         VaadinSession session = VaadinSession.getCurrent();

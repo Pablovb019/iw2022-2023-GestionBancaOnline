@@ -1,7 +1,5 @@
 package es.uca.iw.biwan.views.headers;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
@@ -14,16 +12,10 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.server.VaadinSession;
-import es.uca.iw.biwan.aplication.service.UsuarioService;
 import es.uca.iw.biwan.domain.usuarios.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.awt.*;
-import java.util.UUID;
 
 @CssImport("./themes/biwan/headerUsuarioLogueado.css")
 public class HeaderUsuarioLogueadoView {
-    private static UsuarioService usuarioService;
 
     public static HorizontalLayout Header() {
         //NEW

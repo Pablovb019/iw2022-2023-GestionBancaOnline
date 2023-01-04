@@ -1,16 +1,13 @@
 package es.uca.iw.biwan.aplication.service;
 
 import es.uca.iw.biwan.aplication.repository.ConsultaRepository;
-import es.uca.iw.biwan.domain.consulta.Consulta;
 import es.uca.iw.biwan.domain.consulta.Offline;
 import es.uca.iw.biwan.domain.consulta.Online;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service

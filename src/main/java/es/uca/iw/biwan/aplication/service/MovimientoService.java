@@ -7,6 +7,7 @@ import es.uca.iw.biwan.domain.operaciones.Transferencia;
 import es.uca.iw.biwan.domain.operaciones.Traspaso;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -19,14 +20,17 @@ public class MovimientoService {
         this.movimientoRepository = movimientoRepository;
     }
 
+    @Transactional
     public void saveMovimiento(Movimiento movimiento, Cuenta cuenta) {
         movimientoRepository.saveMovimiento(movimiento.getId(), String.valueOf(movimiento.getTransactionStatus()), movimiento.getIssuer(), String.valueOf(movimiento.getTransactionType()), movimiento.getConcept(), movimiento.getIban(), movimiento.getValue(), cuenta.getUUID());
     }
 
+    @Transactional
     public void saveTransferencia(Transferencia transferencia, Cuenta cuentaOrigen) {
         movimientoRepository.saveTransferencia(transferencia.getId(), String.valueOf(transferencia.getTransactionStatus()), transferencia.getIssuer(), String.valueOf(transferencia.getTransactionType()), transferencia.getConcept(), transferencia.getIban(), transferencia.getValue(), transferencia.getIbanDestino(), cuentaOrigen.getUUID());
     }
 
+    @Transactional
     public void saveTraspaso(Traspaso traspaso, Cuenta cuentaOrigen) {
         movimientoRepository.saveTraspaso(traspaso.getId(), String.valueOf(traspaso.getTransactionStatus()), traspaso.getIssuer(), String.valueOf(traspaso.getTransactionType()), traspaso.getConcept(), traspaso.getIban(), traspaso.getValue(), traspaso.getIbanDestino(), cuentaOrigen.getUUID());
     }

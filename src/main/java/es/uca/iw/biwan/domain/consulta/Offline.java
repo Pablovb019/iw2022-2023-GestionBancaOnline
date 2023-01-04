@@ -1,7 +1,6 @@
 package es.uca.iw.biwan.domain.consulta;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
