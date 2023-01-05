@@ -79,9 +79,9 @@
 
     <distributionManagement>
         <repository>
-            <id>vaadin-prereleases</id>
-            <url>
-                https://maven.vaadin.com/vaadin-prereleases/
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/Pablovb019/iw2022-2023-GestionBancaOnline
             </url>
         </repository>
     </distributionManagement>
