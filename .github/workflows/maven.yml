@@ -1,0 +1,71 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI/CD with Maven
+
+on:
+  release:
+    types: [published,edited]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:   
+    - name: Setup Maven Action
+      uses: s4u/setup-maven-action@v1.5.1
+      with:
+        java-distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '17'
+     
+    - name: Build with Maven and Publish to GitHub Packages Apache Maven
+      run: mvn clean deploy -U -B -Pproduction --file pom.xml
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        
+    - name: Rename jar file
+      run: mv target/*.jar target/webapp.jar
+        
+    - name: Upload artifact to Github storage
+      uses: actions/upload-artifact@v3
+      with:
+        name: webapp_jar_package
+        path: target/webapp.jar
+        
+  deployment:
+    needs: build
+    runs-on: ubuntu-latest    
+    environment: test
+    steps:  
+    - name: Download artifact
+      id: download
+      uses: actions/download-artifact@v3
+      with:
+        name: webapp_jar_package
+    
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v20
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+        application_name: utms
+        environment_name: utms-testenv
+        version_label: ${{github.ref_name}}
+        version_description: ${{github.SHA}}
+        region: us-east-1
+        deployment_package: webapp.jar
+        
+    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+    #- name: Update dependency graph
+    #  uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
