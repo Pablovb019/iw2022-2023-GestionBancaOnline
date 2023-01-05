@@ -11,6 +11,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.server.VaadinSession;
 import es.uca.iw.biwan.domain.usuarios.*;
 
@@ -189,8 +190,7 @@ public class HeaderUsuarioLogueadoView {
             else if (session.getAttribute(Gestor.class) != null) { session.setAttribute(Gestor.class, null); }
             else if (session.getAttribute(EncargadoComunicaciones.class) != null) { session.setAttribute(EncargadoComunicaciones.class, null); }
             else if (session.getAttribute(Administrador.class) != null) { session.setAttribute(Administrador.class, null); }
-
-            UI.getCurrent().navigate("");
+            UI.getCurrent().navigate("login");
         });
         return header;
     }
