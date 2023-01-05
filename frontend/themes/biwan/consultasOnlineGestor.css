@@ -21,7 +21,7 @@ flow-container-root-2521314 {
     display: table;
     border: 1px solid black !important;
     gap: 0;
-    max-width: 95%;
+    max-width: 87%;
     align-self: center;
 }
 
@@ -84,7 +84,7 @@ vaadin-input-container::part(input-field) {
 
 .TituloVolverLayout {
     width: 100%;
-    max-width: 95%;
+    max-width: 87%;
     align-self: center;
 }
 

@@ -79,7 +79,7 @@ vaadin-input-container::part(input-field) {
     flex-grow: unset !important;
 }
 
-.TituloVolverLayout {
+.TituloVolverLayoutOffline {
     width: 100%;
 }
 
