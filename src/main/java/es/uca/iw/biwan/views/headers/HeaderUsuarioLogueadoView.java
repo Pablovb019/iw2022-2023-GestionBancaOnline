@@ -191,6 +191,7 @@ public class HeaderUsuarioLogueadoView {
             else if (session.getAttribute(EncargadoComunicaciones.class) != null) { session.setAttribute(EncargadoComunicaciones.class, null); }
             else if (session.getAttribute(Administrador.class) != null) { session.setAttribute(Administrador.class, null); }
             UI.getCurrent().navigate("login");
+            UI.getCurrent().getPage().getHistory().pushState(null, "");
         });
         return header;
     }
