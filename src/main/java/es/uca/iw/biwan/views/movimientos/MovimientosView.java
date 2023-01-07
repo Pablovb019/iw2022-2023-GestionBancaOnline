@@ -2,6 +2,7 @@ package es.uca.iw.biwan.views.movimientos;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -94,11 +95,8 @@ public class MovimientosView extends VerticalLayout {
         tableLayout.setWidth("80%");
         tableLayout.getStyle().set("align-self", "center");
 
-        HorizontalLayout filterTableLayout = new HorizontalLayout();
-        filterTableLayout.setWidth("100%");
-
-        VerticalLayout filterTypeTableLayout = new VerticalLayout();
-        filterTypeTableLayout.setWidth("100%");
+        VerticalLayout filterPrintLayout = new VerticalLayout();
+        filterPrintLayout.setAlignItems(Alignment.END);
 
         Cliente cliente = VaadinSession.getCurrent().getAttribute(Cliente.class);
         ArrayList<Cuenta> cuentas = cuentaService.findCuentaByCliente(cliente);
@@ -137,6 +135,16 @@ public class MovimientosView extends VerticalLayout {
             grid.getStyle().set("align-self", "center");
             grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
             grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+            grid.setAllRowsVisible(true);
+
+            Button imprimir = new Button("Imprimir");
+            imprimir.addClickListener(event -> {
+                grid.getElement().executeJs("window.print()");
+            });
+
+            imprimir.getStyle().set("align-self", "start");
+            imprimir.getStyle().set("margin-top", "35px");
+            imprimir.getStyle().set("width", "100px");
 
             Select<String> ingresosGastosFilter = new Select<>();
             ingresosGastosFilter.setLabel("Filtrar por");
@@ -150,10 +158,11 @@ public class MovimientosView extends VerticalLayout {
             ingresosGastosFilter.getStyle().set("align-self", "end");
             ingresosGastosFilter.getStyle().set("margin-right", "35px");
 
-            filterTypeTableLayout.add(ingresosGastosFilter);
-            filterTableLayout.add(filterTypeTableLayout);
+            HorizontalLayout filterPrint = new HorizontalLayout();
+            filterPrint.add(ingresosGastosFilter, imprimir);
+            filterPrintLayout.add(filterPrint);
 
-            tableLayout.add(filterTableLayout, grid);
+            tableLayout.add(filterPrintLayout, grid);
         }
 
         return tableLayout;
