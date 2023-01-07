@@ -128,9 +128,11 @@ public class GestorView extends VerticalLayout {
                 CrearTarjetaButton.addClickListener(event -> {
                     Dialog dialog = new Dialog();
                     dialog.setHeaderTitle("Crear tarjeta");
+                    dialog.setWidth("350px");
 
                     VerticalLayout dialogLayout = new VerticalLayout();
                     ComboBox<Cuenta> cuentas = new ComboBox<>("Cuentas");
+                    cuentas.setWidth("300px");
                     cuentas.setItems(cuentaService.findCuentaByCliente(cliente));
                     cuentas.setItemLabelGenerator(Cuenta::getIBAN);
                     cuentas.setRequired(true);
