@@ -14,6 +14,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.messages.MessageInputI18n;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -129,6 +130,7 @@ public class ConsultasOnlineGestorView extends VerticalLayout {
 
         CollaborationMessageList list = new CollaborationMessageList(userInfo, idSala.toString());
         CollaborationMessageInput input = new CollaborationMessageInput(list);
+        input.setI18n(new MessageInputI18n().setSend("Enviar").setMessage("Mensaje"));
 
         list.addClassName("list");
         chatLayout.addClassName("chatLayout");
