@@ -79,7 +79,7 @@ public class AddOfertaView extends VerticalLayout {
     }
 
     private Component crearAñadirOferta() {
-        Binder<Anuncio> binderOferta = new Binder<>(Anuncio.class);
+        Binder<Oferta> binderOferta = new Binder<>(Oferta.class);
 
         titulo.setMinWidth("700px");
         descripcion.setMinHeight("700px");
@@ -89,16 +89,16 @@ public class AddOfertaView extends VerticalLayout {
 
         binderOferta.forField(titulo)
                 .asRequired("El título es obligatorio")
-                .bind(Anuncio::getTitulo, Anuncio::setTitulo);
+                .bind(Oferta::getTitulo, Oferta::setTitulo);
 
         binderOferta.forField(descripcion)
                 .asRequired("La descripción es obligatoria")
-                .bind(Anuncio::getCuerpo, Anuncio::setCuerpo);
+                .bind(Oferta::getCuerpo, Oferta::setCuerpo);
 
         binderOferta.forField(fechaFin)
                 .asRequired("La fecha fin de la oferta es obligatoria")
                 .withValidator(fecha -> fecha.isAfter(LocalDate.now()), "La fecha debe ser posterior a la actual")
-                .bind(Anuncio::getFechaFin, Anuncio::setFechaFin);
+                .bind(Oferta::getFechaFin, Oferta::setFechaFin);
 
         Component botones = crearBotones(binderOferta);
         flForm.add(titulo, descripcion, fechaFin, botones);
@@ -110,7 +110,7 @@ public class AddOfertaView extends VerticalLayout {
         return flForm;
     }
 
-    private Component crearBotones(Binder<Anuncio> binderOferta) {
+    private Component crearBotones(Binder<Oferta> binderOferta) {
         guardar.addClassName("guardar");
         atras.addClassName("atras");
         HorizontalLayout hlButtons = new HorizontalLayout();
@@ -143,9 +143,9 @@ public class AddOfertaView extends VerticalLayout {
         return vlButtons;
     }
 
-    private void CreateRequest(Anuncio anuncio) {
+    private void CreateRequest(Oferta oferta) {
         try {
-            anuncioService.save(anuncio);
+            anuncioService.saveOferta(oferta);
             ConfirmDialog confirmRequest = new ConfirmDialog("Añadida Oferta", "Oferta añadida correctamente", "Aceptar", event1 -> {
                 UI.getCurrent().navigate("/pagina-principal-encargado");
             });

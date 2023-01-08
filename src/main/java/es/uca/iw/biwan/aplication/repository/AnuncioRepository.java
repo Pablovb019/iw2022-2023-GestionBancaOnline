@@ -16,15 +16,27 @@ import java.util.UUID;
 public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
     @Modifying
     @Query(
+            value = "INSERT INTO anuncio VALUES (:tipo, :uuid, :fecha_inicio, NULL, :titulo, :cuerpo)",
+            nativeQuery = true
+    )
+    void insertNoticia(@Param("tipo") String tipo,
+                    @Param("uuid") UUID uuid,
+                    @Param("fecha_inicio") LocalDate fecha_inicio,
+                    @Param("titulo") String titulo,
+                    @Param("cuerpo") String cuerpo
+    );
+
+    @Modifying
+    @Query(
             value = "INSERT INTO anuncio VALUES (:tipo, :uuid, :fecha_inicio, :fecha_fin, :titulo, :cuerpo)",
             nativeQuery = true
     )
-    void insertAnuncio(@Param("tipo") String tipo,
-                    @Param("uuid") UUID uuid,
-                    @Param("fecha_inicio") LocalDate fecha_inicio,
-                    @Param("fecha_fin") LocalDate fecha_fin,
-                    @Param("titulo") String titulo,
-                    @Param("cuerpo") String cuerpo
+    void insertOferta(@Param("tipo") String tipo,
+                       @Param("uuid") UUID uuid,
+                       @Param("fecha_inicio") LocalDate fecha_inicio,
+                       @Param("fecha_fin") LocalDate fecha_fin,
+                       @Param("titulo") String titulo,
+                       @Param("cuerpo") String cuerpo
     );
 
     @Query(
@@ -48,14 +60,26 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
 
     @Modifying
     @Query(
+            value = "UPDATE anuncio SET tipo = :tipo, fecha_inicio = :fecha_inicio, titulo = :titulo, cuerpo = :cuerpo WHERE uuid = :uuid",
+            nativeQuery = true
+    )
+    void updateNoticia(@Param("tipo") String tipo,
+                    @Param("uuid") UUID uuid,
+                    @Param("fecha_inicio") LocalDate fecha_inicio,
+                    @Param("titulo") String titulo,
+                    @Param("cuerpo") String cuerpo
+    );
+
+    @Modifying
+    @Query(
             value = "UPDATE anuncio SET tipo = :tipo, fecha_inicio = :fecha_inicio, fecha_fin = :fecha_fin, titulo = :titulo, cuerpo = :cuerpo WHERE uuid = :uuid",
             nativeQuery = true
     )
-    void updateAnuncio(@Param("tipo") String tipo,
-                    @Param("uuid") UUID uuid,
-                    @Param("fecha_inicio") LocalDate fecha_inicio,
-                    @Param("fecha_fin") LocalDate fecha_fin,
-                    @Param("titulo") String titulo,
-                    @Param("cuerpo") String cuerpo
+    void updateOferta(@Param("tipo") String tipo,
+                       @Param("uuid") UUID uuid,
+                       @Param("fecha_inicio") LocalDate fecha_inicio,
+                       @Param("fecha_fin") LocalDate fecha_fin,
+                       @Param("titulo") String titulo,
+                       @Param("cuerpo") String cuerpo
     );
 }

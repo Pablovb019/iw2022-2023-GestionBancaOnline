@@ -77,7 +77,7 @@ public class AddNoticiaView extends VerticalLayout {
     }
 
     private Component crearAñadirNoticia() {
-        Binder<Anuncio> binderNoticia = new Binder<>(Anuncio.class);
+        Binder<Noticia> binderNoticia = new Binder<>(Noticia.class);
 
         titulo.setMinWidth("700px");
         descripcion.setMinHeight("700px");
@@ -88,12 +88,12 @@ public class AddNoticiaView extends VerticalLayout {
         binderNoticia.forField(titulo)
                 .asRequired("El título es obligatorio")
                 .withValidator(titulo -> titulo.length() <= 128, "El titulo debe tener un tamaño menor a 128 caracteres")
-                .bind(Anuncio::getTitulo, Anuncio::setTitulo);
+                .bind(Noticia::getTitulo, Noticia::setTitulo);
 
         binderNoticia.forField(descripcion)
                 .asRequired("La descripción es obligatoria")
                 .withValidator(descripcion -> descripcion.length() <= 2048, "La descripción debe tener un tamaño menor a 2048 caracteres")
-                .bind(Anuncio::getCuerpo, Anuncio::setCuerpo);
+                .bind(Noticia::getCuerpo, Noticia::setCuerpo);
 
         Component botones = crearBotones(binderNoticia);
 
@@ -105,7 +105,7 @@ public class AddNoticiaView extends VerticalLayout {
         return flForm;
     }
 
-    private Component crearBotones(Binder<Anuncio> binderNoticia) {
+    private Component crearBotones(Binder<Noticia> binderNoticia) {
         guardar.addClassName("guardarButton");
         atras.addClassName("atrasButton");
         HorizontalLayout hlButtons = new HorizontalLayout();
@@ -129,7 +129,6 @@ public class AddNoticiaView extends VerticalLayout {
                 noticia.setTipo(TipoAnuncio.NOTICIA);
                 noticia.setUUID(UUID.randomUUID());
                 noticia.setFechaInicio(LocalDate.now());
-                noticia.setFechaFin(null);
                 noticia.setTitulo(titulo.getValue());
                 noticia.setCuerpo(descripcion.getValue());
                 CreateRequest(noticia);
@@ -138,9 +137,9 @@ public class AddNoticiaView extends VerticalLayout {
         return vlButtons;
     }
 
-    private void CreateRequest(Anuncio anuncio) {
+    private void CreateRequest(Noticia noticia) {
         try {
-            anuncioService.save(anuncio);
+            anuncioService.saveNoticia(noticia);
             ConfirmDialog confirmRequest = new ConfirmDialog("Añadida Noticia", "Noticia añadida correctamente", "Aceptar", event1 -> {
                 UI.getCurrent().navigate("/pagina-principal-encargado");
             });

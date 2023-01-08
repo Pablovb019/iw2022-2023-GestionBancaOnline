@@ -20,8 +20,13 @@ public class AnuncioService {
     }
 
     @Transactional
-    public void save(Anuncio anuncio) {
-        anuncioRepository.insertAnuncio(anuncio.getTipo(), anuncio.getUUID(), anuncio.getFechaInicio(), anuncio.getFechaFin(), anuncio.getTitulo(), anuncio.getCuerpo());
+    public void saveNoticia(Noticia noticia) {
+        anuncioRepository.insertNoticia(noticia.getTipo(), noticia.getUUID(), noticia.getFechaInicio(), noticia.getTitulo(), noticia.getCuerpo());
+    }
+
+    @Transactional
+    public void saveOferta(Oferta oferta) {
+        anuncioRepository.insertOferta(oferta.getTipo(), oferta.getUUID(), oferta.getFechaInicio(), oferta.getFechaFin(), oferta.getTitulo(), oferta.getCuerpo());
     }
 
     public ArrayList<Noticia> findNoticiaByType(String noticia) {
@@ -38,7 +43,12 @@ public class AnuncioService {
     }
 
     @Transactional
-    public void update(Anuncio anuncio) {
-        anuncioRepository.updateAnuncio(anuncio.getTipo(), anuncio.getUUID(), anuncio.getFechaInicio(), anuncio.getFechaFin(), anuncio.getTitulo(), anuncio.getCuerpo());
+    public void updateNoticia(Noticia noticia) {
+        anuncioRepository.updateNoticia(noticia.getTipo(), noticia.getUUID(), noticia.getFechaInicio(), noticia.getTitulo(), noticia.getCuerpo());
+    }
+
+    @Transactional
+    public void updateOferta(Oferta oferta) {
+        anuncioRepository.updateOferta(oferta.getTipo(), oferta.getUUID(), oferta.getFechaInicio(), oferta.getFechaFin(), oferta.getTitulo(), oferta.getCuerpo());
     }
 }

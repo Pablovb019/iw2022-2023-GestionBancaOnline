@@ -18,9 +18,6 @@ public class Anuncio {
     @Column(nullable = false)
     private LocalDate fechaInicio;
 
-    @Column
-    private LocalDate fechaFin;
-
     @Lob
     @Column(nullable = false)
     private String titulo;
@@ -46,14 +43,6 @@ public class Anuncio {
 
     public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
-    }
-
-    public LocalDate getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
     }
 
     public String getTitulo() {

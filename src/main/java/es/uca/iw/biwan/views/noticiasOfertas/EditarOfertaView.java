@@ -76,7 +76,7 @@ public class EditarOfertaView extends VerticalLayout {
     }
 
     private Component crearEditarOferta() {
-        Binder<Anuncio> binderOferta = new Binder<>(Anuncio.class);
+        Binder<Oferta> binderOferta = new Binder<>(Oferta.class);
 
         titulo.setValue(VaadinSession.getCurrent().getAttribute(Oferta.class).getTitulo());
         descripcion.setValue(VaadinSession.getCurrent().getAttribute(Oferta.class).getCuerpo());
@@ -91,17 +91,17 @@ public class EditarOfertaView extends VerticalLayout {
         binderOferta.forField(titulo)
                 .asRequired("El título es obligatorio")
                 .withValidator(titulo -> titulo.length() <= 128, "El titulo debe tener un tamaño menor a 128 caracteres")
-                .bind(Anuncio::getTitulo, Anuncio::setTitulo);
+                .bind(Oferta::getTitulo, Oferta::setTitulo);
 
         binderOferta.forField(descripcion)
                 .asRequired("La descripción es obligatoria")
                 .withValidator(descripcion -> descripcion.length() <= 2048, "La descripción debe tener un tamaño menor a 2048 caracteres")
-                .bind(Anuncio::getCuerpo, Anuncio::setCuerpo);
+                .bind(Oferta::getCuerpo, Oferta::setCuerpo);
 
         binderOferta.forField(fechaFin)
                 .asRequired("La fecha fin de la oferta es obligatoria")
                 .withValidator(fecha -> fecha.isAfter(LocalDate.now()), "La fecha debe ser posterior a la actual")
-                .bind(Anuncio::getFechaFin, Anuncio::setFechaFin);
+                .bind(Oferta::getFechaFin, Oferta::setFechaFin);
 
         Component botones = crearBotones(binderOferta);
 
@@ -113,7 +113,7 @@ public class EditarOfertaView extends VerticalLayout {
         return flForm;
     }
 
-    private Component crearBotones(Binder<Anuncio> binderOferta) {
+    private Component crearBotones(Binder<Oferta> binderOferta) {
         guardar.addClassName("saveEditar");
         atras.addClassName("backEditar");
         HorizontalLayout hlButtons = new HorizontalLayout();
@@ -133,22 +133,22 @@ public class EditarOfertaView extends VerticalLayout {
         guardar.addClickShortcut(Key.ENTER);
         guardar.addClickListener(event -> {
             if (binderOferta.validate().isOk()) {
-                Noticia noticia = new Noticia();
-                noticia.setTipo(TipoAnuncio.OFERTA);
-                noticia.setUUID(VaadinSession.getCurrent().getAttribute(Oferta.class).getUUID());
-                noticia.setFechaInicio(LocalDate.now());
-                noticia.setFechaFin(fechaFin.getValue());
-                noticia.setTitulo(titulo.getValue());
-                noticia.setCuerpo(descripcion.getValue());
-                CreateRequest(noticia);
+                Oferta oferta = new Oferta();
+                oferta.setTipo(TipoAnuncio.OFERTA);
+                oferta.setUUID(VaadinSession.getCurrent().getAttribute(Oferta.class).getUUID());
+                oferta.setFechaInicio(LocalDate.now());
+                oferta.setFechaFin(fechaFin.getValue());
+                oferta.setTitulo(titulo.getValue());
+                oferta.setCuerpo(descripcion.getValue());
+                CreateRequest(oferta);
             }
         });
         return vlButtons;
     }
 
-    private void CreateRequest(Anuncio anuncio) {
+    private void CreateRequest(Oferta oferta) {
         try {
-            anuncioService.update(anuncio);
+            anuncioService.updateOferta(oferta);
             ConfirmDialog confirmRequest = new ConfirmDialog("Editada Oferta", "Oferta editada correctamente", "Aceptar", event1 -> {
                 UI.getCurrent().navigate("/pagina-principal-encargado");
             });
