@@ -59,8 +59,8 @@ jobs:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-        application_name: utms
-        environment_name: utms-testenv
+        application_name: Biwan
+        environment_name: Biwan-env
         version_label: ${{github.ref_name}}
         version_description: ${{github.SHA}}
         region: us-east-1
