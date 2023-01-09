@@ -30,6 +30,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 
 public class JpaApplication implements AppShellConfigurator {
+    public static void main(String[] args) {
+        SpringApplication.run(JpaApplication.class, args);
+    }
 
     @Bean
     public CollaborationEngineConfiguration ceConfigBean() {
@@ -39,9 +42,5 @@ public class JpaApplication implements AppShellConfigurator {
                 });
         configuration.setDataDir(System.getenv("VAADIN_CE_DATA_DIR"));
         return configuration;
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(JpaApplication.class, args);
     }
 }
