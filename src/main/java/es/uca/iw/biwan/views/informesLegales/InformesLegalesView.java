@@ -50,7 +50,7 @@ public class InformesLegalesView  extends VerticalLayout {
         VerticalLayout layoutArchivosInformesLegales = new VerticalLayout();
         H1 Titulo = new H1("Informes Legales");
         H4 ArchivosDescargables = new H4("ARCHIVOS DESCARGABLES:");
-        File InformeAnual = new File("var/app/files/Informe_Anual.pdf");
+        File InformeAnual = new File("/var/app/files/Informe_Anual.pdf");
 
         //Files
         StreamResource resourceInformeAnual = new StreamResource("Informe Anual.pdf", () -> {
@@ -60,7 +60,7 @@ public class InformesLegalesView  extends VerticalLayout {
                 throw new RuntimeException(e);
             }
         });
-        File InformeDeCumplimiento = new File("var/app/files/Informe_De_Cumplimiento.pdf");
+        File InformeDeCumplimiento = new File("/var/app/files/Informe_De_Cumplimiento.pdf");
         StreamResource resourceInformeDeCumplimiento = new StreamResource("Informe de Cumplimiento.pdf", () -> {
             try {
                 return new FileInputStream(InformeDeCumplimiento);
@@ -68,7 +68,7 @@ public class InformesLegalesView  extends VerticalLayout {
                 throw new RuntimeException(e);
             }
         });
-        File InformeDeGestionDeRiesgos = new File("var/app/files/Informe_De_Gestion_De_Riesgos.pdf");
+        File InformeDeGestionDeRiesgos = new File("7var/app/files/Informe_De_Gestion_De_Riesgos.pdf");
         StreamResource resourceInformeDeGestionDeRiesgos = new StreamResource("Informe De Gestión De Riesgos.pdf", () -> {
             try {
                 return new FileInputStream(InformeDeGestionDeRiesgos);
@@ -76,7 +76,7 @@ public class InformesLegalesView  extends VerticalLayout {
                 throw new RuntimeException(e);
             }
         });
-        File InformeDeGobiernoCorporativo = new File("var/app/files/Informe_De_Gobierno_Corporativo.pdf");
+        File InformeDeGobiernoCorporativo = new File("/var/app/files/Informe_De_Gobierno_Corporativo.pdf");
         StreamResource resourceInformeDeGobiernoCorporativo = new StreamResource("Informe De Gobierno Corporativo.pdf", () -> {
             try {
                 return new FileInputStream(InformeDeGobiernoCorporativo);
@@ -84,7 +84,7 @@ public class InformesLegalesView  extends VerticalLayout {
                 throw new RuntimeException(e);
             }
         });
-        File InformeDeSostenibilidad = new File("var/app/files/files/Informe_De_Sostenibilidad.pdf");
+        File InformeDeSostenibilidad = new File("/var/app/files/Informe_De_Sostenibilidad.pdf");
         StreamResource resourceInformeDeSostenibilidad = new StreamResource("Informe De Sostenibilidad.pdf", () -> {
             try {
                 return new FileInputStream(InformeDeSostenibilidad);
