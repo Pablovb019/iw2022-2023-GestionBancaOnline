@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
     @Modifying
     @Query(
-            value = "INSERT INTO anuncio VALUES (:tipo, :uuid, :fecha_inicio, NULL, :titulo, :cuerpo)",
+            value = "INSERT INTO anuncio VALUES (:tipo, :uuid, :fecha_inicio, :titulo, :cuerpo, NULL)",
             nativeQuery = true
     )
     void insertNoticia(@Param("tipo") String tipo,
@@ -28,7 +28,7 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
 
     @Modifying
     @Query(
-            value = "INSERT INTO anuncio VALUES (:tipo, :uuid, :fecha_inicio, :fecha_fin, :titulo, :cuerpo)",
+            value = "INSERT INTO anuncio VALUES (:tipo, :uuid, :fecha_inicio, :titulo, :cuerpo, :fecha_fin)",
             nativeQuery = true
     )
     void insertOferta(@Param("tipo") String tipo,
