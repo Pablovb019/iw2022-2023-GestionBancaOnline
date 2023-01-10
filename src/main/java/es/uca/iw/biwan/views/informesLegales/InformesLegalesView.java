@@ -68,7 +68,7 @@ public class InformesLegalesView  extends VerticalLayout {
                 throw new RuntimeException(e);
             }
         });
-        File InformeDeGestionDeRiesgos = new File("7var/app/files/Informe_De_Gestion_De_Riesgos.pdf");
+        File InformeDeGestionDeRiesgos = new File("/var/app/files/Informe_De_Gestion_De_Riesgos.pdf");
         StreamResource resourceInformeDeGestionDeRiesgos = new StreamResource("Informe De Gestión De Riesgos.pdf", () -> {
             try {
                 return new FileInputStream(InformeDeGestionDeRiesgos);
