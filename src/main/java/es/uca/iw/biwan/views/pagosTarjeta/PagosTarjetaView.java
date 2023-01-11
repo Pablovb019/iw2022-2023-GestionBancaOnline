@@ -135,7 +135,7 @@ public class PagosTarjetaView extends VerticalLayout {
 
             Button imprimir = new Button("Imprimir");
             imprimir.addClickListener(event -> {
-                grid.getElement().executeJs("window.print()");
+                UI.getCurrent().getPage().executeJs("window.print();");
             });
 
             imprimir.getStyle().set("align-self", "start");

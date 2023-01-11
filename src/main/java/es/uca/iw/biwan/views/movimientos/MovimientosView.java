@@ -12,6 +12,7 @@ import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -139,7 +140,7 @@ public class MovimientosView extends VerticalLayout {
 
             Button imprimir = new Button("Imprimir");
             imprimir.addClickListener(event -> {
-                grid.getElement().executeJs("window.print()");
+                UI.getCurrent().getPage().executeJs("window.print();");
             });
 
             imprimir.getStyle().set("align-self", "start");
