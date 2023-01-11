@@ -12,7 +12,6 @@ import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -57,14 +56,14 @@ public class MovimientosView extends VerticalLayout {
 
     public MovimientosView() {
         VaadinSession session = VaadinSession.getCurrent();
-        if(session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
-            if (session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null){
+        if (session.getAttribute(Cliente.class) != null || session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null) {
+            if (session.getAttribute(Gestor.class) != null || session.getAttribute(EncargadoComunicaciones.class) != null || session.getAttribute(Administrador.class) != null) {
                 ConfirmDialog error = new ConfirmDialog("Error", "No eres un cliente", "Aceptar", event -> {
-                    if (session.getAttribute(Gestor.class) != null){
+                    if (session.getAttribute(Gestor.class) != null) {
                         UI.getCurrent().navigate("pagina-principal-gestor");
-                    }else if (session.getAttribute(EncargadoComunicaciones.class) != null){
+                    } else if (session.getAttribute(EncargadoComunicaciones.class) != null) {
                         UI.getCurrent().navigate("pagina-principal-encargado");
-                    } else if (session.getAttribute(Administrador.class) != null){
+                    } else if (session.getAttribute(Administrador.class) != null) {
                         UI.getCurrent().navigate("pagina-principal-admin");
                     }
                 });
@@ -78,7 +77,7 @@ public class MovimientosView extends VerticalLayout {
         }
     }
 
-    private Component VisualizadorMovimientos(){
+    private Component VisualizadorMovimientos() {
         setSizeFull();
 
         add(HeaderUsuarioLogueadoView.Header());
@@ -106,7 +105,7 @@ public class MovimientosView extends VerticalLayout {
         ArrayList<Transferencia> transferencias = new ArrayList<>();
         ArrayList<Traspaso> traspasos = new ArrayList<>();
 
-        for(Cuenta cuenta : cuentas){
+        for (Cuenta cuenta : cuentas) {
             moves.addAll(movimientoService.findAllMovimientos(cuenta));
             transferencias.addAll(movimientoService.findAllTransferencias(cuenta));
             traspasos.addAll(movimientoService.findAllTraspasos(cuenta));
@@ -119,7 +118,7 @@ public class MovimientosView extends VerticalLayout {
 
         Collections.shuffle(movimientos);
 
-        if (movimientos.size() == 0){
+        if (movimientos.size() == 0) {
             ConfirmDialog errorMovimientos = new ConfirmDialog("Error", "No hay ningún movimiento", "Volver", event -> {
                 UI.getCurrent().navigate("pagina-principal-cliente");
             });
@@ -170,7 +169,7 @@ public class MovimientosView extends VerticalLayout {
     }
 
     private static Renderer<Movimiento> importeYSaldoRenderer() {
-        return LitRenderer.<Movimiento> of(
+        return LitRenderer.<Movimiento>of(
                         "<vaadin-vertical-layout>"
                                 + "  <span style=\"color:${item.color}\">${item.importe} €</span>"
                                 + "</vaadin-vertical-layout>")
@@ -179,7 +178,7 @@ public class MovimientosView extends VerticalLayout {
     }
 
     private static Renderer<Movimiento> tipoMovimientoYConceptoRenderer() {
-        return LitRenderer.<Movimiento> of(
+        return LitRenderer.<Movimiento>of(
                         "<vaadin-vertical-layout>"
                                 + "  <span style=\"font-weight: bold;\">${item.titulo}</span>"
                                 + "  <span>${item.tipo}</span>"
@@ -193,7 +192,7 @@ public class MovimientosView extends VerticalLayout {
     private static final DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
     private static String getFormattedMovimientoImporteColor(Movimiento movimiento) {
-       if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.DEPOSIT.toString())) {
+        if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.DEPOSIT.toString())) {
             return "green";
         } else if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.WITHDRAWAL.toString())) {
             return "red";
@@ -208,29 +207,29 @@ public class MovimientosView extends VerticalLayout {
     }
 
     private static String getConceptoMovimiento(Movimiento movimiento) {
-        if(movimiento.getConcept().startsWith("Abono de nómina")){
+        if (movimiento.getConcept().startsWith("Abono de nómina")) {
             return "Abono de nómina";
         }
-        if(movimiento.getConcept().startsWith("Recepción de Transferencia")){
+        if (movimiento.getConcept().startsWith("Recepción de Transferencia")) {
             return "Recepción de Transferencia";
         }
 
-        if(movimiento.getConcept().startsWith("Recepción de Bizum")){
+        if (movimiento.getConcept().startsWith("Recepción de Bizum")) {
             return "Recepción de Bizum";
         }
 
-        if(movimiento.getConcept().startsWith("Envío de Bizum")){
+        if (movimiento.getConcept().startsWith("Envío de Bizum")) {
             return "Envío de Bizum";
         }
 
-        if(movimiento.getConcept().startsWith("Recibo de")){
+        if (movimiento.getConcept().startsWith("Recibo de")) {
             return "Recibo";
         }
 
-        if(movimiento.getConcept().startsWith("Transferencia")){
+        if (movimiento.getConcept().startsWith("Transferencia")) {
             return "Envío de Transferencia";
         }
-        if(movimiento.getConcept().startsWith("Traspaso")){
+        if (movimiento.getConcept().startsWith("Traspaso")) {
             return "Envío de Traspaso";
         }
 
@@ -238,19 +237,19 @@ public class MovimientosView extends VerticalLayout {
     }
 
     private static String getTipoMovimiento(Movimiento movimiento) {
-        if(movimiento.getTransactionType().equals(TransaccionBancaria.DEPOSIT.toString())){
+        if (movimiento.getTransactionType().equals(TransaccionBancaria.DEPOSIT.toString())) {
             return "Ingreso";
         }
 
-        if(movimiento.getTransactionType().equals(TransaccionBancaria.WITHDRAWAL.toString())){
+        if (movimiento.getTransactionType().equals(TransaccionBancaria.WITHDRAWAL.toString())) {
             return "Gasto";
         }
 
-        if(movimiento.getTransactionType().equals(TransaccionBancaria.TRANSFERENCIA.toString())){
+        if (movimiento.getTransactionType().equals(TransaccionBancaria.TRANSFERENCIA.toString())) {
             return "Transferencia";
         }
 
-        if(movimiento.getTransactionType().equals(TransaccionBancaria.TRASPASO.toString())){
+        if (movimiento.getTransactionType().equals(TransaccionBancaria.TRASPASO.toString())) {
             return "Traspaso";
         }
 
@@ -304,26 +303,26 @@ public class MovimientosView extends VerticalLayout {
             importeTextField.setValue(getFormattedMovimientoImporteDecimales(movimiento) + " €");
             tipoTextField.setValue(getTipoMovimiento(movimiento));
             conceptoTextField.setValue(movimiento.getConcept());
-            if (Objects.equals(movimiento.getTransactionType(), "TRANSFERENCIA")) {
+
+            if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.TRANSFERENCIA.toString())) {
                 cuentaOrigenTextField.setValue(movimiento.getCuentaIBAN());
                 Transferencia transferencia = (Transferencia) movimiento;
                 cuentaDestinoTextField.setValue(transferencia.getIbanDestino());
+            } else if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.TRASPASO.toString())) {
+                cuentaOrigenTextField.setValue(movimiento.getCuentaIBAN());
+                Traspaso traspaso = (Traspaso) movimiento;
+                cuentaDestinoTextField.setValue(traspaso.getIbanDestino());
+            } else if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.DEPOSIT.toString())) {
+                cuentaOrigenTextField.setValue("");
+                cuentaDestinoTextField.setValue(movimiento.getCuentaIBAN());
+            } else if (Objects.equals(movimiento.getTransactionType(), TransaccionBancaria.WITHDRAWAL.toString())) {
+                cuentaOrigenTextField.setValue(movimiento.getCuentaIBAN());
+                cuentaDestinoTextField.setValue("");
             } else {
-                if (Objects.equals(movimiento.getTransactionType(), "TRASPASO")) {
-                    cuentaOrigenTextField.setValue(movimiento.getCuentaIBAN());
-                    Traspaso traspaso = (Traspaso) movimiento;
-                    cuentaDestinoTextField.setValue(traspaso.getIbanDestino());
-                } if (Objects.equals(movimiento.getTransactionType(), "DEPOSIT")){
-                    cuentaOrigenTextField.setValue("");
-                    cuentaDestinoTextField.setValue(movimiento.getCuentaIBAN());
-                } if (Objects.equals(movimiento.getTransactionType(), "WITHDRAWAL")){
-                    cuentaOrigenTextField.setValue(movimiento.getCuentaIBAN());
-                    cuentaDestinoTextField.setValue("");
-                } else {
-                    cuentaOrigenTextField.setValue("");
-                    cuentaDestinoTextField.setValue("");
-                }
+                cuentaOrigenTextField.setValue("");
+                cuentaDestinoTextField.setValue("");
             }
+
             importeTextField.getStyle().set("color", getFormattedMovimientoImporteColor(movimiento));
             setHeight("auto");
         }
@@ -331,9 +330,10 @@ public class MovimientosView extends VerticalLayout {
 
     @PostConstruct
     public void init() {
-        try{
+        try {
             add(VisualizadorMovimientos());
             add(FooterView.Footer());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 }
