@@ -305,7 +305,17 @@ public class MovimientosView extends VerticalLayout {
             tipoTextField.setValue(getTipoMovimiento(movimiento));
             conceptoTextField.setValue(movimiento.getConcept());
             cuentaOrigenTextField.setValue(movimiento.getCuentaIBAN());
-            cuentaDestinoTextField.setValue(movimiento.getIban());
+            if (Objects.equals(movimiento.getTransactionType(), "TRANSFERENCIA")) {
+                Transferencia transferencia = (Transferencia) movimiento;
+                cuentaDestinoTextField.setValue(transferencia.getIbanDestino());
+            } else {
+                if (Objects.equals(movimiento.getTransactionType(), "TRASPASO")) {
+                    Traspaso traspaso = (Traspaso) movimiento;
+                    cuentaDestinoTextField.setValue(traspaso.getIbanDestino());
+                } else {
+                    cuentaDestinoTextField.setValue("");
+                }
+            }
             importeTextField.getStyle().set("color", getFormattedMovimientoImporteColor(movimiento));
             setHeight("auto");
         }
