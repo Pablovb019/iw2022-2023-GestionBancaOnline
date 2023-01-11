@@ -7,4 +7,4 @@
 - Jose Antonio Marañón Calvario
 
 ## Enlance a la rúbrica
-https://docs.google.com/spreadsheets/d/17cHx_PUrvY8SrpRwsucqrnxsCvvLeMHbPuCGU89Q5ic/edit?usp=sharing
+https://docs.google.com/spreadsheets/d/1NQhQ9odbixggXFvMqwqmv5yx5nyf0rb0YXrkAH0HJuY/edit?usp=sharing
