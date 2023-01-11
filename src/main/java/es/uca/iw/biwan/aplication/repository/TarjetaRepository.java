@@ -85,7 +85,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, String> {
 
     @Modifying
     @Query(
-            value = "UPDATE Tarjeta SET limite_gasto = :limite_gasto WHERE uuid = :uuid",
+            value = "UPDATE tarjeta SET limite_gasto = :limite_gasto WHERE uuid = :uuid",
             nativeQuery = true
     )
     void updateLimiteGasto(@Param("limite_gasto") Double limiteGasto,

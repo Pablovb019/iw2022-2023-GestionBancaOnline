@@ -14,7 +14,7 @@ public interface PagoTarjetaRepository extends JpaRepository<PagoTarjeta, UUID> 
 
     @Modifying
     @Query(
-           value = "INSERT INTO Pago_Tarjeta VALUES (:uuid, :estado, :valor, :tipoPago, :tienda, :tarjeta)",
+           value = "INSERT INTO pago_tarjeta VALUES (:uuid, :estado, :valor, :tipoPago, :tienda, :tarjeta)",
            nativeQuery = true
     )
 

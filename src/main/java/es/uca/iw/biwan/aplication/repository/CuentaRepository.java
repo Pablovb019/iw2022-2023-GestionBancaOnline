@@ -53,7 +53,7 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
 
     @Modifying
     @Query(
-            value = "UPDATE Cuenta SET balance = :balance WHERE uuid = :uuid",
+            value = "UPDATE cuenta SET balance = :balance WHERE uuid = :uuid",
             nativeQuery = true
     )
     void updateBalance(@Param("uuid") UUID uuid,
@@ -61,7 +61,7 @@ public interface CuentaRepository extends JpaRepository<Cuenta, String> {
     );
 
     @Query(
-            value = "SELECT * from Cuenta JOIN Tarjeta ON Cuenta.uuid = Tarjeta.cuenta_id AND Tarjeta.numero_tarjeta = :numeroTarjeta",
+            value = "SELECT * from cuenta JOIN tarjeta ON cuenta.uuid = tarjeta.cuenta_id AND tarjeta.numero_tarjeta = :numeroTarjeta",
             nativeQuery = true
     )
     Cuenta findCuentaByNumeroTarjeta(String numeroTarjeta);
